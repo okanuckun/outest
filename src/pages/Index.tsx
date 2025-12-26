@@ -8,6 +8,7 @@ import BlogSection from '@/components/BlogSection';
 import VideoSection from '@/components/VideoSection';
 import PartnersTestimonials from '@/components/PartnersTestimonials';
 import Footer from '@/components/Footer';
+import heroBg from '@/assets/hero-bg.jpg';
 
 const Index: React.FC = () => {
   return (
@@ -27,7 +28,7 @@ const Index: React.FC = () => {
           transition={{ duration: 1.5, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <img
-            src="https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=1920&h=1200&fit=crop"
+            src={heroBg}
             alt="Stevo tattoo artist background"
             className="w-full h-full object-cover"
           />
