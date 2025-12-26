@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const Navigation: React.FC = () => {
   return (
@@ -17,9 +18,9 @@ const Navigation: React.FC = () => {
             transition={{ delay: 0.2, duration: 0.5 }}
             className="box-border inline-flex max-w-[1875px] flex-col items-start relative m-0 p-0"
           >
-            <a href="/" className="box-border text-[#F6F6F6] text-[19.7px] font-medium leading-5 tracking-[-0.202px] uppercase m-0 p-0 hover:opacity-80 transition-opacity">
+            <Link to="/" className="box-border text-[#F6F6F6] text-[19.7px] font-medium leading-5 tracking-[-0.202px] uppercase m-0 p-0 hover:opacity-80 transition-opacity">
               Stevo tattoo
-            </a>
+            </Link>
           </motion.div>
           
           <motion.div 
@@ -51,18 +52,20 @@ const Navigation: React.FC = () => {
             transition={{ delay: 0.4, duration: 0.5 }}
             className="box-border inline-flex items-center gap-[18px] relative m-0 p-0 max-md:hidden"
           >
-            {['work', 'About', 'Blog'].map((item, index) => (
-              <motion.a 
+            {['work', 'About', 'Blog'].map((item) => (
+              <motion.div 
                 key={item}
-                href={`/${item.toLowerCase()}`} 
                 className="box-border flex flex-col items-start relative m-0 p-0"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <span className="box-border text-[#F6F6F6] text-[19.8px] font-medium leading-5 tracking-[-0.202px] uppercase m-0 p-0 hover:opacity-80 transition-opacity">
+                <Link 
+                  to={`/${item.toLowerCase()}`}
+                  className="box-border text-[#F6F6F6] text-[19.8px] font-medium leading-5 tracking-[-0.202px] uppercase m-0 p-0 hover:opacity-80 transition-opacity"
+                >
                   {item}
-                </span>
-              </motion.a>
+                </Link>
+              </motion.div>
             ))}
           </motion.div>
           
@@ -71,17 +74,15 @@ const Navigation: React.FC = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.5 }}
             className="box-border inline-flex flex-col items-start relative m-0 pb-[3.8px] p-0 max-md:hidden"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <motion.a 
-              href="/contact" 
-              className="box-border flex items-start relative m-0 p-0"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            <Link 
+              to="/contact"
+              className="box-border text-[#F6F6F6] text-[19.7px] font-medium leading-5 tracking-[-0.202px] uppercase m-0 p-0 hover:opacity-80 transition-opacity"
             >
-              <span className="box-border text-[#F6F6F6] text-[19.7px] font-medium leading-5 tracking-[-0.202px] uppercase m-0 p-0 hover:opacity-80 transition-opacity">
-                Get in touch
-              </span>
-            </motion.a>
+              Get in touch
+            </Link>
           </motion.div>
         </div>
       </nav>
