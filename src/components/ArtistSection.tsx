@@ -8,12 +8,7 @@ const ArtistSection: React.FC = () => {
     <section className="box-border w-full relative bg-white m-0 px-[23px] py-[80px] max-md:px-5 max-md:py-10 max-sm:px-4 max-sm:py-6">
       <div className="max-w-[1875px] mx-auto">
         <div className="flex flex-col lg:flex-row gap-10">
-          <ScrollReveal direction="left" className="lg:w-[200px] shrink-0">
-            <h2 className="text-[#323232] text-[15px] font-medium leading-5 tracking-[-0.202px] uppercase max-sm:text-sm max-sm:leading-[16px] text-right">
-              ​about
-            </h2>
-          </ScrollReveal>
-          
+          {/* Left side - Main text aligned with "saying" */}
           <div className="flex-1">
             <ScrollReveal delay={0.2}>
               <div className="mb-10">
@@ -69,6 +64,13 @@ const ArtistSection: React.FC = () => {
               </div>
             </div>
           </div>
+          
+          {/* Right side - About label */}
+          <ScrollReveal direction="right" className="lg:w-[200px] shrink-0 order-first lg:order-last">
+            <h2 className="text-[#323232] text-[15px] font-medium leading-5 tracking-[-0.202px] uppercase max-sm:text-sm max-sm:leading-[16px] lg:text-left text-right">
+              ​about
+            </h2>
+          </ScrollReveal>
         </div>
       </div>
     </section>
