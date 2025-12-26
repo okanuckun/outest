@@ -1,27 +1,32 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import StaggerChildren, { StaggerItem } from '@/components/animations/StaggerChildren';
 
 const BlogSection: React.FC = () => {
+  const [hoveredId, setHoveredId] = useState<number | null>(null);
+
   const blogPosts = [
     {
       id: 1,
-      title: "Sleeve Tattoo Ideas for Men: Inspiration, Styles, and Aftercare Tips",
+      title: "Sleeve Tattoo Ideas",
+      description: "Inspiration, Styles, and Aftercare Tips",
       category: "Inspiration",
       date: "July 29, 2025",
       image: "https://images.unsplash.com/photo-1542359649-31e03cd4d909?w=500&h=450&fit=crop"
     },
     {
       id: 2,
-      title: "Forearm Tattoos: A Perfect Canvas for Realism",
+      title: "Forearm Tattoos",
+      description: "A Perfect Canvas for Realism",
       category: "Inspiration",
       date: "May 18, 2025",
       image: "https://images.unsplash.com/photo-1475823678248-624fc6f85785?w=500&h=450&fit=crop"
     },
     {
       id: 3,
-      title: "Skull Tattoos: Symbolism, Design Ideas, and Realism Style Guide",
+      title: "Skull Tattoos",
+      description: "Symbolism, Design Ideas, and Realism Style Guide",
       category: "Tattoo Styles",
       date: "May 17, 2025",
       image: "https://images.unsplash.com/photo-1568515045052-f9a854d70bfd?w=500&h=450&fit=crop"
@@ -41,68 +46,82 @@ const BlogSection: React.FC = () => {
         </div>
       </ScrollReveal>
       
-      <StaggerChildren staggerDelay={0.2} className="box-border flex flex-col items-start gap-[50px] self-stretch relative m-0 p-0">
-        {blogPosts.map((post) => (
+      <StaggerChildren staggerDelay={0.15} className="box-border flex flex-col items-start self-stretch relative m-0 p-0 w-full">
+        {blogPosts.map((post, index) => (
           <StaggerItem key={post.id} className="w-full">
             <motion.article 
-              className="box-border flex flex-col items-start gap-[27px] self-stretch relative m-0 p-0 cursor-pointer group"
-              whileHover={{ x: 10 }}
-              transition={{ duration: 0.3 }}
+              className="box-border flex flex-col items-start self-stretch relative m-0 p-0 cursor-pointer group border-t border-[#EAEAEA]"
+              onMouseEnter={() => setHoveredId(post.id)}
+              onMouseLeave={() => setHoveredId(null)}
             >
-              <div className="box-border h-px self-stretch relative m-0 p-0 border-t-[#EAEAEA] border-t border-solid" />
-              <div className="box-border flex items-start gap-[22.5px] self-stretch relative m-0 p-0 max-md:flex-col max-md:gap-5">
-                <div className="overflow-hidden">
-                  <motion.img
-                    src={post.image}
-                    alt={post.title}
-                    className="box-border w-[452px] h-[411px] relative object-cover m-0 p-0 max-md:w-full max-md:h-auto max-md:aspect-video"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.5 }}
-                  />
+              <div className="box-border flex items-center justify-between w-full py-6 relative">
+                {/* Left side - Number and Title */}
+                <div className="flex items-center gap-8 md:gap-16">
+                  <span className="text-[#888] text-sm font-normal uppercase tracking-wide min-w-[30px]">
+                    0{index + 1}
+                  </span>
+                  <h3 className="text-[#323232] text-lg md:text-2xl lg:text-3xl font-medium uppercase tracking-tight">
+                    {post.title}
+                  </h3>
                 </div>
-                <div className="box-border flex flex-1 flex-col justify-between items-start self-stretch relative m-0 p-0 max-md:gap-5">
-                  <div className="box-border flex flex-col items-start relative m-0 p-0 max-w-[720px]">
-                    <h3 className="box-border text-[#323232] text-[39.4px] font-medium leading-[45px] tracking-[-0.607px] uppercase relative m-0 p-0 max-md:text-2xl max-md:leading-7 max-sm:text-lg max-sm:leading-[22px] group-hover:opacity-70 transition-opacity">
-                      {post.title}
-                    </h3>
-                  </div>
-                  <div className="box-border flex items-center self-stretch relative gap-2 m-0 p-0">
-                    <div className="box-border flex flex-col items-start relative m-0 p-0">
-                      <span className="box-border text-[#323232] text-[19.5px] font-medium leading-5 tracking-[-0.202px] uppercase relative m-0 p-0 max-sm:text-sm max-sm:leading-4">
-                        {post.category}
-                      </span>
-                    </div>
-                    <div className="box-border flex w-4 h-4 flex-col items-center justify-center relative m-0 p-0">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11.375 7.875C11.375 5.942 9.808 4.375 7.875 4.375C5.942 4.375 4.375 5.942 4.375 7.875C4.375 9.808 5.942 11.375 7.875 11.375C9.808 11.375 11.375 9.808 11.375 7.875Z" fill="#323232"/>
-                      </svg>
-                    </div>
-                    <div className="box-border flex flex-col items-start relative m-0 p-0">
-                      <span className="box-border text-[#888] text-[19.5px] font-normal leading-5 tracking-[-0.202px] uppercase relative m-0 p-0 max-sm:text-sm max-sm:leading-4">
-                        {post.date}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div className="box-border flex items-start justify-end relative m-0 p-0 max-md:hidden">
+                
+                {/* Right side - Category */}
+                <div className="flex items-center gap-4 md:gap-8">
+                  <span className="text-[#888] text-sm md:text-base font-normal uppercase tracking-wide max-md:hidden">
+                    {post.category}
+                  </span>
                   <motion.svg 
-                    width="41" 
-                    height="41" 
-                    viewBox="0 0 41 41" 
+                    width="24" 
+                    height="24" 
+                    viewBox="0 0 24 24" 
                     fill="none" 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    className="group-hover:translate-x-2 transition-transform"
-                    whileHover={{ x: 10 }}
+                    xmlns="http://www.w3.org/2000/svg"
+                    animate={{ rotate: hoveredId === post.id ? 45 : 0 }}
+                    transition={{ duration: 0.3 }}
                   >
-                    <path d="M37.125 18.5654H2.25V21.7154H37.125V18.5654Z" fill="#323232"/>
-                    <path d="M38.7835 20.054L24.3545 5.625L22.1271 7.85239L36.5561 22.2814L38.7835 20.054Z" fill="#323232"/>
-                    <path d="M35.9278 18.4526L22.0684 32.312L24.2957 34.5394L38.1552 20.68L35.9278 18.4526Z" fill="#323232"/>
+                    <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#323232" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </motion.svg>
                 </div>
               </div>
+              
+              {/* Expandable content on hover */}
+              <AnimatePresence>
+                {hoveredId === post.id && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+                    className="overflow-hidden w-full"
+                  >
+                    <div className="flex items-start gap-6 pb-6 pt-2">
+                      <div className="w-[200px] h-[150px] md:w-[280px] md:h-[200px] overflow-hidden flex-shrink-0">
+                        <motion.img
+                          src={post.image}
+                          alt={post.title}
+                          className="w-full h-full object-cover"
+                          initial={{ scale: 1.1 }}
+                          animate={{ scale: 1 }}
+                          transition={{ duration: 0.5 }}
+                        />
+                      </div>
+                      <div className="flex flex-col gap-3">
+                        <p className="text-[#666] text-sm md:text-base font-normal max-w-md">
+                          {post.description}
+                        </p>
+                        <span className="text-[#888] text-xs md:text-sm font-normal uppercase tracking-wide">
+                          {post.date}
+                        </span>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.article>
           </StaggerItem>
         ))}
+        {/* Bottom border for last item */}
+        <div className="w-full border-t border-[#EAEAEA]" />
       </StaggerChildren>
     </section>
   );
