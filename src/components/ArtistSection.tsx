@@ -1,4 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 
 const ArtistSection: React.FC = () => {
@@ -34,16 +37,29 @@ const ArtistSection: React.FC = () => {
                     </p>
                   </div>
                 </ScrollReveal>
-                
               </div>
             </div>
           </div>
           
-          {/* Right side - About label */}
-          <ScrollReveal direction="right" className="lg:w-[200px] shrink-0 order-first lg:order-last">
+          {/* Right side - About label and Arrow */}
+          <ScrollReveal direction="right" className="lg:w-[200px] shrink-0 order-first lg:order-last flex flex-col justify-between">
             <h2 className="text-[#323232] text-[15px] font-medium leading-5 tracking-[-0.202px] uppercase max-sm:text-sm max-sm:leading-[16px] lg:text-left text-right">
               ​about
             </h2>
+            
+            {/* Arrow link to About page */}
+            <motion.div 
+              className="mt-auto lg:mt-0"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Link 
+                to="/about" 
+                className="inline-flex items-center justify-center w-12 h-12 border border-[#323232] text-[#323232] hover:bg-[#323232] hover:text-white transition-colors lg:ml-0 ml-auto"
+              >
+                <ArrowUpRight size={24} strokeWidth={1.5} />
+              </Link>
+            </motion.div>
           </ScrollReveal>
         </div>
       </div>
