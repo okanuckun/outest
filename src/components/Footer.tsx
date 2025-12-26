@@ -1,27 +1,20 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 
 const Footer: React.FC = () => {
   const navigationLinks = [
     { name: "Home", to: "/" },
-    { name: "About", to: "/about" },
     { name: "Work", to: "/work" },
+    { name: "About", to: "/about" },
     { name: "Blog", to: "/blog" }
   ];
 
   const socialLinks = [
+    { name: "Instagram", href: "#" },
     { name: "Tiktok", href: "#" },
-    { name: "Facebook", href: "#" },
-    { name: "Instagram", href: "#" }
-  ];
-
-  const footerLinks = [
-    { name: "Terms of use", to: "/terms" },
-    { name: "Aftercare", to: "/aftercare" },
-    { name: "Preparation", to: "/preparation" }
+    { name: "Facebook", href: "#" }
   ];
 
   const scrollToTop = () => {
@@ -29,138 +22,111 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="box-border flex w-full flex-col items-start gap-[100px] relative bg-white m-0 pt-[80px] pb-[22.5px] px-[22.5px] max-md:gap-10 max-md:px-5 max-md:py-10 max-sm:px-4 max-sm:py-6">
-      <div className="box-border self-stretch relative m-0 p-0">
-        <div className="flex flex-col lg:flex-row gap-10">
-          <ScrollReveal className="lg:max-w-[926px]">
-            <p className="text-[#323232] text-[34.9px] font-normal leading-[39.6px] tracking-[-0.54px] mb-9 max-md:text-2xl max-md:leading-7 max-sm:text-lg max-sm:leading-[22px]">
-              Now based at Monolith Studio in Brooklyn, Stevo works with clients from across the world. Have a vision in mind? Reach out to start the conversation.
+    <footer className="box-border w-full relative bg-[#1a1a1a] m-0 py-16 px-[22.5px] max-md:px-5 max-md:py-12 max-sm:px-4 max-sm:py-8">
+      {/* Top Border */}
+      <div className="w-full h-px bg-white/20 mb-12 max-sm:mb-8" />
+      
+      <div className="max-w-[1400px] mx-auto">
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 mb-16 max-sm:mb-10">
+          {/* Left - CTA */}
+          <ScrollReveal className="lg:col-span-6">
+            <p className="text-[#888] text-[14px] font-normal leading-[20px] tracking-[-0.02px] mb-6 max-w-[400px]">
+              Based at Monolith Studio in Brooklyn. Working with clients worldwide. Have a vision? Let's talk.
             </p>
-            
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Button variant="outline" className="inline-flex justify-center items-center gap-[13.5px] border p-[13.5px] border-solid border-[#EAEAEA] font-medium">
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <g clipPath="url(#clip0_3_280)">
-                    <mask id="mask0_3_280" style={{maskType: 'luminance'}} maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="18">
-                      <path d="M18 0H0V18H18V0Z" fill="white"/>
-                    </mask>
-                    <g mask="url(#mask0_3_280)">
-                      <path d="M17.2542 11.1268L13.0994 6.97194M17.2542 11.1268L13.0994 15.2816M17.2542 11.1268H4.5V2.8125" stroke="#323232" strokeWidth="1.575"/>
-                    </g>
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_3_280">
-                      <rect width="18" height="18" fill="white"/>
-                    </clipPath>
-                  </defs>
-                </svg>
-                <span className="text-[#323232] text-[17.6px] font-medium leading-[19.8px] tracking-[-0.027px] uppercase">
-                  GET IN TOUCH
-                </span>
-              </Button>
-            </motion.div>
+            <motion.a 
+              href="mailto:hello@monolithstudio.com"
+              className="inline-flex items-center gap-3 text-[#F6F6F6] text-[14px] font-medium leading-[18px] tracking-[-0.02px] uppercase hover:opacity-70 transition-opacity"
+              whileHover={{ x: 5 }}
+              transition={{ duration: 0.2 }}
+            >
+              <svg width="16" height="16" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.2542 11.1268L13.0994 6.97194M17.2542 11.1268L13.0994 15.2816M17.2542 11.1268H4.5V2.8125" stroke="#F6F6F6" strokeWidth="1.5" />
+              </svg>
+              Book an appointment
+            </motion.a>
           </ScrollReveal>
           
-          <ScrollReveal delay={0.2} className="flex flex-row lg:flex-col gap-10 lg:gap-[13.5px] flex-wrap">
-            <nav>
-              <h3 className="text-[#323232] text-[17.4px] font-medium leading-[19.8px] tracking-[-0.027px] mb-3">
-                Discover
-              </h3>
-              <div className="flex flex-col gap-[9px]">
-                {navigationLinks.map((link) => (
-                  <motion.div 
-                    key={link.name}
-                    whileHover={{ x: 5 }}
-                    transition={{ duration: 0.2 }}
+          {/* Middle - Navigation */}
+          <ScrollReveal delay={0.1} className="lg:col-span-3">
+            <h3 className="text-[#F6F6F6] text-[12px] font-medium leading-[16px] tracking-[0.5px] uppercase mb-4">
+              Navigate
+            </h3>
+            <nav className="flex flex-col gap-2">
+              {navigationLinks.map((link) => (
+                <motion.div 
+                  key={link.name}
+                  whileHover={{ x: 3 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Link 
+                    to={link.to}
+                    className="text-[#888] text-[14px] font-normal leading-[20px] tracking-[-0.02px] hover:text-[#F6F6F6] transition-colors"
                   >
-                    <Link to={link.to}>
-                      <span className="text-[#888] text-[19.8px] font-normal leading-5 tracking-[-0.202px] uppercase max-sm:text-base max-sm:leading-[18px] hover:text-[#323232] transition-colors">
-                        {link.name}
-                      </span>
-                    </Link>
-                  </motion.div>
-                ))}
-              </div>
+                    {link.name}
+                  </Link>
+                </motion.div>
+              ))}
             </nav>
-            
-            <div>
-              <h3 className="text-[#323232] text-[17.6px] font-medium leading-[19.8px] tracking-[-0.027px] mb-3">
-                Social
-              </h3>
-              <div className="flex flex-col gap-[9px]">
-                {socialLinks.map((link) => (
-                  <motion.a 
-                    key={link.name} 
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ x: 5 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <span className="text-[#888] text-[19.5px] font-normal leading-5 tracking-[-0.202px] uppercase max-sm:text-base max-sm:leading-[18px] hover:text-[#323232] transition-colors">
-                      {link.name}
-                    </span>
-                  </motion.a>
-                ))}
-              </div>
+          </ScrollReveal>
+          
+          {/* Right - Social */}
+          <ScrollReveal delay={0.2} className="lg:col-span-3">
+            <h3 className="text-[#F6F6F6] text-[12px] font-medium leading-[16px] tracking-[0.5px] uppercase mb-4">
+              Connect
+            </h3>
+            <div className="flex flex-col gap-2">
+              {socialLinks.map((link) => (
+                <motion.a 
+                  key={link.name} 
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#888] text-[14px] font-normal leading-[20px] tracking-[-0.02px] hover:text-[#F6F6F6] transition-colors"
+                  whileHover={{ x: 3 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {link.name}
+                </motion.a>
+              ))}
             </div>
           </ScrollReveal>
+        </div>
+        
+        {/* Bottom Section */}
+        <div className="w-full h-px bg-white/10 mb-8" />
+        
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+          {/* Logo / Name */}
+          <ScrollReveal>
+            <Link to="/" className="text-[#F6F6F6] text-[14px] font-normal leading-[18px] tracking-[-0.02px] uppercase hover:opacity-70 transition-opacity">
+              Okan Uckun
+            </Link>
+          </ScrollReveal>
           
-          <ScrollReveal delay={0.3} className="lg:ml-auto">
+          {/* Address */}
+          <ScrollReveal delay={0.1}>
+            <address className="text-[#666] text-[12px] font-normal leading-[16px] tracking-[-0.02px] not-italic">
+              Monolith Studio · 77 Washington Ave · Brooklyn, NY
+            </address>
+          </ScrollReveal>
+          
+          {/* Back to Top + Copyright */}
+          <ScrollReveal delay={0.2} className="flex items-center gap-6">
+            <span className="text-[#666] text-[12px] font-normal leading-[16px] tracking-[-0.02px]">
+              © 2025
+            </span>
             <motion.button 
               onClick={scrollToTop} 
-              className="hover:opacity-80 transition-opacity"
-              whileHover={{ y: -3 }}
+              className="text-[#888] text-[12px] font-normal leading-[16px] tracking-[-0.02px] uppercase hover:text-[#F6F6F6] transition-colors"
+              whileHover={{ y: -2 }}
               whileTap={{ y: 0 }}
             >
-              <span className="text-[#323232] text-[19.7px] font-medium leading-5 tracking-[-0.202px] uppercase">
-                Back to top
-              </span>
+              Back to top ↑
             </motion.button>
           </ScrollReveal>
         </div>
       </div>
-      
-      <ScrollReveal delay={0.2} className="box-border self-stretch relative m-0 p-0">
-        <div className="flex flex-col gap-6">
-          <motion.a 
-            href="mailto:hello@monolithstudio.com" 
-            className="hover:opacity-80 transition-opacity"
-            whileHover={{ x: 10 }}
-            transition={{ duration: 0.3 }}
-          >
-            <span className="text-[#323232] text-[101px] font-medium leading-[87px] tracking-[-3.726px] uppercase max-lg:text-[50px] max-lg:leading-[44px] max-md:text-[40px] max-md:leading-9 max-sm:text-2xl max-sm:leading-[22px]">
-              HELLO@MONOLITHSTUDIO.COM
-            </span>
-          </motion.a>
-          
-          <address className="text-[#323232] text-[100.4px] font-medium leading-[87px] tracking-[-3.726px] uppercase not-italic max-lg:text-[50px] max-lg:leading-[44px] max-md:text-[40px] max-md:leading-9 max-sm:text-2xl max-sm:leading-[22px]">
-            MONOLITH STUDIO 77, WASHINGTON AVE BROOKLYN, NY
-          </address>
-        </div>
-        
-        <div className="flex flex-col items-end gap-[9px] mt-10 max-md:items-center">
-          <span className="text-[#888] text-[19.7px] font-normal leading-5 tracking-[-0.202px] uppercase max-sm:text-sm max-sm:leading-4">
-            Stevo Tattoo © 2025
-          </span>
-          
-          <div className="flex gap-[18px] flex-wrap justify-center">
-            {footerLinks.map((link) => (
-              <motion.div 
-                key={link.name}
-                whileHover={{ y: -2 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Link to={link.to}>
-                  <span className="text-[#888] text-[19.8px] font-normal leading-5 tracking-[-0.202px] uppercase max-sm:text-sm max-sm:leading-4 hover:text-[#323232] transition-colors">
-                    {link.name}
-                  </span>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </ScrollReveal>
     </footer>
   );
 };
