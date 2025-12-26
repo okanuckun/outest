@@ -1,14 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 
 const Footer: React.FC = () => {
   const navigationLinks = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
-    { name: "Work", href: "/work" },
-    { name: "Blog", href: "/blog" }
+    { name: "Home", to: "/" },
+    { name: "About", to: "/about" },
+    { name: "Work", to: "/work" },
+    { name: "Blog", to: "/blog" }
   ];
 
   const socialLinks = [
@@ -18,9 +19,9 @@ const Footer: React.FC = () => {
   ];
 
   const footerLinks = [
-    { name: "Terms of use", href: "/terms" },
-    { name: "Aftercare", href: "/aftercare" },
-    { name: "Preparation", href: "/preparation" }
+    { name: "Terms of use", to: "/terms" },
+    { name: "Aftercare", to: "/aftercare" },
+    { name: "Preparation", to: "/preparation" }
   ];
 
   const scrollToTop = () => {
@@ -66,17 +67,18 @@ const Footer: React.FC = () => {
                 Discover
               </h3>
               <div className="flex flex-col gap-[9px]">
-                {navigationLinks.map((link, index) => (
-                  <motion.a 
-                    key={link.name} 
-                    href={link.href}
+                {navigationLinks.map((link) => (
+                  <motion.div 
+                    key={link.name}
                     whileHover={{ x: 5 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <span className="text-[#888] text-[19.8px] font-normal leading-5 tracking-[-0.202px] uppercase max-sm:text-base max-sm:leading-[18px] hover:text-[#323232] transition-colors">
-                      {link.name}
-                    </span>
-                  </motion.a>
+                    <Link to={link.to}>
+                      <span className="text-[#888] text-[19.8px] font-normal leading-5 tracking-[-0.202px] uppercase max-sm:text-base max-sm:leading-[18px] hover:text-[#323232] transition-colors">
+                        {link.name}
+                      </span>
+                    </Link>
+                  </motion.div>
                 ))}
               </div>
             </nav>
@@ -86,10 +88,12 @@ const Footer: React.FC = () => {
                 Social
               </h3>
               <div className="flex flex-col gap-[9px]">
-                {socialLinks.map((link, index) => (
+                {socialLinks.map((link) => (
                   <motion.a 
                     key={link.name} 
                     href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     whileHover={{ x: 5 }}
                     transition={{ duration: 0.2 }}
                   >
@@ -142,16 +146,17 @@ const Footer: React.FC = () => {
           
           <div className="flex gap-[18px] flex-wrap justify-center">
             {footerLinks.map((link) => (
-              <motion.a 
-                key={link.name} 
-                href={link.href}
+              <motion.div 
+                key={link.name}
                 whileHover={{ y: -2 }}
                 transition={{ duration: 0.2 }}
               >
-                <span className="text-[#888] text-[19.8px] font-normal leading-5 tracking-[-0.202px] uppercase max-sm:text-sm max-sm:leading-4 hover:text-[#323232] transition-colors">
-                  {link.name}
-                </span>
-              </motion.a>
+                <Link to={link.to}>
+                  <span className="text-[#888] text-[19.8px] font-normal leading-5 tracking-[-0.202px] uppercase max-sm:text-sm max-sm:leading-4 hover:text-[#323232] transition-colors">
+                    {link.name}
+                  </span>
+                </Link>
+              </motion.div>
             ))}
           </div>
         </div>
