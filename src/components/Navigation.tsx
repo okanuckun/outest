@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import logo from '@/assets/logo.png';
 
 const Navigation: React.FC = () => {
   return (
@@ -16,8 +17,9 @@ const Navigation: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="box-border inline-flex max-w-[1875px] flex-col items-start relative m-0 p-0"
+            className="box-border inline-flex items-center gap-3 relative m-0 p-0"
           >
+            <img src={logo} alt="Logo" className="h-5 w-auto" />
             <Link to="/" className="box-border text-[#F6F6F6] text-[15px] font-normal leading-5 tracking-[-0.15px] uppercase m-0 p-0 hover:opacity-70 transition-opacity">
               okan uckun
             </Link>
