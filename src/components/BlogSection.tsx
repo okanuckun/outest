@@ -38,7 +38,7 @@ const BlogSection: React.FC = () => {
       <ScrollReveal>
         <div className="box-border flex items-end justify-between self-stretch relative m-0 p-0 flex-wrap gap-4">
           <h2 className="box-border text-[#323232] text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase relative m-0 p-0">
-            Blog
+            Article
           </h2>
           <div className="box-border text-[#BEBEBE] text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase relative m-0 p-0">
             3
