@@ -7,78 +7,90 @@ import aboutImage1 from '@/assets/about-image-1.webp';
 import aboutImage2 from '@/assets/about-image-2.webp';
 import aboutImage3 from '@/assets/about-image-3.webp';
 import heroBg from '@/assets/hero-bg.jpg';
-
 const About: React.FC = () => {
-  const approaches = [
-    { number: '01', text: 'Texture and depth always come first' },
-    { number: '02', text: 'True realism comes from restraint' },
-    { number: '03', text: 'Precision and patience guide every piece' },
-    { number: '04', text: 'Placement drives the entire tattoo' },
-  ];
-
-  return (
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="box-border w-full min-h-screen relative overflow-x-hidden bg-white m-0 p-0"
-    >
+  const approaches = [{
+    number: '01',
+    text: 'Texture and depth always come first'
+  }, {
+    number: '02',
+    text: 'True realism comes from restraint'
+  }, {
+    number: '03',
+    text: 'Precision and patience guide every piece'
+  }, {
+    number: '04',
+    text: 'Placement drives the entire tattoo'
+  }];
+  return <motion.div initial={{
+    opacity: 0
+  }} animate={{
+    opacity: 1
+  }} transition={{
+    duration: 0.5
+  }} className="box-border w-full min-h-screen relative overflow-x-hidden bg-white m-0 p-0">
       {/* Navigation - Dark text version for white background */}
       <header className="box-border flex h-[79px] flex-col items-start shrink-0 self-stretch relative z-10 m-0 p-0">
         <nav className="box-border flex flex-col items-start self-stretch relative m-0 px-[22.5px] py-[27px] border-b-[#EAEAEA] border-b border-solid max-sm:px-4 max-sm:py-5">
           <div className="box-border h-6 self-stretch relative flex items-center justify-between m-0 p-0 max-md:flex-col max-md:gap-4 max-md:h-auto">
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-              className="box-border inline-flex max-w-[1875px] flex-col items-start relative m-0 p-0"
-            >
+            <motion.div initial={{
+            opacity: 0
+          }} animate={{
+            opacity: 1
+          }} transition={{
+            delay: 0.2,
+            duration: 0.5
+          }} className="box-border inline-flex max-w-[1875px] flex-col items-start relative m-0 p-0">
               <a href="/" className="box-border text-[#323232] text-[19.7px] font-medium leading-5 tracking-[-0.202px] uppercase m-0 p-0 hover:opacity-80 transition-opacity">
-                Stevo tattoo
-              </a>
+            </a>
             </motion.div>
             
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-              className="box-border inline-flex items-center gap-2 relative m-0 p-0 max-sm:hidden"
-            >
-              <span className="box-border text-[#323232] text-[19.7px] font-medium leading-5 tracking-[-0.202px] uppercase m-0 p-0">
+            <motion.div initial={{
+            opacity: 0
+          }} animate={{
+            opacity: 1
+          }} transition={{
+            delay: 0.3,
+            duration: 0.5
+          }} className="box-border inline-flex items-center gap-2 relative m-0 p-0 max-sm:hidden">
+              <span className="box-border text-[#323232] text-[19.7px] leading-5 tracking-[-0.202px] uppercase m-0 p-0 text-center font-normal">
                 brooklyn, ny
               </span>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11.375 7.875C11.375 5.942 9.80796 4.375 7.875 4.375C5.942 4.375 4.375 5.942 4.375 7.875C4.375 9.80796 5.942 11.375 7.875 11.375C9.80796 11.375 11.375 9.80796 11.375 7.875Z" fill="#323232"/>
+                <path d="M11.375 7.875C11.375 5.942 9.80796 4.375 7.875 4.375C5.942 4.375 4.375 5.942 4.375 7.875C4.375 9.80796 5.942 11.375 7.875 11.375C9.80796 11.375 11.375 9.80796 11.375 7.875Z" fill="#323232" />
               </svg>
               <span className="box-border text-[#323232] text-[19.3px] font-medium leading-5 tracking-[-0.202px] uppercase m-0 p-0">
                 12:19 PM
               </span>
             </motion.div>
             
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-              className="box-border inline-flex items-center gap-[18px] relative m-0 p-0 max-md:hidden"
-            >
-              <a href="/work" className="text-[#888] text-[19.8px] font-medium leading-5 tracking-[-0.202px] uppercase hover:text-[#323232] transition-colors">
+            <motion.div initial={{
+            opacity: 0
+          }} animate={{
+            opacity: 1
+          }} transition={{
+            delay: 0.4,
+            duration: 0.5
+          }} className="box-border inline-flex items-center gap-[18px] relative m-0 p-0 max-md:hidden">
+              <a href="/work" className="text-[#888] text-[19.8px] leading-5 tracking-[-0.202px] uppercase hover:text-[#323232] transition-colors font-normal">
                 work
               </a>
-              <a href="/about" className="text-[#323232] text-[19.8px] font-medium leading-5 tracking-[-0.202px] uppercase">
+              <a href="/about" className="text-[#323232] text-[19.8px] leading-5 tracking-[-0.202px] uppercase font-normal">
                 About
               </a>
-              <a href="/blog" className="text-[#888] text-[19.8px] font-medium leading-5 tracking-[-0.202px] uppercase hover:text-[#323232] transition-colors">
+              <a href="/blog" className="text-[#888] text-[19.8px] leading-5 tracking-[-0.202px] uppercase hover:text-[#323232] transition-colors font-normal">
                 Blog
               </a>
             </motion.div>
             
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-              className="box-border inline-flex flex-col items-start relative m-0 pb-[3.8px] p-0 max-md:hidden"
-            >
-              <a href="/contact" className="text-[#323232] text-[19.7px] font-medium leading-5 tracking-[-0.202px] uppercase hover:opacity-80 transition-opacity">
+            <motion.div initial={{
+            opacity: 0
+          }} animate={{
+            opacity: 1
+          }} transition={{
+            delay: 0.5,
+            duration: 0.5
+          }} className="box-border inline-flex flex-col items-start relative m-0 pb-[3.8px] p-0 max-md:hidden">
+              <a href="/contact" className="text-[#323232] text-[19.7px] leading-5 tracking-[-0.202px] uppercase hover:opacity-80 transition-opacity font-normal">
                 Get in touch
               </a>
             </motion.div>
@@ -110,15 +122,16 @@ const About: React.FC = () => {
       {/* Hero Image */}
       <ScrollReveal delay={0.2} className="w-full mt-[40px]">
         <div className="w-full h-[800px] overflow-hidden max-md:h-[500px] max-sm:h-[350px]">
-          <motion.img
-            src={heroBg}
-            alt="Steven Bugeja - Stevo Tattoo"
-            className="w-full h-full object-cover object-top"
-            initial={{ scale: 1.05 }}
-            whileInView={{ scale: 1 }}
-            transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
-            viewport={{ once: true }}
-          />
+          <motion.img src={heroBg} alt="Steven Bugeja - Stevo Tattoo" className="w-full h-full object-cover object-top" initial={{
+          scale: 1.05
+        }} whileInView={{
+          scale: 1
+        }} transition={{
+          duration: 1.2,
+          ease: [0.25, 0.1, 0.25, 1]
+        }} viewport={{
+          once: true
+        }} />
         </div>
       </ScrollReveal>
 
@@ -155,13 +168,11 @@ const About: React.FC = () => {
       {/* First Large Image */}
       <ScrollReveal className="w-full">
         <div className="w-full h-[900px] overflow-hidden max-md:h-[600px] max-sm:h-[400px]">
-          <motion.img
-            src={aboutImage1}
-            alt="Stevo tattoo work"
-            className="w-full h-full object-cover"
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.5 }}
-          />
+          <motion.img src={aboutImage1} alt="Stevo tattoo work" className="w-full h-full object-cover" whileHover={{
+          scale: 1.02
+        }} transition={{
+          duration: 0.5
+        }} />
         </div>
       </ScrollReveal>
 
@@ -186,8 +197,7 @@ const About: React.FC = () => {
           
           <div className="flex-1">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-[60px] gap-y-[40px]">
-              {approaches.map((approach, index) => (
-                <ScrollReveal key={approach.number} delay={0.1 * index}>
+              {approaches.map((approach, index) => <ScrollReveal key={approach.number} delay={0.1 * index}>
                   <div className="flex flex-col gap-3">
                     <span className="text-[#BEBEBE] text-[17.4px] font-normal leading-[19.8px] tracking-[-0.027px]">
                       ({approach.number})
@@ -196,8 +206,7 @@ const About: React.FC = () => {
                       {approach.text}
                     </p>
                   </div>
-                </ScrollReveal>
-              ))}
+                </ScrollReveal>)}
             </div>
           </div>
         </div>
@@ -208,25 +217,21 @@ const About: React.FC = () => {
         <div className="flex flex-col lg:flex-row gap-4">
           <ScrollReveal className="flex-1">
             <div className="h-[700px] overflow-hidden max-md:h-[450px] max-sm:h-[300px]">
-              <motion.img
-                src={aboutImage2}
-                alt="Stevo tattooing"
-                className="w-full h-full object-cover"
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.5 }}
-              />
+              <motion.img src={aboutImage2} alt="Stevo tattooing" className="w-full h-full object-cover" whileHover={{
+              scale: 1.02
+            }} transition={{
+              duration: 0.5
+            }} />
             </div>
           </ScrollReveal>
           
           <ScrollReveal delay={0.2} className="flex-1">
             <div className="h-[700px] overflow-hidden max-md:h-[450px] max-sm:h-[300px]">
-              <motion.img
-                src={aboutImage3}
-                alt="Stevo studio"
-                className="w-full h-full object-cover"
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.5 }}
-              />
+              <motion.img src={aboutImage3} alt="Stevo studio" className="w-full h-full object-cover" whileHover={{
+              scale: 1.02
+            }} transition={{
+              duration: 0.5
+            }} />
             </div>
           </ScrollReveal>
         </div>
@@ -236,8 +241,6 @@ const About: React.FC = () => {
       <div className="h-[120px] max-md:h-[80px] max-sm:h-[60px]" />
 
       <Footer />
-    </motion.div>
-  );
+    </motion.div>;
 };
-
 export default About;
