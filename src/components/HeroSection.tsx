@@ -23,33 +23,18 @@ const HeroSection: React.FC = () => {
         {/* Border Line */}
         <div className="w-full h-px bg-white/45 mb-3" />
         
-        {/* Headlines Container */}
-        <div className="flex flex-col">
-          <div className="pl-[475px] max-md:pl-0">
-            <h1 className="overflow-hidden">
-              <motion.span 
-                initial={{ y: 100, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.8, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-                className="block text-[#F6F6F6] text-[clamp(32px,6vw,80px)] font-medium leading-[1] tracking-[-0.037em] uppercase"
-              >
-                Saying more with less.
-              </motion.span>
-            </h1>
-          </div>
-          
-          <div>
-            <h1 className="overflow-hidden">
-              <motion.span 
-                initial={{ y: 100, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 1, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-                className="block text-[#F6F6F6] text-[clamp(32px,6vw,80px)] font-medium leading-[1] tracking-[-0.037em] uppercase"
-              >
-                Lasting impact
-              </motion.span>
-            </h1>
-          </div>
+        {/* Headline */}
+        <div>
+          <h1 className="overflow-hidden">
+            <motion.span 
+              initial={{ y: 100, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.8, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+              className="block text-[#F6F6F6] text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase"
+            >
+              Saying more with less.
+            </motion.span>
+          </h1>
         </div>
         
         {/* Scroll Indicator */}
