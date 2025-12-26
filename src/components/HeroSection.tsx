@@ -33,7 +33,7 @@ const HeroSection: React.FC = () => {
                 transition={{ delay: 0.8, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
                 className="block text-[#F6F6F6] text-[clamp(32px,6vw,80px)] font-medium leading-[1] tracking-[-0.037em] uppercase"
               >
-                timeless art
+                Saying more with less.
               </motion.span>
             </h1>
           </div>
