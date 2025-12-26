@@ -27,23 +27,11 @@ const Navigation: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="box-border inline-flex items-center gap-2 relative m-0 p-0 max-sm:hidden"
+            className="box-border inline-flex items-center relative m-0 p-0 max-sm:hidden"
           >
-            <div className="box-border flex flex-col items-start relative m-0 p-0">
-              <span className="box-border text-[#F6F6F6] text-[15px] font-normal leading-5 tracking-[-0.15px] uppercase m-0 p-0">
-                brooklyn, ny
-              </span>
-            </div>
-            <div className="box-border flex w-3 h-3 flex-col items-start relative m-0 p-0">
-              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11.375 7.875C11.375 5.942 9.80796 4.375 7.875 4.375C5.942 4.375 4.375 5.942 4.375 7.875C4.375 9.80796 5.942 11.375 7.875 11.375C9.80796 11.375 11.375 9.80796 11.375 7.875Z" fill="#F6F6F6"/>
-              </svg>
-            </div>
-            <div className="box-border flex flex-col items-start relative m-0 p-0">
-              <span className="box-border text-[#F6F6F6] text-[15px] font-normal leading-5 tracking-[-0.15px] uppercase m-0 p-0">
-                11:44 AM
-              </span>
-            </div>
+            <span className="box-border text-[#F6F6F6] text-[15px] font-normal leading-5 tracking-[-0.15px] uppercase m-0 p-0">
+              brooklyn, ny
+            </span>
           </motion.div>
           
           <motion.div 
