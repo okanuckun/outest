@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { ArrowDown } from 'lucide-react';
 
 const HeroSection: React.FC = () => {
   return (
@@ -27,7 +28,7 @@ const HeroSection: React.FC = () => {
         <div className="w-full h-px bg-white/45 mb-3" />
         
         {/* Headline */}
-        <div>
+        <div className="flex items-end justify-between">
           <h1 className="overflow-hidden">
             <motion.span 
               initial={{ y: 100, opacity: 0 }}
@@ -38,8 +39,26 @@ const HeroSection: React.FC = () => {
               Saying more with less.
             </motion.span>
           </h1>
+          
+          {/* Animated Arrow Icon */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2, duration: 0.6 }}
+            className="pb-2 max-sm:pb-1"
+          >
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+            >
+              <ArrowDown 
+                size={28} 
+                strokeWidth={1.5} 
+                className="text-[#BEBEBE] max-sm:w-5 max-sm:h-5" 
+              />
+            </motion.div>
+          </motion.div>
         </div>
-        
       </div>
     </section>
   );
