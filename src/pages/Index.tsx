@@ -19,7 +19,7 @@ const Index: React.FC = () => {
       className="box-border w-full min-h-screen relative overflow-x-hidden bg-black m-0 p-0"
     >
       {/* Hero Section with Background */}
-      <div className="box-border w-full h-[1120px] relative m-0 p-0 max-md:h-[750px] max-sm:h-[520px]">
+      <div className="box-border w-full h-screen relative m-0 p-0">
         {/* Background Image with Parallax */}
         <motion.div 
           className="absolute inset-0 z-0"
