@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import logo from '@/assets/logo.png';
 
 const Navigation: React.FC = () => {
   return (
@@ -17,11 +16,12 @@ const Navigation: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="box-border inline-flex items-center gap-3 relative m-0 p-0"
+            className="box-border inline-flex items-center relative m-0 p-0"
           >
-            <img src={logo} alt="Logo" className="h-5 w-auto" />
-            <Link to="/" className="box-border text-[#F6F6F6] text-[15px] font-normal leading-5 tracking-[-0.15px] uppercase m-0 p-0 hover:opacity-70 transition-opacity">
-              okan uckun
+            <Link to="/" className="hover:opacity-70 transition-opacity">
+              <svg width="40" height="20" viewBox="0 0 40 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <line x1="2" y1="18" x2="38" y2="2" stroke="#F6F6F6" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
             </Link>
           </motion.div>
           
