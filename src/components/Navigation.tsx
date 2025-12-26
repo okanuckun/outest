@@ -19,7 +19,7 @@ const Navigation: React.FC = () => {
             className="box-border inline-flex max-w-[1875px] flex-col items-start relative m-0 p-0"
           >
             <Link to="/" className="box-border text-[#F6F6F6] text-[15px] font-normal leading-5 tracking-[-0.15px] uppercase m-0 p-0 hover:opacity-70 transition-opacity">
-              Stevo tattoo
+              okan uckun
             </Link>
           </motion.div>
           
@@ -69,7 +69,7 @@ const Navigation: React.FC = () => {
               to="/contact"
               className="box-border text-[#F6F6F6] text-[15px] font-normal leading-5 tracking-[-0.15px] uppercase m-0 p-0 hover:opacity-70 transition-opacity"
             >
-              Get in touch
+              Book an appointment
             </Link>
           </motion.div>
         </div>
