@@ -51,14 +51,14 @@ const PartnersTestimonials: React.FC = () => {
       <ScrollReveal>
         <div className="box-border self-stretch relative m-0 p-0">
           <div className="flex flex-wrap gap-4">
-            <h2 className="text-[#323232] text-[161.6px] font-bold leading-[140px] tracking-[-6.66px] uppercase max-md:text-6xl max-md:leading-[50px] max-sm:text-[40px] max-sm:leading-9">
+            <h2 className="text-[#323232] text-[161.6px] font-medium leading-[140px] tracking-[-6.66px] uppercase max-md:text-6xl max-md:leading-[50px] max-sm:text-[40px] max-sm:leading-9">
               Partners
             </h2>
             <div className="flex items-start gap-[0.01px]">
-              <span className="text-[#323232] text-[158.9px] font-bold leading-[140px] tracking-[-6.66px] uppercase max-md:text-6xl max-md:leading-[50px] max-sm:text-[40px] max-sm:leading-9">
+              <span className="text-[#323232] text-[158.9px] font-medium leading-[140px] tracking-[-6.66px] uppercase max-md:text-6xl max-md:leading-[50px] max-sm:text-[40px] max-sm:leading-9">
                 &amp;
               </span>
-              <span className="text-[#323232] text-[161.1px] font-bold leading-[140px] tracking-[-6.66px] uppercase max-md:text-6xl max-md:leading-[50px] max-sm:text-[40px] max-sm:leading-9">
+              <span className="text-[#323232] text-[161.1px] font-medium leading-[140px] tracking-[-6.66px] uppercase max-md:text-6xl max-md:leading-[50px] max-sm:text-[40px] max-sm:leading-9">
                 Testimonials
               </span>
             </div>
@@ -71,14 +71,14 @@ const PartnersTestimonials: React.FC = () => {
           <div className="lg:w-[450px] shrink-0" />
           <div className="flex gap-[100px] max-lg:flex-col max-lg:gap-10 flex-1">
             <div>
-              <h3 className="text-[#888] text-[17.4px] font-bold leading-[19.8px] tracking-[-0.027px] mb-4">
+              <h3 className="text-[#888] text-[17.4px] font-normal leading-[19.8px] tracking-[-0.027px] mb-4">
                 Partners
               </h3>
               <div className="flex flex-col gap-2">
                 {partners.map((partner, index) => (
                   <motion.span 
                     key={index} 
-                    className="text-[#323232] text-[39.6px] font-bold leading-[45px] tracking-[-0.607px] uppercase max-md:text-2xl max-md:leading-7 max-sm:text-lg max-sm:leading-[22px]"
+                    className="text-[#323232] text-[39.6px] font-medium leading-[45px] tracking-[-0.607px] uppercase max-md:text-2xl max-md:leading-7 max-sm:text-lg max-sm:leading-[22px]"
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1, duration: 0.5 }}
@@ -99,7 +99,7 @@ const PartnersTestimonials: React.FC = () => {
         <div className="box-border flex items-start gap-10 self-stretch relative m-0 max-lg:flex-col">
           <div className="lg:w-[450px] shrink-0" />
           <div className="flex gap-[100px] max-lg:flex-col max-lg:gap-10 flex-1">
-            <h3 className="text-[#888] text-[17.4px] font-bold leading-[19.8px] tracking-[-0.027px] shrink-0">
+            <h3 className="text-[#888] text-[17.4px] font-normal leading-[19.8px] tracking-[-0.027px] shrink-0">
               Testimonials
             </h3>
             
@@ -114,13 +114,13 @@ const PartnersTestimonials: React.FC = () => {
                 >
                   <div className="flex flex-col gap-[19.3px] mb-6">
                     {testimonials[currentTestimonial - 1].text.map((paragraph, index) => (
-                      <p key={index} className="text-[#323232] text-[17.4px] font-bold leading-[19.8px] tracking-[-0.027px] max-sm:text-sm max-sm:leading-4">
+                      <p key={index} className="text-[#323232] text-[17.4px] font-normal leading-[19.8px] tracking-[-0.027px] max-sm:text-sm max-sm:leading-4">
                         {paragraph}
                       </p>
                     ))}
                   </div>
                   
-                  <span className="text-[#888] text-[19.7px] font-bold leading-5 tracking-[-0.202px] uppercase max-sm:text-base max-sm:leading-[18px]">
+                  <span className="text-[#888] text-[19.7px] font-medium leading-5 tracking-[-0.202px] uppercase max-sm:text-base max-sm:leading-[18px]">
                     {testimonials[currentTestimonial - 1].author}
                   </span>
                 </motion.div>
@@ -142,7 +142,7 @@ const PartnersTestimonials: React.FC = () => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
             >
-              <span className="box-border max-h-[45px] text-[40.5px] font-bold leading-[45px] tracking-[-0.607px] relative m-0 p-0 max-md:text-2xl max-md:leading-7 max-sm:text-lg max-sm:leading-[22px]">
+              <span className="box-border max-h-[45px] text-[40.5px] font-medium leading-[45px] tracking-[-0.607px] relative m-0 p-0 max-md:text-2xl max-md:leading-7 max-sm:text-lg max-sm:leading-[22px]">
                 {num}
               </span>
             </motion.button>

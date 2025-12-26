@@ -34,7 +34,7 @@ const VideoSection: React.FC = () => {
                 className="box-border flex flex-col items-start self-stretch relative z-[3] m-0 pt-[26.095px] pb-0 px-[22.5px] max-sm:p-4"
               >
                 <div className="box-border flex flex-col items-start self-stretch relative m-0 pb-px p-0">
-                  <h2 className="box-border self-stretch text-[#F6F6F6] text-[35px] font-bold leading-[39.6px] tracking-[-0.54px] uppercase relative m-0 p-0 max-md:text-2xl max-md:leading-7 max-sm:text-lg max-sm:leading-[22px]">
+                  <h2 className="box-border self-stretch text-[#F6F6F6] text-[35px] font-medium leading-[39.6px] tracking-[-0.54px] uppercase relative m-0 p-0 max-md:text-2xl max-md:leading-7 max-sm:text-lg max-sm:leading-[22px]">
                     Sleeve Tattoo Ideas for Men: Inspiration, Styles, and Aftercare Tips 2
                   </h2>
                 </div>
