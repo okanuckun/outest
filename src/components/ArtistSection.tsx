@@ -1,6 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 
 const ArtistSection: React.FC = () => {
@@ -30,37 +28,13 @@ const ArtistSection: React.FC = () => {
                 </ScrollReveal>
                 
                 <ScrollReveal delay={0.4}>
-                  <div className="mb-8">
+                  <div>
                     <p className="text-[#888] text-[14px] font-normal leading-[18px] tracking-[-0.02px] max-sm:text-xs max-sm:leading-4">
                       ​To date, he has performed tattoo art in over 50 countries. In 2017, Okan moved from Istanbul to New York City, where he currently lives and continues his career in the USA, particularly in NYC.
                     </p>
                   </div>
                 </ScrollReveal>
                 
-                <ScrollReveal delay={0.5}>
-                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                    <Button variant="outline" className="inline-flex justify-center items-center gap-[13.5px] border p-[13.5px] border-solid border-[#EAEAEA] font-medium">
-                      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clipPath="url(#clip0_3_88)">
-                          <mask id="mask0_3_88" style={{ maskType: 'luminance' }} maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="18">
-                            <path d="M18 0H0V18H18V0Z" fill="white" />
-                          </mask>
-                          <g mask="url(#mask0_3_88)">
-                            <path d="M17.2542 11.1268L13.0994 6.97194M17.2542 11.1268L13.0994 15.2816M17.2542 11.1268H4.5V2.8125" stroke="#323232" strokeWidth="1.575" />
-                          </g>
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_3_88">
-                            <rect width="18" height="18" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                      <span className="text-[#323232] text-[14px] font-medium leading-[18px] tracking-[-0.02px] uppercase">
-                        More about me
-                      </span>
-                    </Button>
-                  </motion.div>
-                </ScrollReveal>
               </div>
             </div>
           </div>
