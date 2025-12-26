@@ -7,6 +7,7 @@ const Work: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [activeFilter, setActiveFilter] = useState('all');
   const [dragDirection, setDragDirection] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const categories = [
     { id: 'all', label: 'All' },
@@ -54,6 +55,8 @@ const Work: React.FC = () => {
         handlePrev();
       } else if (e.key === 'ArrowRight') {
         handleNext();
+      } else if (e.key === 'Escape') {
+        setLightboxOpen(false);
       }
     };
 
@@ -216,6 +219,7 @@ const Work: React.FC = () => {
               dragElastic={0.2}
               onDragEnd={handleDragEnd}
               className="h-full w-full flex items-center justify-center cursor-grab active:cursor-grabbing"
+              onClick={() => setLightboxOpen(true)}
             >
               <img
                 src={filteredWorks[selectedIndex]?.src}
@@ -225,6 +229,18 @@ const Work: React.FC = () => {
               />
             </motion.div>
           </AnimatePresence>
+
+          {/* Fullscreen hint */}
+          <div className="absolute bottom-6 left-6 z-10">
+            <motion.button
+              onClick={() => setLightboxOpen(true)}
+              className="text-[11px] font-normal tracking-[0.3px] uppercase text-[#888] bg-white/80 px-3 py-1.5 backdrop-blur-sm hover:bg-white transition-colors"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Click for fullscreen
+            </motion.button>
+          </div>
 
           {/* Navigation Arrows */}
           <div className="absolute bottom-6 right-6 flex items-center gap-3 z-10">
@@ -281,6 +297,74 @@ const Work: React.FC = () => {
           ))}
         </div>
       </section>
+
+      {/* Lightbox */}
+      <AnimatePresence>
+        {lightboxOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center"
+            onClick={() => setLightboxOpen(false)}
+          >
+            {/* Close button */}
+            <motion.button
+              className="absolute top-6 right-6 text-white text-[14px] font-medium uppercase tracking-wide hover:opacity-70 transition-opacity z-10"
+              onClick={() => setLightboxOpen(false)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Close ✕
+            </motion.button>
+
+            {/* ESC hint */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/50 text-[12px] font-normal uppercase tracking-wide">
+              Press ESC to close
+            </div>
+
+            {/* Navigation in lightbox */}
+            <motion.button
+              onClick={(e) => { e.stopPropagation(); handlePrev(); }}
+              className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+                <path d="M10 12L6 8L10 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </motion.button>
+
+            <motion.button
+              onClick={(e) => { e.stopPropagation(); handleNext(); }}
+              className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+                <path d="M6 4L10 8L6 12" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </motion.button>
+
+            {/* Counter */}
+            <div className="absolute top-6 left-6 text-white text-[14px] font-medium tracking-[-0.02px]">
+              {selectedIndex + 1} / {filteredWorks.length}
+            </div>
+
+            {/* Image */}
+            <motion.img
+              key={selectedIndex}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              src={filteredWorks[selectedIndex]?.src}
+              alt="Fullscreen view"
+              className="max-w-[90vw] max-h-[85vh] object-contain"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Below Fold Content */}
       <section className="py-20 px-[22.5px] max-sm:px-4 border-t border-[#EAEAEA]">
