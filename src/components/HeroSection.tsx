@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 
 const HeroSection: React.FC = () => {
   return (
@@ -37,13 +38,26 @@ const HeroSection: React.FC = () => {
           </h1>
         </div>
         
-        {/* Scroll Indicator */}
+        {/* CTA and Scroll Indicator */}
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2, duration: 0.6 }}
-          className="flex justify-end mt-3"
+          className="flex items-center justify-between mt-4"
         >
+          <motion.a
+            href="#contact"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.4, duration: 0.6 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="group flex items-center gap-3 px-6 py-3 bg-white text-black text-sm font-medium uppercase tracking-wide transition-all duration-300 hover:bg-white/90"
+          >
+            Book a Session
+            <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </motion.a>
+          
           <motion.span
             animate={{ y: [0, 5, 0] }}
             transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
