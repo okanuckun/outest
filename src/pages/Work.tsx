@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import Navigation from '@/components/Navigation';
 
 // Work images
 import work01 from '@/assets/work/work-01.jpg';
@@ -144,37 +145,10 @@ const Work: React.FC = () => {
       className="h-screen w-screen overflow-hidden bg-black"
       ref={containerRef}
     >
-      {/* Header - Overlay */}
-      <header className="fixed top-0 left-0 right-0 z-50">
-        <nav className="flex items-center justify-between h-[60px] px-6 max-sm:px-4">
-          <Link to="/" className="text-white text-[14px] font-medium leading-5 tracking-[-0.02em] uppercase hover:opacity-70 transition-opacity">
-            okan uckun
-          </Link>
-          
-          <span className="text-white/60 text-[13px] font-normal leading-5 tracking-[-0.02em] uppercase max-sm:hidden">
-            brooklyn, ny
-          </span>
-          
-          <div className="flex items-center gap-6 max-md:hidden">
-            <Link to="/work" className="text-white text-[14px] font-medium leading-5 tracking-[-0.02em] uppercase">
-              work
-            </Link>
-            <Link to="/about" className="text-white/60 text-[14px] font-normal leading-5 tracking-[-0.02em] uppercase hover:text-white transition-colors">
-              About
-            </Link>
-            <Link to="/blog" className="text-white/60 text-[14px] font-normal leading-5 tracking-[-0.02em] uppercase hover:text-white transition-colors">
-              Blog
-            </Link>
-          </div>
-          
-          <Link 
-            to="/contact"
-            className="text-white text-[14px] font-medium leading-5 tracking-[-0.02em] uppercase hover:opacity-70 transition-opacity max-md:hidden"
-          >
-            Get in touch
-          </Link>
-        </nav>
-      </header>
+      {/* Header - Using shared Navigation component */}
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <Navigation />
+      </div>
 
       {/* Two Image Gallery */}
       <div className="h-full w-full flex">
