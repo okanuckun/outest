@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Footer from '@/components/Footer';
@@ -37,15 +37,29 @@ const Work: React.FC = () => {
     setSelectedIndex(index);
   };
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     setDragDirection(1);
     setSelectedIndex(prev => prev > 0 ? prev - 1 : filteredWorks.length - 1);
-  };
+  }, [filteredWorks.length]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setDragDirection(-1);
     setSelectedIndex(prev => prev < filteredWorks.length - 1 ? prev + 1 : 0);
-  };
+  }, [filteredWorks.length]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        handlePrev();
+      } else if (e.key === 'ArrowRight') {
+        handleNext();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handlePrev, handleNext]);
 
   const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const threshold = 50;
