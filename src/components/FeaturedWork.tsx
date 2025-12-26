@@ -19,7 +19,7 @@ const FeaturedWork: React.FC = () => {
         <ScrollReveal>
           <div className="box-border flex justify-between items-end self-stretch relative m-0 p-0 flex-wrap gap-4">
             <h2 className="box-border flex flex-col items-start relative m-0 p-0">
-              <span className="box-border text-[#323232] text-[161.3px] font-medium leading-[140px] tracking-[-6.66px] uppercase relative m-0 p-0 max-md:text-[80px] max-md:leading-[70px] max-sm:text-[50px] max-sm:leading-[44px]">
+              <span className="box-border text-[#323232] text-[100px] font-medium leading-[90px] tracking-[-4px] uppercase relative m-0 p-0 max-md:text-[60px] max-md:leading-[54px] max-sm:text-[36px] max-sm:leading-[32px]">
                 Featured Work
               </span>
             </h2>
