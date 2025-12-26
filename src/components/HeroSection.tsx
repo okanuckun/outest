@@ -4,16 +4,15 @@ import { motion } from 'framer-motion';
 const HeroSection: React.FC = () => {
   return (
     <section className="box-border flex flex-col justify-end items-start w-full h-[calc(100vh-80px)] relative z-[5] m-0 p-0">
-      {/* Description Text - Top Left */}
-      <div className="absolute top-0 left-0 right-0 flex items-start gap-[22.5px] px-[22.5px] max-md:px-5 max-sm:px-4">
-        <div className="box-border w-[452px] h-32 relative m-0 p-0 border-r-[rgba(255,255,255,0.45)] border-r border-solid max-md:w-[200px] max-sm:hidden" />
+      {/* Description Text - Top Right Fixed */}
+      <div className="absolute top-0 right-[22.5px] max-md:right-5 max-sm:right-4">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-          className="box-border flex w-[510px] max-w-[510px] flex-col items-start relative m-0 pt-[17px] max-md:w-full max-md:max-w-full"
+          className="box-border w-[320px] max-w-[320px] pt-[17px] max-md:w-[280px] max-sm:w-[200px]"
         >
-          <p className="box-border self-stretch text-[#BEBEBE] text-[17.4px] font-normal leading-[21.6px] tracking-[-0.027px] relative m-0 p-0 max-sm:text-sm max-sm:leading-[18px]">
+          <p className="text-[#BEBEBE] text-[15px] font-normal leading-[20px] tracking-[-0.027px] text-right max-sm:text-xs max-sm:leading-[16px]">
             Your body becomes the canvas. Each piece is crafted to flow with form, designed with intention, and built to endure. Art that ages with you, telling your story through time.
           </p>
         </motion.div>
