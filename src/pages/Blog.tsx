@@ -32,22 +32,6 @@ const blogPosts = [
 
 const Blog = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [currentTime, setCurrentTime] = useState('');
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      const hours = now.getHours();
-      const minutes = now.getMinutes().toString().padStart(2, '0');
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-      const displayHours = hours % 12 || 12;
-      setCurrentTime(`${displayHours}:${minutes} ${ampm}`);
-    };
-    
-    updateTime();
-    const interval = setInterval(updateTime, 60000);
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -59,28 +43,26 @@ const Blog = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-10 py-6">
-        <Link to="/" className="text-sm font-medium tracking-wider text-white">
-          OKAN TATTOO
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-[22.5px] py-[18px] max-sm:px-4 max-sm:py-4">
+        <Link to="/" className="text-[15px] font-normal tracking-[-0.15px] uppercase text-white hover:opacity-70 transition-opacity">
+          okan uckun
         </Link>
         
-        <div className="hidden md:flex items-center gap-2 text-sm text-white/80">
-          <span>ISTANBUL, TR</span>
-          <span>•</span>
-          <span>{currentTime}</span>
+        <div className="hidden md:flex items-center text-[15px] font-normal tracking-[-0.15px] uppercase text-white/80">
+          <span>brooklyn, ny</span>
         </div>
 
-        <div className="hidden md:flex items-center gap-8 text-sm">
-          <Link to="/" className="text-white/80 hover:text-white transition-colors">WORK</Link>
-          <Link to="/about" className="text-white/80 hover:text-white transition-colors">ABOUT</Link>
-          <Link to="/blog" className="text-white hover:text-white transition-colors">BLOG</Link>
+        <div className="hidden md:flex items-center gap-[16px] text-[15px] font-normal tracking-[-0.15px] uppercase">
+          <Link to="/work" className="text-white/80 hover:text-white transition-colors">work</Link>
+          <Link to="/about" className="text-white/80 hover:text-white transition-colors">about</Link>
+          <Link to="/blog" className="text-white hover:text-white transition-colors">blog</Link>
         </div>
 
         <Link 
           to="/contact" 
-          className="text-sm font-medium tracking-wider text-white hover:opacity-80 transition-opacity"
+          className="text-[15px] font-normal tracking-[-0.15px] uppercase text-white hover:opacity-70 transition-opacity"
         >
-          GET IN TOUCH
+          Book an appointment
         </Link>
       </nav>
 
@@ -104,10 +86,10 @@ const Blog = () => {
         </AnimatePresence>
 
         {/* Hero Content */}
-        <div className="relative z-10 h-full flex flex-col justify-between px-6 md:px-10 pt-24 pb-10">
+        <div className="relative z-10 h-full flex flex-col justify-between px-[22.5px] pt-24 pb-10 max-sm:px-4">
           {/* Top Section */}
           <div className="flex justify-between items-start">
-            <h1 className="text-[80px] md:text-[120px] lg:text-[160px] font-bold leading-none text-white tracking-tight">
+            <h1 className="text-[80px] md:text-[120px] lg:text-[160px] font-normal leading-none text-white tracking-tight">
               BLOG
             </h1>
             <span className="text-[80px] md:text-[120px] lg:text-[160px] font-light text-white/30">
@@ -126,10 +108,10 @@ const Blog = () => {
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
+                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-normal text-white mb-4 leading-tight">
                     {blogPosts[currentSlide].title}
                   </h2>
-                  <div className="flex items-center gap-2 text-white/60 text-sm">
+                  <div className="flex items-center gap-2 text-white/60 text-[13px] font-normal">
                     <span>{blogPosts[currentSlide].category.toUpperCase()}</span>
                     <span>•</span>
                     <span>{blogPosts[currentSlide].date.toUpperCase()}</span>
@@ -146,12 +128,12 @@ const Blog = () => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="text-white/70 text-sm leading-relaxed mb-6"
+                  className="text-white/70 text-[13px] font-normal leading-relaxed mb-6"
                 >
                   {blogPosts[currentSlide].description}
                 </motion.p>
               </AnimatePresence>
-              <button className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-6 py-3 text-white text-sm hover:bg-white/20 transition-colors">
+              <button className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-6 py-3 text-white text-[13px] font-normal hover:bg-white/20 transition-colors">
                 <span className="text-lg">↳</span>
                 READ MORE
               </button>
@@ -174,17 +156,17 @@ const Blog = () => {
       </section>
 
       {/* Blog Grid Section */}
-      <section className="bg-white text-black py-20 px-6 md:px-10">
+      <section className="bg-white text-black py-20 px-[22.5px] max-sm:px-4">
         {/* Filters */}
         <ScrollReveal>
           <div className="flex flex-wrap gap-4 mb-12 justify-between items-center">
             <div className="flex flex-wrap gap-4">
-              <select className="bg-transparent border border-black/20 px-4 py-2 text-sm focus:outline-none">
+              <select className="bg-transparent border border-black/20 px-4 py-2 text-[13px] font-normal focus:outline-none">
                 <option>Newest to oldest</option>
                 <option>Oldest to newest</option>
                 <option>Top picks</option>
               </select>
-              <select className="bg-transparent border border-black/20 px-4 py-2 text-sm focus:outline-none">
+              <select className="bg-transparent border border-black/20 px-4 py-2 text-[13px] font-normal focus:outline-none">
                 <option>All categories</option>
                 <option>Inspiration</option>
                 <option>Tattoo Styles</option>
@@ -211,10 +193,10 @@ const Blog = () => {
                     transition={{ duration: 0.6 }}
                   />
                 </div>
-                <h3 className="text-lg font-bold mb-2 group-hover:opacity-70 transition-opacity">
+                <h3 className="text-[15px] font-normal mb-2 group-hover:opacity-70 transition-opacity">
                   {post.title}
                 </h3>
-                <div className="flex items-center gap-2 text-black/50 text-sm">
+                <div className="flex items-center gap-2 text-black/50 text-[13px] font-normal">
                   <span>{post.category}</span>
                   <span>•</span>
                   <span>{post.date}</span>
@@ -226,21 +208,21 @@ const Blog = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-black text-white py-16 px-6 md:px-10">
+      <footer className="bg-black text-white py-16 px-[22.5px] max-sm:px-4">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
           <div>
-            <h3 className="text-2xl font-bold mb-2">OKAN TATTOO</h3>
-            <p className="text-white/60 text-sm">Istanbul, Turkey</p>
+            <h3 className="text-[15px] font-normal uppercase mb-2">okan uckun</h3>
+            <p className="text-white/60 text-[13px] font-normal">Brooklyn, NY</p>
           </div>
-          <div className="flex gap-8 text-sm">
+          <div className="flex gap-8 text-[13px] font-normal">
             <Link to="/" className="hover:text-white/60 transition-colors">Work</Link>
             <Link to="/about" className="hover:text-white/60 transition-colors">About</Link>
             <Link to="/blog" className="hover:text-white/60 transition-colors">Blog</Link>
             <Link to="/contact" className="hover:text-white/60 transition-colors">Contact</Link>
           </div>
         </div>
-        <div className="mt-12 pt-8 border-t border-white/10 text-center text-white/40 text-sm">
-          © 2025 Okan Tattoo. All rights reserved.
+        <div className="mt-12 pt-8 border-t border-white/10 text-center text-white/40 text-[13px] font-normal">
+          © 2025 Okan Uckun. All rights reserved.
         </div>
       </footer>
     </div>
