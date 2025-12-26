@@ -91,10 +91,10 @@ const About: React.FC = () => {
         <ScrollReveal>
           <div className="flex flex-col lg:flex-row justify-between items-start gap-10">
             <div className="flex flex-col">
-              <span className="text-[#BEBEBE] text-[161px] font-medium leading-[140px] tracking-[-6.66px] uppercase max-md:text-[80px] max-md:leading-[70px] max-sm:text-[50px] max-sm:leading-[44px]">
+              <span className="text-[#BEBEBE] text-[120px] font-medium leading-[110px] tracking-[-4px] uppercase max-md:text-[60px] max-md:leading-[55px] max-sm:text-[40px] max-sm:leading-[36px]">
                 ABOUT
               </span>
-              <h1 className="text-[#323232] text-[161px] font-medium leading-[140px] tracking-[-6.66px] uppercase max-md:text-[80px] max-md:leading-[70px] max-sm:text-[50px] max-sm:leading-[44px]">
+              <h1 className="text-[#323232] text-[120px] font-medium leading-[110px] tracking-[-4px] uppercase max-md:text-[60px] max-md:leading-[55px] max-sm:text-[40px] max-sm:leading-[36px]">
                 STEVEN BUGEJA
               </h1>
             </div>
