@@ -1,52 +1,76 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence, PanInfo } from 'framer-motion';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Footer from '@/components/Footer';
 
 const Work: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [activeFilter, setActiveFilter] = useState('all');
-  const [dragDirection, setDragDirection] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const categories = [
-    { id: 'all', label: 'All' },
-    { id: 'tattoo', label: 'Tattoo Design' },
-    { id: 'collaboration', label: 'Collaboration' }
-  ];
-
+  // 50-60 görsel için örnek data - kendi görsellerinizle değiştirin
   const works = [
-    { id: 1, src: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=1200&h=1500&fit=crop", category: 'tattoo' },
-    { id: 2, src: "https://images.unsplash.com/photo-1590246814883-57764ecdadef?w=1200&h=1500&fit=crop", category: 'tattoo' },
-    { id: 3, src: "https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=1200&h=1500&fit=crop", category: 'tattoo' },
-    { id: 4, src: "https://images.unsplash.com/photo-1565058379802-bbe93b2f703a?w=1200&h=1500&fit=crop", category: 'collaboration' },
-    { id: 5, src: "https://images.unsplash.com/photo-1542359649-31e03cd4d909?w=1200&h=1500&fit=crop", category: 'tattoo' },
-    { id: 6, src: "https://images.unsplash.com/photo-1475823678248-624fc6f85785?w=1200&h=1500&fit=crop", category: 'collaboration' },
-    { id: 7, src: "https://images.unsplash.com/photo-1568515045052-f9a854d70bfd?w=1200&h=1500&fit=crop", category: 'tattoo' },
-    { id: 8, src: "https://images.unsplash.com/photo-1604941729725-15ef8f77f3b4?w=1200&h=1500&fit=crop", category: 'collaboration' },
-    { id: 9, src: "https://images.unsplash.com/photo-1562962230-16e4623d36e6?w=1200&h=1500&fit=crop", category: 'tattoo' },
-    { id: 10, src: "https://images.unsplash.com/photo-1594164803180-55a93b929ff5?w=1200&h=1500&fit=crop", category: 'collaboration' },
-    { id: 11, src: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=1200&h=1500&fit=crop", category: 'tattoo' },
-    { id: 12, src: "https://images.unsplash.com/photo-1590246814883-57764ecdadef?w=1200&h=1500&fit=crop", category: 'collaboration' },
+    { id: 1, src: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=1200&h=1500&fit=crop" },
+    { id: 2, src: "https://images.unsplash.com/photo-1590246814883-57764ecdadef?w=1200&h=1500&fit=crop" },
+    { id: 3, src: "https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=1200&h=1500&fit=crop" },
+    { id: 4, src: "https://images.unsplash.com/photo-1565058379802-bbe93b2f703a?w=1200&h=1500&fit=crop" },
+    { id: 5, src: "https://images.unsplash.com/photo-1542359649-31e03cd4d909?w=1200&h=1500&fit=crop" },
+    { id: 6, src: "https://images.unsplash.com/photo-1475823678248-624fc6f85785?w=1200&h=1500&fit=crop" },
+    { id: 7, src: "https://images.unsplash.com/photo-1568515045052-f9a854d70bfd?w=1200&h=1500&fit=crop" },
+    { id: 8, src: "https://images.unsplash.com/photo-1604941729725-15ef8f77f3b4?w=1200&h=1500&fit=crop" },
+    { id: 9, src: "https://images.unsplash.com/photo-1562962230-16e4623d36e6?w=1200&h=1500&fit=crop" },
+    { id: 10, src: "https://images.unsplash.com/photo-1594164803180-55a93b929ff5?w=1200&h=1500&fit=crop" },
+    { id: 11, src: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=1200&h=1500&fit=crop" },
+    { id: 12, src: "https://images.unsplash.com/photo-1590246814883-57764ecdadef?w=1200&h=1500&fit=crop" },
+    { id: 13, src: "https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=1200&h=1500&fit=crop" },
+    { id: 14, src: "https://images.unsplash.com/photo-1565058379802-bbe93b2f703a?w=1200&h=1500&fit=crop" },
+    { id: 15, src: "https://images.unsplash.com/photo-1542359649-31e03cd4d909?w=1200&h=1500&fit=crop" },
+    { id: 16, src: "https://images.unsplash.com/photo-1475823678248-624fc6f85785?w=1200&h=1500&fit=crop" },
+    { id: 17, src: "https://images.unsplash.com/photo-1568515045052-f9a854d70bfd?w=1200&h=1500&fit=crop" },
+    { id: 18, src: "https://images.unsplash.com/photo-1604941729725-15ef8f77f3b4?w=1200&h=1500&fit=crop" },
+    { id: 19, src: "https://images.unsplash.com/photo-1562962230-16e4623d36e6?w=1200&h=1500&fit=crop" },
+    { id: 20, src: "https://images.unsplash.com/photo-1594164803180-55a93b929ff5?w=1200&h=1500&fit=crop" },
+    { id: 21, src: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=1200&h=1500&fit=crop" },
+    { id: 22, src: "https://images.unsplash.com/photo-1590246814883-57764ecdadef?w=1200&h=1500&fit=crop" },
+    { id: 23, src: "https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=1200&h=1500&fit=crop" },
+    { id: 24, src: "https://images.unsplash.com/photo-1565058379802-bbe93b2f703a?w=1200&h=1500&fit=crop" },
+    { id: 25, src: "https://images.unsplash.com/photo-1542359649-31e03cd4d909?w=1200&h=1500&fit=crop" },
+    { id: 26, src: "https://images.unsplash.com/photo-1475823678248-624fc6f85785?w=1200&h=1500&fit=crop" },
+    { id: 27, src: "https://images.unsplash.com/photo-1568515045052-f9a854d70bfd?w=1200&h=1500&fit=crop" },
+    { id: 28, src: "https://images.unsplash.com/photo-1604941729725-15ef8f77f3b4?w=1200&h=1500&fit=crop" },
+    { id: 29, src: "https://images.unsplash.com/photo-1562962230-16e4623d36e6?w=1200&h=1500&fit=crop" },
+    { id: 30, src: "https://images.unsplash.com/photo-1594164803180-55a93b929ff5?w=1200&h=1500&fit=crop" },
+    { id: 31, src: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=1200&h=1500&fit=crop" },
+    { id: 32, src: "https://images.unsplash.com/photo-1590246814883-57764ecdadef?w=1200&h=1500&fit=crop" },
+    { id: 33, src: "https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=1200&h=1500&fit=crop" },
+    { id: 34, src: "https://images.unsplash.com/photo-1565058379802-bbe93b2f703a?w=1200&h=1500&fit=crop" },
+    { id: 35, src: "https://images.unsplash.com/photo-1542359649-31e03cd4d909?w=1200&h=1500&fit=crop" },
+    { id: 36, src: "https://images.unsplash.com/photo-1475823678248-624fc6f85785?w=1200&h=1500&fit=crop" },
+    { id: 37, src: "https://images.unsplash.com/photo-1568515045052-f9a854d70bfd?w=1200&h=1500&fit=crop" },
+    { id: 38, src: "https://images.unsplash.com/photo-1604941729725-15ef8f77f3b4?w=1200&h=1500&fit=crop" },
+    { id: 39, src: "https://images.unsplash.com/photo-1562962230-16e4623d36e6?w=1200&h=1500&fit=crop" },
+    { id: 40, src: "https://images.unsplash.com/photo-1594164803180-55a93b929ff5?w=1200&h=1500&fit=crop" },
+    { id: 41, src: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=1200&h=1500&fit=crop" },
+    { id: 42, src: "https://images.unsplash.com/photo-1590246814883-57764ecdadef?w=1200&h=1500&fit=crop" },
+    { id: 43, src: "https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=1200&h=1500&fit=crop" },
+    { id: 44, src: "https://images.unsplash.com/photo-1565058379802-bbe93b2f703a?w=1200&h=1500&fit=crop" },
+    { id: 45, src: "https://images.unsplash.com/photo-1542359649-31e03cd4d909?w=1200&h=1500&fit=crop" },
+    { id: 46, src: "https://images.unsplash.com/photo-1475823678248-624fc6f85785?w=1200&h=1500&fit=crop" },
+    { id: 47, src: "https://images.unsplash.com/photo-1568515045052-f9a854d70bfd?w=1200&h=1500&fit=crop" },
+    { id: 48, src: "https://images.unsplash.com/photo-1604941729725-15ef8f77f3b4?w=1200&h=1500&fit=crop" },
+    { id: 49, src: "https://images.unsplash.com/photo-1562962230-16e4623d36e6?w=1200&h=1500&fit=crop" },
+    { id: 50, src: "https://images.unsplash.com/photo-1594164803180-55a93b929ff5?w=1200&h=1500&fit=crop" },
   ];
-
-  const filteredWorks = activeFilter === 'all' 
-    ? works 
-    : works.filter(work => work.category === activeFilter);
-
-  const handleThumbnailClick = (index: number) => {
-    setSelectedIndex(index);
-  };
 
   const handlePrev = useCallback(() => {
-    setDragDirection(1);
-    setSelectedIndex(prev => prev > 0 ? prev - 1 : filteredWorks.length - 1);
-  }, [filteredWorks.length]);
+    setSelectedIndex(prev => prev > 0 ? prev - 1 : works.length - 1);
+  }, [works.length]);
 
   const handleNext = useCallback(() => {
-    setDragDirection(-1);
-    setSelectedIndex(prev => prev < filteredWorks.length - 1 ? prev + 1 : 0);
-  }, [filteredWorks.length]);
+    setSelectedIndex(prev => prev < works.length - 1 ? prev + 1 : 0);
+  }, [works.length]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -64,30 +88,70 @@ const Work: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handlePrev, handleNext]);
 
-  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    const threshold = 50;
-    if (info.offset.x > threshold) {
-      // Swiped right - go to previous
-      handlePrev();
-    } else if (info.offset.x < -threshold) {
-      // Swiped left - go to next
-      handleNext();
-    }
+  // Touchpad/Scroll navigation
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    let accumulatedDelta = 0;
+    const threshold = 80;
+
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      
+      // Use deltaX for horizontal scroll, fallback to deltaY
+      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      
+      accumulatedDelta += delta;
+
+      if (scrollTimeout.current) {
+        clearTimeout(scrollTimeout.current);
+      }
+
+      if (!isScrolling) {
+        if (accumulatedDelta > threshold) {
+          setIsScrolling(true);
+          handleNext();
+          accumulatedDelta = 0;
+        } else if (accumulatedDelta < -threshold) {
+          setIsScrolling(true);
+          handlePrev();
+          accumulatedDelta = 0;
+        }
+      }
+
+      scrollTimeout.current = setTimeout(() => {
+        setIsScrolling(false);
+        accumulatedDelta = 0;
+      }, 150);
+    };
+
+    container.addEventListener('wheel', handleWheel, { passive: false });
+    return () => container.removeEventListener('wheel', handleWheel);
+  }, [handleNext, handlePrev, isScrolling]);
+
+  const handleThumbnailClick = (index: number) => {
+    setSelectedIndex(index);
   };
 
   const slideVariants = {
     enter: (direction: number) => ({
-      x: direction > 0 ? -300 : 300,
-      opacity: 0
+      opacity: 0,
+      scale: 0.95
     }),
     center: {
-      x: 0,
-      opacity: 1
+      opacity: 1,
+      scale: 1
     },
     exit: (direction: number) => ({
-      x: direction > 0 ? 300 : -300,
-      opacity: 0
+      opacity: 0,
+      scale: 0.95
     })
+  };
+
+  // Sayfa numarası formatı: 01, 02, ... 50
+  const formatNumber = (num: number) => {
+    return num.toString().padStart(2, '0');
   };
 
   return (
@@ -95,172 +159,137 @@ const Work: React.FC = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="min-h-screen bg-white"
+      className="min-h-screen bg-[#f5f5f5]"
     >
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-[#EAEAEA]">
-        <nav className="flex items-center justify-between h-[60px] px-[22.5px] max-sm:px-4">
-          <Link to="/" className="text-[#323232] text-[15px] font-normal leading-5 tracking-[-0.15px] uppercase hover:opacity-70 transition-opacity">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[#f5f5f5]">
+        <nav className="flex items-center justify-between h-[60px] px-6 max-sm:px-4">
+          <Link to="/" className="text-[#323232] text-[14px] font-medium leading-5 tracking-[-0.02em] uppercase hover:opacity-70 transition-opacity">
             okan uckun
           </Link>
           
-          <span className="text-[#888] text-[15px] font-normal leading-5 tracking-[-0.15px] uppercase max-sm:hidden">
-            brooklyn, ny
+          <span className="text-[#888] text-[13px] font-normal leading-5 tracking-[-0.02em] uppercase max-sm:hidden">
+            brooklyn, ny • {new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
           </span>
           
-          <div className="flex items-center gap-4 max-md:hidden">
-            <Link to="/work" className="text-[#323232] text-[15px] font-normal leading-5 tracking-[-0.15px] uppercase">
+          <div className="flex items-center gap-6 max-md:hidden">
+            <Link to="/work" className="text-[#323232] text-[14px] font-medium leading-5 tracking-[-0.02em] uppercase">
               work
             </Link>
-            <Link to="/about" className="text-[#888] text-[15px] font-normal leading-5 tracking-[-0.15px] uppercase hover:text-[#323232] transition-colors">
+            <Link to="/about" className="text-[#888] text-[14px] font-normal leading-5 tracking-[-0.02em] uppercase hover:text-[#323232] transition-colors">
               About
             </Link>
-            <Link to="/blog" className="text-[#888] text-[15px] font-normal leading-5 tracking-[-0.15px] uppercase hover:text-[#323232] transition-colors">
+            <Link to="/blog" className="text-[#888] text-[14px] font-normal leading-5 tracking-[-0.02em] uppercase hover:text-[#323232] transition-colors">
               Blog
             </Link>
           </div>
           
           <Link 
             to="/contact"
-            className="text-[#323232] text-[15px] font-normal leading-5 tracking-[-0.15px] uppercase hover:opacity-70 transition-opacity max-md:hidden"
+            className="text-[#323232] text-[14px] font-medium leading-5 tracking-[-0.02em] uppercase hover:opacity-70 transition-opacity max-md:hidden"
           >
-            Book an appointment
+            Get in touch
           </Link>
         </nav>
       </header>
 
-      {/* Main Gallery - Full Viewport */}
-      <section className="h-screen pt-[60px] flex">
+      {/* Main Gallery - Two Column Layout */}
+      <section 
+        ref={containerRef}
+        className="h-screen pt-[60px] flex"
+      >
         {/* Left Side - Info & Thumbnails */}
-        <div className="w-[280px] max-lg:w-[200px] max-md:hidden flex flex-col border-r border-[#EAEAEA]">
-          {/* Title & Count */}
-          <div className="p-6 border-b border-[#EAEAEA]">
-            <div className="flex items-end justify-between mb-4">
-              <h1 className="text-[#323232] text-[32px] font-medium leading-[1] tracking-[-0.03em] uppercase">
+        <div className="w-1/2 flex flex-col max-md:w-full">
+          {/* WORK Title & Counter */}
+          <div className="px-6 pt-8 max-sm:px-4">
+            <div className="flex items-start gap-4 mb-6">
+              <h1 className="text-[#323232] text-[80px] max-lg:text-[60px] max-sm:text-[48px] font-bold leading-[0.85] tracking-[-0.04em] uppercase">
                 Work
               </h1>
-              <span className="text-[#BEBEBE] text-[24px] font-medium leading-[1] tracking-[-0.03em]">
-                {filteredWorks.length}
+              <span className="text-[#BEBEBE] text-[48px] max-lg:text-[36px] max-sm:text-[28px] font-light leading-[1] tracking-[-0.02em] mt-2">
+                {formatNumber(selectedIndex + 1)}
               </span>
             </div>
-            <p className="text-[#888] text-[12px] font-normal leading-[16px] tracking-[-0.02px]">
-              Tattoo designs and creative collaborations from Brooklyn, NY.
+            <p className="text-[#888] text-[13px] font-normal leading-[18px] tracking-[-0.01em] max-w-[320px] mb-8">
+              Now based in Brooklyn, NY, working out of creative studios alongside some of the most respected artists in the industry.
             </p>
           </div>
 
-          {/* Category Filters */}
-          <div className="p-4 border-b border-[#EAEAEA]">
-            <div className="flex flex-col gap-2">
-              {categories.map((cat) => (
+          {/* Scrollable Thumbnails */}
+          <div className="flex-1 overflow-y-auto px-6 pb-6 max-sm:px-4">
+            <div className="grid grid-cols-1 gap-3 max-w-[120px]">
+              {works.map((work, index) => (
                 <motion.button
-                  key={cat.id}
-                  onClick={() => {
-                    setActiveFilter(cat.id);
-                    setSelectedIndex(0);
-                  }}
-                  className={`text-[12px] font-medium tracking-[-0.02px] uppercase px-3 py-2 border text-left transition-colors ${
-                    activeFilter === cat.id 
-                      ? 'bg-[#323232] text-white border-[#323232]' 
-                      : 'bg-transparent text-[#888] border-[#EAEAEA] hover:border-[#888]'
+                  key={work.id}
+                  onClick={() => handleThumbnailClick(index)}
+                  className={`w-full aspect-[4/5] overflow-hidden relative border-2 transition-all ${
+                    selectedIndex === index 
+                      ? 'border-[#323232]' 
+                      : 'border-transparent hover:border-[#BEBEBE]'
                   }`}
+                  whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  {cat.label}
+                  <img
+                    src={work.src}
+                    alt={`Work ${index + 1}`}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
                 </motion.button>
               ))}
             </div>
           </div>
-
-          {/* Scrollable Thumbnails */}
-          <div className="flex-1 overflow-y-auto p-3 space-y-2">
-            {filteredWorks.map((work, index) => (
-              <motion.button
-                key={work.id}
-                onClick={() => handleThumbnailClick(index)}
-                className={`w-full aspect-[4/5] overflow-hidden relative ${
-                  selectedIndex === index ? 'ring-2 ring-[#323232]' : ''
-                }`}
-                whileHover={{ scale: 0.98 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <img
-                  src={work.src}
-                  alt={`Thumbnail ${index + 1}`}
-                  className="w-full h-full object-cover"
-                />
-                {selectedIndex === index && (
-                  <div className="absolute inset-0 bg-black/10" />
-                )}
-              </motion.button>
-            ))}
-          </div>
         </div>
 
-        {/* Right Side - Large Image with Drag */}
-        <div className="flex-1 relative bg-[#f5f5f5] flex items-center justify-center overflow-hidden">
-          {/* Drag hint */}
-          <div className="absolute top-6 left-1/2 -translate-x-1/2 z-10 pointer-events-none">
-            <span className="text-[11px] font-normal tracking-[0.3px] uppercase text-[#888] bg-white/80 px-3 py-1.5 backdrop-blur-sm">
-              Drag to navigate
-            </span>
-          </div>
-
-          <AnimatePresence mode="wait" custom={dragDirection}>
+        {/* Right Side - Large Image */}
+        <div 
+          className="w-1/2 relative flex items-center justify-center overflow-hidden max-md:fixed max-md:inset-0 max-md:w-full max-md:pt-[60px] max-md:z-30"
+          onClick={() => setLightboxOpen(true)}
+        >
+          <AnimatePresence mode="wait">
             <motion.div
               key={selectedIndex}
-              custom={dragDirection}
               variants={slideVariants}
               initial="enter"
               animate="center"
               exit="exit"
-              transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.2}
-              onDragEnd={handleDragEnd}
-              className="h-full w-full flex items-center justify-center cursor-grab active:cursor-grabbing"
-              onClick={() => setLightboxOpen(true)}
+              transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+              className="h-full w-full flex items-center justify-center cursor-pointer"
             >
               <img
-                src={filteredWorks[selectedIndex]?.src}
+                src={works[selectedIndex]?.src}
                 alt={`Work ${selectedIndex + 1}`}
-                className="h-full w-full object-contain pointer-events-none select-none"
+                className="h-full w-full object-cover pointer-events-none select-none"
                 draggable={false}
               />
             </motion.div>
           </AnimatePresence>
 
-          {/* Fullscreen hint */}
-          <div className="absolute bottom-6 left-6 z-10">
-            <motion.button
-              onClick={() => setLightboxOpen(true)}
-              className="text-[11px] font-normal tracking-[0.3px] uppercase text-[#888] bg-white/80 px-3 py-1.5 backdrop-blur-sm hover:bg-white transition-colors"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              Click for fullscreen
-            </motion.button>
+          {/* Navigation hint - visible on desktop */}
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 pointer-events-none max-md:hidden">
+            <span className="text-[11px] font-normal tracking-[0.3px] uppercase text-white/70 bg-black/30 px-4 py-2 backdrop-blur-sm">
+              Scroll to navigate • Click to enlarge
+            </span>
           </div>
 
-          {/* Navigation Arrows */}
-          <div className="absolute bottom-6 right-6 flex items-center gap-3 z-10">
+          {/* Mobile navigation arrows */}
+          <div className="hidden max-md:flex absolute bottom-6 left-1/2 -translate-x-1/2 items-center gap-4 z-10">
             <motion.button
-              onClick={handlePrev}
-              className="w-10 h-10 flex items-center justify-center bg-white/90 hover:bg-white border border-[#EAEAEA] transition-colors"
-              whileHover={{ scale: 1.05 }}
+              onClick={(e) => { e.stopPropagation(); handlePrev(); }}
+              className="w-12 h-12 flex items-center justify-center bg-white/90 hover:bg-white transition-colors"
               whileTap={{ scale: 0.95 }}
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path d="M10 12L6 8L10 4" stroke="#323232" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </motion.button>
-            <span className="text-[#323232] text-[13px] font-medium tracking-[-0.02px] min-w-[50px] text-center">
-              {selectedIndex + 1} / {filteredWorks.length}
+            <span className="text-white text-[14px] font-medium bg-black/30 px-3 py-1.5 backdrop-blur-sm">
+              {selectedIndex + 1} / {works.length}
             </span>
             <motion.button
-              onClick={handleNext}
-              className="w-10 h-10 flex items-center justify-center bg-white/90 hover:bg-white border border-[#EAEAEA] transition-colors"
-              whileHover={{ scale: 1.05 }}
+              onClick={(e) => { e.stopPropagation(); handleNext(); }}
+              className="w-12 h-12 flex items-center justify-center bg-white/90 hover:bg-white transition-colors"
               whileTap={{ scale: 0.95 }}
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -268,33 +297,6 @@ const Work: React.FC = () => {
               </svg>
             </motion.button>
           </div>
-
-          {/* Category Badge */}
-          <div className="absolute top-6 left-6 z-10">
-            <span className="text-[11px] font-medium tracking-[0.5px] uppercase px-3 py-1.5 bg-white/90 border border-[#EAEAEA] text-[#888]">
-              {filteredWorks[selectedIndex]?.category === 'tattoo' ? 'Tattoo Design' : 'Collaboration'}
-            </span>
-          </div>
-        </div>
-
-        {/* Mobile: Bottom Thumbnails */}
-        <div className="hidden max-md:flex fixed bottom-0 left-0 right-0 bg-white border-t border-[#EAEAEA] p-3 gap-2 overflow-x-auto z-40">
-          {filteredWorks.map((work, index) => (
-            <motion.button
-              key={work.id}
-              onClick={() => handleThumbnailClick(index)}
-              className={`w-16 h-20 flex-shrink-0 overflow-hidden ${
-                selectedIndex === index ? 'ring-2 ring-[#323232]' : ''
-              }`}
-              whileTap={{ scale: 0.95 }}
-            >
-              <img
-                src={work.src}
-                alt={`Thumbnail ${index + 1}`}
-                className="w-full h-full object-cover"
-              />
-            </motion.button>
-          ))}
         </div>
       </section>
 
@@ -348,7 +350,7 @@ const Work: React.FC = () => {
 
             {/* Counter */}
             <div className="absolute top-6 left-6 text-white text-[14px] font-medium tracking-[-0.02px]">
-              {selectedIndex + 1} / {filteredWorks.length}
+              {selectedIndex + 1} / {works.length}
             </div>
 
             {/* Image */}
@@ -357,7 +359,7 @@ const Work: React.FC = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              src={filteredWorks[selectedIndex]?.src}
+              src={works[selectedIndex]?.src}
               alt="Fullscreen view"
               className="max-w-[90vw] max-h-[85vh] object-contain"
               onClick={(e) => e.stopPropagation()}
@@ -367,7 +369,7 @@ const Work: React.FC = () => {
       </AnimatePresence>
 
       {/* Below Fold Content */}
-      <section className="py-20 px-[22.5px] max-sm:px-4 border-t border-[#EAEAEA]">
+      <section className="py-20 px-6 max-sm:px-4 bg-white">
         <div className="max-w-[800px]">
           <h2 className="text-[#323232] text-[28px] font-medium leading-[1.2] tracking-[-0.03em] uppercase mb-4 max-sm:text-xl">
             Ready to collaborate?
