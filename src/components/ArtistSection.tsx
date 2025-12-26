@@ -5,7 +5,7 @@ import ScrollReveal from '@/components/animations/ScrollReveal';
 
 const ArtistSection: React.FC = () => {
   return (
-    <section className="box-border w-full relative bg-white mt-[80px] m-0 px-[23px] py-[80px] max-md:px-5 max-md:py-10 max-sm:px-4 max-sm:py-6">
+    <section className="box-border w-full relative bg-white m-0 px-[23px] py-[80px] max-md:px-5 max-md:py-10 max-sm:px-4 max-sm:py-6">
       <div className="max-w-[1875px] mx-auto">
         <div className="flex flex-col lg:flex-row gap-10">
           <ScrollReveal direction="left" className="lg:w-[200px] shrink-0">
