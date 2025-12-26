@@ -19,7 +19,7 @@ const ArtistSection: React.FC = () => {
               </div>
             </ScrollReveal>
             
-            <div className="flex flex-col lg:flex-row gap-10">
+            <div className="flex-col lg:flex-row gap-10 flex items-start justify-center">
               <div className="flex-1" />
               <div className="lg:w-[377px]">
                 <ScrollReveal delay={0.3}>
