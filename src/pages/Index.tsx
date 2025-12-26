@@ -19,7 +19,7 @@ const Index: React.FC = () => {
       className="box-border w-full min-h-screen relative overflow-x-hidden bg-black m-0 p-0"
     >
       {/* Hero Section with Background */}
-      <div className="box-border w-full min-h-screen relative m-0 p-0">
+      <div className="box-border w-full h-[100svh] relative m-0 p-0">
         {/* Background Image with Parallax */}
         <motion.div 
           className="absolute inset-0 z-0"
@@ -35,7 +35,7 @@ const Index: React.FC = () => {
           <div className="absolute inset-0 bg-black/40" />
         </motion.div>
         
-        <div className="relative z-10 flex flex-col min-h-screen">
+        <div className="relative z-10 flex h-full flex-col">
           <Navigation />
           <HeroSection />
         </div>
