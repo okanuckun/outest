@@ -3,67 +3,72 @@ import { motion } from 'framer-motion';
 
 const HeroSection: React.FC = () => {
   return (
-    <section className="box-border flex flex-col justify-center items-start self-stretch relative z-[5] m-0 p-0">
-      <div className="box-border flex h-[901px] justify-center items-start gap-[22.5px] absolute w-full m-0 pl-[22.5px] pr-[913.49px] py-0 left-0 top-0 max-md:h-[600px] max-md:px-5 max-md:py-0 max-sm:h-[400px] max-sm:px-4 max-sm:py-0">
-        <div className="box-border w-[452px] self-stretch relative m-0 p-0 border-r-[rgba(255,255,255,0.45)] border-r border-solid max-md:w-[200px] max-sm:hidden" />
+    <section className="box-border flex flex-col justify-end items-start w-full h-[calc(100vh-80px)] relative z-[5] m-0 p-0">
+      {/* Description Text - Top Left */}
+      <div className="absolute top-0 left-0 right-0 flex items-start gap-[22.5px] px-[22.5px] max-md:px-5 max-sm:px-4">
+        <div className="box-border w-[452px] h-32 relative m-0 p-0 border-r-[rgba(255,255,255,0.45)] border-r border-solid max-md:w-[200px] max-sm:hidden" />
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-          className="box-border flex w-[510px] max-w-[510px] flex-col items-start self-stretch relative m-0 pt-[17.09px] pb-[818.3px] px-0 max-md:w-full max-md:max-w-full max-md:px-0 max-md:py-5 max-sm:px-0 max-sm:py-4"
+          className="box-border flex w-[510px] max-w-[510px] flex-col items-start relative m-0 pt-[17px] max-md:w-full max-md:max-w-full"
         >
-          <div className="box-border flex flex-col items-start self-stretch relative m-0 pb-px p-0">
-            <p className="box-border self-stretch text-[#BEBEBE] text-[17.4px] font-normal leading-[21.6px] tracking-[-0.027px] relative m-0 p-0 max-sm:text-sm max-sm:leading-[18px]">
-              Your body becomes the canvas. Each piece is crafted to flow with form, designed with intention, and built to endure. Art that ages with you, telling your story through time.
-            </p>
-          </div>
+          <p className="box-border self-stretch text-[#BEBEBE] text-[17.4px] font-normal leading-[21.6px] tracking-[-0.027px] relative m-0 p-0 max-sm:text-sm max-sm:leading-[18px]">
+            Your body becomes the canvas. Each piece is crafted to flow with form, designed with intention, and built to endure. Art that ages with you, telling your story through time.
+          </p>
         </motion.div>
       </div>
       
-      <div className="box-border w-full h-[219px] absolute z-[5] m-0 p-0 left-0 top-[902px] max-md:h-[150px] max-md:top-[600px] max-sm:h-[120px] max-sm:top-[400px]">
-        <div className="box-border flex w-[1401px] h-[109px] flex-col items-start absolute m-0 pt-[22.5px] p-0 left-[497px] top-0 max-md:w-full max-md:h-20 max-md:pt-2.5 max-md:left-5 max-sm:h-[60px] max-sm:left-4">
-          <h1 className="box-border flex flex-col items-start self-stretch relative m-0 p-0 overflow-hidden">
-            <motion.span 
-              initial={{ y: 100, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-              className="box-border max-h-[87px] self-stretch text-[#F6F6F6] text-[100.4px] font-medium leading-[87px] tracking-[-3.726px] uppercase relative m-0 p-0 max-md:text-6xl max-md:leading-[50px] max-sm:text-[40px] max-sm:leading-9"
-            >
-              timeless art
-            </motion.span>
-          </h1>
+      {/* Main Headline - Bottom */}
+      <div className="w-full pb-8 px-[22.5px] max-md:px-5 max-sm:px-4">
+        {/* Border Line */}
+        <div className="w-full h-px bg-white/45 mb-6" />
+        
+        {/* Headlines Container */}
+        <div className="flex flex-col gap-0">
+          <div className="pl-[475px] max-md:pl-0">
+            <h1 className="overflow-hidden">
+              <motion.span 
+                initial={{ y: 100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.8, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+                className="block text-[#F6F6F6] text-[clamp(40px,8vw,100px)] font-medium leading-[0.87] tracking-[-0.037em] uppercase"
+              >
+                timeless art
+              </motion.span>
+            </h1>
+          </div>
+          
+          <div>
+            <h1 className="overflow-hidden">
+              <motion.span 
+                initial={{ y: 100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 1, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+                className="block text-[#F6F6F6] text-[clamp(40px,8vw,100px)] font-medium leading-[0.87] tracking-[-0.037em] uppercase"
+              >
+                Lasting impact
+              </motion.span>
+            </h1>
+          </div>
         </div>
         
-        <div className="box-border flex w-[1401px] h-[87px] flex-col items-start absolute m-0 p-0 left-[23px] top-[109px] max-md:w-full max-md:h-[60px] max-md:left-5 max-md:top-[70px] max-sm:h-[50px] max-sm:left-4 max-sm:top-[50px]">
-          <h1 className="box-border flex flex-col items-start self-stretch relative m-0 p-0 overflow-hidden">
-            <motion.span 
-              initial={{ y: 100, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 1, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-              className="box-border max-h-[87px] self-stretch text-[#F6F6F6] text-[100.2px] font-medium leading-[87px] tracking-[-3.726px] uppercase relative m-0 p-0 max-md:text-6xl max-md:leading-[50px] max-sm:text-[40px] max-sm:leading-9"
-            >
-              Lasting impact
-            </motion.span>
-          </h1>
-        </div>
-        
+        {/* Scroll Indicator */}
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2, duration: 0.6 }}
-          className="box-border w-[197px] h-[21px] text-[#BEBEBE] text-[19.8px] font-normal leading-5 tracking-[-0.202px] uppercase absolute m-0 p-0 right-[22.5px] top-44 max-md:text-base max-md:right-5 max-md:top-[120px] max-sm:text-sm max-sm:right-4 max-sm:top-[90px]"
+          className="flex justify-end mt-6"
         >
           <motion.span
             animate={{ y: [0, 5, 0] }}
             transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-            className="inline-block"
+            className="text-[#BEBEBE] text-lg font-normal tracking-[-0.01em] uppercase max-md:text-base max-sm:text-sm"
           >
             Scroll to explore
           </motion.span>
         </motion.div>
       </div>
-      
-      <div className="box-border w-full h-px absolute z-[5] m-0 p-0 border-t-[rgba(255,255,255,0.45)] border-t border-solid left-0 top-[901px] max-md:top-[600px] max-sm:top-[400px]" />
     </section>
   );
 };
