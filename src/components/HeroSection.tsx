@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const HeroSection: React.FC = () => {
   return (
-    <section className="box-border flex flex-col justify-end items-start w-full h-[calc(100vh-80px)] relative z-[5] m-0 p-0">
+    <section className="box-border flex flex-col justify-end items-start w-full flex-1 relative z-[5] m-0 p-0">
       {/* Description Text - Top Right Fixed */}
       <div className="absolute top-0 right-[22.5px] max-md:right-5 max-sm:right-4">
         <motion.div 
