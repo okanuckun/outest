@@ -13,7 +13,7 @@ const HeroSection: React.FC = () => {
           className="box-border flex w-[510px] max-w-[510px] flex-col items-start self-stretch relative m-0 pt-[17.09px] pb-[818.3px] px-0 max-md:w-full max-md:max-w-full max-md:px-0 max-md:py-5 max-sm:px-0 max-sm:py-4"
         >
           <div className="box-border flex flex-col items-start self-stretch relative m-0 pb-px p-0">
-            <p className="box-border self-stretch text-[#BEBEBE] text-[17.4px] font-bold leading-[21.6px] tracking-[-0.027px] relative m-0 p-0 max-sm:text-sm max-sm:leading-[18px]">
+            <p className="box-border self-stretch text-[#BEBEBE] text-[17.4px] font-normal leading-[21.6px] tracking-[-0.027px] relative m-0 p-0 max-sm:text-sm max-sm:leading-[18px]">
               Your body becomes the canvas. Each piece is crafted to flow with form, designed with intention, and built to endure. Art that ages with you, telling your story through time.
             </p>
           </div>
@@ -27,7 +27,7 @@ const HeroSection: React.FC = () => {
               initial={{ y: 100, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.8, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-              className="box-border max-h-[87px] self-stretch text-[#F6F6F6] text-[100.4px] font-bold leading-[87px] tracking-[-3.726px] uppercase relative m-0 p-0 max-md:text-6xl max-md:leading-[50px] max-sm:text-[40px] max-sm:leading-9"
+              className="box-border max-h-[87px] self-stretch text-[#F6F6F6] text-[100.4px] font-medium leading-[87px] tracking-[-3.726px] uppercase relative m-0 p-0 max-md:text-6xl max-md:leading-[50px] max-sm:text-[40px] max-sm:leading-9"
             >
               timeless art
             </motion.span>
@@ -40,7 +40,7 @@ const HeroSection: React.FC = () => {
               initial={{ y: 100, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 1, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-              className="box-border max-h-[87px] self-stretch text-[#F6F6F6] text-[100.2px] font-bold leading-[87px] tracking-[-3.726px] uppercase relative m-0 p-0 max-md:text-6xl max-md:leading-[50px] max-sm:text-[40px] max-sm:leading-9"
+              className="box-border max-h-[87px] self-stretch text-[#F6F6F6] text-[100.2px] font-medium leading-[87px] tracking-[-3.726px] uppercase relative m-0 p-0 max-md:text-6xl max-md:leading-[50px] max-sm:text-[40px] max-sm:leading-9"
             >
               Lasting impact
             </motion.span>
@@ -51,7 +51,7 @@ const HeroSection: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2, duration: 0.6 }}
-          className="box-border w-[197px] h-[21px] text-[#BEBEBE] text-[19.8px] font-bold leading-5 tracking-[-0.202px] uppercase absolute m-0 p-0 right-[22.5px] top-44 max-md:text-base max-md:right-5 max-md:top-[120px] max-sm:text-sm max-sm:right-4 max-sm:top-[90px]"
+          className="box-border w-[197px] h-[21px] text-[#BEBEBE] text-[19.8px] font-normal leading-5 tracking-[-0.202px] uppercase absolute m-0 p-0 right-[22.5px] top-44 max-md:text-base max-md:right-5 max-md:top-[120px] max-sm:text-sm max-sm:right-4 max-sm:top-[90px]"
         >
           <motion.span
             animate={{ y: [0, 5, 0] }}

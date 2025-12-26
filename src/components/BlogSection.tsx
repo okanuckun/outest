@@ -32,10 +32,10 @@ const BlogSection: React.FC = () => {
     <section className="box-border flex w-full flex-col items-start gap-[50px] relative bg-white m-0 py-[80px] px-[22.5px] max-md:px-5 max-md:py-10 max-sm:px-4 max-sm:py-6">
       <ScrollReveal>
         <div className="box-border flex items-end justify-between self-stretch relative m-0 p-0 flex-wrap gap-4">
-          <h2 className="box-border text-[#323232] text-[160.5px] font-bold leading-[140px] tracking-[-6.66px] uppercase relative m-0 p-0 max-md:text-[80px] max-md:leading-[70px] max-sm:text-[50px] max-sm:leading-[44px]">
+          <h2 className="box-border text-[#323232] text-[160.5px] font-medium leading-[140px] tracking-[-6.66px] uppercase relative m-0 p-0 max-md:text-[80px] max-md:leading-[70px] max-sm:text-[50px] max-sm:leading-[44px]">
             Blog
           </h2>
-          <div className="box-border text-[#BEBEBE] text-[166.5px] font-bold leading-[140px] tracking-[-6.66px] uppercase relative m-0 p-0 max-md:text-[80px] max-md:leading-[70px] max-sm:text-[50px] max-sm:leading-[44px]">
+          <div className="box-border text-[#BEBEBE] text-[166.5px] font-medium leading-[140px] tracking-[-6.66px] uppercase relative m-0 p-0 max-md:text-[80px] max-md:leading-[70px] max-sm:text-[50px] max-sm:leading-[44px]">
             3
           </div>
         </div>
@@ -62,13 +62,13 @@ const BlogSection: React.FC = () => {
                 </div>
                 <div className="box-border flex flex-1 flex-col justify-between items-start self-stretch relative m-0 p-0 max-md:gap-5">
                   <div className="box-border flex flex-col items-start relative m-0 p-0 max-w-[720px]">
-                    <h3 className="box-border text-[#323232] text-[39.4px] font-bold leading-[45px] tracking-[-0.607px] uppercase relative m-0 p-0 max-md:text-2xl max-md:leading-7 max-sm:text-lg max-sm:leading-[22px] group-hover:opacity-70 transition-opacity">
+                    <h3 className="box-border text-[#323232] text-[39.4px] font-medium leading-[45px] tracking-[-0.607px] uppercase relative m-0 p-0 max-md:text-2xl max-md:leading-7 max-sm:text-lg max-sm:leading-[22px] group-hover:opacity-70 transition-opacity">
                       {post.title}
                     </h3>
                   </div>
                   <div className="box-border flex items-center self-stretch relative gap-2 m-0 p-0">
                     <div className="box-border flex flex-col items-start relative m-0 p-0">
-                      <span className="box-border text-[#323232] text-[19.5px] font-bold leading-5 tracking-[-0.202px] uppercase relative m-0 p-0 max-sm:text-sm max-sm:leading-4">
+                      <span className="box-border text-[#323232] text-[19.5px] font-medium leading-5 tracking-[-0.202px] uppercase relative m-0 p-0 max-sm:text-sm max-sm:leading-4">
                         {post.category}
                       </span>
                     </div>
@@ -78,7 +78,7 @@ const BlogSection: React.FC = () => {
                       </svg>
                     </div>
                     <div className="box-border flex flex-col items-start relative m-0 p-0">
-                      <span className="box-border text-[#888] text-[19.5px] font-bold leading-5 tracking-[-0.202px] uppercase relative m-0 p-0 max-sm:text-sm max-sm:leading-4">
+                      <span className="box-border text-[#888] text-[19.5px] font-normal leading-5 tracking-[-0.202px] uppercase relative m-0 p-0 max-sm:text-sm max-sm:leading-4">
                         {post.date}
                       </span>
                     </div>

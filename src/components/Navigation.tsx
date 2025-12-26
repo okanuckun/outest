@@ -17,7 +17,7 @@ const Navigation: React.FC = () => {
             transition={{ delay: 0.2, duration: 0.5 }}
             className="box-border inline-flex max-w-[1875px] flex-col items-start relative m-0 p-0"
           >
-            <a href="/" className="box-border text-[#F6F6F6] text-[19.7px] font-bold leading-5 tracking-[-0.202px] uppercase m-0 p-0 hover:opacity-80 transition-opacity">
+            <a href="/" className="box-border text-[#F6F6F6] text-[19.7px] font-medium leading-5 tracking-[-0.202px] uppercase m-0 p-0 hover:opacity-80 transition-opacity">
               Stevo tattoo
             </a>
           </motion.div>
@@ -29,7 +29,7 @@ const Navigation: React.FC = () => {
             className="box-border inline-flex items-center gap-2 relative m-0 p-0 max-sm:hidden"
           >
             <div className="box-border flex flex-col items-start relative m-0 p-0">
-              <span className="box-border text-[#F6F6F6] text-[19.7px] font-bold leading-5 tracking-[-0.202px] uppercase m-0 p-0">
+              <span className="box-border text-[#F6F6F6] text-[19.7px] font-medium leading-5 tracking-[-0.202px] uppercase m-0 p-0">
                 brooklyn, ny
               </span>
             </div>
@@ -39,7 +39,7 @@ const Navigation: React.FC = () => {
               </svg>
             </div>
             <div className="box-border flex flex-col items-start relative m-0 p-0">
-              <span className="box-border text-[#F6F6F6] text-[19.3px] font-bold leading-5 tracking-[-0.202px] uppercase m-0 p-0">
+              <span className="box-border text-[#F6F6F6] text-[19.3px] font-medium leading-5 tracking-[-0.202px] uppercase m-0 p-0">
                 11:44 AM
               </span>
             </div>
@@ -59,7 +59,7 @@ const Navigation: React.FC = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <span className="box-border text-[#F6F6F6] text-[19.8px] font-bold leading-5 tracking-[-0.202px] uppercase m-0 p-0 hover:opacity-80 transition-opacity">
+                <span className="box-border text-[#F6F6F6] text-[19.8px] font-medium leading-5 tracking-[-0.202px] uppercase m-0 p-0 hover:opacity-80 transition-opacity">
                   {item}
                 </span>
               </motion.a>
@@ -78,7 +78,7 @@ const Navigation: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <span className="box-border text-[#F6F6F6] text-[19.7px] font-bold leading-5 tracking-[-0.202px] uppercase m-0 p-0 hover:opacity-80 transition-opacity">
+              <span className="box-border text-[#F6F6F6] text-[19.7px] font-medium leading-5 tracking-[-0.202px] uppercase m-0 p-0 hover:opacity-80 transition-opacity">
                 Get in touch
               </span>
             </motion.a>

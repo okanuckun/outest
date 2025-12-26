@@ -17,12 +17,12 @@ const FeaturedWork: React.FC = () => {
         <ScrollReveal>
           <div className="box-border flex justify-between items-end self-stretch relative m-0 p-0 flex-wrap gap-4">
             <h2 className="box-border flex flex-col items-start relative m-0 p-0">
-              <span className="box-border text-[#323232] text-[161.3px] font-bold leading-[140px] tracking-[-6.66px] uppercase relative m-0 p-0 max-md:text-[80px] max-md:leading-[70px] max-sm:text-[50px] max-sm:leading-[44px]">
+              <span className="box-border text-[#323232] text-[161.3px] font-medium leading-[140px] tracking-[-6.66px] uppercase relative m-0 p-0 max-md:text-[80px] max-md:leading-[70px] max-sm:text-[50px] max-sm:leading-[44px]">
                 Featured Work
               </span>
             </h2>
             <div className="box-border flex flex-col items-start relative m-0 p-0">
-              <span className="box-border text-[#BEBEBE] text-[166.5px] font-bold leading-[140px] tracking-[-6.66px] uppercase relative m-0 p-0 max-md:text-[80px] max-md:leading-[70px] max-sm:text-[50px] max-sm:leading-[44px]">
+              <span className="box-border text-[#BEBEBE] text-[166.5px] font-medium leading-[140px] tracking-[-6.66px] uppercase relative m-0 p-0 max-md:text-[80px] max-md:leading-[70px] max-sm:text-[50px] max-sm:leading-[44px]">
                 3
               </span>
             </div>
@@ -53,7 +53,7 @@ const FeaturedWork: React.FC = () => {
       <ScrollReveal delay={0.4}>
         <div className="box-border flex flex-col items-start self-stretch relative m-0 p-0">
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-            <Button variant="outline" className="box-border flex justify-center items-center gap-[13.5px] border relative m-0 p-[13.5px] border-solid border-[#EAEAEA]">
+            <Button variant="outline" className="box-border flex justify-center items-center gap-[13.5px] border relative m-0 p-[13.5px] border-solid border-[#EAEAEA] font-medium">
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clipPath="url(#clip0_3_118)">
                   <mask id="mask0_3_118" style={{maskType: 'luminance'}} maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="18">
@@ -69,7 +69,7 @@ const FeaturedWork: React.FC = () => {
                   </clipPath>
                 </defs>
               </svg>
-              <span className="box-border text-[#323232] text-[17.6px] font-bold leading-[19.8px] tracking-[-0.027px] uppercase">
+              <span className="box-border text-[#323232] text-[17.6px] font-medium leading-[19.8px] tracking-[-0.027px] uppercase">
                 See more work
               </span>
             </Button>
