@@ -32,10 +32,10 @@ const BlogSection: React.FC = () => {
     <section className="box-border flex w-full flex-col items-start gap-[50px] relative bg-white m-0 py-[80px] px-[22.5px] max-md:px-5 max-md:py-10 max-sm:px-4 max-sm:py-6">
       <ScrollReveal>
         <div className="box-border flex items-end justify-between self-stretch relative m-0 p-0 flex-wrap gap-4">
-          <h2 className="box-border text-[#323232] text-[160.5px] font-medium leading-[140px] tracking-[-6.66px] uppercase relative m-0 p-0 max-md:text-[80px] max-md:leading-[70px] max-sm:text-[50px] max-sm:leading-[44px]">
+          <h2 className="box-border text-[#323232] text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase relative m-0 p-0">
             Blog
           </h2>
-          <div className="box-border text-[#BEBEBE] text-[166.5px] font-medium leading-[140px] tracking-[-6.66px] uppercase relative m-0 p-0 max-md:text-[80px] max-md:leading-[70px] max-sm:text-[50px] max-sm:leading-[44px]">
+          <div className="box-border text-[#BEBEBE] text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase relative m-0 p-0">
             3
           </div>
         </div>
