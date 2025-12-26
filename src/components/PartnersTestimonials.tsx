@@ -51,14 +51,14 @@ const PartnersTestimonials: React.FC = () => {
       <ScrollReveal>
         <div className="box-border self-stretch relative m-0 p-0">
           <div className="flex flex-wrap gap-4">
-            <h2 className="text-[#323232] text-[161.6px] font-medium leading-[140px] tracking-[-6.66px] uppercase max-md:text-6xl max-md:leading-[50px] max-sm:text-[40px] max-sm:leading-9">
+            <h2 className="text-[#323232] text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase">
               Partners
             </h2>
             <div className="flex items-start gap-[0.01px]">
-              <span className="text-[#323232] text-[158.9px] font-medium leading-[140px] tracking-[-6.66px] uppercase max-md:text-6xl max-md:leading-[50px] max-sm:text-[40px] max-sm:leading-9">
+              <span className="text-[#323232] text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase">
                 &amp;
               </span>
-              <span className="text-[#323232] text-[161.1px] font-medium leading-[140px] tracking-[-6.66px] uppercase max-md:text-6xl max-md:leading-[50px] max-sm:text-[40px] max-sm:leading-9">
+              <span className="text-[#323232] text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase">
                 Testimonials
               </span>
             </div>
