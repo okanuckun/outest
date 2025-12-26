@@ -1,34 +1,32 @@
 import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Footer from '@/components/Footer';
 
 const Work: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [activeFilter, setActiveFilter] = useState('all');
-  const thumbnailsRef = useRef<HTMLDivElement>(null);
+  const [dragDirection, setDragDirection] = useState(0);
 
   const categories = [
     { id: 'all', label: 'All' },
-    { id: 'geometric', label: 'Geometric' },
-    { id: 'minimalist', label: 'Minimalist' },
-    { id: 'abstract', label: 'Abstract' },
-    { id: 'blackwork', label: 'Blackwork' }
+    { id: 'tattoo', label: 'Tattoo Design' },
+    { id: 'collaboration', label: 'Collaboration' }
   ];
 
   const works = [
-    { id: 1, src: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=1200&h=1500&fit=crop", category: 'geometric' },
-    { id: 2, src: "https://images.unsplash.com/photo-1590246814883-57764ecdadef?w=1200&h=1500&fit=crop", category: 'minimalist' },
-    { id: 3, src: "https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=1200&h=1500&fit=crop", category: 'blackwork' },
-    { id: 4, src: "https://images.unsplash.com/photo-1565058379802-bbe93b2f703a?w=1200&h=1500&fit=crop", category: 'abstract' },
-    { id: 5, src: "https://images.unsplash.com/photo-1542359649-31e03cd4d909?w=1200&h=1500&fit=crop", category: 'geometric' },
-    { id: 6, src: "https://images.unsplash.com/photo-1475823678248-624fc6f85785?w=1200&h=1500&fit=crop", category: 'minimalist' },
-    { id: 7, src: "https://images.unsplash.com/photo-1568515045052-f9a854d70bfd?w=1200&h=1500&fit=crop", category: 'blackwork' },
-    { id: 8, src: "https://images.unsplash.com/photo-1604941729725-15ef8f77f3b4?w=1200&h=1500&fit=crop", category: 'abstract' },
-    { id: 9, src: "https://images.unsplash.com/photo-1562962230-16e4623d36e6?w=1200&h=1500&fit=crop", category: 'geometric' },
-    { id: 10, src: "https://images.unsplash.com/photo-1594164803180-55a93b929ff5?w=1200&h=1500&fit=crop", category: 'minimalist' },
-    { id: 11, src: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=1200&h=1500&fit=crop", category: 'blackwork' },
-    { id: 12, src: "https://images.unsplash.com/photo-1590246814883-57764ecdadef?w=1200&h=1500&fit=crop", category: 'abstract' },
+    { id: 1, src: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=1200&h=1500&fit=crop", category: 'tattoo' },
+    { id: 2, src: "https://images.unsplash.com/photo-1590246814883-57764ecdadef?w=1200&h=1500&fit=crop", category: 'tattoo' },
+    { id: 3, src: "https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=1200&h=1500&fit=crop", category: 'tattoo' },
+    { id: 4, src: "https://images.unsplash.com/photo-1565058379802-bbe93b2f703a?w=1200&h=1500&fit=crop", category: 'collaboration' },
+    { id: 5, src: "https://images.unsplash.com/photo-1542359649-31e03cd4d909?w=1200&h=1500&fit=crop", category: 'tattoo' },
+    { id: 6, src: "https://images.unsplash.com/photo-1475823678248-624fc6f85785?w=1200&h=1500&fit=crop", category: 'collaboration' },
+    { id: 7, src: "https://images.unsplash.com/photo-1568515045052-f9a854d70bfd?w=1200&h=1500&fit=crop", category: 'tattoo' },
+    { id: 8, src: "https://images.unsplash.com/photo-1604941729725-15ef8f77f3b4?w=1200&h=1500&fit=crop", category: 'collaboration' },
+    { id: 9, src: "https://images.unsplash.com/photo-1562962230-16e4623d36e6?w=1200&h=1500&fit=crop", category: 'tattoo' },
+    { id: 10, src: "https://images.unsplash.com/photo-1594164803180-55a93b929ff5?w=1200&h=1500&fit=crop", category: 'collaboration' },
+    { id: 11, src: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=1200&h=1500&fit=crop", category: 'tattoo' },
+    { id: 12, src: "https://images.unsplash.com/photo-1590246814883-57764ecdadef?w=1200&h=1500&fit=crop", category: 'collaboration' },
   ];
 
   const filteredWorks = activeFilter === 'all' 
@@ -40,11 +38,39 @@ const Work: React.FC = () => {
   };
 
   const handlePrev = () => {
+    setDragDirection(1);
     setSelectedIndex(prev => prev > 0 ? prev - 1 : filteredWorks.length - 1);
   };
 
   const handleNext = () => {
+    setDragDirection(-1);
     setSelectedIndex(prev => prev < filteredWorks.length - 1 ? prev + 1 : 0);
+  };
+
+  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    const threshold = 50;
+    if (info.offset.x > threshold) {
+      // Swiped right - go to previous
+      handlePrev();
+    } else if (info.offset.x < -threshold) {
+      // Swiped left - go to next
+      handleNext();
+    }
+  };
+
+  const slideVariants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? -300 : 300,
+      opacity: 0
+    }),
+    center: {
+      x: 0,
+      opacity: 1
+    },
+    exit: (direction: number) => ({
+      x: direction > 0 ? 300 : -300,
+      opacity: 0
+    })
   };
 
   return (
@@ -101,13 +127,13 @@ const Work: React.FC = () => {
               </span>
             </div>
             <p className="text-[#888] text-[12px] font-normal leading-[16px] tracking-[-0.02px]">
-              Minimalist and geometric tattoo art from Brooklyn, NY.
+              Tattoo designs and creative collaborations from Brooklyn, NY.
             </p>
           </div>
 
           {/* Category Filters */}
           <div className="p-4 border-b border-[#EAEAEA]">
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-col gap-2">
               {categories.map((cat) => (
                 <motion.button
                   key={cat.id}
@@ -115,12 +141,12 @@ const Work: React.FC = () => {
                     setActiveFilter(cat.id);
                     setSelectedIndex(0);
                   }}
-                  className={`text-[11px] font-medium tracking-[-0.02px] uppercase px-3 py-1.5 border transition-colors ${
+                  className={`text-[12px] font-medium tracking-[-0.02px] uppercase px-3 py-2 border text-left transition-colors ${
                     activeFilter === cat.id 
                       ? 'bg-[#323232] text-white border-[#323232]' 
                       : 'bg-transparent text-[#888] border-[#EAEAEA] hover:border-[#888]'
                   }`}
-                  whileTap={{ scale: 0.95 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   {cat.label}
                 </motion.button>
@@ -129,10 +155,7 @@ const Work: React.FC = () => {
           </div>
 
           {/* Scrollable Thumbnails */}
-          <div 
-            ref={thumbnailsRef}
-            className="flex-1 overflow-y-auto p-3 space-y-2"
-          >
+          <div className="flex-1 overflow-y-auto p-3 space-y-2">
             {filteredWorks.map((work, index) => (
               <motion.button
                 key={work.id}
@@ -156,23 +179,41 @@ const Work: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Side - Large Image */}
+        {/* Right Side - Large Image with Drag */}
         <div className="flex-1 relative bg-[#f5f5f5] flex items-center justify-center overflow-hidden">
-          <AnimatePresence mode="wait">
-            <motion.img
+          {/* Drag hint */}
+          <div className="absolute top-6 left-1/2 -translate-x-1/2 z-10 pointer-events-none">
+            <span className="text-[11px] font-normal tracking-[0.3px] uppercase text-[#888] bg-white/80 px-3 py-1.5 backdrop-blur-sm">
+              Drag to navigate
+            </span>
+          </div>
+
+          <AnimatePresence mode="wait" custom={dragDirection}>
+            <motion.div
               key={selectedIndex}
-              src={filteredWorks[selectedIndex]?.src}
-              alt={`Work ${selectedIndex + 1}`}
-              className="h-full w-full object-contain"
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -50 }}
-              transition={{ duration: 0.3 }}
-            />
+              custom={dragDirection}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.2}
+              onDragEnd={handleDragEnd}
+              className="h-full w-full flex items-center justify-center cursor-grab active:cursor-grabbing"
+            >
+              <img
+                src={filteredWorks[selectedIndex]?.src}
+                alt={`Work ${selectedIndex + 1}`}
+                className="h-full w-full object-contain pointer-events-none select-none"
+                draggable={false}
+              />
+            </motion.div>
           </AnimatePresence>
 
           {/* Navigation Arrows */}
-          <div className="absolute bottom-6 right-6 flex items-center gap-3">
+          <div className="absolute bottom-6 right-6 flex items-center gap-3 z-10">
             <motion.button
               onClick={handlePrev}
               className="w-10 h-10 flex items-center justify-center bg-white/90 hover:bg-white border border-[#EAEAEA] transition-colors"
@@ -199,9 +240,9 @@ const Work: React.FC = () => {
           </div>
 
           {/* Category Badge */}
-          <div className="absolute top-6 left-6">
+          <div className="absolute top-6 left-6 z-10">
             <span className="text-[11px] font-medium tracking-[0.5px] uppercase px-3 py-1.5 bg-white/90 border border-[#EAEAEA] text-[#888]">
-              {filteredWorks[selectedIndex]?.category}
+              {filteredWorks[selectedIndex]?.category === 'tattoo' ? 'Tattoo Design' : 'Collaboration'}
             </span>
           </div>
         </div>
