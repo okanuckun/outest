@@ -40,21 +40,6 @@ const HeroSection: React.FC = () => {
           </h1>
         </div>
         
-        {/* Scroll Indicator */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
-          className="flex justify-end mt-4"
-        >
-          <motion.span
-            animate={{ y: [0, 5, 0] }}
-            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-            className="text-[#BEBEBE] text-base font-normal tracking-[-0.01em] uppercase max-md:text-sm max-sm:text-xs"
-          >
-            Scroll to explore
-          </motion.span>
-        </motion.div>
       </div>
     </section>
   );
