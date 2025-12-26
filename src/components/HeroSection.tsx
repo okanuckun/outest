@@ -12,16 +12,12 @@ const HeroSection: React.FC = () => {
           transition={{ delay: 0.6, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
           className="box-border w-[280px] max-w-[280px] pt-[17px] max-md:w-[240px] max-sm:w-[180px]"
         >
-          <div className="text-right">
-            <p className="text-[#F6F6F6] text-[13px] font-medium leading-[18px] tracking-[-0.02px] mb-2 max-sm:text-[11px] max-sm:leading-[15px]">
-              Okan Uckun
-            </p>
-            <p className="text-[#BEBEBE] text-[12px] font-normal leading-[17px] tracking-[-0.02px] max-sm:text-[10px] max-sm:leading-[14px]">
-              New York City–based minimalist tattoo artist<br />
-              Pioneer of abstract & geometric tattooing<br />
-              Co-founder of Monolith Studio
-            </p>
-          </div>
+          <p className="text-[#BEBEBE] text-[12px] font-normal leading-[17px] tracking-[-0.02px] text-right max-sm:text-[10px] max-sm:leading-[14px]">
+            Okan Uckun<br />
+            New York City–based minimalist tattoo artist<br />
+            Pioneer of abstract & geometric tattooing<br />
+            Co-founder of Monolith Studio
+          </p>
         </motion.div>
       </div>
       
