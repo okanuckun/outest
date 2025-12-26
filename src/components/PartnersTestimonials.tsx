@@ -50,48 +50,12 @@ const PartnersTestimonials: React.FC = () => {
     <section className="box-border flex w-full flex-col items-start gap-[50px] relative bg-white m-0 pt-[80px] pb-[80px] px-[22.5px] max-md:px-5 max-md:py-10 max-sm:px-4 max-sm:py-6">
       <ScrollReveal>
         <div className="box-border self-stretch relative m-0 p-0">
-          <div className="flex flex-wrap gap-4">
-            <h2 className="text-[#323232] text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase">
-              Partners
-            </h2>
-            <div className="flex items-start gap-[0.01px]">
-              <span className="text-[#323232] text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase">
-                &amp;
-              </span>
-              <span className="text-[#323232] text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase">
-                Testimonials
-              </span>
-            </div>
-          </div>
+          <h2 className="text-[#323232] text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase">
+            Testimonials
+          </h2>
         </div>
       </ScrollReveal>
       
-      <ScrollReveal delay={0.2}>
-        <div className="box-border flex items-start gap-10 self-stretch relative m-0 max-lg:flex-col">
-          <div className="lg:w-[450px] shrink-0" />
-          <div className="flex gap-[100px] max-lg:flex-col max-lg:gap-10 flex-1">
-            <div>
-              <h3 className="text-[#888] text-[17.4px] font-normal leading-[19.8px] tracking-[-0.027px] mb-4">
-                Partners
-              </h3>
-              <div className="flex flex-col gap-2">
-                {partners.map((partner, index) => (
-                  <motion.span 
-                    key={index} 
-                    className="text-[#323232] text-[39.6px] font-medium leading-[45px] tracking-[-0.607px] uppercase max-md:text-2xl max-md:leading-7 max-sm:text-lg max-sm:leading-[22px]"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1, duration: 0.5 }}
-                    viewport={{ once: true }}
-                  >
-                    {partner}
-                  </motion.span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </ScrollReveal>
       
       <div className="box-border flex flex-col items-start gap-[26.9px] self-stretch relative m-0 pt-[40px] p-0">
         <div className="box-border h-px self-stretch relative m-0 p-0 border-t-[#EAEAEA] border-t border-solid" />
