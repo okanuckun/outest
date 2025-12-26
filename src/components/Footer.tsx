@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
     { name: "Home", to: "/" },
     { name: "About", to: "/about" },
     { name: "Work", to: "/work" },
-    { name: "Blog", to: "/blog" }
+    { name: "Article", to: "/blog" }
   ];
 
   const socialLinks = [

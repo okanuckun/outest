@@ -55,7 +55,7 @@ const Blog = () => {
         <div className="hidden md:flex items-center gap-[16px] text-[15px] font-normal tracking-[-0.15px] uppercase">
           <Link to="/work" className="text-white/80 hover:text-white transition-colors">work</Link>
           <Link to="/about" className="text-white/80 hover:text-white transition-colors">about</Link>
-          <Link to="/blog" className="text-white hover:text-white transition-colors">blog</Link>
+          <Link to="/blog" className="text-white hover:text-white transition-colors">article</Link>
         </div>
 
         <Link 
@@ -90,7 +90,7 @@ const Blog = () => {
           {/* Top Section */}
           <div className="flex justify-between items-start">
             <h1 className="text-[80px] md:text-[120px] lg:text-[160px] font-normal leading-none text-white tracking-tight">
-              BLOG
+              ARTICLE
             </h1>
             <span className="text-[80px] md:text-[120px] lg:text-[160px] font-light text-white/30">
               {blogPosts.length}
@@ -217,7 +217,7 @@ const Blog = () => {
           <div className="flex gap-8 text-[13px] font-normal">
             <Link to="/" className="hover:text-white/60 transition-colors">Work</Link>
             <Link to="/about" className="hover:text-white/60 transition-colors">About</Link>
-            <Link to="/blog" className="hover:text-white/60 transition-colors">Blog</Link>
+            <Link to="/blog" className="hover:text-white/60 transition-colors">Article</Link>
             <Link to="/contact" className="hover:text-white/60 transition-colors">Contact</Link>
           </div>
         </div>
