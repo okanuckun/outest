@@ -10,19 +10,16 @@ const HeroSection: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-          className="box-border w-[320px] max-w-[320px] pt-[17px] max-md:w-[280px] max-sm:w-[200px]"
+          className="box-border w-[280px] max-w-[280px] pt-[17px] max-md:w-[240px] max-sm:w-[180px]"
         >
           <div className="text-right">
             <p className="text-[#F6F6F6] text-[13px] font-medium leading-[18px] tracking-[-0.02px] mb-2 max-sm:text-[11px] max-sm:leading-[15px]">
-              OKAN UCKUN
+              Okan Uckun
             </p>
-            <p className="text-[#BEBEBE] text-[12px] font-normal leading-[16px] tracking-[-0.02px] mb-3 max-sm:text-[10px] max-sm:leading-[14px]">
+            <p className="text-[#BEBEBE] text-[12px] font-normal leading-[17px] tracking-[-0.02px] max-sm:text-[10px] max-sm:leading-[14px]">
               New York City–based minimalist tattoo artist<br />
               Pioneer of abstract & geometric tattooing<br />
               Co-founder of Monolith Studio
-            </p>
-            <p className="text-[#888] text-[11px] font-normal leading-[15px] tracking-[-0.02px] max-sm:text-[9px] max-sm:leading-[13px]">
-              Okan Uckun is a New York City–based tattoo artist recognized as a pioneer in minimalist, abstract, and geometric tattooing. Known for his clean lines and contemporary vision, he blends art, architecture, and storytelling to create timeless pieces on skin. He is also the co-founder of Monolith Studio, a creative hub dedicated to pushing the boundaries of modern tattoo culture.
             </p>
           </div>
         </motion.div>
