@@ -95,10 +95,7 @@ const About: React.FC = () => {
           delay: 0.6,
           duration: 0.6
         }} className="px-6 mt-auto">
-            <p className="text-[11px] font-normal tracking-[0.1em] uppercase text-[#323232] mb-4">
-              CLIENT TESTIMONIAL<br />
-              <span className="opacity-60">BROOKLYN, 2024</span>
-            </p>
+            
           </motion.div>
 
           {/* Main Quote */}
@@ -131,7 +128,7 @@ const About: React.FC = () => {
           <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
             <ScrollReveal className="lg:w-1/3">
               <span className="text-[11px] font-normal tracking-[0.1em] uppercase text-[#888]">
-                (01) MY STORY
+                ABOUT
               </span>
             </ScrollReveal>
             
@@ -156,88 +153,10 @@ const About: React.FC = () => {
       </ScrollReveal>
 
       {/* Approach Section - Split Layout */}
-      <section className="min-h-screen flex flex-col lg:flex-row">
-        {/* Left - Image */}
-        <ScrollReveal className="w-full lg:w-1/2 min-h-[50vh] lg:min-h-screen">
-          <div className="h-full">
-            <motion.img src={aboutImage2} alt="Okan Uckun tattooing" className="w-full h-full object-cover grayscale" whileHover={{
-            scale: 1.02
-          }} transition={{
-            duration: 0.8
-          }} />
-          </div>
-        </ScrollReveal>
-
-        {/* Right - Content */}
-        <div className="w-full lg:w-1/2 bg-[#f5f5f5] flex flex-col justify-center p-8 lg:p-16">
-          <ScrollReveal>
-            <span className="text-[11px] font-normal tracking-[0.1em] uppercase text-[#888] mb-8 block">
-              (02) MY APPROACH
-            </span>
-          </ScrollReveal>
-          
-          <ScrollReveal delay={0.2}>
-            <p className="text-[24px] md:text-[28px] lg:text-[32px] font-normal leading-[1.2] tracking-[-0.02em] text-[#323232] uppercase mb-12">
-              Every piece begins with understanding your story. I blend technical mastery with artistic vision to create custom work that stands the test of time.
-            </p>
-          </ScrollReveal>
-
-          <div className="space-y-6">
-            {[{
-            number: '01',
-            text: 'Texture and depth always come first'
-          }, {
-            number: '02',
-            text: 'True realism comes from restraint'
-          }, {
-            number: '03',
-            text: 'Precision and patience guide every piece'
-          }, {
-            number: '04',
-            text: 'Placement drives the entire tattoo'
-          }].map((item, index) => <ScrollReveal key={item.number} delay={0.3 + index * 0.1}>
-                <div className="flex items-start gap-4 border-t border-[#e0e0e0] pt-4">
-                  <span className="text-[11px] font-normal tracking-[0.1em] text-[#888]">
-                    ({item.number})
-                  </span>
-                  <p className="text-[14px] font-normal tracking-[-0.01em] text-[#323232]">
-                    {item.text}
-                  </p>
-                </div>
-              </ScrollReveal>)}
-          </div>
-        </div>
-      </section>
+      
 
       {/* Final Image Grid */}
-      <section className="bg-white p-6 lg:p-12">
-        <div className="flex flex-col lg:flex-row gap-4">
-          <ScrollReveal className="lg:w-2/3">
-            <div className="h-[50vh] lg:h-[80vh] overflow-hidden">
-              <motion.img src={aboutImage3} alt="Okan Uckun studio" className="w-full h-full object-cover grayscale" whileHover={{
-              scale: 1.02
-            }} transition={{
-              duration: 0.8
-            }} />
-            </div>
-          </ScrollReveal>
-          
-          <ScrollReveal delay={0.2} className="lg:w-1/3 flex flex-col justify-end">
-            <div className="bg-[#1a1a1a] p-8 lg:p-12 h-full flex flex-col justify-end">
-              <span className="text-[11px] font-normal tracking-[0.1em] uppercase text-white/60 mb-4">
-                BOOK NOW
-              </span>
-              <p className="text-[18px] lg:text-[22px] font-normal leading-[1.3] text-white uppercase mb-8">
-                Ready to create something meaningful together?
-              </p>
-              <Link to="/contact" className="inline-flex items-center gap-2 text-[11px] font-normal tracking-[0.1em] uppercase text-white border border-white/30 px-6 py-3 hover:bg-white hover:text-[#1a1a1a] transition-all w-fit">
-                <span>↳</span>
-                GET IN TOUCH
-              </Link>
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
+      
 
       <Footer />
     </motion.div>;
