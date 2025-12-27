@@ -70,22 +70,26 @@ const Blog = () => {
 
       {/* Hero Slider */}
       <section className="relative h-screen overflow-hidden">
-        <AnimatePresence mode="wait">
+        {/* Background Images - Crossfade */}
+        {blogPosts.map((post, index) => (
           <motion.div
-            key={currentSlide}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8 }}
+            key={post.id}
+            initial={false}
+            animate={{ 
+              opacity: currentSlide === index ? 1 : 0,
+              scale: currentSlide === index ? 1 : 1.1
+            }}
+            transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
             className="absolute inset-0"
+            style={{ zIndex: currentSlide === index ? 1 : 0 }}
           >
             <div 
               className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url(${blogPosts[currentSlide].image})` }}
+              style={{ backgroundImage: `url(${post.image})` }}
             />
             <div className="absolute inset-0 bg-black/50" />
           </motion.div>
-        </AnimatePresence>
+        ))}
 
         {/* Hero Content */}
         <div className="relative z-10 h-full flex flex-col justify-between px-[22.5px] pt-24 pb-10 max-sm:px-4">
