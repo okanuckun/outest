@@ -6,7 +6,6 @@ import ArtistSection from '@/components/ArtistSection';
 import FeaturedWork from '@/components/FeaturedWork';
 import BlogSection from '@/components/BlogSection';
 import VideoSection from '@/components/VideoSection';
-import PartnersTestimonials from '@/components/PartnersTestimonials';
 import Footer from '@/components/Footer';
 import heroBg from '@/assets/hero-bg.jpg';
 
@@ -46,7 +45,6 @@ const Index: React.FC = () => {
         <FeaturedWork />
         <BlogSection />
         <VideoSection />
-        <PartnersTestimonials />
       </main>
       
       <Footer />
