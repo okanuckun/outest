@@ -7,7 +7,7 @@ import FeaturedWork from '@/components/FeaturedWork';
 import BlogSection from '@/components/BlogSection';
 import VideoSection from '@/components/VideoSection';
 import Footer from '@/components/Footer';
-import heroBg from '@/assets/hero-bg.jpg';
+import heroBg from '@/assets/hero-bg-optimized.webp';
 
 const Index: React.FC = () => {
   return (
