@@ -16,7 +16,7 @@ const VideoSection: React.FC = () => {
           <div className="box-border flex flex-col items-start self-stretch relative m-0 p-0 w-full">
             <div className="box-border flex flex-col justify-center items-start relative w-full h-[600px] m-0 p-0 max-md:h-[400px] max-sm:h-[300px]">
               <motion.img
-                src="https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=1920&h=1080&fit=crop"
+                src="https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=960&h=540&fit=crop&q=75"
                 alt="Video thumbnail"
                 className="absolute inset-0 w-full h-full object-cover"
                 loading="lazy"
