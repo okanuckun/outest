@@ -42,9 +42,16 @@ const Footer: React.FC = () => {
       {/* Middle Section - Links Row */}
       <ScrollReveal delay={0.1}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-6 md:px-12 py-8 border-t border-[#1a1a1a]/10">
-          {/* Left - Navigation */}
+          {/* Left - Address */}
           <div className="flex flex-col gap-2">
-            <span className="text-[#888] text-[11px] uppercase tracking-wider mb-2">Navigation</span>
+            <address className="text-[#1a1a1a] text-[15px] uppercase tracking-wide not-italic font-medium">
+              77 Washington Ave<br />
+              Brooklyn, NY 11205
+            </address>
+          </div>
+
+          {/* Center - Navigation */}
+          <div className="flex justify-start md:justify-center">
             <div className="flex flex-wrap gap-x-6 gap-y-2">
               {navigationLinks.map((link) => (
                 <motion.div 
@@ -60,15 +67,6 @@ const Footer: React.FC = () => {
                 </motion.div>
               ))}
             </div>
-          </div>
-
-          {/* Center - Address */}
-          <div className="flex flex-col items-start md:items-center gap-2">
-            <span className="text-[#888] text-[11px] uppercase tracking-wider mb-2">Address</span>
-            <address className="text-[#555] text-[13px] uppercase tracking-wide not-italic text-left md:text-center">
-              77 Washington Ave<br />
-              Brooklyn, NY 11205
-            </address>
           </div>
 
           {/* Right - Styles */}
