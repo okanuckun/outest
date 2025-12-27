@@ -114,9 +114,10 @@ const Footer: React.FC = () => {
       </ScrollReveal>
 
       {/* Giant Brand Text */}
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden w-full">
         <motion.div 
-          className="text-[clamp(80px,25vw,300px)] font-bold leading-[0.85] tracking-[-0.04em] text-white/95 whitespace-nowrap px-6"
+          className="w-full text-center font-bold leading-[0.85] tracking-[-0.04em] text-white"
+          style={{ fontSize: 'clamp(60px, 18vw, 280px)' }}
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
@@ -127,7 +128,7 @@ const Footer: React.FC = () => {
       </div>
 
       {/* Bottom Padding */}
-      <div className="h-8" />
+      <div className="h-6" />
     </footer>
   );
 };
