@@ -28,8 +28,10 @@ const Index: React.FC = () => {
         >
           <img
             src={heroBg}
-            alt="Stevo tattoo artist background"
+            alt="Okan Uckun tattoo artist background"
             className="w-full h-full object-cover"
+            loading="eager"
+            fetchPriority="high"
           />
           <div className="absolute inset-0 bg-black/40" />
         </motion.div>
