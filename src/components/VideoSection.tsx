@@ -19,6 +19,7 @@ const VideoSection: React.FC = () => {
                 src="https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=1920&h=1080&fit=crop"
                 alt="Video thumbnail"
                 className="absolute inset-0 w-full h-full object-cover"
+                loading="lazy"
                 initial={{ scale: 1.1 }}
                 whileInView={{ scale: 1 }}
                 transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}

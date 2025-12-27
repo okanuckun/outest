@@ -100,6 +100,7 @@ const BlogSection: React.FC = () => {
                           src={post.image}
                           alt={post.title}
                           className="w-full h-full object-cover"
+                          loading="lazy"
                           initial={{ scale: 1.1 }}
                           animate={{ scale: 1 }}
                           transition={{ duration: 0.5 }}
