@@ -161,7 +161,7 @@ const Blog = () => {
       <section className="bg-[#E8E8E8] text-black py-20 px-[22.5px] max-sm:px-4">
         {/* Title */}
         <ScrollReveal>
-          <h2 className="text-[48px] md:text-[64px] lg:text-[80px] font-normal leading-none tracking-tight mb-12 italic">
+          <h2 className="text-[48px] md:text-[64px] lg:text-[80px] font-normal leading-none tracking-tight mb-12">
             All Articles
           </h2>
         </ScrollReveal>
