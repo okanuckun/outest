@@ -92,69 +92,59 @@ const Blog = () => {
         ))}
 
         {/* Hero Content */}
-        <div className="relative z-10 h-full flex flex-col justify-between px-[22.5px] pt-24 pb-10 max-sm:px-4">
-          {/* Top Section */}
-          <div>
-            <h1 className="text-[80px] md:text-[120px] lg:text-[160px] font-normal leading-none text-white tracking-tight">
-              ARTICLE
-            </h1>
-          </div>
+        <div className="relative z-10 h-full flex flex-col justify-end px-[22.5px] pb-16 max-sm:px-4">
+          {/* Featured Card */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentSlide}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+              className="bg-white/10 backdrop-blur-md border border-white/20 p-8 md:p-12 max-w-3xl"
+            >
+              {/* Category & Date */}
+              <div className="flex items-center gap-3 mb-4">
+                <span className="bg-white text-black px-3 py-1 text-[11px] font-medium tracking-wider uppercase">
+                  {blogPosts[currentSlide].category}
+                </span>
+                <span className="text-white/60 text-[12px] tracking-wide">
+                  {blogPosts[currentSlide].date.toUpperCase()}
+                </span>
+              </div>
 
-          {/* Bottom Content */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
-            <div className="max-w-xl">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentSlide}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-normal text-white mb-4 leading-tight">
-                    {blogPosts[currentSlide].title}
-                  </h2>
-                  <div className="flex items-center gap-2 text-white/60 text-[13px] font-normal">
-                    <span>{blogPosts[currentSlide].category.toUpperCase()}</span>
-                    <span>•</span>
-                    <span>{blogPosts[currentSlide].date.toUpperCase()}</span>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
+              {/* Title */}
+              <h2 className="text-2xl md:text-4xl lg:text-5xl font-normal text-white mb-6 leading-tight tracking-tight">
+                {blogPosts[currentSlide].title}
+              </h2>
 
-            <div className="max-w-md">
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={currentSlide}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="text-white/70 text-[13px] font-normal leading-relaxed mb-6"
-                >
-                  {blogPosts[currentSlide].description}
-                </motion.p>
-              </AnimatePresence>
-              <button className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-6 py-3 text-white text-[13px] font-normal hover:bg-white/20 transition-colors">
-                <span className="text-lg">↳</span>
-                READ MORE
+              {/* Description */}
+              <p className="text-white/70 text-[14px] font-normal leading-relaxed mb-8 max-w-2xl">
+                {blogPosts[currentSlide].description}
+              </p>
+
+              {/* Read More Button */}
+              <button className="group flex items-center gap-3 text-white text-[13px] font-medium tracking-wide hover:gap-4 transition-all">
+                READ ARTICLE
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="group-hover:translate-x-1 transition-transform">
+                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
               </button>
-            </div>
-          </div>
-        </div>
+            </motion.div>
+          </AnimatePresence>
 
-        {/* Slide Indicators */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-          {blogPosts.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`w-2 h-2 rounded-full transition-all ${
-                index === currentSlide ? 'bg-white w-8' : 'bg-white/40'
-              }`}
-            />
-          ))}
+          {/* Slide Indicators */}
+          <div className="absolute bottom-16 right-[22.5px] z-20 flex gap-3 max-sm:right-4">
+            {blogPosts.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`h-1 rounded-full transition-all duration-300 ${
+                  index === currentSlide ? 'bg-white w-12' : 'bg-white/30 w-6 hover:bg-white/50'
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
