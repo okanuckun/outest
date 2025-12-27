@@ -44,8 +44,10 @@ const Blog = () => {
     <div className="min-h-screen bg-background text-foreground">
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-[22.5px] py-[18px] max-sm:px-4 max-sm:py-4">
-        <Link to="/" className="text-[15px] font-normal tracking-[-0.15px] uppercase text-white hover:opacity-70 transition-opacity">
-          okan uckun
+        <Link to="/" className="hover:opacity-70 transition-opacity">
+          <svg width="40" height="20" viewBox="0 0 40 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="2" y1="18" x2="38" y2="2" stroke="#F6F6F6" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
         </Link>
         
         <div className="hidden md:flex items-center text-[15px] font-normal tracking-[-0.15px] uppercase text-white/80">
