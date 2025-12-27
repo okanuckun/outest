@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 
 // Work images
-import work01 from '@/assets/work/work-01.jpg';
-import work02 from '@/assets/work/work-02.jpg';
-import work03 from '@/assets/work/work-03.jpg';
+import work01 from '@/assets/work/work-01.webp';
+import work02 from '@/assets/work/work-02.webp';
+import work03 from '@/assets/work/work-03.webp';
 import work04 from '@/assets/work/work-04.jpg';
 import work05 from '@/assets/work/work-05.jpg';
 import work06 from '@/assets/work/work-06.jpg';
