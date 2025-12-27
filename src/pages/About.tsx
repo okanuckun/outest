@@ -6,7 +6,7 @@ import ScrollReveal from '@/components/animations/ScrollReveal';
 import aboutImage1 from '@/assets/about-image-1.webp';
 import aboutImage2 from '@/assets/about-image-2.webp';
 import aboutImage3 from '@/assets/about-image-3.webp';
-import heroBg from '@/assets/hero-bg.jpg';
+import aboutHero from '@/assets/about-hero.jpg';
 
 const About: React.FC = () => {
   return (
@@ -18,12 +18,12 @@ const About: React.FC = () => {
     >
       {/* Hero Split Section */}
       <section className="min-h-screen flex flex-col lg:flex-row">
-        {/* Left Side - Dark with Image */}
-        <div className="relative w-full lg:w-1/2 min-h-[60vh] lg:min-h-screen bg-[#1a1a1a] overflow-hidden">
+        {/* Left Side - Dark with Image (35%) */}
+        <div className="relative w-full lg:w-[35%] min-h-[60vh] lg:min-h-screen bg-[#1a1a1a] overflow-hidden">
           {/* Background Image */}
           <motion.img 
-            src={heroBg} 
-            alt="Okan Uckun - Tattoo Artist" 
+            src={aboutHero} 
+            alt="Okan Uckun - Tattoo Artist"
             className="absolute inset-0 w-full h-full object-cover opacity-80 grayscale" 
             initial={{ scale: 1.1 }} 
             animate={{ scale: 1 }} 
@@ -89,8 +89,8 @@ const About: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* Right Side - Light with Quote */}
-        <div className="relative w-full lg:w-1/2 min-h-[60vh] lg:min-h-screen bg-[#f5f5f5] flex flex-col">
+        {/* Right Side - Light with Quote (65%) */}
+        <div className="relative w-full lg:w-[65%] min-h-[60vh] lg:min-h-screen bg-[#f5f5f5] flex flex-col">
           {/* Top Right Info */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }} 
