@@ -27,21 +27,9 @@ const Footer: React.FC = () => {
     to: "/work?style=geometric"
   }];
   return <footer className="relative bg-[#f5f5f5] text-[#1a1a1a] w-full overflow-hidden">
-      {/* Top Section - Contact Info */}
+      {/* Top Section - Links Row */}
       <ScrollReveal>
-        <div className="flex flex-col items-center justify-center pt-20 pb-16 px-6">
-          
-          <motion.a href="mailto:INFO@MONOLITH.COM" className="text-[clamp(32px,8vw,80px)] font-light tracking-[-0.02em] hover:opacity-50 transition-opacity" whileHover={{
-          scale: 1.02
-        }}>
-            INFO@MONOLITH.COM
-          </motion.a>
-        </div>
-      </ScrollReveal>
-
-      {/* Middle Section - Links Row */}
-      <ScrollReveal delay={0.1}>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-6 md:px-12 py-8 border-t border-[#1a1a1a]/10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-6 md:px-12 pt-20 pb-8">
           {/* Left - Address */}
           <div className="flex flex-col gap-2">
             <address className="text-[#1a1a1a] text-[15px] uppercase tracking-wide not-italic font-medium">
@@ -84,6 +72,17 @@ const Footer: React.FC = () => {
                 </motion.div>)}
             </div>
           </div>
+        </div>
+      </ScrollReveal>
+
+      {/* Middle Section - Contact Info */}
+      <ScrollReveal delay={0.1}>
+        <div className="flex flex-col items-center justify-center py-16 px-6 border-t border-[#1a1a1a]/10">
+          <motion.a href="mailto:INFO@MONOLITH.COM" className="text-[clamp(32px,8vw,80px)] font-light tracking-[-0.02em] hover:opacity-50 transition-opacity" whileHover={{
+          scale: 1.02
+        }}>
+            INFO@MONOLITH.COM
+          </motion.a>
         </div>
       </ScrollReveal>
 
