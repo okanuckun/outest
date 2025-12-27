@@ -2,21 +2,26 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Footer from '@/components/Footer';
+import Navigation from '@/components/Navigation';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import aboutImage1 from '@/assets/about-image-1.webp';
 import aboutImage2 from '@/assets/about-image-2.webp';
 import aboutImage3 from '@/assets/about-image-3.webp';
 import aboutHero from '@/assets/about-hero.jpg';
+
 const About: React.FC = () => {
-  return <motion.div initial={{
-    opacity: 0
-  }} animate={{
-    opacity: 1
-  }} transition={{
-    duration: 0.5
-  }} className="box-border w-full min-h-screen relative overflow-x-hidden bg-white m-0 p-0">
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="box-border w-full min-h-screen relative overflow-x-hidden bg-[#1a1a1a] m-0 p-0"
+    >
+      {/* Header Navigation */}
+      <Navigation />
+
       {/* Hero Split Section */}
-      <section className="min-h-screen flex flex-col lg:flex-row">
+      <section className="min-h-[calc(100vh-60px)] flex flex-col lg:flex-row">
         {/* Left Side - Dark with Image (35%) */}
         <div className="relative w-full lg:w-[35%] min-h-[60vh] lg:min-h-screen bg-[#1a1a1a] overflow-hidden">
           {/* Background Image */}
@@ -159,6 +164,8 @@ const About: React.FC = () => {
       
 
       <Footer />
-    </motion.div>;
+    </motion.div>
+  );
 };
+
 export default About;
