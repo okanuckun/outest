@@ -94,13 +94,10 @@ const Blog = () => {
         {/* Hero Content */}
         <div className="relative z-10 h-full flex flex-col justify-between px-[22.5px] pt-24 pb-10 max-sm:px-4">
           {/* Top Section */}
-          <div className="flex justify-between items-start">
+          <div>
             <h1 className="text-[80px] md:text-[120px] lg:text-[160px] font-normal leading-none text-white tracking-tight">
               ARTICLE
             </h1>
-            <span className="text-[80px] md:text-[120px] lg:text-[160px] font-light text-white/30">
-              {blogPosts.length}
-            </span>
           </div>
 
           {/* Bottom Content */}
