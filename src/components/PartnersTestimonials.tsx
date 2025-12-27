@@ -1,117 +1,82 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 
 const PartnersTestimonials: React.FC = () => {
-  const [currentTestimonial, setCurrentTestimonial] = useState(1);
-
   const testimonials = [
     {
       id: 1,
-      text: [
-        "My experience with Stevo was unreal—the best tattoo experience I've ever had. He's not only an incredible artist but also highly professional and genuinely friendly. He even flew in early after the holidays to make it happen.",
-        "His design skills are top-tier, and he worked closely with me to perfect the concept. We completed a full outer sleeve in three days (about 24 hours total), and despite the long sessions, the trauma was minimal. His technique is flawless, the healing process was smooth, and the final result looks just as stunning as his Instagram work.",
-        "The studio is spotless and professional, and Steven stays engaged even after the session, checking in on the healing process. He's a true artist, passionate about his craft, and an all-around great person to work with. If you're looking for unique, realistic work—Steven is the one."
-      ],
-      author: "HEMAN DANEY, FL"
+      title: "REACH OUT",
+      description: "Send a message expressing your interest. I respond personally (usually same day) with available consultation times."
     },
     {
       id: 2,
-      text: [
-        "Stevo exceeded all my expectations. From the first consultation to the final session, everything was handled with care and precision.",
-        "The attention to detail in his work is remarkable. Every line, every shade was placed with purpose.",
-        "I couldn't be happier with my tattoo. It's exactly what I envisioned and more."
-      ],
-      author: "MARCUS COLE, NY"
+      title: "CONSULTATION",
+      description: "Two-hour strategic conversation at Monolith Studio or via Zoom if necessary. No sales pressure. Real insight. Honest assessment of fit."
     },
     {
       id: 3,
-      text: [
-        "Working with Stevo was an incredible experience from start to finish.",
-        "His artistry and professionalism are unmatched. He took my ideas and elevated them beyond what I imagined.",
-        "The healing was perfect and the tattoo looks amazing months later."
-      ],
-      author: "SARAH MITCHELL, CA"
+      title: "DESIGN PHASE",
+      description: "After scheduling, I'll create custom designs based on our conversation. Your insights will help us get the most out of our time together."
     },
     {
       id: 4,
-      text: [
-        "Stevo is a true master of his craft. The realism in his work is breathtaking.",
-        "He made me feel comfortable throughout the entire process and was incredibly patient with all my questions.",
-        "I'm already planning my next piece with him."
-      ],
-      author: "JAMES RODRIGUEZ, TX"
+      title: "TRANSFORMATION",
+      description: "Work starts immediately with clear structure, defined outcomes, and consistent momentum. The journey begins."
     }
   ];
 
-  const partners = ["Bheppo", "Bishoprotary", "Kuro Sumi"];
-
   return (
-    <section className="box-border flex w-full flex-col items-start gap-[50px] relative bg-white m-0 pt-[80px] pb-[80px] px-[22.5px] max-md:px-5 max-md:py-10 max-sm:px-4 max-sm:py-6">
-      <ScrollReveal>
-        <div className="box-border self-stretch relative m-0 p-0">
-          <h2 className="text-[#323232] text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase">
-            Testimonials
-          </h2>
+    <section className="box-border flex w-full flex-col relative bg-[#f5f5f5] m-0 py-[100px] px-[22.5px] max-md:px-5 max-md:py-16 max-sm:px-4 max-sm:py-12">
+      {/* Section Label */}
+      <ScrollReveal className="mb-8">
+        <div className="flex items-center gap-3">
+          <span className="w-2 h-2 bg-[#323232] rounded-full" />
+          <span className="text-[#323232] text-[14px] font-normal tracking-[-0.02px]">
+            The Process
+          </span>
         </div>
       </ScrollReveal>
       
-      
-      <div className="box-border flex flex-col items-start gap-[26.9px] self-stretch relative m-0 pt-[40px] p-0">
-        <div className="box-border h-px self-stretch relative m-0 p-0 border-t-[#EAEAEA] border-t border-solid" />
-        
-        <div className="box-border flex items-start gap-10 self-stretch relative m-0 max-lg:flex-col">
-          <div className="lg:w-[450px] shrink-0" />
-          <div className="flex gap-[100px] max-lg:flex-col max-lg:gap-10 flex-1">
-            <h3 className="text-[#888] text-[17.4px] font-normal leading-[19.8px] tracking-[-0.027px] shrink-0">
-              Testimonials
-            </h3>
-            
-            <div className="flex-1 max-w-[451px] min-h-[300px]">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentTestimonial}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  <div className="flex flex-col gap-[19.3px] mb-6">
-                    {testimonials[currentTestimonial - 1].text.map((paragraph, index) => (
-                      <p key={index} className="text-[#323232] text-[17.4px] font-normal leading-[19.8px] tracking-[-0.027px] max-sm:text-sm max-sm:leading-4">
-                        {paragraph}
-                      </p>
-                    ))}
-                  </div>
-                  
-                  <span className="text-[#888] text-[19.7px] font-medium leading-5 tracking-[-0.202px] uppercase max-sm:text-base max-sm:leading-[18px]">
-                    {testimonials[currentTestimonial - 1].author}
-                  </span>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
-        </div>
-        
-        <div className="box-border h-px self-stretch relative m-0 p-0 border-t-[#EAEAEA] border-t border-solid" />
-        
-        <div className="box-border flex justify-between items-start self-stretch relative m-0 p-0 max-md:justify-center max-md:gap-5">
-          {[1, 2, 3, 4].map((num) => (
-            <motion.button
-              key={num}
-              onClick={() => setCurrentTestimonial(num)}
-              className={`box-border flex flex-col items-start self-stretch relative m-0 p-0 ${
-                currentTestimonial === num ? 'text-[#323232]' : 'text-[#BEBEBE]'
-              } hover:text-[#323232] transition-colors`}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
+      {/* Testimonials List */}
+      <div className="flex flex-col">
+        {testimonials.map((item, index) => (
+          <ScrollReveal key={item.id} delay={index * 0.1}>
+            <motion.div 
+              className="relative border-t border-[#d0d0d0] py-8 md:py-12"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
             >
-              <span className="box-border max-h-[45px] text-[40.5px] font-medium leading-[45px] tracking-[-0.607px] relative m-0 p-0 max-md:text-2xl max-md:leading-7 max-sm:text-lg max-sm:leading-[22px]">
-                {num}
-              </span>
-            </motion.button>
-          ))}
-        </div>
+              <div className="flex items-start gap-8 md:gap-16 lg:gap-32">
+                {/* Large Number */}
+                <div className="w-[120px] md:w-[200px] lg:w-[300px] shrink-0 relative">
+                  <span 
+                    className="text-[80px] md:text-[120px] lg:text-[180px] font-medium leading-none tracking-[-0.05em] text-transparent"
+                    style={{ 
+                      WebkitTextStroke: '1px #c0c0c0',
+                    }}
+                  >
+                    {String(item.id).padStart(2, '0')}
+                  </span>
+                </div>
+                
+                {/* Content */}
+                <div className="flex-1 pt-2 md:pt-4">
+                  <h3 className="text-[#323232] text-[24px] md:text-[32px] lg:text-[42px] font-medium leading-[1.1] tracking-[-0.03em] uppercase mb-4 md:mb-6">
+                    {item.title}
+                  </h3>
+                  <p className="text-[#666] text-[15px] md:text-[17px] font-normal leading-[1.5] tracking-[-0.02px] max-w-[500px]">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </ScrollReveal>
+        ))}
+        
+        {/* Final border */}
+        <div className="border-t border-[#d0d0d0]" />
       </div>
     </section>
   );
