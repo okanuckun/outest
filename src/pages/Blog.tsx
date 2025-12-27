@@ -158,27 +158,54 @@ const Blog = () => {
       </section>
 
       {/* Blog Grid Section */}
-      <section className="bg-white text-black py-20 px-[22.5px] max-sm:px-4">
-        {/* Filters */}
+      <section className="bg-[#E8E8E8] text-black py-20 px-[22.5px] max-sm:px-4">
+        {/* Title */}
         <ScrollReveal>
-          <div className="flex flex-wrap gap-4 mb-12 justify-between items-center">
-            <div className="flex flex-wrap gap-4">
-              <select className="bg-transparent border border-black/20 px-4 py-2 text-[13px] font-normal focus:outline-none">
-                <option>Newest to oldest</option>
-                <option>Oldest to newest</option>
-                <option>Top picks</option>
-              </select>
-              <select className="bg-transparent border border-black/20 px-4 py-2 text-[13px] font-normal focus:outline-none">
-                <option>All categories</option>
-                <option>Inspiration</option>
-                <option>Tattoo Styles</option>
-              </select>
+          <h2 className="text-[48px] md:text-[64px] lg:text-[80px] font-normal leading-none tracking-tight mb-12 italic">
+            All Articles
+          </h2>
+        </ScrollReveal>
+
+        {/* Filters */}
+        <ScrollReveal delay={0.1}>
+          <div className="flex flex-wrap justify-between items-center border-t border-b border-black/20 py-4 mb-8">
+            {/* Category Tabs */}
+            <div className="flex flex-wrap gap-6 md:gap-10">
+              {['ALL', 'TATTOOS', 'EDUCATION', 'CULTURE'].map((tab, index) => (
+                <button
+                  key={tab}
+                  className="flex items-center gap-2 text-[13px] font-normal tracking-wide hover:opacity-70 transition-opacity"
+                >
+                  <span className={`w-4 h-4 rounded-full border border-black flex items-center justify-center ${index === 0 ? 'bg-black' : ''}`}>
+                    {index === 0 && <span className="w-2 h-2 rounded-full bg-black" />}
+                  </span>
+                  {tab}
+                </button>
+              ))}
+            </div>
+
+            {/* Sort */}
+            <div className="flex items-center gap-2 text-[13px] font-normal mt-4 md:mt-0">
+              <span className="text-black/60">SORT BY:</span>
+              <button className="flex items-center gap-1 font-medium">
+                LATEST
+                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" className="mt-0.5">
+                  <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
             </div>
           </div>
         </ScrollReveal>
 
+        {/* Results Count */}
+        <ScrollReveal delay={0.15}>
+          <p className="text-[12px] font-normal text-black/60 tracking-wide mb-8">
+            SHOWING <span className="text-black font-medium">{blogPosts.length}</span> OF <span className="text-black font-medium">{blogPosts.length}</span> RESULTS
+          </p>
+        </ScrollReveal>
+
         {/* Blog Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
           {blogPosts.map((post, index) => (
             <ScrollReveal key={post.id} delay={index * 0.1}>
               <motion.article 
@@ -186,7 +213,7 @@ const Blog = () => {
                 whileHover={{ y: -5 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="relative overflow-hidden mb-4 aspect-[4/3]">
+                <div className="relative overflow-hidden mb-4 aspect-[4/5]">
                   <motion.img
                     src={post.image}
                     alt={post.title}
@@ -195,14 +222,19 @@ const Blog = () => {
                     transition={{ duration: 0.6 }}
                   />
                 </div>
-                <h3 className="text-[15px] font-normal mb-2 group-hover:opacity-70 transition-opacity">
+                {/* Meta Info */}
+                <div className="flex items-center justify-between text-[11px] font-normal tracking-wide text-black/60 mb-2">
+                  <div className="flex items-center gap-1">
+                    <span className="uppercase">{post.category}</span>
+                    <span>•</span>
+                    <span className="uppercase">{post.date}</span>
+                  </div>
+                  <span>5 MIN READ</span>
+                </div>
+                {/* Title */}
+                <h3 className="text-[16px] md:text-[18px] font-normal leading-snug group-hover:opacity-70 transition-opacity">
                   {post.title}
                 </h3>
-                <div className="flex items-center gap-2 text-black/50 text-[13px] font-normal">
-                  <span>{post.category}</span>
-                  <span>•</span>
-                  <span>{post.date}</span>
-                </div>
               </motion.article>
             </ScrollReveal>
           ))}
