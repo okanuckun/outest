@@ -1,12 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 
 const Footer: React.FC = () => {
-  const [email, setEmail] = React.useState('');
-
   const navigationLinks = [
     { name: "Home", to: "/" },
     { name: "About", to: "/about" },
@@ -14,79 +11,49 @@ const Footer: React.FC = () => {
     { name: "Article", to: "/blog" }
   ];
 
-  const footerLinks = [
-    { name: "Terms of use", to: "/terms" },
-    { name: "Aftercare", to: "/aftercare" },
-    { name: "Preparation", to: "/preparation" }
+  const styles = [
+    { name: "Abstract Tattoo", to: "/work?style=abstract" },
+    { name: "Minimalist Tattoo", to: "/work?style=minimalist" },
+    { name: "Geometric Tattoo", to: "/work?style=geometric" }
   ];
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle subscription logic here
-    console.log('Subscribed:', email);
-    setEmail('');
-  };
-
   return (
-    <footer className="box-border flex w-full flex-col relative bg-[#1a1a1a] m-0 pt-[60px] pb-[22.5px] px-[22.5px] max-md:px-5 max-md:py-10 max-sm:px-4 max-sm:py-6">
-      {/* Main Content */}
-      <ScrollReveal className="mb-16">
-        <address className="text-[#F6F6F6] text-[clamp(32px,6vw,72px)] font-medium leading-[1.05] tracking-[-0.03em] uppercase not-italic mb-12">
-          MONOLITH STUDIO<br />
-          77 WASHINGTON AVE<br />
-          BROOKLYN, NY
-        </address>
-        
-        {/* Subscribe Section */}
-        <div className="max-w-md">
-          <h3 className="text-[#888] text-[14px] font-medium leading-[18px] tracking-[-0.02px] uppercase mb-4">
-            Stay Updated
-          </h3>
-          <form onSubmit={handleSubscribe} className="flex gap-3">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="flex-1 bg-transparent border border-[#444] px-4 py-3 text-[#F6F6F6] text-sm placeholder:text-[#666] focus:outline-none focus:border-[#888] transition-colors"
-              required
-            />
-            <motion.button
-              type="submit"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="border border-[#444] px-6 py-3 text-[#F6F6F6] text-sm font-medium uppercase hover:bg-white/10 transition-colors"
-            >
-              Subscribe
-            </motion.button>
-          </form>
+    <footer className="relative bg-[#0a0a0a] text-white w-full overflow-hidden">
+      {/* Top Section - Contact Info */}
+      <ScrollReveal>
+        <div className="flex flex-col items-center justify-center pt-20 pb-16 px-6">
+          <motion.a 
+            href="tel:+12125551234"
+            className="text-[clamp(32px,8vw,80px)] font-light tracking-[-0.02em] hover:opacity-70 transition-opacity"
+            whileHover={{ scale: 1.02 }}
+          >
+            +1 212 555-1234
+          </motion.a>
+          <motion.a 
+            href="mailto:INFO@MONOLITH.COM"
+            className="text-[clamp(32px,8vw,80px)] font-light tracking-[-0.02em] hover:opacity-70 transition-opacity"
+            whileHover={{ scale: 1.02 }}
+          >
+            INFO@MONOLITH.COM
+          </motion.a>
         </div>
       </ScrollReveal>
-      
-      <div className="w-full h-px bg-white/20 mb-8" />
-      
-      {/* Bottom Section */}
-      <ScrollReveal delay={0.2}>
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
-          {/* Left: Copyright & Links */}
-          <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4 lg:gap-8">
-            <span className="text-[#666] text-[13px] font-normal leading-[16px] tracking-[-0.15px] uppercase">
-              Okan Uckun © 2025
-            </span>
-            
-            <div className="flex gap-[16px] flex-wrap">
-              {footerLinks.map((link) => (
+
+      {/* Middle Section - Links Row */}
+      <ScrollReveal delay={0.1}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-6 md:px-12 py-8 border-t border-white/10">
+          {/* Left - Navigation */}
+          <div className="flex flex-col gap-2">
+            <span className="text-[#666] text-[11px] uppercase tracking-wider mb-2">Navigation</span>
+            <div className="flex flex-wrap gap-x-6 gap-y-2">
+              {navigationLinks.map((link) => (
                 <motion.div 
                   key={link.name}
-                  whileHover={{ y: -2 }}
+                  whileHover={{ x: 4 }}
                   transition={{ duration: 0.2 }}
                 >
                   <Link to={link.to}>
-                    <span className="text-[#666] text-[13px] font-normal leading-[16px] tracking-[-0.15px] uppercase hover:text-[#F6F6F6] transition-colors">
+                    <span className="text-[#999] text-[13px] uppercase tracking-wide hover:text-white transition-colors">
                       {link.name}
                     </span>
                   </Link>
@@ -94,50 +61,73 @@ const Footer: React.FC = () => {
               ))}
             </div>
           </div>
-          
-          {/* Center: Navigation */}
-          <div className="flex gap-6 flex-wrap">
-            {navigationLinks.map((link) => (
-              <motion.div 
-                key={link.name}
-                whileHover={{ y: -2 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Link to={link.to}>
-                  <span className="text-[#888] text-[13px] font-normal leading-[16px] tracking-[-0.15px] uppercase hover:text-[#F6F6F6] transition-colors">
-                    {link.name}
-                  </span>
-                </Link>
-              </motion.div>
-            ))}
+
+          {/* Center - Address */}
+          <div className="flex flex-col items-start md:items-center gap-2">
+            <span className="text-[#666] text-[11px] uppercase tracking-wider mb-2">Address</span>
+            <address className="text-[#999] text-[13px] uppercase tracking-wide not-italic text-left md:text-center">
+              77 Washington Ave<br />
+              Brooklyn, NY 11205
+            </address>
           </div>
-          
-          {/* Right: Social & Back to Top */}
-          <div className="flex items-center gap-6">
+
+          {/* Right - Styles */}
+          <div className="flex flex-col items-start md:items-end gap-2">
+            <span className="text-[#666] text-[11px] uppercase tracking-wider mb-2">Styles</span>
+            <div className="flex flex-col items-start md:items-end gap-1">
+              {styles.map((style) => (
+                <motion.div 
+                  key={style.name}
+                  whileHover={{ x: -4 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Link to={style.to}>
+                    <span className="text-[#999] text-[13px] uppercase tracking-wide hover:text-white transition-colors">
+                      {style.name}
+                    </span>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </ScrollReveal>
+
+      {/* Bottom Section - Copyright & Large Text */}
+      <ScrollReveal delay={0.2}>
+        <div className="border-t border-white/10 px-6 md:px-12 py-6">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+            <span className="text-[#666] text-[11px] uppercase tracking-wider">
+              © 2025 All Rights Reserved
+            </span>
             <motion.a 
               href="https://instagram.com"
               target="_blank"
               rel="noopener noreferrer"
+              className="text-[#666] text-[11px] uppercase tracking-wider hover:text-white transition-colors"
               whileHover={{ y: -2 }}
-              transition={{ duration: 0.2 }}
-              className="text-[#888] text-[13px] font-normal leading-[16px] tracking-[-0.15px] uppercase hover:text-[#F6F6F6] transition-colors"
             >
-              Instagram
+              Instagram ↗
             </motion.a>
-            
-            <motion.button 
-              onClick={scrollToTop} 
-              className="hover:opacity-80 transition-opacity"
-              whileHover={{ y: -3 }}
-              whileTap={{ y: 0 }}
-            >
-              <span className="text-[#F6F6F6] text-[13px] font-medium leading-[16px] tracking-[-0.15px] uppercase">
-                Back to top ↑
-              </span>
-            </motion.button>
           </div>
         </div>
       </ScrollReveal>
+
+      {/* Giant Brand Text */}
+      <div className="relative overflow-hidden">
+        <motion.div 
+          className="text-[clamp(80px,25vw,300px)] font-bold leading-[0.85] tracking-[-0.04em] text-white/95 whitespace-nowrap px-6"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: true }}
+        >
+          MONOLITH
+        </motion.div>
+      </div>
+
+      {/* Bottom Padding */}
+      <div className="h-8" />
     </footer>
   );
 };
