@@ -6,9 +6,9 @@ import ScrollReveal from '@/components/animations/ScrollReveal';
 import StaggerChildren, { StaggerItem } from '@/components/animations/StaggerChildren';
 
 // Work images
-import work01 from '@/assets/work/work-01-optimized.webp';
-import work02 from '@/assets/work/work-02-optimized.webp';
-import work03 from '@/assets/work/work-03-optimized.webp';
+import work01 from '@/assets/work/work-01.webp';
+import work02 from '@/assets/work/work-02.webp';
+import work03 from '@/assets/work/work-03.webp';
 
 const FeaturedWork: React.FC = () => {
   const works = [
