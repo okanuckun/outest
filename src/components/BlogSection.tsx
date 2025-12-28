@@ -3,6 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import StaggerChildren, { StaggerItem } from '@/components/animations/StaggerChildren';
 
+import blogImage1 from '@/assets/work/Group_354.jpg';
+import blogImage2 from '@/assets/work/head1.jpg';
+import blogImage3 from '@/assets/work/Group_261.jpg';
+
 const BlogSection: React.FC = () => {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
 
@@ -13,7 +17,7 @@ const BlogSection: React.FC = () => {
       description: "Inspiration, Styles, and Aftercare Tips",
       category: "Inspiration",
       date: "July 29, 2025",
-      image: "https://images.unsplash.com/photo-1542359649-31e03cd4d909?w=500&h=450&fit=crop"
+      image: blogImage1
     },
     {
       id: 2,
@@ -21,7 +25,7 @@ const BlogSection: React.FC = () => {
       description: "A Perfect Canvas for Realism",
       category: "Inspiration",
       date: "May 18, 2025",
-      image: "https://images.unsplash.com/photo-1475823678248-624fc6f85785?w=500&h=450&fit=crop"
+      image: blogImage2
     },
     {
       id: 3,
@@ -29,7 +33,7 @@ const BlogSection: React.FC = () => {
       description: "Symbolism, Design Ideas, and Realism Style Guide",
       category: "Tattoo Styles",
       date: "May 17, 2025",
-      image: "https://images.unsplash.com/photo-1568515045052-f9a854d70bfd?w=500&h=450&fit=crop"
+      image: blogImage3
     }
   ];
 
