@@ -6,15 +6,15 @@ import ScrollReveal from '@/components/animations/ScrollReveal';
 import StaggerChildren, { StaggerItem } from '@/components/animations/StaggerChildren';
 
 // Work images
-import work01 from '@/assets/work/work-01.webp';
-import work02 from '@/assets/work/work-02.webp';
-import work03 from '@/assets/work/work-03.webp';
+import glitch1 from '@/assets/work/glitch1.png';
+import DSC03538 from '@/assets/work/DSC03538.jpg';
+import DSC00339 from '@/assets/work/DSC00339.jpg';
 
 const FeaturedWork: React.FC = () => {
   const works = [
-    { src: work01, alt: "Geometric tattoo design" },
-    { src: work02, alt: "Minimalist line tattoo" },
-    { src: work03, alt: "Abstract spine tattoo" }
+    { src: glitch1, alt: "Abstract geometric tattoo" },
+    { src: DSC03538, alt: "Minimalist neck tattoo" },
+    { src: DSC00339, alt: "Geometric circle tattoo" }
   ];
 
   return (
