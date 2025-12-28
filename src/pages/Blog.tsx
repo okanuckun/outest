@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import ScrollReveal from '@/components/animations/ScrollReveal';
+import Footer from '@/components/Footer';
 
 const blogPosts = [
   {
@@ -233,23 +234,7 @@ const Blog = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-black text-white py-16 px-[22.5px] max-sm:px-4">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-          <div>
-            <h3 className="text-[15px] font-normal uppercase mb-2">okan uckun</h3>
-            <p className="text-white/60 text-[13px] font-normal">Brooklyn, NY</p>
-          </div>
-          <div className="flex gap-8 text-[13px] font-normal">
-            <Link to="/" className="hover:text-white/60 transition-colors">Work</Link>
-            <Link to="/about" className="hover:text-white/60 transition-colors">About</Link>
-            <Link to="/blog" className="hover:text-white/60 transition-colors">Article</Link>
-            <Link to="/contact" className="hover:text-white/60 transition-colors">Contact</Link>
-          </div>
-        </div>
-        <div className="mt-12 pt-8 border-t border-white/10 text-center text-white/40 text-[13px] font-normal">
-          © 2025 Okan Uckun. All rights reserved.
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
