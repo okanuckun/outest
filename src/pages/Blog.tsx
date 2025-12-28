@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import Footer from '@/components/Footer';
-
+import Navigation from '@/components/Navigation';
 const blogPosts = [
   {
     id: 1,
@@ -44,30 +44,9 @@ const Blog = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-[22.5px] py-[18px] max-sm:px-4 max-sm:py-4">
-        <Link to="/" className="hover:opacity-70 transition-opacity">
-          <svg width="40" height="20" viewBox="0 0 40 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <line x1="2" y1="18" x2="38" y2="2" stroke="#F6F6F6" strokeWidth="1.5" strokeLinecap="round"/>
-          </svg>
-        </Link>
-        
-        <div className="hidden md:flex items-center text-[15px] font-normal tracking-[-0.15px] uppercase text-white/80">
-          <span>brooklyn, ny</span>
-        </div>
-
-        <div className="hidden md:flex items-center gap-[16px] text-[15px] font-normal tracking-[-0.15px] uppercase">
-          <Link to="/work" className="text-white/80 hover:text-white transition-colors">work</Link>
-          <Link to="/about" className="text-white/80 hover:text-white transition-colors">about</Link>
-          <Link to="/blog" className="text-white hover:text-white transition-colors">article</Link>
-        </div>
-
-        <Link 
-          to="/contact" 
-          className="text-[15px] font-normal tracking-[-0.15px] uppercase text-white hover:opacity-70 transition-opacity"
-        >
-          Book an appointment
-        </Link>
-      </nav>
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <Navigation />
+      </div>
 
       {/* Hero Slider */}
       <section className="relative h-screen overflow-hidden">
@@ -106,10 +85,10 @@ const Blog = () => {
             >
               {/* Category & Date */}
               <div className="flex items-center gap-3 mb-4">
-                <span className="bg-white text-black px-3 py-1 text-[11px] font-medium tracking-wider uppercase">
+                <span className="bg-background text-foreground px-3 py-1 text-[11px] font-medium tracking-wider uppercase">
                   {blogPosts[currentSlide].category}
                 </span>
-                <span className="text-white/60 text-[12px] tracking-wide">
+                <span className="text-primary-foreground/60 text-[12px] tracking-wide">
                   {blogPosts[currentSlide].date.toUpperCase()}
                 </span>
               </div>
@@ -150,7 +129,7 @@ const Blog = () => {
       </section>
 
       {/* Blog Grid Section */}
-      <section className="bg-[#E8E8E8] text-black py-20 px-[22.5px] max-sm:px-4">
+      <section className="bg-background text-foreground py-20 px-[22.5px] max-sm:px-4">
         {/* Title */}
         <ScrollReveal>
           <h2 className="text-[48px] md:text-[64px] lg:text-[80px] font-normal leading-none tracking-tight mb-12">
@@ -160,7 +139,7 @@ const Blog = () => {
 
         {/* Filters */}
         <ScrollReveal delay={0.1}>
-          <div className="flex flex-wrap justify-between items-center border-t border-b border-black/20 py-4 mb-8">
+          <div className="flex flex-wrap justify-between items-center border-t border-b border-foreground/20 py-4 mb-8">
             {/* Category Tabs */}
             <div className="flex flex-wrap gap-6 md:gap-10">
               {['ALL', 'TATTOOS', 'EDUCATION', 'CULTURE'].map((tab, index) => (
@@ -168,8 +147,8 @@ const Blog = () => {
                   key={tab}
                   className="flex items-center gap-2 text-[13px] font-normal tracking-wide hover:opacity-70 transition-opacity"
                 >
-                  <span className={`w-4 h-4 rounded-full border border-black flex items-center justify-center ${index === 0 ? 'bg-black' : ''}`}>
-                    {index === 0 && <span className="w-2 h-2 rounded-full bg-black" />}
+                  <span className={`w-4 h-4 rounded-full border border-foreground flex items-center justify-center ${index === 0 ? 'bg-foreground' : ''}`}>
+                    {index === 0 && <span className="w-2 h-2 rounded-full bg-foreground" />}
                   </span>
                   {tab}
                 </button>
@@ -178,7 +157,7 @@ const Blog = () => {
 
             {/* Sort */}
             <div className="flex items-center gap-2 text-[13px] font-normal mt-4 md:mt-0">
-              <span className="text-black/60">SORT BY:</span>
+              <span className="text-muted-foreground">SORT BY:</span>
               <button className="flex items-center gap-1 font-medium">
                 LATEST
                 <svg width="10" height="6" viewBox="0 0 10 6" fill="none" className="mt-0.5">
@@ -191,8 +170,8 @@ const Blog = () => {
 
         {/* Results Count */}
         <ScrollReveal delay={0.15}>
-          <p className="text-[12px] font-normal text-black/60 tracking-wide mb-8">
-            SHOWING <span className="text-black font-medium">{blogPosts.length}</span> OF <span className="text-black font-medium">{blogPosts.length}</span> RESULTS
+          <p className="text-[12px] font-normal text-muted-foreground tracking-wide mb-8">
+            SHOWING <span className="text-foreground font-medium">{blogPosts.length}</span> OF <span className="text-foreground font-medium">{blogPosts.length}</span> RESULTS
           </p>
         </ScrollReveal>
 
@@ -215,7 +194,7 @@ const Blog = () => {
                   />
                 </div>
                 {/* Meta Info */}
-                <div className="flex items-center justify-between text-[11px] font-normal tracking-wide text-black/60 mb-2">
+                <div className="flex items-center justify-between text-[11px] font-normal tracking-wide text-muted-foreground mb-2">
                   <div className="flex items-center gap-1">
                     <span className="uppercase">{post.category}</span>
                     <span>•</span>
