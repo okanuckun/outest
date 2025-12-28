@@ -22,6 +22,16 @@ import DAGSIRT from '@/assets/work/DAGSIRT.jpg';
 import IMG_1636 from '@/assets/work/IMG_1636.jpg';
 import IMG_1727 from '@/assets/work/IMG_1727.jpg';
 import Untitled1 from '@/assets/work/Untitled-1.jpg';
+import uuh2 from '@/assets/work/uuh2.jpg';
+import dec2 from '@/assets/work/dec2.jpg';
+import d4 from '@/assets/work/d4.jpg';
+import head1 from '@/assets/work/head1.jpg';
+import Group_354 from '@/assets/work/Group_354.jpg';
+import Group_240 from '@/assets/work/Group_240.jpg';
+import Group_261 from '@/assets/work/Group_261.jpg';
+import c3 from '@/assets/work/c3.jpg';
+import Group_315 from '@/assets/work/Group_315.jpg';
+import Group_351 from '@/assets/work/Group_351.jpg';
 
 const Work: React.FC = () => {
   const [currentPair, setCurrentPair] = useState(0);
@@ -42,15 +52,25 @@ const Work: React.FC = () => {
     { id: 7, src: IMG_1636 },
     { id: 8, src: IMG_1727 },
     { id: 9, src: Untitled1 },
-    { id: 10, src: work01 },
-    { id: 11, src: work02 },
-    { id: 12, src: work03 },
-    { id: 13, src: work04 },
-    { id: 14, src: work05 },
-    { id: 15, src: work06 },
-    { id: 16, src: work07 },
-    { id: 17, src: work08 },
-    { id: 18, src: work09 },
+    { id: 10, src: uuh2 },
+    { id: 11, src: dec2 },
+    { id: 12, src: d4 },
+    { id: 13, src: head1 },
+    { id: 14, src: Group_354 },
+    { id: 15, src: Group_240 },
+    { id: 16, src: Group_261 },
+    { id: 17, src: c3 },
+    { id: 18, src: Group_315 },
+    { id: 19, src: Group_351 },
+    { id: 20, src: work01 },
+    { id: 21, src: work02 },
+    { id: 22, src: work03 },
+    { id: 23, src: work04 },
+    { id: 24, src: work05 },
+    { id: 25, src: work06 },
+    { id: 26, src: work07 },
+    { id: 27, src: work08 },
+    { id: 28, src: work09 },
   ];
 
   // İkili çiftler halinde görseller
