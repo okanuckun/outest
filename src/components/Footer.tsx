@@ -31,9 +31,9 @@ const Footer: React.FC = () => {
           <span className="text-[11px] text-[#888] uppercase tracking-wider block mb-4">
             STYLES
           </span>
-          <div className="flex flex-wrap gap-4 md:gap-8">
+          <div className="flex justify-between items-center w-full">
             {styles.map((style) => (
-              <span key={style} className="text-sm md:text-base text-[#1a1a1a] font-medium">
+              <span key={style} className="text-[11px] text-[#1a1a1a] uppercase tracking-wider">
                 {style}
               </span>
             ))}
