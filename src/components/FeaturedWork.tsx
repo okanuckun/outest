@@ -9,22 +9,28 @@ import StaggerChildren, { StaggerItem } from '@/components/animations/StaggerChi
 import glitch1 from '@/assets/work/glitch1.png';
 import DSC03538 from '@/assets/work/DSC03538.jpg';
 import DSC00339 from '@/assets/work/DSC00339.jpg';
+import Group_354 from '@/assets/work/Group_354.jpg';
+import head1 from '@/assets/work/head1.jpg';
+import Group_261 from '@/assets/work/Group_261.jpg';
 
 const FeaturedWork: React.FC = () => {
   const works = [
     { src: glitch1, alt: "Abstract geometric tattoo" },
     { src: DSC03538, alt: "Minimalist neck tattoo" },
-    { src: DSC00339, alt: "Geometric circle tattoo" }
+    { src: DSC00339, alt: "Geometric circle tattoo" },
+    { src: Group_354, alt: "Fine line tattoo" },
+    { src: head1, alt: "Portrait tattoo" },
+    { src: Group_261, alt: "Blackwork tattoo" }
   ];
 
   return (
-    <section className="box-border flex w-full flex-col items-start gap-[31.5px] relative bg-white m-0 px-[22.5px] py-[80px] max-md:px-5 max-md:py-10 max-sm:px-4 max-sm:py-6">
+    <section className="box-border flex w-full flex-col items-start gap-[31.5px] relative bg-background m-0 px-[22.5px] py-[80px] max-md:px-5 max-md:py-10 max-sm:px-4 max-sm:py-6">
       <div className="box-border flex flex-col items-start gap-[72px] self-stretch relative m-0">
         <ScrollReveal>
           <div className="box-border flex justify-between items-end self-stretch relative m-0 p-0 flex-wrap gap-4">
             <h2 className="box-border flex flex-col items-start relative m-0 p-0">
-              <span className="box-border text-[#323232] text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase relative m-0 p-0">
-                Featured Work
+              <span className="box-border text-foreground text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase relative m-0 p-0">
+                Curated
               </span>
             </h2>
             <div className="box-border flex flex-col items-start relative m-0 p-0">
@@ -33,14 +39,14 @@ const FeaturedWork: React.FC = () => {
           </div>
         </ScrollReveal>
         
-        <StaggerChildren staggerDelay={0.15} className="box-border flex justify-center items-start gap-4 self-stretch relative m-0 p-0 max-md:flex-col max-md:gap-5">
+        <StaggerChildren staggerDelay={0.1} className="box-border grid grid-cols-6 gap-3 self-stretch relative m-0 p-0 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1">
           {works.map((work, index) => (
-            <StaggerItem key={index} className="box-border flex flex-col items-start flex-[1_0_0] self-stretch relative m-0 p-0">
+            <StaggerItem key={index} className="box-border flex flex-col items-start relative m-0 p-0">
               <Link to="/work" className="w-full h-full">
                 <motion.article 
                   whileHover={{ scale: 1.02 }} 
                   transition={{ duration: 0.3 }} 
-                  className="box-border flex flex-col justify-center items-start self-stretch aspect-[614.33/767.91] relative m-0 p-0 overflow-hidden cursor-pointer"
+                  className="box-border flex flex-col justify-center items-start self-stretch aspect-[1/1.8] relative m-0 p-0 overflow-hidden cursor-pointer"
                 >
                   <motion.img 
                     src={work.src} 
@@ -61,14 +67,14 @@ const FeaturedWork: React.FC = () => {
         <div className="box-border flex flex-col items-start self-stretch relative m-0 p-0">
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
             <Link to="/work">
-              <Button variant="outline" className="box-border flex justify-center items-center gap-[13.5px] border relative m-0 p-[13.5px] border-solid border-[#EAEAEA] font-medium">
+              <Button variant="outline" className="box-border flex justify-center items-center gap-[13.5px] border relative m-0 p-[13.5px] border-solid border-border font-medium">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g clipPath="url(#clip0_3_118)">
                     <mask id="mask0_3_118" style={{ maskType: 'luminance' }} maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="18">
                       <path d="M18 0H0V18H18V0Z" fill="white" />
                     </mask>
                     <g mask="url(#mask0_3_118)">
-                      <path d="M17.2542 11.1268L13.0994 6.97194M17.2542 11.1268L13.0994 15.2816M17.2542 11.1268H4.5V2.8125" stroke="#323232" strokeWidth="1.575" />
+                      <path d="M17.2542 11.1268L13.0994 6.97194M17.2542 11.1268L13.0994 15.2816M17.2542 11.1268H4.5V2.8125" stroke="currentColor" strokeWidth="1.575" />
                     </g>
                   </g>
                   <defs>
@@ -77,7 +83,7 @@ const FeaturedWork: React.FC = () => {
                     </clipPath>
                   </defs>
                 </svg>
-                <span className="box-border text-[#323232] text-[17.6px] font-medium leading-[19.8px] tracking-[-0.027px] uppercase">
+                <span className="box-border text-foreground text-[17.6px] font-medium leading-[19.8px] tracking-[-0.027px] uppercase">
                   See more work
                 </span>
               </Button>
