@@ -13,6 +13,15 @@ import work06 from '@/assets/work/work-06.jpg';
 import work07 from '@/assets/work/work-07.jpg';
 import work08 from '@/assets/work/work-08.jpg';
 import work09 from '@/assets/work/work-09.jpg';
+import glitch1 from '@/assets/work/glitch1.png';
+import DSC03538 from '@/assets/work/DSC03538.jpg';
+import DSC00339 from '@/assets/work/DSC00339.jpg';
+import b1 from '@/assets/work/b1.jpg';
+import a1 from '@/assets/work/a1.jpg';
+import DAGSIRT from '@/assets/work/DAGSIRT.jpg';
+import IMG_1636 from '@/assets/work/IMG_1636.jpg';
+import IMG_1727 from '@/assets/work/IMG_1727.jpg';
+import Untitled1 from '@/assets/work/Untitled-1.jpg';
 
 const Work: React.FC = () => {
   const [currentPair, setCurrentPair] = useState(0);
@@ -24,15 +33,24 @@ const Work: React.FC = () => {
 
   // Kendi fotoğraflarınız
   const works = [
-    { id: 1, src: work01 },
-    { id: 2, src: work02 },
-    { id: 3, src: work03 },
-    { id: 4, src: work04 },
-    { id: 5, src: work05 },
-    { id: 6, src: work06 },
-    { id: 7, src: work07 },
-    { id: 8, src: work08 },
-    { id: 9, src: work09 },
+    { id: 1, src: glitch1 },
+    { id: 2, src: DSC03538 },
+    { id: 3, src: DSC00339 },
+    { id: 4, src: b1 },
+    { id: 5, src: a1 },
+    { id: 6, src: DAGSIRT },
+    { id: 7, src: IMG_1636 },
+    { id: 8, src: IMG_1727 },
+    { id: 9, src: Untitled1 },
+    { id: 10, src: work01 },
+    { id: 11, src: work02 },
+    { id: 12, src: work03 },
+    { id: 13, src: work04 },
+    { id: 14, src: work05 },
+    { id: 15, src: work06 },
+    { id: 16, src: work07 },
+    { id: 17, src: work08 },
+    { id: 18, src: work09 },
   ];
 
   // İkili çiftler halinde görseller
