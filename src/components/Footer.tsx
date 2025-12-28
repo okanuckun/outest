@@ -57,15 +57,15 @@ const Footer: React.FC = () => {
       </ScrollReveal>
 
       {/* Giant Brand Text */}
-      <div className="relative overflow-hidden w-full px-0">
+      <div className="relative w-full">
         <motion.div
-          className="w-full font-black leading-[0.8] tracking-[-0.05em] text-[#1a1a1a] text-center md:text-left md:pl-0"
+          className="w-full font-black leading-[0.85] tracking-[-0.02em] text-[#1a1a1a] text-center whitespace-nowrap"
           style={{
-            fontSize: 'clamp(100px, 28vw, 450px)',
+            fontSize: 'min(18vw, 280px)',
           }}
           initial={{
             opacity: 0,
-            y: 80,
+            y: 40,
           }}
           whileInView={{
             opacity: 1,
@@ -82,6 +82,9 @@ const Footer: React.FC = () => {
           MONOLITH
         </motion.div>
       </div>
+      
+      {/* Bottom Padding */}
+      <div className="h-4" />
     </footer>
   );
 };
