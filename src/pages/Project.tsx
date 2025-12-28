@@ -6,12 +6,20 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import PageTransition from '@/components/animations/PageTransition';
 
+// Import images
+import heroImage1 from '@/assets/work/DSC03538.jpg';
+import heroImage2 from '@/assets/work/DSC00339.jpg';
+import heroImage3 from '@/assets/work/glitch1.png';
+import videoThumb from '@/assets/work/Group_351.jpg';
+import artImage from '@/assets/work/uuh2.jpg';
+import avatar1 from '@/assets/work/head1.jpg';
+import avatar2 from '@/assets/work/dec2.jpg';
+import projectImage1 from '@/assets/work/a1.jpg';
+import projectImage2 from '@/assets/work/b1.jpg';
+import projectImage3 from '@/assets/work/c3.jpg';
+
 // Hero slider images
-const heroImages = [
-  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=800&fit=crop',
-  'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=1200&h=800&fit=crop',
-  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1200&h=800&fit=crop',
-];
+const heroImages = [heroImage1, heroImage2, heroImage3];
 
 // Project cards data
 const projectCards = [
@@ -19,7 +27,7 @@ const projectCards = [
     id: 1,
     category: 'Current',
     title: 'Performance as a noise',
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop',
+    image: videoThumb,
     hasVideo: true,
   },
   {
@@ -27,7 +35,7 @@ const projectCards = [
     category: 'Art',
     title: 'Taschen: Dalí',
     subtitle: 'The paintings and bio.',
-    image: 'https://images.unsplash.com/photo-1549289524-06cf8837ace5?w=600&h=400&fit=crop',
+    image: artImage,
     accent: true,
   },
 ];
@@ -37,13 +45,13 @@ const latestPosts = [
     id: 1,
     title: 'Flying allegedly comments on Gaslamp Killer',
     date: '12 Oct',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=50&h=50&fit=crop',
+    avatar: avatar1,
   },
   {
     id: 2,
     title: "Tracing King Krule's devotio to the colour blue",
     date: '12 Oct',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop',
+    avatar: avatar2,
   },
 ];
 
@@ -180,7 +188,7 @@ const Project: React.FC = () => {
               transition={{ duration: 0.3 }}
             >
               <img
-                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop"
+                src={videoThumb}
                 alt="Video thumbnail"
                 className="w-full h-full object-cover"
               />
@@ -200,7 +208,7 @@ const Project: React.FC = () => {
               {/* Background Image */}
               <div className="absolute bottom-0 right-0 w-full h-2/3">
                 <img
-                  src="https://images.unsplash.com/photo-1549289524-06cf8837ace5?w=400&h=300&fit=crop"
+                  src={artImage}
                   alt="Art"
                   className="w-full h-full object-cover opacity-60"
                 />
@@ -253,21 +261,21 @@ const Project: React.FC = () => {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {[1, 2, 3].map((item) => (
+                {[projectImage1, projectImage2, projectImage3].map((image, index) => (
                   <motion.article
-                    key={item}
+                    key={index}
                     className="group cursor-pointer"
                     whileHover={{ y: -8 }}
                     transition={{ duration: 0.3 }}
                   >
                     <div className="aspect-[4/5] overflow-hidden rounded-lg mb-4">
                       <img
-                        src={`https://images.unsplash.com/photo-${1507003211169 + item * 100000}-0a1dd7228f2d?w=400&h=500&fit=crop`}
-                        alt={`Project ${item}`}
+                        src={image}
+                        alt={`Project ${index + 1}`}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
-                    <h3 className="text-lg text-foreground mb-1">Project Title {item}</h3>
+                    <h3 className="text-lg text-foreground mb-1">Project Title {index + 1}</h3>
                     <p className="text-sm text-foreground/50">Category</p>
                   </motion.article>
                 ))}
