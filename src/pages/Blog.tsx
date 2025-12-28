@@ -4,6 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import Footer from '@/components/Footer';
 import Navigation from '@/components/Navigation';
+
+import blogImage1 from '@/assets/work/Group_354.jpg';
+import blogImage2 from '@/assets/work/head1.jpg';
+import blogImage3 from '@/assets/work/Group_261.jpg';
+
 const blogPosts = [
   {
     id: 1,
@@ -11,7 +16,7 @@ const blogPosts = [
     category: "Inspiration",
     date: "May 18, 2025",
     description: "Forearm tattoos have surged in popularity as an ideal placement for both first-timers and seasoned collectors. In this guide, we explore why the forearm is a favorite canvas, especially for realism tattoos, covering design ideas, pain factors, and tips to plan your piece.",
-    image: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=1200&auto=format&fit=crop",
+    image: blogImage1,
   },
   {
     id: 2,
@@ -19,7 +24,7 @@ const blogPosts = [
     category: "Inspiration",
     date: "July 29, 2025",
     description: "Full sleeve tattoos represent the ultimate commitment to body art. Discover the most popular styles, from traditional Japanese to hyper-realistic portraits, and learn how to plan your sleeve journey.",
-    image: "https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=1200&auto=format&fit=crop",
+    image: blogImage2,
   },
   {
     id: 3,
@@ -27,7 +32,7 @@ const blogPosts = [
     category: "Tattoo Styles",
     date: "May 17, 2025",
     description: "Skull tattoos carry deep symbolism across cultures. From mortality reminders to rebellion symbols, explore the rich history and modern interpretations of skull designs in tattooing.",
-    image: "https://images.unsplash.com/photo-1565058379802-bbe93b2f703a?w=1200&auto=format&fit=crop",
+    image: blogImage3,
   },
 ];
 
