@@ -52,9 +52,9 @@ const Footer: React.FC = () => {
           {/* Left - Copyright */}
           <div className="mb-8 md:mb-0">
             <p className="text-sm text-[#1a1a1a] leading-relaxed">
-              All Rights<br />
-              Reserved<br />
-              © 2024
+              77 Washington Avenue<br />
+              Brooklyn<br />
+              NYC
             </p>
           </div>
 
