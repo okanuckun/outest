@@ -6,13 +6,13 @@ const Footer: React.FC = () => {
   const contactInfo = [
     {
       label: 'BUSINESS INQUIRIES',
-      value: 'newbiz@monolith.studio',
-      href: 'mailto:newbiz@monolith.studio',
+      value: 'hello@monolithstudio.com',
+      href: 'mailto:hello@monolithstudio.com',
     },
     {
       label: 'GENERAL',
-      value: 'hello@monolith.studio',
-      href: 'mailto:hello@monolith.studio',
+      value: 'okanuckun@gmail.com',
+      href: 'mailto:okanuckun@gmail.com',
     },
     {
       label: 'CALL US',
@@ -21,11 +21,34 @@ const Footer: React.FC = () => {
     },
   ];
 
+  const styles = ['GEOMETRIC TATTOO', 'ABSTRACT TATTOO', 'MINIMALIST TATTOO'];
+
   return (
     <footer className="relative bg-[#E8E4E0] text-[#1a1a1a] w-full overflow-hidden">
-      {/* Top Section - Info Row */}
+      {/* Styles Section */}
       <ScrollReveal>
-        <div className="flex flex-col md:flex-row justify-between items-start px-6 md:px-12 pt-32 pb-12">
+        <div className="px-6 md:px-12 pt-32 pb-8">
+          <span className="text-[11px] text-[#888] uppercase tracking-wider block mb-4">
+            STYLES
+          </span>
+          <div className="flex flex-wrap gap-4 md:gap-8">
+            {styles.map((style) => (
+              <span key={style} className="text-sm md:text-base text-[#1a1a1a] font-medium">
+                {style}
+              </span>
+            ))}
+          </div>
+        </div>
+      </ScrollReveal>
+
+      {/* Horizontal Line */}
+      <div className="w-full px-6 md:px-12">
+        <div className="w-full h-px bg-[#1a1a1a]/20" />
+      </div>
+
+      {/* Contact Info Row */}
+      <ScrollReveal>
+        <div className="flex flex-col md:flex-row justify-between items-start px-6 md:px-12 pt-8 pb-12">
           {/* Left - Copyright */}
           <div className="mb-8 md:mb-0">
             <p className="text-sm text-[#1a1a1a] leading-relaxed">
