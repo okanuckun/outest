@@ -38,13 +38,13 @@ const BlogSection: React.FC = () => {
   ];
 
   return (
-    <section className="box-border flex w-full flex-col items-start gap-[50px] relative bg-white m-0 py-[80px] px-[22.5px] max-md:px-5 max-md:py-10 max-sm:px-4 max-sm:py-6">
+    <section className="box-border flex w-full flex-col items-start gap-[50px] relative bg-background m-0 py-[80px] px-[22.5px] max-md:px-5 max-md:py-10 max-sm:px-4 max-sm:py-6">
       <ScrollReveal>
         <div className="box-border flex items-end justify-between self-stretch relative m-0 p-0 flex-wrap gap-4">
-          <h2 className="box-border text-[#323232] text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase relative m-0 p-0">
+          <h2 className="box-border text-foreground text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase relative m-0 p-0">
             Article
           </h2>
-          <div className="box-border text-[#BEBEBE] text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase relative m-0 p-0">
+          <div className="box-border text-muted-foreground text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase relative m-0 p-0">
             3
           </div>
         </div>
@@ -54,24 +54,24 @@ const BlogSection: React.FC = () => {
         {blogPosts.map((post, index) => (
           <StaggerItem key={post.id} className="w-full">
             <motion.article 
-              className="box-border flex flex-col items-start self-stretch relative m-0 p-0 cursor-pointer group border-t border-[#EAEAEA]"
+              className="box-border flex flex-col items-start self-stretch relative m-0 p-0 cursor-pointer group border-t border-border"
               onMouseEnter={() => setHoveredId(post.id)}
               onMouseLeave={() => setHoveredId(null)}
             >
               <div className="box-border flex items-center justify-between w-full py-6 relative">
                 {/* Left side - Number and Title */}
                 <div className="flex items-center gap-8 md:gap-16">
-                  <span className="text-[#888] text-sm font-normal uppercase tracking-wide min-w-[30px]">
+                  <span className="text-muted-foreground text-sm font-normal uppercase tracking-wide min-w-[30px]">
                     0{index + 1}
                   </span>
-                  <h3 className="text-[#323232] text-lg md:text-2xl lg:text-3xl font-medium uppercase tracking-tight">
+                  <h3 className="text-foreground text-lg md:text-2xl lg:text-3xl font-medium uppercase tracking-tight">
                     {post.title}
                   </h3>
                 </div>
                 
                 {/* Right side - Category */}
                 <div className="flex items-center gap-4 md:gap-8">
-                  <span className="text-[#888] text-sm md:text-base font-normal uppercase tracking-wide max-md:hidden">
+                  <span className="text-muted-foreground text-sm md:text-base font-normal uppercase tracking-wide max-md:hidden">
                     {post.category}
                   </span>
                   <motion.svg 
@@ -83,7 +83,7 @@ const BlogSection: React.FC = () => {
                     animate={{ rotate: hoveredId === post.id ? 45 : 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#323232" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" className="text-foreground" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </motion.svg>
                 </div>
               </div>
@@ -111,10 +111,10 @@ const BlogSection: React.FC = () => {
                         />
                       </div>
                       <div className="flex flex-col gap-3">
-                        <p className="text-[#666] text-sm md:text-base font-normal max-w-md">
+                        <p className="text-muted-foreground text-sm md:text-base font-normal max-w-md">
                           {post.description}
                         </p>
-                        <span className="text-[#888] text-xs md:text-sm font-normal uppercase tracking-wide">
+                        <span className="text-muted-foreground text-xs md:text-sm font-normal uppercase tracking-wide">
                           {post.date}
                         </span>
                       </div>
@@ -126,7 +126,7 @@ const BlogSection: React.FC = () => {
           </StaggerItem>
         ))}
         {/* Bottom border for last item */}
-        <div className="w-full border-t border-[#EAEAEA]" />
+        <div className="w-full border-t border-border" />
       </StaggerChildren>
     </section>
   );
