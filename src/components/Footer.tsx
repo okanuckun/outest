@@ -51,11 +51,18 @@ const Footer: React.FC = () => {
         <div className="flex flex-col md:flex-row justify-between items-start px-6 md:px-12 pt-8 pb-12">
           {/* Left - Copyright */}
           <div className="mb-8 md:mb-0">
-            <p className="text-sm text-[#1a1a1a] leading-relaxed">
+            <motion.a
+              href="https://www.google.com/maps/search/77+Washington+Avenue+Brooklyn+NYC"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-[#1a1a1a] leading-relaxed hover:opacity-60 transition-opacity block"
+              whileHover={{ x: 4 }}
+              transition={{ duration: 0.2 }}
+            >
               77 Washington Avenue<br />
               Brooklyn<br />
               NYC
-            </p>
+            </motion.a>
           </div>
 
           {/* Right - Contact Info */}
