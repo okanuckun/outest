@@ -42,7 +42,7 @@ const Navigation: React.FC = () => {
             transition={{ delay: 0.4, duration: 0.5 }}
             className="box-border inline-flex items-center gap-[16px] relative m-0 p-0 max-md:hidden"
           >
-            {['work', 'About', 'Article'].map((item) => (
+            {['work', 'About', 'Article', 'Project'].map((item) => (
               <motion.div 
                 key={item}
                 className="box-border flex flex-col items-start relative m-0 p-0"
