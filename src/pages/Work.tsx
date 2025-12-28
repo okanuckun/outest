@@ -4,15 +4,6 @@ import { Link } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 
 // Work images
-import work01 from '@/assets/work/work-01.webp';
-import work02 from '@/assets/work/work-02.webp';
-import work03 from '@/assets/work/work-03.webp';
-import work04 from '@/assets/work/work-04.jpg';
-import work05 from '@/assets/work/work-05.jpg';
-import work06 from '@/assets/work/work-06.jpg';
-import work07 from '@/assets/work/work-07.jpg';
-import work08 from '@/assets/work/work-08.jpg';
-import work09 from '@/assets/work/work-09.jpg';
 import glitch1 from '@/assets/work/glitch1.png';
 import DSC03538 from '@/assets/work/DSC03538.jpg';
 import DSC00339 from '@/assets/work/DSC00339.jpg';
@@ -62,15 +53,6 @@ const Work: React.FC = () => {
     { id: 17, src: c3 },
     { id: 18, src: Group_315 },
     { id: 19, src: Group_351 },
-    { id: 20, src: work01 },
-    { id: 21, src: work02 },
-    { id: 22, src: work03 },
-    { id: 23, src: work04 },
-    { id: 24, src: work05 },
-    { id: 25, src: work06 },
-    { id: 26, src: work07 },
-    { id: 27, src: work08 },
-    { id: 28, src: work09 },
   ];
 
   // İkili çiftler halinde görseller
