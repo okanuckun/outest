@@ -4,19 +4,44 @@ import { Link } from 'react-router-dom';
 import Footer from '@/components/Footer';
 import Navigation from '@/components/Navigation';
 import ScrollReveal from '@/components/animations/ScrollReveal';
+import SEOHead from '@/components/SEOHead';
 import aboutImage2 from '@/assets/about-image-2.webp';
 import aboutImage3 from '@/assets/about-image-3.webp';
 import aboutHero from '@/assets/about-hero.jpg';
 import aboutBottom from '@/assets/about-bottom.jpg';
 import aboutPortrait from '@/assets/about-portrait.jpg';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Okan Uckun',
+  jobTitle: 'Tattoo Artist',
+  description: 'Pioneer of minimalist and geometric tattoos, co-founder of Monolith Studio in New York City.',
+  url: 'https://okanuckun.com/about',
+  sameAs: ['https://instagram.com/okanuckun'],
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Monolith Studio'
+  }
+};
+
 const About: React.FC = () => {
-  return <motion.div initial={{
-    opacity: 0
-  }} animate={{
-    opacity: 1
-  }} transition={{
-    duration: 0.5
-  }} className="box-border w-full min-h-screen relative overflow-x-hidden bg-white m-0 p-0">
+  return (
+    <>
+      <SEOHead
+        title="About Okan Uckun | Tattoo Artist NYC"
+        description="Learn about Okan Uckun, a pioneer of minimalist and geometric tattoos based in NYC. Architecture degree, Master's in Modern Art, and co-founder of Monolith Studio."
+        keywords="Okan Uckun, tattoo artist biography, NYC tattoo artist, minimalist tattoo, geometric tattoo, Monolith Studio"
+        canonical="/about"
+        jsonLd={jsonLd}
+      />
+      <motion.div initial={{
+        opacity: 0
+      }} animate={{
+        opacity: 1
+      }} transition={{
+        duration: 0.5
+      }} className="box-border w-full min-h-screen relative overflow-x-hidden bg-white m-0 p-0">
       {/* Navigation */}
       <div className="absolute top-0 left-0 right-0 z-50">
         <Navigation variant="dark" />
@@ -206,6 +231,8 @@ const About: React.FC = () => {
       
 
       <Footer />
-    </motion.div>;
+      </motion.div>
+    </>
+  );
 };
 export default About;

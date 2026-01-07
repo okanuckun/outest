@@ -4,10 +4,23 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import Footer from '@/components/Footer';
 import Navigation from '@/components/Navigation';
+import SEOHead from '@/components/SEOHead';
 
 import blogImage1 from '@/assets/work/Group_354.jpg';
 import blogImage2 from '@/assets/work/head1.jpg';
 import blogImage3 from '@/assets/work/Group_261.jpg';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: 'Okan Uckun Tattoo Blog',
+  description: 'Articles about tattoo art, styles, symbolism, and inspiration from NYC tattoo artist Okan Uckun.',
+  url: 'https://okanuckun.com/blog',
+  author: {
+    '@type': 'Person',
+    name: 'Okan Uckun'
+  }
+};
 
 const blogPosts = [
   {
@@ -68,7 +81,15 @@ const Blog = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <>
+      <SEOHead
+        title="Blog | Okan Uckun Tattoo Articles & Inspiration"
+        description="Read articles about tattoo art, styles, symbolism, and inspiration from NYC tattoo artist Okan Uckun. Tips on placement, designs, and more."
+        keywords="tattoo blog, tattoo articles, tattoo inspiration, tattoo styles, forearm tattoo, sleeve tattoo, skull tattoo"
+        canonical="/blog"
+        jsonLd={jsonLd}
+      />
+      <div className="min-h-screen bg-background text-foreground">
       {/* Navigation */}
       <div className="fixed top-0 left-0 right-0 z-50">
         <Navigation />
@@ -246,7 +267,8 @@ const Blog = () => {
 
       {/* Footer */}
       <Footer />
-    </div>
+      </div>
+    </>
   );
 };
 
