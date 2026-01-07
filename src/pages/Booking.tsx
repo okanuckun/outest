@@ -35,6 +35,7 @@ const Booking: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const placementFileInputRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [answerLater, setAnswerLater] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [placementPhotos, setPlacementPhotos] = useState<UploadedFile[]>([]);
   const [formData, setFormData] = useState<FormData>({
@@ -397,7 +398,28 @@ const Booking: React.FC = () => {
                 </div>
               </div>
 
+              {/* Answer Later Option */}
+              <div className="bg-white/50 border border-[#1a1a1a]/10 p-6">
+                <label className="flex items-start gap-4 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={answerLater}
+                    onChange={(e) => setAnswerLater(e.target.checked)}
+                    className="mt-1 w-4 h-4 accent-[#1a1a1a]"
+                  />
+                  <div>
+                    <span className="text-[#1a1a1a] text-sm font-medium">
+                      I would like to answer the following questions later
+                    </span>
+                    <p className="text-[#1a1a1a]/60 text-sm mt-2">
+                      We will receive your appointment request with your general information and start the process. The remaining questions will be sent to you via email to complete at your convenience.
+                    </p>
+                  </div>
+                </label>
+              </div>
+
               {/* Placement Section */}
+              {!answerLater && (
               <div>
                 <div className="flex justify-between items-center mb-8 border-b border-[#1a1a1a]/20 pb-4">
                   <h2 className="text-[#1a1a1a]/60 text-sm uppercase tracking-wider">
@@ -405,16 +427,15 @@ const Booking: React.FC = () => {
                   </h2>
                 </div>
 
-                <p className="text-[#1a1a1a]/80 mb-6 leading-relaxed">
+                <p className="text-[#1a1a1a]/80 mb-6 leading-relaxed text-sm">
                   Share photos of your chosen tattoo placement, marked with a pen. Photos from multiple angles will help me determine the perfect design.
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   <div>
-                    <label className="block text-[#1a1a1a] text-sm mb-2">Placement area*</label>
+                    <label className="block text-[#1a1a1a] text-sm mb-2">Placement area</label>
                     <input
                       type="text"
-                      required
                       value={formData.tattooPlacement}
                       onChange={(e) => handleInputChange('tattooPlacement', e.target.value)}
                       placeholder="e.g., forearm, back, chest"
@@ -422,10 +443,9 @@ const Booking: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-[#1a1a1a] text-sm mb-2">Approximate size*</label>
+                    <label className="block text-[#1a1a1a] text-sm mb-2">Approximate size</label>
                     <input
                       type="text"
-                      required
                       value={formData.tattooSize}
                       onChange={(e) => handleInputChange('tattooSize', e.target.value)}
                       placeholder="e.g., 10cm x 15cm"
@@ -443,8 +463,10 @@ const Booking: React.FC = () => {
                   description="Upload pen-marked photos from multiple angles"
                 />
               </div>
+              )}
 
               {/* Inspiration Section */}
+              {!answerLater && (
               <div>
                 <div className="flex justify-between items-center mb-8 border-b border-[#1a1a1a]/20 pb-4">
                   <h2 className="text-[#1a1a1a]/60 text-sm uppercase tracking-wider">
@@ -494,8 +516,10 @@ const Booking: React.FC = () => {
                   />
                 </div>
               </div>
+              )}
 
               {/* Story Section */}
+              {!answerLater && (
               <div>
                 <div className="flex justify-between items-center mb-8 border-b border-[#1a1a1a]/20 pb-4">
                   <h2 className="text-[#1a1a1a]/60 text-sm uppercase tracking-wider">
@@ -515,8 +539,10 @@ const Booking: React.FC = () => {
                   className="w-full bg-white border border-[#1a1a1a]/20 px-3 py-2.5 text-sm text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors resize-none"
                 />
               </div>
+              )}
 
               {/* Scheduling */}
+              {!answerLater && (
               <div>
                 <div className="flex justify-between items-center mb-8 border-b border-[#1a1a1a]/20 pb-4">
                   <h2 className="text-[#1a1a1a]/60 text-sm uppercase tracking-wider">
@@ -548,6 +574,7 @@ const Booking: React.FC = () => {
                   />
                 </div>
               </div>
+              )}
 
               {/* Submit Button */}
               <motion.button
