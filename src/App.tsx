@@ -12,6 +12,8 @@ import BlogPost from "./pages/BlogPost";
 import Work from "./pages/Work";
 import Project from "./pages/Project";
 import Booking from "./pages/Booking";
+import Auth from "./pages/Auth";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient({
@@ -65,6 +67,8 @@ const AnimatedRoutes = () => {
           <Route path="/work" element={<Work />} />
           <Route path="/project" element={<Project />} />
           <Route path="/booking" element={<Booking />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/admin" element={<Admin />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -1,0 +1,755 @@
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/hooks/use-toast';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { 
+  LogOut, 
+  Plus, 
+  Trash2, 
+  Edit, 
+  Save, 
+  X, 
+  Upload,
+  FileText,
+  FolderOpen,
+  AlertCircle
+} from 'lucide-react';
+
+interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  description: string | null;
+  content: string | null;
+  category: string | null;
+  tags: string[] | null;
+  image_url: string | null;
+  published: boolean | null;
+  author_name: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+interface Project {
+  id: string;
+  title: string;
+  category: string | null;
+  year: string | null;
+  location: string | null;
+  images: string[] | null;
+  published: boolean | null;
+  display_order: number | null;
+  created_at: string;
+  updated_at: string;
+}
+
+const Admin: React.FC = () => {
+  const { user, loading, isAdmin, signOut } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [editingBlog, setEditingBlog] = useState<BlogPost | null>(null);
+  const [editingProject, setEditingProject] = useState<Project | null>(null);
+  const [isNewBlog, setIsNewBlog] = useState(false);
+  const [isNewProject, setIsNewProject] = useState(false);
+  const [uploading, setUploading] = useState(false);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/auth');
+    }
+  }, [user, loading, navigate]);
+
+  useEffect(() => {
+    if (user && isAdmin) {
+      fetchBlogPosts();
+      fetchProjects();
+    }
+  }, [user, isAdmin]);
+
+  const fetchBlogPosts = async () => {
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (!error && data) {
+      setBlogPosts(data);
+    }
+  };
+
+  const fetchProjects = async () => {
+    const { data, error } = await supabase
+      .from('projects')
+      .select('*')
+      .order('display_order', { ascending: true });
+
+    if (!error && data) {
+      setProjects(data);
+    }
+  };
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/');
+  };
+
+  const uploadImage = async (file: File): Promise<string | null> => {
+    setUploading(true);
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}.${fileExt}`;
+    const filePath = `${fileName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from('content-images')
+      .upload(filePath, file);
+
+    setUploading(false);
+
+    if (uploadError) {
+      toast({
+        title: 'Yükleme Hatası',
+        description: uploadError.message,
+        variant: 'destructive',
+      });
+      return null;
+    }
+
+    const { data } = supabase.storage
+      .from('content-images')
+      .getPublicUrl(filePath);
+
+    return data.publicUrl;
+  };
+
+  const handleImageUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    type: 'blog' | 'project'
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const url = await uploadImage(file);
+    if (!url) return;
+
+    if (type === 'blog' && editingBlog) {
+      setEditingBlog({ ...editingBlog, image_url: url });
+    } else if (type === 'project' && editingProject) {
+      const currentImages = editingProject.images || [];
+      setEditingProject({ ...editingProject, images: [...currentImages, url] });
+    }
+  };
+
+  const saveBlogPost = async () => {
+    if (!editingBlog) return;
+
+    const slug = editingBlog.slug || editingBlog.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+
+    const postData = {
+      ...editingBlog,
+      slug,
+    };
+
+    if (isNewBlog) {
+      const { error } = await supabase
+        .from('blog_posts')
+        .insert([postData]);
+
+      if (error) {
+        toast({
+          title: 'Hata',
+          description: error.message,
+          variant: 'destructive',
+        });
+      } else {
+        toast({ title: 'Blog yazısı oluşturuldu' });
+        fetchBlogPosts();
+      }
+    } else {
+      const { error } = await supabase
+        .from('blog_posts')
+        .update(postData)
+        .eq('id', editingBlog.id);
+
+      if (error) {
+        toast({
+          title: 'Hata',
+          description: error.message,
+          variant: 'destructive',
+        });
+      } else {
+        toast({ title: 'Blog yazısı güncellendi' });
+        fetchBlogPosts();
+      }
+    }
+
+    setEditingBlog(null);
+    setIsNewBlog(false);
+  };
+
+  const deleteBlogPost = async (id: string) => {
+    const { error } = await supabase
+      .from('blog_posts')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      toast({
+        title: 'Hata',
+        description: error.message,
+        variant: 'destructive',
+      });
+    } else {
+      toast({ title: 'Blog yazısı silindi' });
+      fetchBlogPosts();
+    }
+  };
+
+  const saveProject = async () => {
+    if (!editingProject) return;
+
+    if (isNewProject) {
+      const { error } = await supabase
+        .from('projects')
+        .insert([editingProject]);
+
+      if (error) {
+        toast({
+          title: 'Hata',
+          description: error.message,
+          variant: 'destructive',
+        });
+      } else {
+        toast({ title: 'Proje oluşturuldu' });
+        fetchProjects();
+      }
+    } else {
+      const { error } = await supabase
+        .from('projects')
+        .update(editingProject)
+        .eq('id', editingProject.id);
+
+      if (error) {
+        toast({
+          title: 'Hata',
+          description: error.message,
+          variant: 'destructive',
+        });
+      } else {
+        toast({ title: 'Proje güncellendi' });
+        fetchProjects();
+      }
+    }
+
+    setEditingProject(null);
+    setIsNewProject(false);
+  };
+
+  const deleteProject = async (id: string) => {
+    const { error } = await supabase
+      .from('projects')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      toast({
+        title: 'Hata',
+        description: error.message,
+        variant: 'destructive',
+      });
+    } else {
+      toast({ title: 'Proje silindi' });
+      fetchProjects();
+    }
+  };
+
+  const removeProjectImage = (index: number) => {
+    if (!editingProject) return;
+    const newImages = [...(editingProject.images || [])];
+    newImages.splice(index, 1);
+    setEditingProject({ ...editingProject, images: newImages });
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <p className="text-muted-foreground">Yükleniyor...</p>
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center px-4">
+        <div className="text-center">
+          <AlertCircle size={48} className="mx-auto mb-4 text-muted-foreground" />
+          <h1 className="text-2xl font-medium mb-2 text-foreground">Erişim Reddedildi</h1>
+          <p className="text-muted-foreground mb-6">
+            Bu sayfaya erişim yetkiniz bulunmamaktadır.
+          </p>
+          <Button onClick={() => navigate('/')}>Ana Sayfaya Dön</Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <header className="border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+          <h1 className="text-xl font-medium text-foreground">Admin Panel</h1>
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-muted-foreground">{user?.email}</span>
+            <Button variant="ghost" size="sm" onClick={handleLogout}>
+              <LogOut size={18} className="mr-2" />
+              Çıkış
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      <main className="max-w-7xl mx-auto px-4 py-8">
+        <Tabs defaultValue="blogs" className="space-y-6">
+          <TabsList>
+            <TabsTrigger value="blogs" className="gap-2">
+              <FileText size={16} />
+              Blog Yazıları
+            </TabsTrigger>
+            <TabsTrigger value="projects" className="gap-2">
+              <FolderOpen size={16} />
+              Projeler
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="blogs" className="space-y-6">
+            <div className="flex justify-between items-center">
+              <h2 className="text-lg font-medium text-foreground">Blog Yazıları</h2>
+              <Button
+                onClick={() => {
+                  setEditingBlog({
+                    id: '',
+                    slug: '',
+                    title: '',
+                    description: '',
+                    content: '',
+                    category: '',
+                    tags: [],
+                    image_url: '',
+                    published: false,
+                    author_name: 'Okan Ağaoğlu',
+                    created_at: '',
+                    updated_at: '',
+                  });
+                  setIsNewBlog(true);
+                }}
+              >
+                <Plus size={16} className="mr-2" />
+                Yeni Blog
+              </Button>
+            </div>
+
+            {editingBlog && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="border border-border p-6 space-y-4"
+              >
+                <div className="flex justify-between items-center">
+                  <h3 className="font-medium text-foreground">
+                    {isNewBlog ? 'Yeni Blog Yazısı' : 'Blog Düzenle'}
+                  </h3>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      setEditingBlog(null);
+                      setIsNewBlog(false);
+                    }}
+                  >
+                    <X size={16} />
+                  </Button>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Başlık</Label>
+                    <Input
+                      value={editingBlog.title}
+                      onChange={(e) =>
+                        setEditingBlog({ ...editingBlog, title: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Slug (URL)</Label>
+                    <Input
+                      value={editingBlog.slug}
+                      onChange={(e) =>
+                        setEditingBlog({ ...editingBlog, slug: e.target.value })
+                      }
+                      placeholder="otomatik-olusturulur"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Kategori</Label>
+                    <Input
+                      value={editingBlog.category || ''}
+                      onChange={(e) =>
+                        setEditingBlog({ ...editingBlog, category: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Etiketler (virgülle ayırın)</Label>
+                    <Input
+                      value={editingBlog.tags?.join(', ') || ''}
+                      onChange={(e) =>
+                        setEditingBlog({
+                          ...editingBlog,
+                          tags: e.target.value.split(',').map((t) => t.trim()),
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Açıklama</Label>
+                  <Textarea
+                    value={editingBlog.description || ''}
+                    onChange={(e) =>
+                      setEditingBlog({ ...editingBlog, description: e.target.value })
+                    }
+                    rows={2}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>İçerik</Label>
+                  <Textarea
+                    value={editingBlog.content || ''}
+                    onChange={(e) =>
+                      setEditingBlog({ ...editingBlog, content: e.target.value })
+                    }
+                    rows={10}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Görsel</Label>
+                  <div className="flex items-center gap-4">
+                    {editingBlog.image_url && (
+                      <img
+                        src={editingBlog.image_url}
+                        alt="Preview"
+                        className="w-24 h-24 object-cover"
+                      />
+                    )}
+                    <label className="cursor-pointer">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => handleImageUpload(e, 'blog')}
+                      />
+                      <div className="flex items-center gap-2 px-4 py-2 border border-border hover:bg-accent transition-colors">
+                        <Upload size={16} />
+                        {uploading ? 'Yükleniyor...' : 'Görsel Yükle'}
+                      </div>
+                    </label>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Switch
+                    checked={editingBlog.published || false}
+                    onCheckedChange={(checked) =>
+                      setEditingBlog({ ...editingBlog, published: checked })
+                    }
+                  />
+                  <Label>Yayınla</Label>
+                </div>
+
+                <Button onClick={saveBlogPost}>
+                  <Save size={16} className="mr-2" />
+                  Kaydet
+                </Button>
+              </motion.div>
+            )}
+
+            <div className="space-y-2">
+              {blogPosts.map((post) => (
+                <div
+                  key={post.id}
+                  className="flex items-center justify-between p-4 border border-border"
+                >
+                  <div className="flex items-center gap-4">
+                    {post.image_url && (
+                      <img
+                        src={post.image_url}
+                        alt={post.title}
+                        className="w-16 h-16 object-cover"
+                      />
+                    )}
+                    <div>
+                      <h4 className="font-medium text-foreground">{post.title}</h4>
+                      <p className="text-sm text-muted-foreground">
+                        {post.category} • {post.published ? 'Yayında' : 'Taslak'}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        setEditingBlog(post);
+                        setIsNewBlog(false);
+                      }}
+                    >
+                      <Edit size={16} />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => deleteBlogPost(post.id)}
+                    >
+                      <Trash2 size={16} />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+
+              {blogPosts.length === 0 && (
+                <p className="text-center text-muted-foreground py-8">
+                  Henüz blog yazısı yok.
+                </p>
+              )}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="projects" className="space-y-6">
+            <div className="flex justify-between items-center">
+              <h2 className="text-lg font-medium text-foreground">Projeler</h2>
+              <Button
+                onClick={() => {
+                  setEditingProject({
+                    id: '',
+                    title: '',
+                    category: '',
+                    year: new Date().getFullYear().toString(),
+                    location: '',
+                    images: [],
+                    published: false,
+                    display_order: projects.length,
+                    created_at: '',
+                    updated_at: '',
+                  });
+                  setIsNewProject(true);
+                }}
+              >
+                <Plus size={16} className="mr-2" />
+                Yeni Proje
+              </Button>
+            </div>
+
+            {editingProject && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="border border-border p-6 space-y-4"
+              >
+                <div className="flex justify-between items-center">
+                  <h3 className="font-medium text-foreground">
+                    {isNewProject ? 'Yeni Proje' : 'Proje Düzenle'}
+                  </h3>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      setEditingProject(null);
+                      setIsNewProject(false);
+                    }}
+                  >
+                    <X size={16} />
+                  </Button>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Başlık</Label>
+                    <Input
+                      value={editingProject.title}
+                      onChange={(e) =>
+                        setEditingProject({ ...editingProject, title: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Kategori</Label>
+                    <Input
+                      value={editingProject.category || ''}
+                      onChange={(e) =>
+                        setEditingProject({ ...editingProject, category: e.target.value })
+                      }
+                    />
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Yıl</Label>
+                    <Input
+                      value={editingProject.year || ''}
+                      onChange={(e) =>
+                        setEditingProject({ ...editingProject, year: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Lokasyon</Label>
+                    <Input
+                      value={editingProject.location || ''}
+                      onChange={(e) =>
+                        setEditingProject({ ...editingProject, location: e.target.value })
+                      }
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Sıralama</Label>
+                  <Input
+                    type="number"
+                    value={editingProject.display_order || 0}
+                    onChange={(e) =>
+                      setEditingProject({
+                        ...editingProject,
+                        display_order: parseInt(e.target.value) || 0,
+                      })
+                    }
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Görseller</Label>
+                  <div className="flex flex-wrap gap-2">
+                    {editingProject.images?.map((img, index) => (
+                      <div key={index} className="relative">
+                        <img
+                          src={img}
+                          alt={`Project ${index + 1}`}
+                          className="w-24 h-24 object-cover"
+                        />
+                        <button
+                          onClick={() => removeProjectImage(index)}
+                          className="absolute -top-2 -right-2 w-6 h-6 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center"
+                        >
+                          <X size={12} />
+                        </button>
+                      </div>
+                    ))}
+                    <label className="cursor-pointer">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => handleImageUpload(e, 'project')}
+                      />
+                      <div className="w-24 h-24 border border-dashed border-border flex items-center justify-center hover:bg-accent transition-colors">
+                        <Plus size={24} className="text-muted-foreground" />
+                      </div>
+                    </label>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Switch
+                    checked={editingProject.published || false}
+                    onCheckedChange={(checked) =>
+                      setEditingProject({ ...editingProject, published: checked })
+                    }
+                  />
+                  <Label>Yayınla</Label>
+                </div>
+
+                <Button onClick={saveProject}>
+                  <Save size={16} className="mr-2" />
+                  Kaydet
+                </Button>
+              </motion.div>
+            )}
+
+            <div className="space-y-2">
+              {projects.map((project) => (
+                <div
+                  key={project.id}
+                  className="flex items-center justify-between p-4 border border-border"
+                >
+                  <div className="flex items-center gap-4">
+                    {project.images?.[0] && (
+                      <img
+                        src={project.images[0]}
+                        alt={project.title}
+                        className="w-16 h-16 object-cover"
+                      />
+                    )}
+                    <div>
+                      <h4 className="font-medium text-foreground">{project.title}</h4>
+                      <p className="text-sm text-muted-foreground">
+                        {project.category} • {project.year} • {project.published ? 'Yayında' : 'Taslak'}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        setEditingProject(project);
+                        setIsNewProject(false);
+                      }}
+                    >
+                      <Edit size={16} />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => deleteProject(project.id)}
+                    >
+                      <Trash2 size={16} />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+
+              {projects.length === 0 && (
+                <p className="text-center text-muted-foreground py-8">
+                  Henüz proje yok.
+                </p>
+              )}
+            </div>
+          </TabsContent>
+        </Tabs>
+      </main>
+    </div>
+  );
+};
+
+export default Admin;
