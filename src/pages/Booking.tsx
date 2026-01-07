@@ -97,8 +97,8 @@ const Booking: React.FC = () => {
       } catch (error) {
         console.error('Upload error:', error);
         toast({
-          title: "Yükleme Başarısız",
-          description: `${file.name} yüklenemedi`,
+          title: "Upload Failed",
+          description: `Failed to upload ${file.name}`,
           variant: "destructive",
         });
         setFiles(prev =>
@@ -154,8 +154,8 @@ const Booking: React.FC = () => {
     
     setTimeout(() => {
       toast({
-        title: "Başvuru Gönderildi",
-        description: "24-48 saat içinde size geri dönüş yapacağız.",
+        title: "Request Submitted",
+        description: "We'll get back to you within 24-48 hours.",
       });
       setIsSubmitting(false);
     }, 1000);
@@ -186,10 +186,10 @@ const Booking: React.FC = () => {
       >
         <Upload className="w-8 h-8 mx-auto mb-3 text-[#1a1a1a]/40" />
         <p className="text-[#1a1a1a]/60 text-sm">
-          Yüklemek için tıklayın veya sürükleyip bırakın
+          Click to upload or drag and drop
         </p>
         <p className="text-[#1a1a1a]/40 text-xs mt-1">
-          PNG, JPG, WEBP (max 20MB)
+          PNG, JPG, WEBP up to 20MB
         </p>
       </div>
       
@@ -209,7 +209,7 @@ const Booking: React.FC = () => {
               <div className="aspect-square bg-white border border-[#1a1a1a]/10 overflow-hidden">
                 <img
                   src={file.preview}
-                  alt={`Görsel ${index + 1}`}
+                  alt={`Image ${index + 1}`}
                   className="w-full h-full object-cover"
                 />
                 {file.uploading && (
@@ -253,46 +253,10 @@ const Booking: React.FC = () => {
             className="mb-20"
           >
             <h1 className="text-[12vw] md:text-[10vw] lg:text-[8vw] font-bold text-[#1a1a1a] leading-[0.9] tracking-[-0.03em] uppercase">
-              Randevu
+              Book
+              <br />
+              <span className="text-[#1a1a1a]">Experience</span>
             </h1>
-          </motion.div>
-
-          {/* Info Sections */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="max-w-4xl mb-20 space-y-12"
-          >
-            {/* Gezginler */}
-            <div className="border-l-2 border-[#1a1a1a]/20 pl-6">
-              <h2 className="text-2xl font-bold text-[#1a1a1a] mb-4 uppercase tracking-wide">Gezginler</h2>
-              <p className="text-[#1a1a1a]/80 leading-relaxed">
-                New York dışından başvurular için lütfen verilen formu doldurun veya aşağıdaki soruları yanıtlayarak bana bir e-posta gönderin.
-              </p>
-              <p className="text-[#1a1a1a]/60 mt-4 text-sm leading-relaxed">
-                Asistanım en kısa sürede sizinle iletişime geçecek ve ihtiyacınız olan tüm bilgileri sağlayacaktır. Yılın bazı dönemlerinde, yoğun iş yükü nedeniyle size geç yanıt verebilir veya hiç yanıt veremeyebiliriz. 3 gün içinde yanıt alamazsanız, lütfen formu veya e-postayı tekrar gönderin.
-              </p>
-            </div>
-
-            {/* New York */}
-            <div className="border-l-2 border-[#1a1a1a]/20 pl-6">
-              <h2 className="text-2xl font-bold text-[#1a1a1a] mb-4 uppercase tracking-wide">New York Şehri</h2>
-              <p className="text-[#1a1a1a]/80 leading-relaxed">
-                New York'tan başvuranlar, sizinle şahsen tanışmayı, fikirlerinizi dinlemeyi, çalışma tarzımı anlatmayı ve tasarım sürecini şekillendirmeyi çok isterim. Bundan önce, lütfen verilen formu doldurun veya aşağıdaki soruları yanıtlayarak bir e-posta gönderin. New York'ta yaşıyorsanız, lütfen belirtin ki asistanım sizin için bir görüşme ayarlasın.
-              </p>
-            </div>
-
-            {/* Tasarım */}
-            <div className="border-l-2 border-[#1a1a1a]/20 pl-6">
-              <h2 className="text-2xl font-bold text-[#1a1a1a] mb-4 uppercase tracking-wide">Tasarım</h2>
-              <p className="text-[#1a1a1a]/80 leading-relaxed">
-                Randevunuz e-posta ile onaylandıysa, randevu saatinde size en az 5 tasarım sunulacaktır. Bu tasarımların bazıları, e-posta yoluyla sağladığınız referanslardan doğrudan ilham alınarak oluşturulmuştur. Geri kalanlar ise farklı açılardan incelenerek benim tarafımdan hazırlanmıştır.
-              </p>
-              <p className="text-[#1a1a1a]/60 mt-4 text-sm leading-relaxed">
-                Randevu tarihinden önce tasarımları paylaşmıyorum; bu, sizin için benzersiz kompozisyonlar üzerinde çalışabilmem için tüm sürecin gerçekten önemli bir parçasıdır. Randevu tarihinde tasarım hakkında konuşmak ve gerekli değişiklikleri yapmak için yeterli zamanımız olacak. Merak etmeyin.
-              </p>
-            </div>
           </motion.div>
 
           {/* Form Section */}
@@ -307,64 +271,64 @@ const Booking: React.FC = () => {
               <div>
                 <div className="flex justify-between items-center mb-8 border-b border-[#1a1a1a]/20 pb-4">
                   <h2 className="text-[#1a1a1a]/60 text-sm uppercase tracking-wider">
-                    Genel Bilgiler
+                    General Information
                   </h2>
-                  <span className="text-[#1a1a1a]/60 text-sm">*Zorunlu</span>
+                  <span className="text-[#1a1a1a]/60 text-sm">*Required</span>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-[#1a1a1a] text-sm mb-2">Ad*</label>
+                    <label className="block text-[#1a1a1a] text-sm mb-2">Name*</label>
                     <input
                       type="text"
                       required
                       value={formData.firstName}
                       onChange={(e) => handleInputChange('firstName', e.target.value)}
-                      placeholder="Adınızı girin"
+                      placeholder="Enter your name"
                       className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-[#1a1a1a] text-sm mb-2">Soyad*</label>
+                    <label className="block text-[#1a1a1a] text-sm mb-2">Last Name*</label>
                     <input
                       type="text"
                       required
                       value={formData.lastName}
                       onChange={(e) => handleInputChange('lastName', e.target.value)}
-                      placeholder="Soyadınızı girin"
+                      placeholder="Enter your last name"
                       className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-[#1a1a1a] text-sm mb-2">Telefon*</label>
+                    <label className="block text-[#1a1a1a] text-sm mb-2">Phone*</label>
                     <input
                       type="tel"
                       required
                       value={formData.phone}
                       onChange={(e) => handleInputChange('phone', e.target.value)}
-                      placeholder="Telefon numaranızı girin"
+                      placeholder="Enter your phone number"
                       className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-[#1a1a1a] text-sm mb-2">E-posta*</label>
+                    <label className="block text-[#1a1a1a] text-sm mb-2">Email*</label>
                     <input
                       type="email"
                       required
                       value={formData.email}
                       onChange={(e) => handleInputChange('email', e.target.value)}
-                      placeholder="E-posta adresinizi girin"
+                      placeholder="Enter your email address"
                       className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
                     />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-[#1a1a1a] text-sm mb-2">Nerede yaşıyorsunuz?*</label>
+                    <label className="block text-[#1a1a1a] text-sm mb-2">Where are you located?*</label>
                     <input
                       type="text"
                       required
                       value={formData.location}
                       onChange={(e) => handleInputChange('location', e.target.value)}
-                      placeholder="Şehir ve ülke girin"
+                      placeholder="Enter city and country"
                       className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
                     />
                   </div>
@@ -373,7 +337,7 @@ const Booking: React.FC = () => {
                 {/* Location Type */}
                 <div className="mt-8">
                   <label className="block text-[#1a1a1a] text-sm mb-4">
-                    New York'ta mı yaşıyorsunuz?*
+                    Are you based in New York?*
                   </label>
                   <div className="flex flex-wrap gap-4">
                     <button
@@ -385,7 +349,7 @@ const Booking: React.FC = () => {
                           : 'bg-transparent text-[#1a1a1a] border-[#1a1a1a]/20 hover:border-[#1a1a1a]/60'
                       }`}
                     >
-                      Evet, New York'ta yaşıyorum
+                      Yes, I live in NYC
                     </button>
                     <button
                       type="button"
@@ -396,7 +360,7 @@ const Booking: React.FC = () => {
                           : 'bg-transparent text-[#1a1a1a] border-[#1a1a1a]/20 hover:border-[#1a1a1a]/60'
                       }`}
                     >
-                      Hayır, seyahat edeceğim
+                      No, I will be traveling
                     </button>
                   </div>
                 </div>
@@ -404,7 +368,7 @@ const Booking: React.FC = () => {
                 {/* Collector Type */}
                 <div className="mt-8">
                   <label className="block text-[#1a1a1a] text-sm mb-4">
-                    Yeni mi yoksa geri dönen müşteri misiniz?
+                    Are you a new or returning collector?
                   </label>
                   <div className="flex flex-wrap gap-4">
                     <button
@@ -416,7 +380,7 @@ const Booking: React.FC = () => {
                           : 'bg-transparent text-[#1a1a1a] border-[#1a1a1a]/20 hover:border-[#1a1a1a]/60'
                       }`}
                     >
-                      Yeni Müşteri
+                      New Collector
                     </button>
                     <button
                       type="button"
@@ -427,7 +391,7 @@ const Booking: React.FC = () => {
                           : 'bg-transparent text-[#1a1a1a] border-[#1a1a1a]/20 hover:border-[#1a1a1a]/60'
                       }`}
                     >
-                      Geri Dönen Müşteri
+                      Returning Collector
                     </button>
                   </div>
                 </div>
@@ -437,34 +401,34 @@ const Booking: React.FC = () => {
               <div>
                 <div className="flex justify-between items-center mb-8 border-b border-[#1a1a1a]/20 pb-4">
                   <h2 className="text-[#1a1a1a]/60 text-sm uppercase tracking-wider">
-                    Yerleşim
+                    Placement
                   </h2>
                 </div>
 
                 <p className="text-[#1a1a1a]/80 mb-6 leading-relaxed">
-                  Seçtiğiniz dövme yerleşiminin, kalemle işaretlenmiş fotoğraflarını paylaşın. Birden fazla açıdan çekilmiş fotoğraflar, mükemmel tasarımı belirlememe yardımcı olacaktır.
+                  Share photos of your chosen tattoo placement, marked with a pen. Photos from multiple angles will help me determine the perfect design.
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   <div>
-                    <label className="block text-[#1a1a1a] text-sm mb-2">Yerleşim bölgesi*</label>
+                    <label className="block text-[#1a1a1a] text-sm mb-2">Placement area*</label>
                     <input
                       type="text"
                       required
                       value={formData.tattooPlacement}
                       onChange={(e) => handleInputChange('tattooPlacement', e.target.value)}
-                      placeholder="Örn: ön kol, sırt, göğüs"
+                      placeholder="e.g., forearm, back, chest"
                       className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-[#1a1a1a] text-sm mb-2">Yaklaşık boyut*</label>
+                    <label className="block text-[#1a1a1a] text-sm mb-2">Approximate size*</label>
                     <input
                       type="text"
                       required
                       value={formData.tattooSize}
                       onChange={(e) => handleInputChange('tattooSize', e.target.value)}
-                      placeholder="Örn: 10cm x 15cm"
+                      placeholder="e.g., 10cm x 15cm"
                       className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
                     />
                   </div>
@@ -475,8 +439,8 @@ const Booking: React.FC = () => {
                   onFileSelect={handlePlacementFileSelect}
                   files={placementPhotos}
                   setFiles={setPlacementPhotos}
-                  label="Yerleşim fotoğrafları"
-                  description="Kalemle işaretlenmiş, birden fazla açıdan çekilmiş fotoğraflar yükleyin"
+                  label="Placement photos"
+                  description="Upload pen-marked photos from multiple angles"
                 />
               </div>
 
@@ -484,37 +448,37 @@ const Booking: React.FC = () => {
               <div>
                 <div className="flex justify-between items-center mb-8 border-b border-[#1a1a1a]/20 pb-4">
                   <h2 className="text-[#1a1a1a]/60 text-sm uppercase tracking-wider">
-                    İlham
+                    Inspiration
                   </h2>
                 </div>
 
                 <div className="space-y-8">
                   {/* Portfolio Favorites */}
                   <div>
-                    <label className="block text-[#1a1a1a] text-sm mb-2">Favorilerinizle İlham Verin</label>
+                    <label className="block text-[#1a1a1a] text-sm mb-2">Inspire with your favorites</label>
                     <p className="text-[#1a1a1a]/60 text-sm mb-4">
-                      Portfolyomdan tercih ettiğiniz eserleri belirtin ve dahil etmek istediğiniz belirli unsurları vurgulayın. Kaçınmak istediğiniz yönleri belirtmekten çekinmeyin.
+                      Identify your preferred works from my portfolio and highlight specific elements you want to include. Feel free to mention aspects you want to avoid.
                     </p>
                     <textarea
                       rows={4}
                       value={formData.portfolioFavorites}
                       onChange={(e) => handleInputChange('portfolioFavorites', e.target.value)}
-                      placeholder="Portfolyodan beğendiğiniz eserleri ve nedenlerini açıklayın..."
+                      placeholder="Describe your favorite pieces from the portfolio and why you like them..."
                       className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors resize-none"
                     />
                   </div>
 
                   {/* Artist Inspiration */}
                   <div>
-                    <label className="block text-[#1a1a1a] text-sm mb-2">İlhamı Genişletin</label>
+                    <label className="block text-[#1a1a1a] text-sm mb-2">Expand the inspiration</label>
                     <p className="text-[#1a1a1a]/60 text-sm mb-4">
-                      Beğendiğiniz diğer sanatçıların (ressamlar, heykeltıraşlar, mimarlar, müzisyenler veya yönetmenler) eserlerini sergileyerek estetik vizyonunuzu ortaya koyun. Bu çeşitli bakış açısı, size özgü bir tasarım oluşturacaktır.
+                      Showcase your aesthetic vision by sharing works from other artists you admire (painters, sculptors, architects, musicians, or directors). This diverse perspective will create a design unique to you.
                     </p>
                     <textarea
                       rows={4}
                       value={formData.artistInspiration}
                       onChange={(e) => handleInputChange('artistInspiration', e.target.value)}
-                      placeholder="Beğendiğiniz sanatçılar, eserler veya estetik tarzlar..."
+                      placeholder="Artists, works, or aesthetic styles you admire..."
                       className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors resize-none"
                     />
                   </div>
@@ -525,8 +489,8 @@ const Booking: React.FC = () => {
                     onFileSelect={handleFileSelect}
                     files={uploadedFiles}
                     setFiles={setUploadedFiles}
-                    label="Referans görselleri"
-                    description="İlham aldığınız görselleri yükleyin (20 dosyaya kadar, her biri max 20MB)"
+                    label="Reference images"
+                    description="Upload images that inspire you (up to 20 files, max 20MB each)"
                   />
                 </div>
               </div>
@@ -535,19 +499,19 @@ const Booking: React.FC = () => {
               <div>
                 <div className="flex justify-between items-center mb-8 border-b border-[#1a1a1a]/20 pb-4">
                   <h2 className="text-[#1a1a1a]/60 text-sm uppercase tracking-wider">
-                    Hikayeyi Ortaya Çıkarın
+                    Reveal the story
                   </h2>
                 </div>
 
                 <p className="text-[#1a1a1a]/60 text-sm mb-4">
-                  Dövmenizin arkasında bir hikaye varsa, lütfen paylaşın. Tasarıma işlenmiş bir öykü veya tamamen estetik bir seçim olsun, her detay derinlik katar. Dövmenin bir hikayesi olmak zorunda değil, bazen anlattığınız hikaye çizgi uzunluklarını belirlemeye bile yardımcı olabilir. Ya da süreci tamamen estetik açıdan, beğendiğiniz formlar aracılığıyla sürdürebiliriz.
+                  If there is a story behind your tattoo, please share it. Whether it is a narrative woven into the design or a purely aesthetic choice, every detail adds depth. The tattoo does not have to have a story; sometimes the story you tell can even help determine line lengths. Or we can proceed with the process purely aesthetically, through the forms you like.
                 </p>
 
                 <textarea
                   rows={6}
                   value={formData.story}
                   onChange={(e) => handleInputChange('story', e.target.value)}
-                  placeholder="Dövmenizin arkasındaki hikayeyi veya estetik vizyonunuzu paylaşın..."
+                  placeholder="Share the story behind your tattoo or your aesthetic vision..."
                   className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors resize-none"
                 />
               </div>
@@ -556,30 +520,30 @@ const Booking: React.FC = () => {
               <div>
                 <div className="flex justify-between items-center mb-8 border-b border-[#1a1a1a]/20 pb-4">
                   <h2 className="text-[#1a1a1a]/60 text-sm uppercase tracking-wider">
-                    Zamanlama
+                    Scheduling
                   </h2>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-[#1a1a1a] text-sm mb-2">Tercih ettiğiniz tarih aralığı</label>
+                    <label className="block text-[#1a1a1a] text-sm mb-2">Preferred date range</label>
                     <input
                       type="text"
                       value={formData.preferredDate}
                       onChange={(e) => handleInputChange('preferredDate', e.target.value)}
-                      placeholder="Örn: Mart-Nisan 2025"
+                      placeholder="e.g., March-April 2025"
                       className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
                     />
                   </div>
                 </div>
 
                 <div className="mt-6">
-                  <label className="block text-[#1a1a1a] text-sm mb-2">Ek notlar</label>
+                  <label className="block text-[#1a1a1a] text-sm mb-2">Additional notes</label>
                   <textarea
                     rows={4}
                     value={formData.additionalNotes}
                     onChange={(e) => handleInputChange('additionalNotes', e.target.value)}
-                    placeholder="Paylaşmak istediğiniz diğer bilgiler..."
+                    placeholder="Any other information you would like to share..."
                     className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors resize-none"
                   />
                 </div>
@@ -593,7 +557,7 @@ const Booking: React.FC = () => {
                 whileTap={{ scale: 0.98 }}
                 className="w-full md:w-auto px-16 py-5 bg-[#1a1a1a] text-white uppercase tracking-wider text-sm font-medium hover:bg-[#333] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? 'Gönderiliyor...' : 'Başvuruyu Gönder'}
+                {isSubmitting ? 'Submitting...' : 'Submit Request'}
               </motion.button>
             </form>
           </motion.div>
