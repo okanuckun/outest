@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import GuestSpots from './GuestSpots';
 
 interface NavigationProps {
   variant?: 'light' | 'dark';
@@ -85,21 +84,16 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.5 }}
-              className="box-border inline-flex items-center gap-4 relative m-0 p-0 max-md:hidden"
+              className="box-border inline-flex flex-col items-start relative m-0 p-0 max-md:hidden"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <motion.div
-                className="inline-flex flex-col items-start"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <Link 
+                to="/booking"
+                className={`box-border text-[15px] font-normal leading-5 tracking-[-0.15px] uppercase m-0 p-0 hover:opacity-70 transition-opacity ${textColor}`}
               >
-                <Link 
-                  to="/booking"
-                  className={`box-border text-[15px] font-normal leading-5 tracking-[-0.15px] uppercase m-0 p-0 hover:opacity-70 transition-opacity ${textColor}`}
-                >
-                  Book an appointment
-                </Link>
-              </motion.div>
-              <GuestSpots variant={variant} />
+                Book an appointment
+              </Link>
             </motion.div>
 
             {/* Mobile Menu Button */}
