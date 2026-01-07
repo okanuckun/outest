@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
   const styles = ['GEOMETRIC TATTOO', 'ABSTRACT TATTOO', 'MINIMALIST TATTOO'];
 
   return (
-    <footer className="relative bg-[#E8E4E0] text-[#1a1a1a] w-full overflow-hidden">
+    <footer className="relative bg-[#f5f5f5] text-[#1a1a1a] w-full overflow-hidden">
       {/* Styles Section */}
       <ScrollReveal>
         <div className="px-6 md:px-12 pt-32 pb-8">
