@@ -12,13 +12,14 @@ const BlogSection: React.FC = () => {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
   const navigate = useNavigate();
 
-  const handlePostClick = (postId: number) => {
-    navigate(`/blog?post=${postId}`);
+  const handlePostClick = (slug: string) => {
+    navigate(`/blog/${slug}`);
   };
 
   const blogPosts = [
     {
       id: 1,
+      slug: 'sleeve-tattoo-ideas-inspiration-styles',
       title: "Sleeve Tattoo Ideas",
       description: "Inspiration, Styles, and Aftercare Tips",
       category: "Inspiration",
@@ -27,6 +28,7 @@ const BlogSection: React.FC = () => {
     },
     {
       id: 2,
+      slug: 'forearm-tattoos-perfect-canvas-for-realism',
       title: "Forearm Tattoos",
       description: "A Perfect Canvas for Realism",
       category: "Inspiration",
@@ -35,6 +37,7 @@ const BlogSection: React.FC = () => {
     },
     {
       id: 3,
+      slug: 'skull-tattoos-symbolism-design-ideas',
       title: "Skull Tattoos",
       description: "Symbolism, Design Ideas, and Realism Style Guide",
       category: "Tattoo Styles",
@@ -63,7 +66,7 @@ const BlogSection: React.FC = () => {
               className="box-border flex flex-col items-start self-stretch relative m-0 p-0 cursor-pointer group border-t border-border"
               onMouseEnter={() => setHoveredId(post.id)}
               onMouseLeave={() => setHoveredId(null)}
-              onClick={() => handlePostClick(post.id)}
+              onClick={() => handlePostClick(post.slug)}
             >
               <div className="box-border flex items-center justify-between w-full py-6 relative">
                 {/* Left side - Number and Title */}

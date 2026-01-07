@@ -12,6 +12,7 @@ import blogImage3 from '@/assets/work/Group_261.jpg';
 const blogPosts = [
   {
     id: 1,
+    slug: 'forearm-tattoos-perfect-canvas-for-realism',
     title: "FOREARM TATTOOS: A PERFECT CANVAS FOR REALISM",
     category: "Inspiration",
     date: "May 18, 2025",
@@ -20,6 +21,7 @@ const blogPosts = [
   },
   {
     id: 2,
+    slug: 'sleeve-tattoo-ideas-inspiration-styles',
     title: "SLEEVE TATTOO IDEAS FOR MEN: INSPIRATION AND STYLES",
     category: "Inspiration",
     date: "July 29, 2025",
@@ -28,6 +30,7 @@ const blogPosts = [
   },
   {
     id: 3,
+    slug: 'skull-tattoos-symbolism-design-ideas',
     title: "SKULL TATTOOS: SYMBOLISM AND DESIGN IDEAS",
     category: "Tattoo Styles",
     date: "May 17, 2025",
@@ -127,12 +130,15 @@ const Blog = () => {
               </p>
 
               {/* Read More Button */}
-              <button className="group flex items-center gap-2 text-white text-[12px] font-medium tracking-wide hover:gap-3 transition-all">
+              <Link 
+                to={`/blog/${blogPosts[currentSlide].slug}`}
+                className="group flex items-center gap-2 text-white text-[12px] font-medium tracking-wide hover:gap-3 transition-all"
+              >
                 READ ARTICLE
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="group-hover:translate-x-1 transition-transform">
                   <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-              </button>
+              </Link>
             </motion.div>
           </AnimatePresence>
 
@@ -202,35 +208,37 @@ const Blog = () => {
         <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
           {blogPosts.map((post, index) => (
             <ScrollReveal key={post.id} delay={index * 0.1}>
-              <motion.article 
-                ref={(el) => { articleRefs.current[post.id] = el; }}
-                className="group cursor-pointer"
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="relative overflow-hidden mb-4 aspect-[4/5]">
-                  <motion.img
-                    src={post.image}
-                    alt={post.title}
-                    className="w-full h-full object-cover"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.6 }}
-                  />
-                </div>
-                {/* Meta Info */}
-                <div className="flex items-center justify-between text-[11px] font-normal tracking-wide text-muted-foreground mb-2">
-                  <div className="flex items-center gap-1">
-                    <span className="uppercase">{post.category}</span>
-                    <span>•</span>
-                    <span className="uppercase">{post.date}</span>
+              <Link to={`/blog/${post.slug}`}>
+                <motion.article 
+                  ref={(el) => { articleRefs.current[post.id] = el; }}
+                  className="group cursor-pointer"
+                  whileHover={{ y: -5 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="relative overflow-hidden mb-4 aspect-[4/5]">
+                    <motion.img
+                      src={post.image}
+                      alt={post.title}
+                      className="w-full h-full object-cover"
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 0.6 }}
+                    />
                   </div>
-                  <span>5 MIN READ</span>
-                </div>
-                {/* Title */}
-                <h3 className="text-[16px] md:text-[18px] font-normal leading-snug group-hover:opacity-70 transition-opacity">
-                  {post.title}
-                </h3>
-              </motion.article>
+                  {/* Meta Info */}
+                  <div className="flex items-center justify-between text-[11px] font-normal tracking-wide text-muted-foreground mb-2">
+                    <div className="flex items-center gap-1">
+                      <span className="uppercase">{post.category}</span>
+                      <span>•</span>
+                      <span className="uppercase">{post.date}</span>
+                    </div>
+                    <span>5 MIN READ</span>
+                  </div>
+                  {/* Title */}
+                  <h3 className="text-[16px] md:text-[18px] font-normal leading-snug group-hover:opacity-70 transition-opacity">
+                    {post.title}
+                  </h3>
+                </motion.article>
+              </Link>
             </ScrollReveal>
           ))}
         </div>
