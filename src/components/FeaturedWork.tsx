@@ -64,7 +64,7 @@ const FeaturedWork: React.FC = () => {
       </div>
       
       <ScrollReveal delay={0.4}>
-        <div className="box-border flex items-center gap-4 self-stretch relative m-0 p-0">
+        <div className="box-border flex justify-end self-stretch relative m-0 p-0">
           <motion.div 
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
@@ -76,9 +76,6 @@ const FeaturedWork: React.FC = () => {
               <ArrowUpRight size={24} strokeWidth={1.5} />
             </Link>
           </motion.div>
-          <span className="text-foreground text-[17.6px] font-medium leading-[19.8px] tracking-[-0.027px] uppercase">
-            See more work
-          </span>
         </div>
       </ScrollReveal>
     </section>
