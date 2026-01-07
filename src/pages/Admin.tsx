@@ -12,6 +12,7 @@ import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import RichTextEditor from '@/components/ui/rich-text-editor';
+import GuestSpotsManager from '@/components/admin/GuestSpotsManager';
 import { 
   LogOut, 
   Plus, 
@@ -443,6 +444,10 @@ const Admin: React.FC = () => {
             <TabsTrigger value="projects" className="gap-2">
               <FolderOpen size={16} />
               Projects
+            </TabsTrigger>
+            <TabsTrigger value="guest-spots" className="gap-2">
+              <Globe size={16} />
+              Guest Spots
             </TabsTrigger>
           </TabsList>
 
@@ -987,6 +992,10 @@ const Admin: React.FC = () => {
                 </p>
               )}
             </div>
+          </TabsContent>
+
+          <TabsContent value="guest-spots">
+            <GuestSpotsManager />
           </TabsContent>
         </Tabs>
       </main>

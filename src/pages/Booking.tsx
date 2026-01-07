@@ -1,11 +1,24 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Upload, X } from 'lucide-react';
+import { Upload, X, MapPin, Calendar } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import SEOHead from '@/components/SEOHead';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { format } from 'date-fns';
+
+interface GuestSpot {
+  id: string;
+  studio_name: string;
+  city: string;
+  country: string;
+  start_date: string;
+  end_date: string;
+  description: string | null;
+}
 
 type FormData = {
   firstName: string;
@@ -13,7 +26,8 @@ type FormData = {
   phone: string;
   email: string;
   location: string;
-  locationType: 'nyc' | 'traveler' | null;
+  locationType: 'nyc' | 'traveler' | 'guest_spot' | null;
+  guestSpotId: string | null;
   collectorType: 'new' | 'returning' | null;
   tattooPlacement: string;
   tattooSize: string;
@@ -33,6 +47,7 @@ type UploadedFile = {
 
 const Booking: React.FC = () => {
   const { toast } = useToast();
+  const [searchParams] = useSearchParams();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const placementFileInputRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -46,6 +61,7 @@ const Booking: React.FC = () => {
     email: '',
     location: '',
     locationType: null,
+    guestSpotId: null,
     collectorType: null,
     tattooPlacement: '',
     tattooSize: '',
@@ -55,6 +71,33 @@ const Booking: React.FC = () => {
     preferredDate: '',
     additionalNotes: '',
   });
+
+  const { data: guestSpots } = useQuery({
+    queryKey: ['booking-guest-spots'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('guest_spots')
+        .select('*')
+        .gte('end_date', new Date().toISOString().split('T')[0])
+        .eq('is_active', true)
+        .order('start_date', { ascending: true });
+      
+      if (error) throw error;
+      return data as GuestSpot[];
+    },
+  });
+
+  // Pre-select guest spot from URL parameter
+  useEffect(() => {
+    const guestSpotId = searchParams.get('guest_spot');
+    if (guestSpotId && guestSpots?.some(spot => spot.id === guestSpotId)) {
+      setFormData(prev => ({
+        ...prev,
+        locationType: 'guest_spot',
+        guestSpotId: guestSpotId,
+      }));
+    }
+  }, [searchParams, guestSpots]);
 
   const handleInputChange = (field: keyof FormData, value: string | 'new' | 'returning' | 'nyc' | 'traveler' | null) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -344,32 +387,76 @@ const Booking: React.FC = () => {
                 {/* Location Type */}
                 <div className="mt-8">
                   <label className="block text-[#1a1a1a] text-sm mb-4">
-                    Are you based in New York?*
+                    Where would you like to get tattooed?*
                   </label>
                   <div className="flex flex-wrap gap-3">
                     <button
                       type="button"
-                      onClick={() => handleInputChange('locationType', 'nyc')}
+                      onClick={() => setFormData(prev => ({ ...prev, locationType: 'nyc', guestSpotId: null }))}
                       className={`px-6 py-2.5 text-sm border transition-all ${
                         formData.locationType === 'nyc'
                           ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]'
                           : 'bg-transparent text-[#1a1a1a] border-[#1a1a1a]/20 hover:border-[#1a1a1a]/60'
                       }`}
                     >
-                      Yes, I live in NYC
+                      NYC Studio
                     </button>
                     <button
                       type="button"
-                      onClick={() => handleInputChange('locationType', 'traveler')}
+                      onClick={() => setFormData(prev => ({ ...prev, locationType: 'traveler', guestSpotId: null }))}
                       className={`px-6 py-2.5 text-sm border transition-all ${
                         formData.locationType === 'traveler'
                           ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]'
                           : 'bg-transparent text-[#1a1a1a] border-[#1a1a1a]/20 hover:border-[#1a1a1a]/60'
                       }`}
                     >
-                      No, I will be traveling
+                      I will travel to NYC
                     </button>
+                    {guestSpots && guestSpots.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, locationType: 'guest_spot', guestSpotId: null }))}
+                        className={`px-6 py-2.5 text-sm border transition-all ${
+                          formData.locationType === 'guest_spot'
+                            ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]'
+                            : 'bg-transparent text-[#1a1a1a] border-[#1a1a1a]/20 hover:border-[#1a1a1a]/60'
+                        }`}
+                      >
+                        Guest Spot Location
+                      </button>
+                    )}
                   </div>
+
+                  {/* Guest Spot Selection */}
+                  {formData.locationType === 'guest_spot' && guestSpots && guestSpots.length > 0 && (
+                    <div className="mt-4 space-y-3">
+                      <p className="text-[#1a1a1a]/60 text-sm">Select your preferred guest spot location:</p>
+                      {guestSpots.map((spot) => (
+                        <button
+                          key={spot.id}
+                          type="button"
+                          onClick={() => setFormData(prev => ({ ...prev, guestSpotId: spot.id }))}
+                          className={`w-full text-left p-4 border transition-all ${
+                            formData.guestSpotId === spot.id
+                              ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]'
+                              : 'bg-white text-[#1a1a1a] border-[#1a1a1a]/20 hover:border-[#1a1a1a]/60'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2 text-xs mb-1 opacity-70">
+                            <Calendar size={12} />
+                            <span>
+                              {format(new Date(spot.start_date), 'MMM d')} - {format(new Date(spot.end_date), 'MMM d, yyyy')}
+                            </span>
+                          </div>
+                          <div className="font-medium">{spot.studio_name}</div>
+                          <div className="flex items-center gap-1 text-sm opacity-70">
+                            <MapPin size={12} />
+                            <span>{spot.city}, {spot.country}</span>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* Collector Type */}
