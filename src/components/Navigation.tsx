@@ -68,7 +68,7 @@ const Navigation: React.FC = () => {
             whileTap={{ scale: 0.95 }}
           >
             <Link 
-              to="/contact"
+              to="/booking"
               className="box-border text-[#F6F6F6] text-[15px] font-normal leading-5 tracking-[-0.15px] uppercase m-0 p-0 hover:opacity-70 transition-opacity"
             >
               Book an appointment
