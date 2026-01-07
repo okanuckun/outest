@@ -239,8 +239,8 @@ const Booking: React.FC = () => {
       transition={{ duration: 0.5 }}
       className="min-h-screen bg-[#e8e8e8]"
     >
-      <div className="absolute inset-0 z-0">
-        <Navigation />
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <Navigation variant="dark" />
       </div>
       
       <main className="relative z-10 pt-32 pb-24">
