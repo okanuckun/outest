@@ -2,7 +2,6 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Link } from 'react-router-dom';
-import { MapPin, Calendar, ArrowRight } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface GuestSpot {
@@ -24,7 +23,8 @@ const GuestSpots: React.FC = () => {
         .select('*')
         .gte('end_date', new Date().toISOString().split('T')[0])
         .eq('is_active', true)
-        .order('start_date', { ascending: true });
+        .order('start_date', { ascending: true })
+        .limit(3);
       
       if (error) throw error;
       return data as GuestSpot[];
@@ -36,55 +36,36 @@ const GuestSpots: React.FC = () => {
   }
 
   return (
-    <section className="py-20 px-[22.5px] max-md:px-5 max-sm:px-4 bg-background">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-between mb-12">
-          <div>
-            <h2 className="text-foreground text-3xl md:text-4xl font-medium tracking-tight">
-              Guest Spots
-            </h2>
-            <p className="text-muted-foreground mt-2">
-              Upcoming locations where I'll be tattooing
-            </p>
-          </div>
-        </div>
-
-        <div className="grid gap-4">
+    <div className="absolute bottom-8 right-6 md:bottom-12 md:right-12 z-20">
+      <div className="backdrop-blur-sm bg-black/40 border border-white/10 rounded-sm p-4 md:p-5 max-w-[280px]">
+        <p className="text-white/60 text-[10px] uppercase tracking-[0.2em] mb-3">
+          Upcoming Guest Spots
+        </p>
+        <div className="space-y-3">
           {guestSpots.map((spot) => (
             <Link
               key={spot.id}
               to={`/booking?guest_spot=${spot.id}`}
               className="group block"
             >
-              <div className="flex flex-col md:flex-row md:items-center justify-between p-6 border border-border rounded-lg bg-card hover:border-foreground/30 transition-colors">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
-                    <Calendar size={14} />
-                    <span>
-                      {format(new Date(spot.start_date), 'MMM d')} - {format(new Date(spot.end_date), 'MMM d, yyyy')}
-                    </span>
-                  </div>
-                  <h3 className="text-foreground text-xl font-medium mb-1">
-                    {spot.studio_name}
-                  </h3>
-                  <div className="flex items-center gap-1 text-muted-foreground">
-                    <MapPin size={14} />
-                    <span>{spot.city}, {spot.country}</span>
-                  </div>
-                  {spot.description && (
-                    <p className="text-muted-foreground text-sm mt-2">{spot.description}</p>
-                  )}
+              <div className="flex items-baseline justify-between gap-4">
+                <div>
+                  <p className="text-white text-sm font-light">
+                    {spot.city}
+                  </p>
+                  <p className="text-white/50 text-xs">
+                    {format(new Date(spot.start_date), 'MMM d')} – {format(new Date(spot.end_date), 'd')}
+                  </p>
                 </div>
-                <div className="flex items-center gap-2 mt-4 md:mt-0 text-foreground group-hover:translate-x-1 transition-transform">
-                  <span className="text-sm font-medium">Book Now</span>
-                  <ArrowRight size={16} />
-                </div>
+                <span className="text-white/40 text-xs group-hover:text-white transition-colors">
+                  Book →
+                </span>
               </div>
             </Link>
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

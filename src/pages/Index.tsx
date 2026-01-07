@@ -62,12 +62,13 @@ const Index: React.FC = () => {
           <Navigation />
           <HeroSection />
         </div>
+        
+        <GuestSpots />
       </div>
       
       <main>
         <ArtistSection />
         <FeaturedWork />
-        <GuestSpots />
         <BlogSection />
         <VideoSection />
       </main>
