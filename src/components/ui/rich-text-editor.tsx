@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
+import Image from '@tiptap/extension-image';
 import { cn } from '@/lib/utils';
+import { supabase } from '@/integrations/supabase/client';
 import { 
   Bold, 
   Italic, 
@@ -15,10 +17,13 @@ import {
   Undo,
   Redo,
   Code,
-  Minus
+  Minus,
+  ImageIcon,
+  Loader2
 } from 'lucide-react';
 import { Toggle } from '@/components/ui/toggle';
 import { Separator } from '@/components/ui/separator';
+import { toast } from 'sonner';
 
 interface RichTextEditorProps {
   content: string;
@@ -33,6 +38,9 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
   placeholder = 'Start writing...',
   className,
 }) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = React.useState(false);
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -42,6 +50,11 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
       }),
       Placeholder.configure({
         placeholder,
+      }),
+      Image.configure({
+        HTMLAttributes: {
+          class: 'max-w-full h-auto rounded-lg',
+        },
       }),
     ],
     content,
@@ -55,12 +68,70 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
     },
   });
 
+  const handleImageUpload = async (file: File) => {
+    if (!file.type.startsWith('image/')) {
+      toast.error('Please select an image file');
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('Image must be less than 5MB');
+      return;
+    }
+
+    setUploading(true);
+
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+      const filePath = `editor/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('content-images')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('content-images')
+        .getPublicUrl(filePath);
+
+      if (editor) {
+        editor.chain().focus().setImage({ src: publicUrl }).run();
+      }
+
+      toast.success('Image uploaded successfully');
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast.error('Failed to upload image');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleImageUpload(file);
+    }
+    e.target.value = '';
+  };
+
   if (!editor) {
     return null;
   }
 
   return (
     <div className={cn('border border-border rounded-md overflow-hidden bg-background', className)}>
+      {/* Hidden file input */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={onFileChange}
+        className="hidden"
+      />
+
       {/* Toolbar */}
       <div className="flex flex-wrap items-center gap-1 p-2 border-b border-border bg-muted/30">
         {/* Headings */}
@@ -165,6 +236,24 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
           title="Horizontal Line"
         >
           <Minus className="h-4 w-4" />
+        </Toggle>
+
+        <Separator orientation="vertical" className="h-6 mx-1" />
+
+        {/* Image Upload */}
+        <Toggle
+          size="sm"
+          pressed={false}
+          onPressedChange={() => fileInputRef.current?.click()}
+          disabled={uploading}
+          aria-label="Insert Image"
+          title="Insert Image"
+        >
+          {uploading ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <ImageIcon className="h-4 w-4" />
+          )}
         </Toggle>
 
         <Separator orientation="vertical" className="h-6 mx-1" />
