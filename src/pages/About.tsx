@@ -62,23 +62,6 @@ const About: React.FC = () => {
             </Link>
           </motion.div>
           
-          {/* Bottom Left Quote */}
-          <motion.div initial={{
-          opacity: 0,
-          y: 20
-        }} animate={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          delay: 0.5,
-          duration: 0.6
-        }} className="absolute bottom-6 left-6 text-white z-10 max-w-[280px]">
-            <p className="text-[11px] font-normal tracking-[0.05em] uppercase leading-relaxed opacity-90">
-              PRECISION AND<br />
-              PATIENCE GUIDE<br />
-              EVERY PIECE
-            </p>
-          </motion.div>
         </div>
 
         {/* Right Side - Light with Quote (65%) */}
