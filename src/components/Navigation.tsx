@@ -18,7 +18,7 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   const textColor = variant === 'dark' ? 'text-foreground' : 'text-[#F6F6F6]';
-  const borderColor = variant === 'dark' ? 'border-b-border' : 'border-b-[rgba(255,255,255,0.35)]';
+  const borderColor = variant === 'dark' ? 'border-b-[#323232]' : 'border-b-[rgba(255,255,255,0.35)]';
   const logoStroke = variant === 'dark' ? 'hsl(0, 0%, 20%)' : '#F6F6F6';
   const menuBg = variant === 'dark' ? 'bg-background' : 'bg-[#1a1a1a]';
   const menuText = variant === 'dark' ? 'text-foreground' : 'text-[#F6F6F6]';
