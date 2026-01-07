@@ -1,85 +1,38 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import PageTransition from '@/components/animations/PageTransition';
 import SEOHead from '@/components/SEOHead';
+import { supabase } from '@/integrations/supabase/client';
+import { Skeleton } from '@/components/ui/skeleton';
 
-// Import images
-import heroImage1 from '@/assets/work/DSC03538.jpg';
-import heroImage2 from '@/assets/work/DSC00339.jpg';
-import heroImage3 from '@/assets/work/glitch1.png';
-import videoThumb from '@/assets/work/Group_351.jpg';
-import artImage from '@/assets/work/uuh2.jpg';
-import projectImage1 from '@/assets/work/a1.jpg';
-import projectImage2 from '@/assets/work/b1.jpg';
-import projectImage3 from '@/assets/work/c3.jpg';
-import DAGSIRT from '@/assets/work/DAGSIRT.jpg';
-import IMG_1636 from '@/assets/work/IMG_1636.jpg';
-import IMG_1727 from '@/assets/work/IMG_1727.jpg';
-import Group_354 from '@/assets/work/Group_354.jpg';
-import Group_240 from '@/assets/work/Group_240.jpg';
-import d4 from '@/assets/work/d4.jpg';
-import head1 from '@/assets/work/head1.jpg';
-
-// Project data with multiple images for hover gallery
-const projects = [
-  {
-    id: 1,
-    title: 'Noise Performance',
-    category: 'Live Art',
-    year: '2024',
-    location: 'Istanbul',
-    images: [heroImage1, heroImage2, heroImage3],
-  },
-  {
-    id: 2,
-    title: 'Digital Abstractions',
-    category: 'Digital Art',
-    year: '2024',
-    location: 'Berlin',
-    images: [videoThumb, Group_354, Group_240],
-  },
-  {
-    id: 3,
-    title: 'Taschen: Dalí',
-    category: 'Editorial',
-    year: '2023',
-    location: 'Barcelona',
-    images: [artImage, d4, head1],
-  },
-  {
-    id: 4,
-    title: 'Urban Fragments',
-    category: 'Photography',
-    year: '2023',
-    location: 'Tokyo',
-    images: [projectImage1, projectImage2, projectImage3],
-  },
-  {
-    id: 5,
-    title: 'Mountain Series',
-    category: 'Landscape',
-    year: '2023',
-    location: 'Alps',
-    images: [DAGSIRT, IMG_1636, IMG_1727],
-  },
-];
+interface Project {
+  id: string;
+  title: string;
+  category: string | null;
+  year: string | null;
+  location: string | null;
+  images: string[] | null;
+}
 
 interface ProjectCardProps {
-  project: typeof projects[0];
+  project: Project;
   index: number;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
+  const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const images = project.images || [];
 
   useEffect(() => {
-    if (isHovered && project.images.length > 1) {
+    if (isHovered && images.length > 1) {
       intervalRef.current = setInterval(() => {
-        setCurrentImageIndex((prev) => (prev + 1) % project.images.length);
+        setCurrentImageIndex((prev) => (prev + 1) % images.length);
       }, 1500);
     } else {
       if (intervalRef.current) {
@@ -94,7 +47,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
         clearInterval(intervalRef.current);
       }
     };
-  }, [isHovered, project.images.length]);
+  }, [isHovered, images.length]);
+
+  if (images.length === 0) return null;
 
   return (
     <motion.article
@@ -105,10 +60,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
       className="relative w-full h-screen cursor-pointer group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={() => navigate(`/project/${project.id}`)}
     >
       {/* Background Images with Crossfade */}
       <div className="absolute inset-0 overflow-hidden">
-        {project.images.map((image, imgIndex) => (
+        {images.map((image, imgIndex) => (
           <motion.img
             key={imgIndex}
             src={image}
@@ -178,7 +134,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
 
           {/* Image Dots Indicator */}
           <div className="flex items-center gap-2">
-            {project.images.map((_, imgIndex) => (
+            {images.map((_, imgIndex) => (
               <span
                 key={imgIndex}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
@@ -217,7 +173,27 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
   );
 };
 
-const Project: React.FC = () => {
+const ProjectPage: React.FC = () => {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*')
+        .eq('published', true)
+        .order('display_order', { ascending: true });
+
+      if (!error && data) {
+        setProjects(data);
+      }
+      setLoading(false);
+    };
+
+    fetchProjects();
+  }, []);
+
   const projectJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
@@ -231,6 +207,19 @@ const Project: React.FC = () => {
       url: 'https://okanuckun.com'
     }
   };
+
+  if (loading) {
+    return (
+      <PageTransition>
+        <div className="min-h-screen bg-background">
+          <Navigation />
+          <div className="h-screen flex items-center justify-center">
+            <Skeleton className="w-full h-full" />
+          </div>
+        </div>
+      </PageTransition>
+    );
+  }
 
   return (
     <PageTransition>
@@ -248,9 +237,15 @@ const Project: React.FC = () => {
 
         <main>
           {/* Projects - Full Screen Vertical Scroll */}
-          {projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
-          ))}
+          {projects.length > 0 ? (
+            projects.map((project, index) => (
+              <ProjectCard key={project.id} project={project} index={index} />
+            ))
+          ) : (
+            <div className="h-screen flex items-center justify-center">
+              <p className="text-foreground/60 text-lg">No projects available</p>
+            </div>
+          )}
         </main>
 
         <Footer />
@@ -259,4 +254,4 @@ const Project: React.FC = () => {
   );
 };
 
-export default Project;
+export default ProjectPage;
