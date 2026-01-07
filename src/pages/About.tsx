@@ -3,11 +3,11 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Footer from '@/components/Footer';
 import ScrollReveal from '@/components/animations/ScrollReveal';
-import aboutImage1 from '@/assets/about-image-1.webp';
 import aboutImage2 from '@/assets/about-image-2.webp';
 import aboutImage3 from '@/assets/about-image-3.webp';
 import aboutHero from '@/assets/about-hero.jpg';
 import aboutBottom from '@/assets/about-bottom.jpg';
+import aboutPortrait from '@/assets/about-portrait.jpg';
 const About: React.FC = () => {
   return <motion.div initial={{
     opacity: 0
@@ -204,7 +204,7 @@ const About: React.FC = () => {
       {/* Full Width Image */}
       <ScrollReveal className="w-full">
         <div className="w-full h-[70vh] lg:h-[90vh] overflow-hidden">
-          <motion.img src={aboutImage1} alt="Okan Uckun tattoo work" className="w-full h-full object-cover grayscale" loading="lazy" whileHover={{
+          <motion.img src={aboutPortrait} alt="Okan Uckun portrait" className="w-full h-full object-cover" loading="lazy" whileHover={{
           scale: 1.02
         }} transition={{
           duration: 0.8
