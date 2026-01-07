@@ -112,7 +112,7 @@ const About: React.FC = () => {
             <div className="flex">
               <span className="text-[40px] lg:text-[60px] font-bold text-[#323232] leading-none mr-2">"</span>
               <h1 className="text-[32px] md:text-[42px] lg:text-[52px] xl:text-[62px] font-bold text-[#323232] leading-[0.95] tracking-[-0.02em] uppercase">
-                THE ATTENTION TO DETAIL AND ARTISTIC VISION EXCEEDED EVERY EXPECTATION. A TRUE MASTER OF THE CRAFT.
+                PRECISION, BALANCE, AND ARTISTIC INTELLIGENCE IN PERFECT ALIGNMENT.
               </h1>
             </div>
           </motion.div>
