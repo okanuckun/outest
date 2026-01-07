@@ -45,12 +45,7 @@ const Index: React.FC = () => {
       {/* Hero Section with Background */}
       <div className="box-border w-full h-[100svh] relative m-0 p-0">
         {/* Background Image with Parallax */}
-        <motion.div 
-          className="absolute inset-0 z-0"
-          initial={{ scale: 1.1 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 1.5, ease: [0.25, 0.1, 0.25, 1] }}
-        >
+        <div className="absolute inset-0 z-0">
           <img
             src={heroBg}
             alt="Okan Uckun tattoo artist background"
@@ -60,7 +55,7 @@ const Index: React.FC = () => {
             decoding="async"
           />
           <div className="absolute inset-0 bg-black/40" />
-        </motion.div>
+        </div>
         
         <div className="relative z-10 flex h-full flex-col">
           <Navigation />
