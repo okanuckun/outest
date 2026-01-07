@@ -123,9 +123,9 @@ const About: React.FC = () => {
       </section>
 
       {/* Story Section - Pioneer */}
-      <section className="bg-white py-20 lg:py-32 px-6 lg:px-12">
+      <section className="bg-white py-12 lg:py-20 px-6 lg:px-12">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
             <ScrollReveal className="lg:w-1/3">
               <span className="text-[11px] font-normal tracking-[0.1em] uppercase text-[#888]">
                 PIONEER
@@ -133,7 +133,7 @@ const About: React.FC = () => {
             </ScrollReveal>
             
             <ScrollReveal delay={0.2} className="lg:w-2/3">
-              <p className="text-[28px] md:text-[36px] lg:text-[42px] font-normal leading-[1.15] tracking-[-0.02em] text-[#323232] uppercase">
+              <p className="text-[18px] md:text-[22px] lg:text-[26px] font-normal leading-[1.3] tracking-[-0.01em] text-[#323232] uppercase">
                 Recognized as one of the pioneers of minimalist tattoos and geometric tattoos. Co-founded Monolith Studio with Oscar Akermo in 2024.
               </p>
             </ScrollReveal>
@@ -142,9 +142,9 @@ const About: React.FC = () => {
       </section>
 
       {/* Journey Section */}
-      <section className="bg-[#f5f5f5] py-20 lg:py-32 px-6 lg:px-12">
+      <section className="bg-[#f5f5f5] py-12 lg:py-20 px-6 lg:px-12">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
             <ScrollReveal className="lg:w-1/3">
               <span className="text-[11px] font-normal tracking-[0.1em] uppercase text-[#888]">
                 JOURNEY
@@ -152,7 +152,7 @@ const About: React.FC = () => {
             </ScrollReveal>
             
             <ScrollReveal delay={0.2} className="lg:w-2/3">
-              <p className="text-[28px] md:text-[36px] lg:text-[42px] font-normal leading-[1.15] tracking-[-0.02em] text-[#323232] uppercase">
+              <p className="text-[18px] md:text-[22px] lg:text-[26px] font-normal leading-[1.3] tracking-[-0.01em] text-[#323232] uppercase">
                 Architecture degree followed by a Master&apos;s in Modern Art — then full commitment to tattooing in 2009. Education remains a source of inspiration, fueling new discoveries. Based in NYC, traveling annually to California, London, and beyond for tattoo performances.
               </p>
             </ScrollReveal>
@@ -161,9 +161,9 @@ const About: React.FC = () => {
       </section>
 
       {/* NYC Section */}
-      <section className="bg-white py-20 lg:py-32 px-6 lg:px-12">
+      <section className="bg-white py-12 lg:py-20 px-6 lg:px-12">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
             <ScrollReveal className="lg:w-1/3">
               <span className="text-[11px] font-normal tracking-[0.1em] uppercase text-[#888]">
                 NEW YORK CITY
@@ -171,7 +171,7 @@ const About: React.FC = () => {
             </ScrollReveal>
             
             <ScrollReveal delay={0.2} className="lg:w-2/3">
-              <p className="text-[28px] md:text-[36px] lg:text-[42px] font-normal leading-[1.15] tracking-[-0.02em] text-[#323232] uppercase">
+              <p className="text-[18px] md:text-[22px] lg:text-[26px] font-normal leading-[1.3] tracking-[-0.01em] text-[#323232] uppercase">
                 Moved from Istanbul to NYC in 2017. After six years at Bang Bang Tattoo, the focus shifted to independent projects. In 2024, co-founded Monolith Studio with Oscar Akermo — building a team and continuing the tattoo journey in New York City.
               </p>
             </ScrollReveal>
@@ -180,9 +180,9 @@ const About: React.FC = () => {
       </section>
 
       {/* Philosophy Section */}
-      <section className="bg-[#f5f5f5] py-20 lg:py-32 px-6 lg:px-12">
+      <section className="bg-[#f5f5f5] py-12 lg:py-20 px-6 lg:px-12">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
             <ScrollReveal className="lg:w-1/3">
               <span className="text-[11px] font-normal tracking-[0.1em] uppercase text-[#888]">
                 PHILOSOPHY
@@ -190,7 +190,7 @@ const About: React.FC = () => {
             </ScrollReveal>
             
             <ScrollReveal delay={0.2} className="lg:w-2/3">
-              <p className="text-[28px] md:text-[36px] lg:text-[42px] font-normal leading-[1.15] tracking-[-0.02em] text-[#323232] uppercase">
+              <p className="text-[18px] md:text-[22px] lg:text-[26px] font-normal leading-[1.3] tracking-[-0.01em] text-[#323232] uppercase">
                 The human body is a living gallery. A tattoo becomes part of your story, your identity. Deeply considered yet minimally expressed designs — that is the pursuit. Technology, art, and architecture serve as constant inspiration, shaping both the work and the way of thinking.
               </p>
             </ScrollReveal>
@@ -199,9 +199,9 @@ const About: React.FC = () => {
       </section>
 
       {/* Beyond Section */}
-      <section className="bg-white py-20 lg:py-32 px-6 lg:px-12">
+      <section className="bg-white py-12 lg:py-20 px-6 lg:px-12">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
             <ScrollReveal className="lg:w-1/3">
               <span className="text-[11px] font-normal tracking-[0.1em] uppercase text-[#888]">
                 BEYOND TATTOO
@@ -209,7 +209,7 @@ const About: React.FC = () => {
             </ScrollReveal>
             
             <ScrollReveal delay={0.2} className="lg:w-2/3">
-              <p className="text-[28px] md:text-[36px] lg:text-[42px] font-normal leading-[1.15] tracking-[-0.02em] text-[#323232] uppercase">
+              <p className="text-[18px] md:text-[22px] lg:text-[26px] font-normal leading-[1.3] tracking-[-0.01em] text-[#323232] uppercase">
                 Exploring the creative world beyond tattoo — jewelry collections, fashion collaborations, snowboard and extreme sports partnerships, startup ventures, and serving as creative director for musicians. The artistic journey continues to evolve across disciplines.
               </p>
             </ScrollReveal>
