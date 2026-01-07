@@ -98,6 +98,346 @@ export type Database = {
         }
         Relationships: []
       }
+      seo_audit_issues: {
+        Row: {
+          category: string
+          created_at: string
+          details: Json | null
+          id: string
+          is_resolved: boolean | null
+          issue_type: string
+          message: string
+          page_id: string | null
+          resolved_at: string | null
+          resolved_by: string | null
+          route: string | null
+          severity: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          is_resolved?: boolean | null
+          issue_type: string
+          message: string
+          page_id?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          route?: string | null
+          severity: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          is_resolved?: boolean | null
+          issue_type?: string
+          message?: string
+          page_id?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          route?: string | null
+          severity?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "seo_audit_issues_page_id_fkey"
+            columns: ["page_id"]
+            isOneToOne: false
+            referencedRelation: "seo_pages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      seo_change_log: {
+        Row: {
+          changed_at: string
+          changed_by: string | null
+          entity_id: string
+          entity_route: string | null
+          entity_type: string
+          field_name: string
+          id: string
+          is_reverted: boolean | null
+          new_value: string | null
+          old_value: string | null
+          reverted_at: string | null
+          reverted_by: string | null
+        }
+        Insert: {
+          changed_at?: string
+          changed_by?: string | null
+          entity_id: string
+          entity_route?: string | null
+          entity_type: string
+          field_name: string
+          id?: string
+          is_reverted?: boolean | null
+          new_value?: string | null
+          old_value?: string | null
+          reverted_at?: string | null
+          reverted_by?: string | null
+        }
+        Update: {
+          changed_at?: string
+          changed_by?: string | null
+          entity_id?: string
+          entity_route?: string | null
+          entity_type?: string
+          field_name?: string
+          id?: string
+          is_reverted?: boolean | null
+          new_value?: string | null
+          old_value?: string | null
+          reverted_at?: string | null
+          reverted_by?: string | null
+        }
+        Relationships: []
+      }
+      seo_global_settings: {
+        Row: {
+          created_at: string
+          default_canonical_mode: string | null
+          default_og_image: string | null
+          default_robots: string | null
+          description_template: string | null
+          id: string
+          robots_txt: string | null
+          site_name: string
+          sitemap_enabled: boolean | null
+          sitemap_exclude_patterns: string[] | null
+          title_template: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          default_canonical_mode?: string | null
+          default_og_image?: string | null
+          default_robots?: string | null
+          description_template?: string | null
+          id?: string
+          robots_txt?: string | null
+          site_name?: string
+          sitemap_enabled?: boolean | null
+          sitemap_exclude_patterns?: string[] | null
+          title_template?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          default_canonical_mode?: string | null
+          default_og_image?: string | null
+          default_robots?: string | null
+          description_template?: string | null
+          id?: string
+          robots_txt?: string | null
+          site_name?: string
+          sitemap_enabled?: boolean | null
+          sitemap_exclude_patterns?: string[] | null
+          title_template?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      seo_images: {
+        Row: {
+          alt_text: string | null
+          created_at: string
+          file_size: number | null
+          format: string | null
+          has_alt: boolean | null
+          height: number | null
+          id: string
+          is_oversized: boolean | null
+          page_id: string | null
+          src: string
+          updated_at: string
+          width: number | null
+        }
+        Insert: {
+          alt_text?: string | null
+          created_at?: string
+          file_size?: number | null
+          format?: string | null
+          has_alt?: boolean | null
+          height?: number | null
+          id?: string
+          is_oversized?: boolean | null
+          page_id?: string | null
+          src: string
+          updated_at?: string
+          width?: number | null
+        }
+        Update: {
+          alt_text?: string | null
+          created_at?: string
+          file_size?: number | null
+          format?: string | null
+          has_alt?: boolean | null
+          height?: number | null
+          id?: string
+          is_oversized?: boolean | null
+          page_id?: string | null
+          src?: string
+          updated_at?: string
+          width?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "seo_images_page_id_fkey"
+            columns: ["page_id"]
+            isOneToOne: false
+            referencedRelation: "seo_pages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      seo_pages: {
+        Row: {
+          canonical_mode: string | null
+          canonical_url: string | null
+          created_at: string
+          focus_keyword: string | null
+          h1_text: string | null
+          h2_outline: string[] | null
+          id: string
+          include_in_sitemap: boolean | null
+          is_indexable: boolean | null
+          last_audited_at: string | null
+          meta_description: string | null
+          meta_keywords: string | null
+          meta_title: string | null
+          noarchive: boolean | null
+          nosnippet: boolean | null
+          og_description: string | null
+          og_image: string | null
+          og_title: string | null
+          og_type: string | null
+          robots_meta: string | null
+          route: string
+          schema_data: Json | null
+          schema_types: string[] | null
+          secondary_keywords: string[] | null
+          seo_score: number | null
+          template_type: string | null
+          twitter_card: string | null
+          twitter_image: string | null
+          updated_at: string
+          updated_by: string | null
+          word_count: number | null
+        }
+        Insert: {
+          canonical_mode?: string | null
+          canonical_url?: string | null
+          created_at?: string
+          focus_keyword?: string | null
+          h1_text?: string | null
+          h2_outline?: string[] | null
+          id?: string
+          include_in_sitemap?: boolean | null
+          is_indexable?: boolean | null
+          last_audited_at?: string | null
+          meta_description?: string | null
+          meta_keywords?: string | null
+          meta_title?: string | null
+          noarchive?: boolean | null
+          nosnippet?: boolean | null
+          og_description?: string | null
+          og_image?: string | null
+          og_title?: string | null
+          og_type?: string | null
+          robots_meta?: string | null
+          route: string
+          schema_data?: Json | null
+          schema_types?: string[] | null
+          secondary_keywords?: string[] | null
+          seo_score?: number | null
+          template_type?: string | null
+          twitter_card?: string | null
+          twitter_image?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          word_count?: number | null
+        }
+        Update: {
+          canonical_mode?: string | null
+          canonical_url?: string | null
+          created_at?: string
+          focus_keyword?: string | null
+          h1_text?: string | null
+          h2_outline?: string[] | null
+          id?: string
+          include_in_sitemap?: boolean | null
+          is_indexable?: boolean | null
+          last_audited_at?: string | null
+          meta_description?: string | null
+          meta_keywords?: string | null
+          meta_title?: string | null
+          noarchive?: boolean | null
+          nosnippet?: boolean | null
+          og_description?: string | null
+          og_image?: string | null
+          og_title?: string | null
+          og_type?: string | null
+          robots_meta?: string | null
+          route?: string
+          schema_data?: Json | null
+          schema_types?: string[] | null
+          secondary_keywords?: string[] | null
+          seo_score?: number | null
+          template_type?: string | null
+          twitter_card?: string | null
+          twitter_image?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          word_count?: number | null
+        }
+        Relationships: []
+      }
+      seo_redirects: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          hit_count: number | null
+          id: string
+          is_active: boolean | null
+          last_hit_at: string | null
+          notes: string | null
+          redirect_type: number | null
+          source_path: string
+          target_path: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          hit_count?: number | null
+          id?: string
+          is_active?: boolean | null
+          last_hit_at?: string | null
+          notes?: string | null
+          redirect_type?: number | null
+          source_path: string
+          target_path: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          hit_count?: number | null
+          id?: string
+          is_active?: boolean | null
+          last_hit_at?: string | null
+          notes?: string | null
+          redirect_type?: number | null
+          source_path?: string
+          target_path?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
