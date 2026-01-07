@@ -55,7 +55,7 @@ const ArtistSection: React.FC = () => {
             >
               <Link 
                 to="/about" 
-                className="inline-flex items-center justify-center w-12 h-12 border border-[#323232] text-[#323232] hover:bg-[#323232] hover:text-white transition-colors"
+                className="inline-flex items-center justify-center w-12 h-12 border border-foreground text-foreground hover:bg-foreground hover:text-background transition-colors"
               >
                 <ArrowUpRight size={24} strokeWidth={1.5} />
               </Link>
