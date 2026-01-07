@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import { ArrowUpRight } from 'lucide-react';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import StaggerChildren, { StaggerItem } from '@/components/animations/StaggerChildren';
 
@@ -64,31 +64,21 @@ const FeaturedWork: React.FC = () => {
       </div>
       
       <ScrollReveal delay={0.4}>
-        <div className="box-border flex flex-col items-start self-stretch relative m-0 p-0">
-          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-            <Link to="/work">
-              <Button variant="outline" className="box-border flex justify-center items-center gap-[13.5px] border relative m-0 p-[13.5px] border-solid border-border font-medium">
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <g clipPath="url(#clip0_3_118)">
-                    <mask id="mask0_3_118" style={{ maskType: 'luminance' }} maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="18">
-                      <path d="M18 0H0V18H18V0Z" fill="white" />
-                    </mask>
-                    <g mask="url(#mask0_3_118)">
-                      <path d="M17.2542 11.1268L13.0994 6.97194M17.2542 11.1268L13.0994 15.2816M17.2542 11.1268H4.5V2.8125" stroke="currentColor" strokeWidth="1.575" />
-                    </g>
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_3_118">
-                      <rect width="18" height="18" fill="white" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                <span className="box-border text-foreground text-[17.6px] font-medium leading-[19.8px] tracking-[-0.027px] uppercase">
-                  See more work
-                </span>
-              </Button>
+        <div className="box-border flex items-center gap-4 self-stretch relative m-0 p-0">
+          <motion.div 
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Link 
+              to="/work" 
+              className="inline-flex items-center justify-center w-12 h-12 border border-foreground text-foreground hover:bg-foreground hover:text-background transition-colors"
+            >
+              <ArrowUpRight size={24} strokeWidth={1.5} />
             </Link>
           </motion.div>
+          <span className="text-foreground text-[17.6px] font-medium leading-[19.8px] tracking-[-0.027px] uppercase">
+            See more work
+          </span>
         </div>
       </ScrollReveal>
     </section>
