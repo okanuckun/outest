@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import PageTransition from '@/components/animations/PageTransition';
+import SEOHead from '@/components/SEOHead';
 
 // Import images
 import heroImage1 from '@/assets/work/DSC03538.jpg';
@@ -217,8 +218,29 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
 };
 
 const Project: React.FC = () => {
+  const projectJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Projects by Okan Uckun',
+    description: 'Explore the artistic projects and creative works by Okan Uckun, including live art performances, digital art, editorial work, and photography.',
+    url: 'https://okanuckun.com/project',
+    author: {
+      '@type': 'Person',
+      name: 'Okan Uckun',
+      jobTitle: 'Tattoo Artist',
+      url: 'https://okanuckun.com'
+    }
+  };
+
   return (
     <PageTransition>
+      <SEOHead
+        title="Projects | Okan Uckun - Creative Works & Art Projects"
+        description="Explore the artistic projects and creative works by Okan Uckun. From live art performances to digital abstractions, editorial work, and photography collections."
+        keywords="Okan Uckun projects, art projects, live art, digital art, editorial, photography, creative works, tattoo artist portfolio"
+        canonical="/project"
+        jsonLd={projectJsonLd}
+      />
       <div className="min-h-screen bg-background">
         <div className="fixed top-0 left-0 right-0 z-50">
           <Navigation />
