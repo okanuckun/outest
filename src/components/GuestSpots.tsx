@@ -31,59 +31,40 @@ const GuestSpots: React.FC = () => {
     },
   });
 
-  const hasGuestSpots = !isLoading && guestSpots && guestSpots.length > 0;
+  if (isLoading || !guestSpots || guestSpots.length === 0) {
+    return null;
+  }
 
   return (
-    <div className="absolute top-32 right-6 md:top-36 md:right-12 z-20 flex flex-col gap-3">
-      {/* Book an Appointment Card */}
-      <Link 
-        to="/booking"
-        className="backdrop-blur-sm bg-black/40 border border-white/10 rounded-sm p-4 md:p-5 w-[260px] block hover:bg-black/50 transition-colors group"
-      >
-        <p className="text-white/60 text-[10px] uppercase tracking-[0.2em] mb-2">
-          Get Inked
+    <div className="absolute top-32 right-6 md:top-36 md:right-12 z-20">
+      <div className="backdrop-blur-sm bg-black/40 border border-white/10 rounded-sm p-4 md:p-5 w-[260px]">
+        <p className="text-white/60 text-[10px] uppercase tracking-[0.2em] mb-3">
+          Upcoming Guest Spots
         </p>
-        <div className="flex items-center justify-between">
-          <p className="text-white text-sm font-light">
-            Book an Appointment
-          </p>
-          <span className="text-white/40 text-xs group-hover:text-white transition-colors">
-            →
-          </span>
-        </div>
-      </Link>
-
-      {/* Guest Spots Card */}
-      {hasGuestSpots && (
-        <div className="backdrop-blur-sm bg-black/40 border border-white/10 rounded-sm p-4 md:p-5 w-[260px]">
-          <p className="text-white/60 text-[10px] uppercase tracking-[0.2em] mb-3">
-            Upcoming Guest Spots
-          </p>
-          <div className="space-y-3">
-            {guestSpots.map((spot) => (
-              <Link
-                key={spot.id}
-                to={`/booking?guest_spot=${spot.id}`}
-                className="group block"
-              >
-                <div className="flex items-baseline justify-between gap-4">
-                  <div>
-                    <p className="text-white text-sm font-light">
-                      {spot.city}
-                    </p>
-                    <p className="text-white/50 text-xs">
-                      {format(new Date(spot.start_date), 'MMM d')} – {format(new Date(spot.end_date), 'd')}
-                    </p>
-                  </div>
-                  <span className="text-white/40 text-xs group-hover:text-white transition-colors">
-                    Book →
-                  </span>
+        <div className="space-y-3">
+          {guestSpots.map((spot) => (
+            <Link
+              key={spot.id}
+              to={`/booking?guest_spot=${spot.id}`}
+              className="group block"
+            >
+              <div className="flex items-baseline justify-between gap-4">
+                <div>
+                  <p className="text-white text-sm font-light">
+                    {spot.city}
+                  </p>
+                  <p className="text-white/50 text-xs">
+                    {format(new Date(spot.start_date), 'MMM d')} – {format(new Date(spot.end_date), 'd')}
+                  </p>
                 </div>
-              </Link>
-            ))}
-          </div>
+                <span className="text-white/40 text-xs group-hover:text-white transition-colors">
+                  Book →
+                </span>
+              </div>
+            </Link>
+          ))}
         </div>
-      )}
+      </div>
     </div>
   );
 };
