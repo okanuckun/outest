@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useCallback } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -19,7 +19,8 @@ import {
   Code,
   Minus,
   ImageIcon,
-  Loader2
+  Loader2,
+  Upload
 } from 'lucide-react';
 import { Toggle } from '@/components/ui/toggle';
 import { Separator } from '@/components/ui/separator';
@@ -40,6 +41,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = React.useState(false);
+  const [isDragging, setIsDragging] = React.useState(false);
 
   const editor = useEditor({
     extensions: [
@@ -68,7 +70,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
     },
   });
 
-  const handleImageUpload = async (file: File) => {
+  const handleImageUpload = useCallback(async (file: File) => {
     if (!file.type.startsWith('image/')) {
       toast.error('Please select an image file');
       return;
@@ -107,7 +109,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
     } finally {
       setUploading(false);
     }
-  };
+  }, [editor]);
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -117,12 +119,82 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
     e.target.value = '';
   };
 
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  }, []);
+
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  }, []);
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    const files = Array.from(e.dataTransfer.files);
+    const imageFile = files.find(file => file.type.startsWith('image/'));
+    
+    if (imageFile) {
+      handleImageUpload(imageFile);
+    }
+  }, [handleImageUpload]);
+
+  const handlePaste = useCallback((e: React.ClipboardEvent) => {
+    const items = e.clipboardData.items;
+    
+    for (const item of items) {
+      if (item.type.startsWith('image/')) {
+        e.preventDefault();
+        const file = item.getAsFile();
+        if (file) {
+          handleImageUpload(file);
+        }
+        break;
+      }
+    }
+  }, [handleImageUpload]);
+
   if (!editor) {
     return null;
   }
 
   return (
-    <div className={cn('border border-border rounded-md overflow-hidden bg-background', className)}>
+    <div 
+      className={cn(
+        'border border-border rounded-md overflow-hidden bg-background relative',
+        isDragging && 'ring-2 ring-primary ring-offset-2',
+        className
+      )}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+      onPaste={handlePaste}
+    >
+      {/* Drag overlay */}
+      {isDragging && (
+        <div className="absolute inset-0 bg-primary/10 z-50 flex items-center justify-center pointer-events-none">
+          <div className="bg-background border-2 border-dashed border-primary rounded-lg p-6 flex flex-col items-center gap-2">
+            <Upload className="h-8 w-8 text-primary" />
+            <span className="text-sm font-medium text-primary">Drop image here</span>
+          </div>
+        </div>
+      )}
+
+      {/* Upload indicator */}
+      {uploading && (
+        <div className="absolute inset-0 bg-background/80 z-50 flex items-center justify-center">
+          <div className="flex items-center gap-2">
+            <Loader2 className="h-6 w-6 animate-spin text-primary" />
+            <span className="text-sm font-medium">Uploading image...</span>
+          </div>
+        </div>
+      )}
+
       {/* Hidden file input */}
       <input
         ref={fileInputRef}
@@ -247,13 +319,9 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
           onPressedChange={() => fileInputRef.current?.click()}
           disabled={uploading}
           aria-label="Insert Image"
-          title="Insert Image"
+          title="Insert Image (or drag & drop)"
         >
-          {uploading ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <ImageIcon className="h-4 w-4" />
-          )}
+          <ImageIcon className="h-4 w-4" />
         </Toggle>
 
         <Separator orientation="vertical" className="h-6 mx-1" />
@@ -295,8 +363,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
           {editor.isActive('orderedList') && 'Numbered List'}
           {editor.isActive('blockquote') && 'Quote'}
         </span>
-        <span>
-          {editor.storage.characterCount?.characters?.() || 0} characters
+        <span className="text-muted-foreground/60">
+          Drag & drop or paste images
         </span>
       </div>
     </div>
