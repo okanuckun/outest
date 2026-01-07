@@ -141,6 +141,35 @@ const About: React.FC = () => {
         </div>
       </section>
 
+      {/* Biography Section */}
+      <section className="bg-[#f5f5f5] py-20 lg:py-32 px-6 lg:px-12">
+        <div className="max-w-5xl mx-auto space-y-12">
+          <ScrollReveal>
+            <p className="text-[16px] md:text-[18px] leading-[1.8] text-[#323232]">
+              Okan Uckun is recognized as one of the pioneers of minimalist tattoos and geometric tattoos. In 2024, he co-founded Monolith Studio with Oscar Akermo and continues to run his unique art project, INM Studio. After completing his education in architecture and earning a master&apos;s degree in modern art, he fully dedicated himself to tattooing in 2009. To date, he has performed tattoo art in over 50 countries. In 2017, Okan moved from Istanbul to New York City, where he currently lives and continues his career in the USA, particularly in NYC.
+            </p>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.1}>
+            <p className="text-[16px] md:text-[18px] leading-[1.8] text-[#323232]">
+              Okan Uckun&apos;s artistic endeavors are deeply influenced by minimalism, geometric forms, and architecture. His journey began in Istanbul, Turkey, and now continues in New York City. For approximately six years, he honed his craft at Bang Bang Tattoo before pursuing his own independent projects. Renowned for setting a new artistic standard with his meticulously crafted minimalist line work and geometric designs, Okan has earned widespread acclaim for his unique creations on an international scale.
+            </p>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.2}>
+            <p className="text-[16px] md:text-[18px] leading-[1.8] text-[#323232]">
+              Describing the human body as a walking gallery, Okan thrives on creating art that travels the world and becomes an integral part of life. Beyond his tattoo work, Okan Uckun has contributed to various brands and projects, including jewelry collections, fashion labels, and snowboard designs, and has served as a creative director for many prominent music artists. Through these collaborations, he seamlessly integrates his minimalist style, showcasing the transformative power of his artistic vision.
+            </p>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.3}>
+            <p className="text-[16px] md:text-[18px] leading-[1.8] text-[#323232] font-medium">
+              Okan continues to be an inspiring figure, making a lasting impact with his art and innovative approach.
+            </p>
+          </ScrollReveal>
+        </div>
+      </section>
+
       {/* Full Width Image */}
       <ScrollReveal className="w-full">
         <div className="w-full h-[70vh] lg:h-[90vh] overflow-hidden">
