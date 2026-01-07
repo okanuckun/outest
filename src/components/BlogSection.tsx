@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import StaggerChildren, { StaggerItem } from '@/components/animations/StaggerChildren';
 
@@ -9,6 +10,11 @@ import blogImage3 from '@/assets/work/Group_261.jpg';
 
 const BlogSection: React.FC = () => {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const navigate = useNavigate();
+
+  const handlePostClick = (postId: number) => {
+    navigate(`/blog?post=${postId}`);
+  };
 
   const blogPosts = [
     {
@@ -57,6 +63,7 @@ const BlogSection: React.FC = () => {
               className="box-border flex flex-col items-start self-stretch relative m-0 p-0 cursor-pointer group border-t border-border"
               onMouseEnter={() => setHoveredId(post.id)}
               onMouseLeave={() => setHoveredId(null)}
+              onClick={() => handlePostClick(post.id)}
             >
               <div className="box-border flex items-center justify-between w-full py-6 relative">
                 {/* Left side - Number and Title */}
