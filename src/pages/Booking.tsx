@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { Upload, X, Image as ImageIcon } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 type FormData = {
   firstName: string;
@@ -10,43 +12,121 @@ type FormData = {
   phone: string;
   email: string;
   location: string;
-  needsRecommendation: boolean | null;
+  collectorType: 'new' | 'returning' | null;
   tattooPlacement: string;
   tattooSize: string;
   description: string;
-  referenceImages: string;
   preferredDate: string;
   additionalNotes: string;
 };
 
+type UploadedFile = {
+  file: File;
+  preview: string;
+  uploading: boolean;
+  url?: string;
+};
+
 const Booking: React.FC = () => {
   const { toast } = useToast();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
     phone: '',
     email: '',
     location: '',
-    needsRecommendation: null,
+    collectorType: null,
     tattooPlacement: '',
     tattooSize: '',
     description: '',
-    referenceImages: '',
     preferredDate: '',
     additionalNotes: '',
   });
 
-  const handleInputChange = (field: keyof FormData, value: string | boolean) => {
+  const handleInputChange = (field: keyof FormData, value: string | boolean | 'new' | 'returning' | null) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+
+    const newFiles: UploadedFile[] = Array.from(files).map(file => ({
+      file,
+      preview: URL.createObjectURL(file),
+      uploading: true,
+    }));
+
+    setUploadedFiles(prev => [...prev, ...newFiles]);
+
+    // Upload each file to Supabase Storage
+    for (let i = 0; i < newFiles.length; i++) {
+      const file = newFiles[i].file;
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+
+      try {
+        const { data, error } = await supabase.storage
+          .from('booking-references')
+          .upload(fileName, file);
+
+        if (error) throw error;
+
+        const { data: urlData } = supabase.storage
+          .from('booking-references')
+          .getPublicUrl(fileName);
+
+        setUploadedFiles(prev =>
+          prev.map((f, idx) =>
+            f.preview === newFiles[i].preview
+              ? { ...f, uploading: false, url: urlData.publicUrl }
+              : f
+          )
+        );
+      } catch (error) {
+        console.error('Upload error:', error);
+        toast({
+          title: "Upload Failed",
+          description: `Failed to upload ${file.name}`,
+          variant: "destructive",
+        });
+        setUploadedFiles(prev =>
+          prev.filter(f => f.preview !== newFiles[i].preview)
+        );
+      }
+    }
+
+    // Reset input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const removeFile = (preview: string) => {
+    setUploadedFiles(prev => {
+      const fileToRemove = prev.find(f => f.preview === preview);
+      if (fileToRemove) {
+        URL.revokeObjectURL(fileToRemove.preview);
+      }
+      return prev.filter(f => f.preview !== preview);
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
+    const referenceImageUrls = uploadedFiles
+      .filter(f => f.url)
+      .map(f => f.url);
+
     // TODO: Implement email sending with Resend API
     // For now, just show a success message
+    console.log('Form data:', { ...formData, referenceImages: referenceImageUrls });
+    
     setTimeout(() => {
       toast({
         title: "Request Submitted",
@@ -171,33 +251,33 @@ const Booking: React.FC = () => {
                   </h2>
                 </div>
 
-                {/* Artist Recommendation */}
+                {/* Collector Type */}
                 <div className="mb-8">
                   <label className="block text-[#1a1a1a] text-sm mb-4">
-                    Do you need artist recommendation?
+                    Are you a new or returning collector?
                   </label>
                   <div className="flex gap-4">
                     <button
                       type="button"
-                      onClick={() => handleInputChange('needsRecommendation', true)}
+                      onClick={() => handleInputChange('collectorType', 'new')}
                       className={`px-8 py-3 border transition-all ${
-                        formData.needsRecommendation === true
+                        formData.collectorType === 'new'
                           ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]'
                           : 'bg-transparent text-[#1a1a1a] border-[#1a1a1a]/20 hover:border-[#1a1a1a]/60'
                       }`}
                     >
-                      Yes
+                      New Collector
                     </button>
                     <button
                       type="button"
-                      onClick={() => handleInputChange('needsRecommendation', false)}
+                      onClick={() => handleInputChange('collectorType', 'returning')}
                       className={`px-8 py-3 border transition-all ${
-                        formData.needsRecommendation === false
+                        formData.collectorType === 'returning'
                           ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]'
                           : 'bg-transparent text-[#1a1a1a] border-[#1a1a1a]/20 hover:border-[#1a1a1a]/60'
                       }`}
                     >
-                      No
+                      Returning Collector
                     </button>
                   </div>
                 </div>
@@ -239,15 +319,63 @@ const Booking: React.FC = () => {
                   />
                 </div>
 
+                {/* Reference Images Upload */}
                 <div className="mt-6">
-                  <label className="block text-[#1a1a1a] text-sm mb-2">Reference images (URL links)</label>
-                  <textarea
-                    rows={3}
-                    value={formData.referenceImages}
-                    onChange={(e) => handleInputChange('referenceImages', e.target.value)}
-                    placeholder="Paste links to reference images (Pinterest, Instagram, etc.)"
-                    className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors resize-none"
+                  <label className="block text-[#1a1a1a] text-sm mb-2">Reference images</label>
+                  <p className="text-[#1a1a1a]/60 text-sm mb-4">
+                    Upload up to 20 images (max 20MB each)
+                  </p>
+                  
+                  <div
+                    onClick={() => fileInputRef.current?.click()}
+                    className="border-2 border-dashed border-[#1a1a1a]/20 hover:border-[#1a1a1a]/40 transition-colors cursor-pointer p-8 text-center"
+                  >
+                    <Upload className="w-8 h-8 mx-auto mb-3 text-[#1a1a1a]/40" />
+                    <p className="text-[#1a1a1a]/60 text-sm">
+                      Click to upload or drag and drop
+                    </p>
+                    <p className="text-[#1a1a1a]/40 text-xs mt-1">
+                      PNG, JPG, WEBP up to 20MB
+                    </p>
+                  </div>
+                  
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={handleFileSelect}
+                    className="hidden"
                   />
+
+                  {/* Uploaded Files Preview */}
+                  {uploadedFiles.length > 0 && (
+                    <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                      {uploadedFiles.map((file, index) => (
+                        <div key={file.preview} className="relative group">
+                          <div className="aspect-square bg-white border border-[#1a1a1a]/10 overflow-hidden">
+                            <img
+                              src={file.preview}
+                              alt={`Reference ${index + 1}`}
+                              className="w-full h-full object-cover"
+                            />
+                            {file.uploading && (
+                              <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                                <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                              </div>
+                            )}
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => removeFile(file.preview)}
+                            className="absolute -top-2 -right-2 w-6 h-6 bg-[#1a1a1a] text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
 
