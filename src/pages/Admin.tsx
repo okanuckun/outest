@@ -57,6 +57,7 @@ interface BlogSEO {
 interface Project {
   id: string;
   title: string;
+  description: string | null;
   category: string | null;
   year: string | null;
   location: string | null;
@@ -781,6 +782,7 @@ const Admin: React.FC = () => {
                   setEditingProject({
                     id: '',
                     title: '',
+                    description: '',
                     category: '',
                     year: new Date().getFullYear().toString(),
                     location: '',
@@ -860,6 +862,17 @@ const Admin: React.FC = () => {
                       }
                     />
                   </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Description</Label>
+                  <RichTextEditor
+                    content={editingProject.description || ''}
+                    onChange={(content) =>
+                      setEditingProject({ ...editingProject, description: content })
+                    }
+                    placeholder="Write project description here. Use H1, H2, H3 for headings..."
+                  />
                 </div>
 
                 <div className="space-y-2">
