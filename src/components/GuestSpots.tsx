@@ -36,7 +36,7 @@ const GuestSpots: React.FC = () => {
   }
 
   return (
-    <div className="absolute top-32 right-6 md:top-36 md:right-12 z-20">
+    <div className="absolute top-32 right-[22.5px] max-sm:right-4 md:top-36 z-20">
       <div className="backdrop-blur-sm bg-black/40 border border-white/10 rounded-sm p-4 md:p-5 w-[260px]">
         <p className="text-white/60 text-[10px] uppercase tracking-[0.2em] mb-3">
           Upcoming Guest Spots
