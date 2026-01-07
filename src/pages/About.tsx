@@ -122,51 +122,98 @@ const About: React.FC = () => {
         </div>
       </section>
 
-      {/* Story Section */}
+      {/* Story Section - Pioneer */}
       <section className="bg-white py-20 lg:py-32 px-6 lg:px-12">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
             <ScrollReveal className="lg:w-1/3">
               <span className="text-[11px] font-normal tracking-[0.1em] uppercase text-[#888]">
-                ABOUT
+                PIONEER
               </span>
             </ScrollReveal>
             
             <ScrollReveal delay={0.2} className="lg:w-2/3">
               <p className="text-[28px] md:text-[36px] lg:text-[42px] font-normal leading-[1.15] tracking-[-0.02em] text-[#323232] uppercase">
-                From the vibrant streets of Istanbul to the heart of New York City, I built my name through years of obsessive practice and a relentless eye for proportion, light, and restraint.
+                Recognized as one of the pioneers of minimalist tattoos and geometric tattoos. Co-founded Monolith Studio with Oscar Akermo in 2024.
               </p>
             </ScrollReveal>
           </div>
         </div>
       </section>
 
-      {/* Biography Section */}
+      {/* Journey Section */}
       <section className="bg-[#f5f5f5] py-20 lg:py-32 px-6 lg:px-12">
-        <div className="max-w-5xl mx-auto space-y-12">
-          <ScrollReveal>
-            <p className="text-[16px] md:text-[18px] leading-[1.8] text-[#323232]">
-              Okan Uckun is recognized as one of the pioneers of minimalist tattoos and geometric tattoos. In 2024, he co-founded Monolith Studio with Oscar Akermo and continues to run his unique art project, INM Studio. After completing his education in architecture and earning a master&apos;s degree in modern art, he fully dedicated himself to tattooing in 2009. To date, he has performed tattoo art in over 50 countries. In 2017, Okan moved from Istanbul to New York City, where he currently lives and continues his career in the USA, particularly in NYC.
-            </p>
-          </ScrollReveal>
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+            <ScrollReveal className="lg:w-1/3">
+              <span className="text-[11px] font-normal tracking-[0.1em] uppercase text-[#888]">
+                JOURNEY
+              </span>
+            </ScrollReveal>
+            
+            <ScrollReveal delay={0.2} className="lg:w-2/3">
+              <p className="text-[28px] md:text-[36px] lg:text-[42px] font-normal leading-[1.15] tracking-[-0.02em] text-[#323232] uppercase">
+                After completing education in architecture and earning a master&apos;s degree in modern art, fully dedicated to tattooing in 2009. Performed tattoo art in over 50 countries.
+              </p>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
 
-          <ScrollReveal delay={0.1}>
-            <p className="text-[16px] md:text-[18px] leading-[1.8] text-[#323232]">
-              Okan Uckun&apos;s artistic endeavors are deeply influenced by minimalism, geometric forms, and architecture. His journey began in Istanbul, Turkey, and now continues in New York City. For approximately six years, he honed his craft at Bang Bang Tattoo before pursuing his own independent projects. Renowned for setting a new artistic standard with his meticulously crafted minimalist line work and geometric designs, Okan has earned widespread acclaim for his unique creations on an international scale.
-            </p>
-          </ScrollReveal>
+      {/* NYC Section */}
+      <section className="bg-white py-20 lg:py-32 px-6 lg:px-12">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+            <ScrollReveal className="lg:w-1/3">
+              <span className="text-[11px] font-normal tracking-[0.1em] uppercase text-[#888]">
+                NEW YORK CITY
+              </span>
+            </ScrollReveal>
+            
+            <ScrollReveal delay={0.2} className="lg:w-2/3">
+              <p className="text-[28px] md:text-[36px] lg:text-[42px] font-normal leading-[1.15] tracking-[-0.02em] text-[#323232] uppercase">
+                In 2017, moved from Istanbul to New York City. For six years, honed craft at Bang Bang Tattoo before pursuing independent projects.
+              </p>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
 
-          <ScrollReveal delay={0.2}>
-            <p className="text-[16px] md:text-[18px] leading-[1.8] text-[#323232]">
-              Describing the human body as a walking gallery, Okan thrives on creating art that travels the world and becomes an integral part of life. Beyond his tattoo work, Okan Uckun has contributed to various brands and projects, including jewelry collections, fashion labels, and snowboard designs, and has served as a creative director for many prominent music artists. Through these collaborations, he seamlessly integrates his minimalist style, showcasing the transformative power of his artistic vision.
-            </p>
-          </ScrollReveal>
+      {/* Philosophy Section */}
+      <section className="bg-[#f5f5f5] py-20 lg:py-32 px-6 lg:px-12">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+            <ScrollReveal className="lg:w-1/3">
+              <span className="text-[11px] font-normal tracking-[0.1em] uppercase text-[#888]">
+                PHILOSOPHY
+              </span>
+            </ScrollReveal>
+            
+            <ScrollReveal delay={0.2} className="lg:w-2/3">
+              <p className="text-[28px] md:text-[36px] lg:text-[42px] font-normal leading-[1.15] tracking-[-0.02em] text-[#323232] uppercase">
+                Describing the human body as a walking gallery. Thrives on creating art that travels the world and becomes an integral part of life.
+              </p>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
 
-          <ScrollReveal delay={0.3}>
-            <p className="text-[16px] md:text-[18px] leading-[1.8] text-[#323232] font-medium">
-              Okan continues to be an inspiring figure, making a lasting impact with his art and innovative approach.
-            </p>
-          </ScrollReveal>
+      {/* Beyond Section */}
+      <section className="bg-white py-20 lg:py-32 px-6 lg:px-12">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+            <ScrollReveal className="lg:w-1/3">
+              <span className="text-[11px] font-normal tracking-[0.1em] uppercase text-[#888]">
+                BEYOND TATTOO
+              </span>
+            </ScrollReveal>
+            
+            <ScrollReveal delay={0.2} className="lg:w-2/3">
+              <p className="text-[28px] md:text-[36px] lg:text-[42px] font-normal leading-[1.15] tracking-[-0.02em] text-[#323232] uppercase">
+                Contributed to jewelry collections, fashion labels, snowboard designs, and served as creative director for prominent music artists.
+              </p>
+            </ScrollReveal>
+          </div>
         </div>
       </section>
 
