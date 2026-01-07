@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Upload, X } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import SEOHead from '@/components/SEOHead';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -234,12 +235,19 @@ const Booking: React.FC = () => {
   );
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="min-h-screen bg-[#e8e8e8]"
-    >
+    <>
+      <SEOHead
+        title="Book a Tattoo Session | Okan Uckun NYC"
+        description="Book your tattoo session with Okan Uckun in New York City. Fill out the form to start your journey with a renowned black and grey realism artist."
+        keywords="book tattoo NYC, tattoo appointment, tattoo consultation, Okan Uckun booking, NYC tattoo session"
+        canonical="/booking"
+      />
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="min-h-screen bg-[#e8e8e8]"
+      >
       <Navigation variant="dark" />
       
       <main className="relative z-10 pt-40 md:pt-48 pb-24">
@@ -590,7 +598,8 @@ const Booking: React.FC = () => {
       </main>
 
       <Footer />
-    </motion.div>
+      </motion.div>
+    </>
   );
 };
 

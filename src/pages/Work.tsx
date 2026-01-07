@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
+import SEOHead from '@/components/SEOHead';
 
 // Work images
 import glitch1 from '@/assets/work/glitch1.png';
@@ -23,6 +24,14 @@ import Group_261 from '@/assets/work/Group_261.jpg';
 import c3 from '@/assets/work/c3.jpg';
 import Group_315 from '@/assets/work/Group_315.jpg';
 import Group_351 from '@/assets/work/Group_351.jpg';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ImageGallery',
+  name: 'Okan Uckun Tattoo Portfolio',
+  description: 'Explore the tattoo portfolio of Okan Uckun featuring black and grey realism, portraits, and fine line work.',
+  url: 'https://okanuckun.com/work'
+};
 
 const Work: React.FC = () => {
   const [currentPair, setCurrentPair] = useState(0);
@@ -158,13 +167,21 @@ const Work: React.FC = () => {
   };
 
   return (
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="h-screen w-screen overflow-hidden bg-black"
-      ref={containerRef}
-    >
+    <>
+      <SEOHead
+        title="Work | Okan Uckun Tattoo Portfolio NYC"
+        description="Explore the tattoo portfolio of Okan Uckun featuring black and grey realism, portraits, geometric designs, and fine line work in New York City."
+        keywords="tattoo portfolio, black and grey tattoo, realism tattoo gallery, NYC tattoo work, Okan Uckun portfolio"
+        canonical="/work"
+        jsonLd={jsonLd}
+      />
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="h-screen w-screen overflow-hidden bg-black"
+        ref={containerRef}
+      >
       {/* Header - Using shared Navigation component */}
       <div className="fixed top-0 left-0 right-0 z-50">
         <Navigation />
@@ -330,7 +347,8 @@ const Work: React.FC = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+      </motion.div>
+    </>
   );
 };
 
