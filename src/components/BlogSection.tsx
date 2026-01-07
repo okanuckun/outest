@@ -115,6 +115,7 @@ const BlogSection: React.FC = () => {
                           alt={post.title}
                           className="w-full h-full object-cover"
                           loading="lazy"
+                          decoding="async"
                           initial={{ scale: 1.1 }}
                           animate={{ scale: 1 }}
                           transition={{ duration: 0.5 }}

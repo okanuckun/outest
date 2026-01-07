@@ -24,6 +24,7 @@ const VideoSection: React.FC = () => {
                     alt="Video thumbnail"
                     className="absolute inset-0 w-full h-full object-cover"
                     loading="lazy"
+                    decoding="async"
                     initial={{ scale: 1.1 }}
                     whileInView={{ scale: 1 }}
                     transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}

@@ -51,6 +51,7 @@ const FeaturedWork: React.FC = () => {
                       alt={work.alt} 
                       className="box-border w-full h-full relative object-cover m-0 p-0" 
                       loading="lazy"
+                      decoding="async"
                       whileHover={{ scale: 1.1 }} 
                       transition={{ duration: 0.5 }} 
                     />
