@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Footer from '@/components/Footer';
+import Navigation from '@/components/Navigation';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import aboutImage2 from '@/assets/about-image-2.webp';
 import aboutImage3 from '@/assets/about-image-3.webp';
@@ -16,6 +17,11 @@ const About: React.FC = () => {
   }} transition={{
     duration: 0.5
   }} className="box-border w-full min-h-screen relative overflow-x-hidden bg-white m-0 p-0">
+      {/* Navigation */}
+      <div className="absolute top-0 left-0 right-0 z-50">
+        <Navigation variant="light" />
+      </div>
+
       {/* Hero Split Section */}
       <section className="min-h-screen flex flex-col lg:flex-row">
         {/* Left Side - Dark with Image (35%) */}
