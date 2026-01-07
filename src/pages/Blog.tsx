@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import Footer from '@/components/Footer';
@@ -38,6 +38,24 @@ const blogPosts = [
 
 const Blog = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [searchParams] = useSearchParams();
+  const gridRef = useRef<HTMLDivElement>(null);
+  const articleRefs = useRef<{ [key: number]: HTMLElement | null }>({});
+
+  // Handle post navigation from homepage
+  useEffect(() => {
+    const postId = searchParams.get('post');
+    if (postId) {
+      const targetId = parseInt(postId);
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        const targetArticle = articleRefs.current[targetId];
+        if (targetArticle) {
+          targetArticle.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 100);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -181,10 +199,11 @@ const Blog = () => {
         </ScrollReveal>
 
         {/* Blog Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
           {blogPosts.map((post, index) => (
             <ScrollReveal key={post.id} delay={index * 0.1}>
               <motion.article 
+                ref={(el) => { articleRefs.current[post.id] = el; }}
                 className="group cursor-pointer"
                 whileHover={{ y: -5 }}
                 transition={{ duration: 0.3 }}
