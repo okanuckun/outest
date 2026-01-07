@@ -153,7 +153,7 @@ const About: React.FC = () => {
             
             <ScrollReveal delay={0.2} className="lg:w-2/3">
               <p className="text-[28px] md:text-[36px] lg:text-[42px] font-normal leading-[1.15] tracking-[-0.02em] text-[#323232] uppercase">
-                After completing education in architecture and earning a master&apos;s degree in modern art, fully dedicated to tattooing in 2009. Performed tattoo art in over 50 countries.
+                Architecture degree followed by a Master&apos;s in Modern Art — then full commitment to tattooing in 2009. Education remains a source of inspiration, fueling new discoveries. Based in NYC, traveling annually to California, London, and beyond for tattoo performances.
               </p>
             </ScrollReveal>
           </div>
@@ -172,7 +172,7 @@ const About: React.FC = () => {
             
             <ScrollReveal delay={0.2} className="lg:w-2/3">
               <p className="text-[28px] md:text-[36px] lg:text-[42px] font-normal leading-[1.15] tracking-[-0.02em] text-[#323232] uppercase">
-                In 2017, moved from Istanbul to New York City. For six years, honed craft at Bang Bang Tattoo before pursuing independent projects.
+                Moved from Istanbul to NYC in 2017. After six years at Bang Bang Tattoo, the focus shifted to independent projects. In 2024, co-founded Monolith Studio with Oscar Akermo — building a team and continuing the tattoo journey in New York City.
               </p>
             </ScrollReveal>
           </div>
@@ -191,7 +191,7 @@ const About: React.FC = () => {
             
             <ScrollReveal delay={0.2} className="lg:w-2/3">
               <p className="text-[28px] md:text-[36px] lg:text-[42px] font-normal leading-[1.15] tracking-[-0.02em] text-[#323232] uppercase">
-                Describing the human body as a walking gallery. Thrives on creating art that travels the world and becomes an integral part of life.
+                The human body is a living gallery. A tattoo becomes part of your story, your identity. Deeply considered yet minimally expressed designs — that is the pursuit. Technology, art, and architecture serve as constant inspiration, shaping both the work and the way of thinking.
               </p>
             </ScrollReveal>
           </div>
@@ -210,7 +210,7 @@ const About: React.FC = () => {
             
             <ScrollReveal delay={0.2} className="lg:w-2/3">
               <p className="text-[28px] md:text-[36px] lg:text-[42px] font-normal leading-[1.15] tracking-[-0.02em] text-[#323232] uppercase">
-                Contributed to jewelry collections, fashion labels, snowboard designs, and served as creative director for prominent music artists.
+                Exploring the creative world beyond tattoo — jewelry collections, fashion collaborations, snowboard and extreme sports partnerships, startup ventures, and serving as creative director for musicians. The artistic journey continues to evolve across disciplines.
               </p>
             </ScrollReveal>
           </div>
