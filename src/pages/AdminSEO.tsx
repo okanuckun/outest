@@ -72,7 +72,7 @@ const AdminSEO: React.FC = () => {
   };
 
   const handleDeletePage = async (id: string) => {
-    if (confirm('Bu sayfa SEO ayarlarını silmek istediğinize emin misiniz?')) {
+    if (confirm('Are you sure you want to delete this page SEO settings?')) {
       await deletePage(id);
     }
   };
@@ -94,7 +94,7 @@ const AdminSEO: React.FC = () => {
           break;
       }
     }
-    toast({ title: 'Toplu işlem tamamlandı', description: `${pageIds.length} sayfa güncellendi` });
+    toast({ title: 'Bulk action completed', description: `${pageIds.length} pages updated` });
   };
 
   const handleQuickFix = (issue: any) => {
@@ -119,7 +119,7 @@ const AdminSEO: React.FC = () => {
   if (authLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <p className="text-muted-foreground">Yükleniyor...</p>
+        <p className="text-muted-foreground">Loading...</p>
       </div>
     );
   }
@@ -129,11 +129,11 @@ const AdminSEO: React.FC = () => {
       <div className="min-h-screen bg-background flex items-center justify-center px-4">
         <div className="text-center">
           <AlertCircle size={48} className="mx-auto mb-4 text-muted-foreground" />
-          <h1 className="text-2xl font-medium mb-2 text-foreground">Erişim Reddedildi</h1>
+          <h1 className="text-2xl font-medium mb-2 text-foreground">Access Denied</h1>
           <p className="text-muted-foreground mb-6">
-            Bu sayfaya erişim yetkiniz bulunmamaktadır.
+            You do not have permission to access this page.
           </p>
-          <Button onClick={() => navigate('/')}>Ana Sayfaya Dön</Button>
+          <Button onClick={() => navigate('/')}>Return to Home</Button>
         </div>
       </div>
     );
@@ -152,14 +152,14 @@ const AdminSEO: React.FC = () => {
             <div className="h-6 w-px bg-border" />
             <h1 className="text-xl font-medium text-foreground flex items-center gap-2">
               <Search size={20} />
-              SEO Yönetimi
+              SEO Manager
             </h1>
           </div>
           <div className="flex items-center gap-4">
             <span className="text-sm text-muted-foreground">{user?.email}</span>
             <Button variant="ghost" size="sm" onClick={handleLogout}>
               <LogOut size={18} className="mr-2" />
-              Çıkış
+              Logout
             </Button>
           </div>
         </div>
@@ -171,7 +171,7 @@ const AdminSEO: React.FC = () => {
           <TabsList className="grid grid-cols-6 w-full max-w-3xl">
             <TabsTrigger value="pages" className="gap-2">
               <FileText size={16} />
-              <span className="hidden sm:inline">Sayfalar</span>
+              <span className="hidden sm:inline">Pages</span>
             </TabsTrigger>
             <TabsTrigger value="global" className="gap-2">
               <Globe size={16} />
@@ -179,19 +179,19 @@ const AdminSEO: React.FC = () => {
             </TabsTrigger>
             <TabsTrigger value="redirects" className="gap-2">
               <ArrowRightLeft size={16} />
-              <span className="hidden sm:inline">Yönlendirme</span>
+              <span className="hidden sm:inline">Redirects</span>
             </TabsTrigger>
             <TabsTrigger value="audit" className="gap-2">
               <AlertTriangle size={16} />
-              <span className="hidden sm:inline">Denetim</span>
+              <span className="hidden sm:inline">Audit</span>
             </TabsTrigger>
             <TabsTrigger value="history" className="gap-2">
               <History size={16} />
-              <span className="hidden sm:inline">Geçmiş</span>
+              <span className="hidden sm:inline">History</span>
             </TabsTrigger>
             <TabsTrigger value="settings" className="gap-2">
               <Settings size={16} />
-              <span className="hidden sm:inline">Ayarlar</span>
+              <span className="hidden sm:inline">Settings</span>
             </TabsTrigger>
           </TabsList>
 
@@ -252,21 +252,21 @@ const AdminSEO: React.FC = () => {
           {/* Settings Tab (Additional Info) */}
           <TabsContent value="settings" className="space-y-6">
             <div className="border border-border rounded-lg p-6 space-y-6">
-              <h2 className="text-lg font-medium">SEO Bilgileri</h2>
+              <h2 className="text-lg font-medium">SEO Overview</h2>
               
               <div className="grid md:grid-cols-3 gap-4">
                 <div className="border border-border rounded-lg p-4">
-                  <h3 className="font-medium mb-2">Toplam Sayfa</h3>
+                  <h3 className="font-medium mb-2">Total Pages</h3>
                   <p className="text-3xl font-bold">{pages.length}</p>
                 </div>
                 <div className="border border-border rounded-lg p-4">
-                  <h3 className="font-medium mb-2">Index Sayfalar</h3>
+                  <h3 className="font-medium mb-2">Indexed Pages</h3>
                   <p className="text-3xl font-bold text-green-600">
                     {pages.filter(p => p.is_indexable).length}
                   </p>
                 </div>
                 <div className="border border-border rounded-lg p-4">
-                  <h3 className="font-medium mb-2">Noindex Sayfalar</h3>
+                  <h3 className="font-medium mb-2">Noindex Pages</h3>
                   <p className="text-3xl font-bold text-red-600">
                     {pages.filter(p => !p.is_indexable).length}
                   </p>
@@ -275,17 +275,17 @@ const AdminSEO: React.FC = () => {
 
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="border border-border rounded-lg p-4">
-                  <h3 className="font-medium mb-2">Aktif Yönlendirmeler</h3>
+                  <h3 className="font-medium mb-2">Active Redirects</h3>
                   <p className="text-3xl font-bold">{redirects.filter(r => r.is_active).length}</p>
                 </div>
                 <div className="border border-border rounded-lg p-4">
-                  <h3 className="font-medium mb-2">Açık Sorunlar</h3>
+                  <h3 className="font-medium mb-2">Open Issues</h3>
                   <p className="text-3xl font-bold text-yellow-600">{issues.length}</p>
                 </div>
               </div>
 
               <div className="border-t border-border pt-6">
-                <h3 className="font-medium mb-4">Hızlı Linkler</h3>
+                <h3 className="font-medium mb-4">Quick Links</h3>
                 <div className="flex flex-wrap gap-2">
                   <Button variant="outline" size="sm" asChild>
                     <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer">

@@ -144,7 +144,7 @@ const Admin: React.FC = () => {
 
     if (uploadError) {
       toast({
-        title: 'Yükleme Hatası',
+        title: 'Upload Error',
         description: uploadError.message,
         variant: 'destructive',
       });
@@ -267,14 +267,14 @@ const Admin: React.FC = () => {
 
       if (error) {
         toast({
-          title: 'Hata',
+          title: 'Error',
           description: error.message,
           variant: 'destructive',
         });
       } else {
         // Save SEO data
         await saveBlogSEO(slug, editingBlog.title, editingBlog.description, editingBlog.image_url);
-        toast({ title: 'Blog yazısı oluşturuldu' });
+        toast({ title: 'Blog post created' });
         fetchBlogPosts();
       }
     } else {
@@ -285,14 +285,14 @@ const Admin: React.FC = () => {
 
       if (error) {
         toast({
-          title: 'Hata',
+          title: 'Error',
           description: error.message,
           variant: 'destructive',
         });
       } else {
         // Save SEO data
         await saveBlogSEO(slug, editingBlog.title, editingBlog.description, editingBlog.image_url);
-        toast({ title: 'Blog yazısı güncellendi' });
+        toast({ title: 'Blog post updated' });
         fetchBlogPosts();
       }
     }
@@ -310,12 +310,12 @@ const Admin: React.FC = () => {
 
     if (error) {
       toast({
-        title: 'Hata',
+        title: 'Error',
         description: error.message,
         variant: 'destructive',
       });
     } else {
-      toast({ title: 'Blog yazısı silindi' });
+      toast({ title: 'Blog post deleted' });
       fetchBlogPosts();
     }
   };
@@ -330,12 +330,12 @@ const Admin: React.FC = () => {
 
       if (error) {
         toast({
-          title: 'Hata',
+          title: 'Error',
           description: error.message,
           variant: 'destructive',
         });
       } else {
-        toast({ title: 'Proje oluşturuldu' });
+        toast({ title: 'Project created' });
         fetchProjects();
       }
     } else {
@@ -346,12 +346,12 @@ const Admin: React.FC = () => {
 
       if (error) {
         toast({
-          title: 'Hata',
+          title: 'Error',
           description: error.message,
           variant: 'destructive',
         });
       } else {
-        toast({ title: 'Proje güncellendi' });
+        toast({ title: 'Project updated' });
         fetchProjects();
       }
     }
@@ -368,12 +368,12 @@ const Admin: React.FC = () => {
 
     if (error) {
       toast({
-        title: 'Hata',
+        title: 'Error',
         description: error.message,
         variant: 'destructive',
       });
     } else {
-      toast({ title: 'Proje silindi' });
+      toast({ title: 'Project deleted' });
       fetchProjects();
     }
   };
@@ -388,7 +388,7 @@ const Admin: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <p className="text-muted-foreground">Yükleniyor...</p>
+        <p className="text-muted-foreground">Loading...</p>
       </div>
     );
   }
@@ -398,11 +398,11 @@ const Admin: React.FC = () => {
       <div className="min-h-screen bg-background flex items-center justify-center px-4">
         <div className="text-center">
           <AlertCircle size={48} className="mx-auto mb-4 text-muted-foreground" />
-          <h1 className="text-2xl font-medium mb-2 text-foreground">Erişim Reddedildi</h1>
+          <h1 className="text-2xl font-medium mb-2 text-foreground">Access Denied</h1>
           <p className="text-muted-foreground mb-6">
-            Bu sayfaya erişim yetkiniz bulunmamaktadır.
+            You do not have permission to access this page.
           </p>
-          <Button onClick={() => navigate('/')}>Ana Sayfaya Dön</Button>
+          <Button onClick={() => navigate('/')}>Return to Home</Button>
         </div>
       </div>
     );
@@ -417,7 +417,7 @@ const Admin: React.FC = () => {
             <Link to="/admin/seo">
               <Button variant="outline" size="sm" className="gap-2">
                 <Search size={16} />
-                SEO Yönetimi
+                SEO Manager
               </Button>
             </Link>
           </div>
@@ -425,7 +425,7 @@ const Admin: React.FC = () => {
             <span className="text-sm text-muted-foreground">{user?.email}</span>
             <Button variant="ghost" size="sm" onClick={handleLogout}>
               <LogOut size={18} className="mr-2" />
-              Çıkış
+              Logout
             </Button>
           </div>
         </div>
@@ -436,17 +436,17 @@ const Admin: React.FC = () => {
           <TabsList>
             <TabsTrigger value="blogs" className="gap-2">
               <FileText size={16} />
-              Blog Yazıları
+              Blog Posts
             </TabsTrigger>
             <TabsTrigger value="projects" className="gap-2">
               <FolderOpen size={16} />
-              Projeler
+              Projects
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="blogs" className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-lg font-medium text-foreground">Blog Yazıları</h2>
+              <h2 className="text-lg font-medium text-foreground">Blog Posts</h2>
               <Button
                 onClick={() => {
                   setEditingBlog({
@@ -459,7 +459,7 @@ const Admin: React.FC = () => {
                     tags: [],
                     image_url: '',
                     published: false,
-                    author_name: 'Okan Ağaoğlu',
+                    author_name: 'Okan Uckun',
                     created_at: '',
                     updated_at: '',
                   });
@@ -467,7 +467,7 @@ const Admin: React.FC = () => {
                 }}
               >
                 <Plus size={16} className="mr-2" />
-                Yeni Blog
+                New Blog
               </Button>
             </div>
 
@@ -479,7 +479,7 @@ const Admin: React.FC = () => {
               >
                 <div className="flex justify-between items-center">
                   <h3 className="font-medium text-foreground">
-                    {isNewBlog ? 'Yeni Blog Yazısı' : 'Blog Düzenle'}
+                    {isNewBlog ? 'New Blog Post' : 'Edit Blog'}
                   </h3>
                   <Button
                     variant="ghost"
@@ -495,7 +495,7 @@ const Admin: React.FC = () => {
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label>Başlık</Label>
+                    <Label>Title</Label>
                     <Input
                       value={editingBlog.title}
                       onChange={(e) =>
@@ -510,14 +510,14 @@ const Admin: React.FC = () => {
                       onChange={(e) =>
                         setEditingBlog({ ...editingBlog, slug: e.target.value })
                       }
-                      placeholder="otomatik-olusturulur"
+                      placeholder="auto-generated"
                     />
                   </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label>Kategori</Label>
+                    <Label>Category</Label>
                     <Input
                       value={editingBlog.category || ''}
                       onChange={(e) =>
@@ -526,7 +526,7 @@ const Admin: React.FC = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>Etiketler (virgülle ayırın)</Label>
+                    <Label>Tags (comma separated)</Label>
                     <Input
                       value={editingBlog.tags?.join(', ') || ''}
                       onChange={(e) =>
@@ -540,7 +540,7 @@ const Admin: React.FC = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Açıklama</Label>
+                  <Label>Description</Label>
                   <Textarea
                     value={editingBlog.description || ''}
                     onChange={(e) =>
@@ -551,7 +551,7 @@ const Admin: React.FC = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>İçerik</Label>
+                  <Label>Content</Label>
                   <Textarea
                     value={editingBlog.content || ''}
                     onChange={(e) =>
@@ -562,7 +562,7 @@ const Admin: React.FC = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Görsel</Label>
+                  <Label>Image</Label>
                   <div className="flex items-center gap-4">
                     {editingBlog.image_url && (
                       <img
@@ -580,7 +580,7 @@ const Admin: React.FC = () => {
                       />
                       <div className="flex items-center gap-2 px-4 py-2 border border-border hover:bg-accent transition-colors">
                         <Upload size={16} />
-                        {uploading ? 'Yükleniyor...' : 'Görsel Yükle'}
+                        {uploading ? 'Uploading...' : 'Upload Image'}
                       </div>
                     </label>
                   </div>
@@ -592,7 +592,7 @@ const Admin: React.FC = () => {
                     <Button variant="outline" className="w-full justify-between">
                       <span className="flex items-center gap-2">
                         <Globe size={16} />
-                        SEO Ayarları
+                        SEO Settings
                       </span>
                       <ChevronDown size={16} className={`transition-transform ${seoOpen ? 'rotate-180' : ''}`} />
                     </Button>
@@ -600,31 +600,31 @@ const Admin: React.FC = () => {
                   <CollapsibleContent className="mt-4 space-y-4 border border-border p-4 rounded-md">
                     {/* SERP Preview */}
                     <div className="bg-muted p-4 rounded-md">
-                      <p className="text-xs text-muted-foreground mb-2">Google Önizleme</p>
+                      <p className="text-xs text-muted-foreground mb-2">Google Preview</p>
                       <div className="space-y-1">
                         <p className="text-primary text-lg truncate">
-                          {blogSEO.meta_title || editingBlog.title || 'Sayfa Başlığı'}
+                          {blogSEO.meta_title || editingBlog.title || 'Page Title'}
                         </p>
                         <p className="text-sm text-green-600 truncate">
                           example.com/blog/{editingBlog.slug || 'slug'}
                         </p>
                         <p className="text-sm text-muted-foreground line-clamp-2">
-                          {blogSEO.meta_description || editingBlog.description || 'Meta açıklama buraya gelecek...'}
+                          {blogSEO.meta_description || editingBlog.description || 'Meta description will appear here...'}
                         </p>
                       </div>
                       <div className="mt-2 flex gap-2 text-xs">
                         <span className={`${(blogSEO.meta_title || editingBlog.title || '').length > 60 ? 'text-destructive' : 'text-muted-foreground'}`}>
-                          Başlık: {(blogSEO.meta_title || editingBlog.title || '').length}/60
+                          Title: {(blogSEO.meta_title || editingBlog.title || '').length}/60
                         </span>
                         <span className={`${(blogSEO.meta_description || editingBlog.description || '').length > 160 ? 'text-destructive' : 'text-muted-foreground'}`}>
-                          Açıklama: {(blogSEO.meta_description || editingBlog.description || '').length}/160
+                          Description: {(blogSEO.meta_description || editingBlog.description || '').length}/160
                         </span>
                       </div>
                     </div>
 
                     <div className="grid md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label>Meta Başlık</Label>
+                        <Label>Meta Title</Label>
                         <Input
                           value={blogSEO.meta_title}
                           onChange={(e) => setBlogSEO({ ...blogSEO, meta_title: e.target.value })}
@@ -637,13 +637,13 @@ const Admin: React.FC = () => {
                         <Input
                           value={blogSEO.focus_keyword}
                           onChange={(e) => setBlogSEO({ ...blogSEO, focus_keyword: e.target.value })}
-                          placeholder="Hedef anahtar kelime"
+                          placeholder="Target keyword"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <Label>Meta Açıklama</Label>
+                      <Label>Meta Description</Label>
                       <Textarea
                         value={blogSEO.meta_description}
                         onChange={(e) => setBlogSEO({ ...blogSEO, meta_description: e.target.value })}
@@ -655,7 +655,7 @@ const Admin: React.FC = () => {
 
                     <div className="grid md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label>OG Başlık (Sosyal Medya)</Label>
+                        <Label>OG Title (Social Media)</Label>
                         <Input
                           value={blogSEO.og_title}
                           onChange={(e) => setBlogSEO({ ...blogSEO, og_title: e.target.value })}
@@ -663,7 +663,7 @@ const Admin: React.FC = () => {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label>OG Görsel URL</Label>
+                        <Label>OG Image URL</Label>
                         <Input
                           value={blogSEO.og_image}
                           onChange={(e) => setBlogSEO({ ...blogSEO, og_image: e.target.value })}
@@ -673,7 +673,7 @@ const Admin: React.FC = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label>OG Açıklama</Label>
+                      <Label>OG Description</Label>
                       <Textarea
                         value={blogSEO.og_description}
                         onChange={(e) => setBlogSEO({ ...blogSEO, og_description: e.target.value })}
@@ -683,11 +683,11 @@ const Admin: React.FC = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label>Canonical URL (Opsiyonel)</Label>
+                      <Label>Canonical URL (Optional)</Label>
                       <Input
                         value={blogSEO.canonical_url}
                         onChange={(e) => setBlogSEO({ ...blogSEO, canonical_url: e.target.value })}
-                        placeholder="Boş bırakılırsa otomatik"
+                        placeholder="Leave empty for auto"
                       />
                     </div>
 
@@ -696,7 +696,7 @@ const Admin: React.FC = () => {
                         checked={blogSEO.is_indexable}
                         onCheckedChange={(checked) => setBlogSEO({ ...blogSEO, is_indexable: checked })}
                       />
-                      <Label>Arama motorlarında indekslensin</Label>
+                      <Label>Allow search engine indexing</Label>
                     </div>
                   </CollapsibleContent>
                 </Collapsible>
@@ -708,12 +708,12 @@ const Admin: React.FC = () => {
                       setEditingBlog({ ...editingBlog, published: checked })
                     }
                   />
-                  <Label>Yayınla</Label>
+                  <Label>Publish</Label>
                 </div>
 
                 <Button onClick={saveBlogPost}>
                   <Save size={16} className="mr-2" />
-                  Kaydet
+                  Save
                 </Button>
               </motion.div>
             )}
@@ -735,7 +735,7 @@ const Admin: React.FC = () => {
                     <div>
                       <h4 className="font-medium text-foreground">{post.title}</h4>
                       <p className="text-sm text-muted-foreground">
-                        {post.category} • {post.published ? 'Yayında' : 'Taslak'}
+                        {post.category} • {post.published ? 'Published' : 'Draft'}
                       </p>
                     </div>
                   </div>
@@ -766,7 +766,7 @@ const Admin: React.FC = () => {
 
               {blogPosts.length === 0 && (
                 <p className="text-center text-muted-foreground py-8">
-                  Henüz blog yazısı yok.
+                  No blog posts yet.
                 </p>
               )}
             </div>
@@ -774,7 +774,7 @@ const Admin: React.FC = () => {
 
           <TabsContent value="projects" className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-lg font-medium text-foreground">Projeler</h2>
+              <h2 className="text-lg font-medium text-foreground">Projects</h2>
               <Button
                 onClick={() => {
                   setEditingProject({
@@ -793,7 +793,7 @@ const Admin: React.FC = () => {
                 }}
               >
                 <Plus size={16} className="mr-2" />
-                Yeni Proje
+                New Project
               </Button>
             </div>
 
@@ -805,7 +805,7 @@ const Admin: React.FC = () => {
               >
                 <div className="flex justify-between items-center">
                   <h3 className="font-medium text-foreground">
-                    {isNewProject ? 'Yeni Proje' : 'Proje Düzenle'}
+                    {isNewProject ? 'New Project' : 'Edit Project'}
                   </h3>
                   <Button
                     variant="ghost"
@@ -821,7 +821,7 @@ const Admin: React.FC = () => {
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label>Başlık</Label>
+                    <Label>Title</Label>
                     <Input
                       value={editingProject.title}
                       onChange={(e) =>
@@ -830,7 +830,7 @@ const Admin: React.FC = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>Kategori</Label>
+                    <Label>Category</Label>
                     <Input
                       value={editingProject.category || ''}
                       onChange={(e) =>
@@ -842,7 +842,7 @@ const Admin: React.FC = () => {
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label>Yıl</Label>
+                    <Label>Year</Label>
                     <Input
                       value={editingProject.year || ''}
                       onChange={(e) =>
@@ -851,7 +851,7 @@ const Admin: React.FC = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>Lokasyon</Label>
+                    <Label>Location</Label>
                     <Input
                       value={editingProject.location || ''}
                       onChange={(e) =>
@@ -862,7 +862,7 @@ const Admin: React.FC = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Sıralama</Label>
+                  <Label>Display Order</Label>
                   <Input
                     type="number"
                     value={editingProject.display_order || 0}
@@ -876,7 +876,7 @@ const Admin: React.FC = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Görseller</Label>
+                  <Label>Images</Label>
                   <div className="flex flex-wrap gap-2">
                     {editingProject.images?.map((img, index) => (
                       <div key={index} className="relative">
@@ -914,12 +914,12 @@ const Admin: React.FC = () => {
                       setEditingProject({ ...editingProject, published: checked })
                     }
                   />
-                  <Label>Yayınla</Label>
+                  <Label>Publish</Label>
                 </div>
 
                 <Button onClick={saveProject}>
                   <Save size={16} className="mr-2" />
-                  Kaydet
+                  Save
                 </Button>
               </motion.div>
             )}
@@ -941,7 +941,7 @@ const Admin: React.FC = () => {
                     <div>
                       <h4 className="font-medium text-foreground">{project.title}</h4>
                       <p className="text-sm text-muted-foreground">
-                        {project.category} • {project.year} • {project.published ? 'Yayında' : 'Taslak'}
+                        {project.category} • {project.year} • {project.published ? 'Published' : 'Draft'}
                       </p>
                     </div>
                   </div>
@@ -969,7 +969,7 @@ const Admin: React.FC = () => {
 
               {projects.length === 0 && (
                 <p className="text-center text-muted-foreground py-8">
-                  Henüz proje yok.
+                  No projects yet.
                 </p>
               )}
             </div>
