@@ -285,7 +285,7 @@ const Booking: React.FC = () => {
                       value={formData.firstName}
                       onChange={(e) => handleInputChange('firstName', e.target.value)}
                       placeholder="Enter your name"
-                      className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
+                      className="w-full bg-white border border-[#1a1a1a]/20 px-3 py-2.5 text-sm text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
                     />
                   </div>
                   <div>
@@ -296,7 +296,7 @@ const Booking: React.FC = () => {
                       value={formData.lastName}
                       onChange={(e) => handleInputChange('lastName', e.target.value)}
                       placeholder="Enter your last name"
-                      className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
+                      className="w-full bg-white border border-[#1a1a1a]/20 px-3 py-2.5 text-sm text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
                     />
                   </div>
                   <div>
@@ -307,7 +307,7 @@ const Booking: React.FC = () => {
                       value={formData.phone}
                       onChange={(e) => handleInputChange('phone', e.target.value)}
                       placeholder="Enter your phone number"
-                      className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
+                      className="w-full bg-white border border-[#1a1a1a]/20 px-3 py-2.5 text-sm text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
                     />
                   </div>
                   <div>
@@ -318,7 +318,7 @@ const Booking: React.FC = () => {
                       value={formData.email}
                       onChange={(e) => handleInputChange('email', e.target.value)}
                       placeholder="Enter your email address"
-                      className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
+                      className="w-full bg-white border border-[#1a1a1a]/20 px-3 py-2.5 text-sm text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
                     />
                   </div>
                   <div className="md:col-span-2">
@@ -329,7 +329,7 @@ const Booking: React.FC = () => {
                       value={formData.location}
                       onChange={(e) => handleInputChange('location', e.target.value)}
                       placeholder="Enter city and country"
-                      className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
+                      className="w-full bg-white border border-[#1a1a1a]/20 px-3 py-2.5 text-sm text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
                     />
                   </div>
                 </div>
@@ -339,11 +339,11 @@ const Booking: React.FC = () => {
                   <label className="block text-[#1a1a1a] text-sm mb-4">
                     Are you based in New York?*
                   </label>
-                  <div className="flex flex-wrap gap-4">
+                  <div className="flex flex-wrap gap-3">
                     <button
                       type="button"
                       onClick={() => handleInputChange('locationType', 'nyc')}
-                      className={`px-8 py-3 border transition-all ${
+                      className={`px-6 py-2.5 text-sm border transition-all ${
                         formData.locationType === 'nyc'
                           ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]'
                           : 'bg-transparent text-[#1a1a1a] border-[#1a1a1a]/20 hover:border-[#1a1a1a]/60'
@@ -354,7 +354,7 @@ const Booking: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => handleInputChange('locationType', 'traveler')}
-                      className={`px-8 py-3 border transition-all ${
+                      className={`px-6 py-2.5 text-sm border transition-all ${
                         formData.locationType === 'traveler'
                           ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]'
                           : 'bg-transparent text-[#1a1a1a] border-[#1a1a1a]/20 hover:border-[#1a1a1a]/60'
@@ -370,11 +370,11 @@ const Booking: React.FC = () => {
                   <label className="block text-[#1a1a1a] text-sm mb-4">
                     Are you a new or returning collector?
                   </label>
-                  <div className="flex flex-wrap gap-4">
+                  <div className="flex flex-wrap gap-3">
                     <button
                       type="button"
                       onClick={() => handleInputChange('collectorType', 'new')}
-                      className={`px-8 py-3 border transition-all ${
+                      className={`px-6 py-2.5 text-sm border transition-all ${
                         formData.collectorType === 'new'
                           ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]'
                           : 'bg-transparent text-[#1a1a1a] border-[#1a1a1a]/20 hover:border-[#1a1a1a]/60'
@@ -385,7 +385,7 @@ const Booking: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => handleInputChange('collectorType', 'returning')}
-                      className={`px-8 py-3 border transition-all ${
+                      className={`px-6 py-2.5 text-sm border transition-all ${
                         formData.collectorType === 'returning'
                           ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]'
                           : 'bg-transparent text-[#1a1a1a] border-[#1a1a1a]/20 hover:border-[#1a1a1a]/60'
@@ -418,7 +418,7 @@ const Booking: React.FC = () => {
                       value={formData.tattooPlacement}
                       onChange={(e) => handleInputChange('tattooPlacement', e.target.value)}
                       placeholder="e.g., forearm, back, chest"
-                      className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
+                      className="w-full bg-white border border-[#1a1a1a]/20 px-3 py-2.5 text-sm text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
                     />
                   </div>
                   <div>
@@ -429,7 +429,7 @@ const Booking: React.FC = () => {
                       value={formData.tattooSize}
                       onChange={(e) => handleInputChange('tattooSize', e.target.value)}
                       placeholder="e.g., 10cm x 15cm"
-                      className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
+                      className="w-full bg-white border border-[#1a1a1a]/20 px-3 py-2.5 text-sm text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
                     />
                   </div>
                 </div>
@@ -460,11 +460,11 @@ const Booking: React.FC = () => {
                       Identify your preferred works from my portfolio and highlight specific elements you want to include. Feel free to mention aspects you want to avoid.
                     </p>
                     <textarea
-                      rows={4}
+                      rows={3}
                       value={formData.portfolioFavorites}
                       onChange={(e) => handleInputChange('portfolioFavorites', e.target.value)}
                       placeholder="Describe your favorite pieces from the portfolio and why you like them..."
-                      className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors resize-none"
+                      className="w-full bg-white border border-[#1a1a1a]/20 px-3 py-2.5 text-sm text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors resize-none"
                     />
                   </div>
 
@@ -475,11 +475,11 @@ const Booking: React.FC = () => {
                       Showcase your aesthetic vision by sharing works from other artists you admire (painters, sculptors, architects, musicians, or directors). This diverse perspective will create a design unique to you.
                     </p>
                     <textarea
-                      rows={4}
+                      rows={3}
                       value={formData.artistInspiration}
                       onChange={(e) => handleInputChange('artistInspiration', e.target.value)}
                       placeholder="Artists, works, or aesthetic styles you admire..."
-                      className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors resize-none"
+                      className="w-full bg-white border border-[#1a1a1a]/20 px-3 py-2.5 text-sm text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors resize-none"
                     />
                   </div>
 
@@ -508,11 +508,11 @@ const Booking: React.FC = () => {
                 </p>
 
                 <textarea
-                  rows={6}
+                  rows={4}
                   value={formData.story}
                   onChange={(e) => handleInputChange('story', e.target.value)}
                   placeholder="Share the story behind your tattoo or your aesthetic vision..."
-                  className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors resize-none"
+                  className="w-full bg-white border border-[#1a1a1a]/20 px-3 py-2.5 text-sm text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors resize-none"
                 />
               </div>
 
@@ -532,7 +532,7 @@ const Booking: React.FC = () => {
                       value={formData.preferredDate}
                       onChange={(e) => handleInputChange('preferredDate', e.target.value)}
                       placeholder="e.g., March-April 2025"
-                      className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
+                      className="w-full bg-white border border-[#1a1a1a]/20 px-3 py-2.5 text-sm text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
                     />
                   </div>
                 </div>
@@ -540,11 +540,11 @@ const Booking: React.FC = () => {
                 <div className="mt-6">
                   <label className="block text-[#1a1a1a] text-sm mb-2">Additional notes</label>
                   <textarea
-                    rows={4}
+                    rows={3}
                     value={formData.additionalNotes}
                     onChange={(e) => handleInputChange('additionalNotes', e.target.value)}
                     placeholder="Any other information you would like to share..."
-                    className="w-full bg-white border border-[#1a1a1a]/20 px-4 py-4 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors resize-none"
+                    className="w-full bg-white border border-[#1a1a1a]/20 px-3 py-2.5 text-sm text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors resize-none"
                   />
                 </div>
               </div>
@@ -555,7 +555,7 @@ const Booking: React.FC = () => {
                 disabled={isSubmitting}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full md:w-auto px-16 py-5 bg-[#1a1a1a] text-white uppercase tracking-wider text-sm font-medium hover:bg-[#333] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full md:w-auto px-12 py-3.5 bg-[#1a1a1a] text-white uppercase tracking-wider text-sm font-medium hover:bg-[#333] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? 'Submitting...' : 'Submit Request'}
               </motion.button>
