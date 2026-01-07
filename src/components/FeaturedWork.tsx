@@ -63,8 +63,8 @@ const FeaturedWork: React.FC = () => {
         </StaggerChildren>
       </div>
       
-      <ScrollReveal delay={0.4}>
-        <div className="box-border flex justify-end self-stretch relative m-0 p-0">
+      <ScrollReveal delay={0.4} className="w-full">
+        <div className="w-full flex justify-end">
           <motion.div 
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
