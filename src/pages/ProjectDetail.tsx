@@ -12,6 +12,7 @@ import { ArrowLeft, MapPin, Calendar, Tag } from 'lucide-react';
 interface Project {
   id: string;
   title: string;
+  description: string | null;
   category: string | null;
   year: string | null;
   location: string | null;
@@ -190,6 +191,14 @@ const ProjectDetail: React.FC = () => {
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-foreground tracking-tight mb-8">
                 {project.title}
               </h1>
+
+              {/* Description */}
+              {project.description && (
+                <div 
+                  className="prose prose-lg prose-invert max-w-none text-foreground/80"
+                  dangerouslySetInnerHTML={{ __html: project.description }}
+                />
+              )}
             </motion.div>
 
             {/* Image Gallery */}
