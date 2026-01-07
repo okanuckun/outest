@@ -86,32 +86,32 @@ const Blog = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-              className="bg-white/10 backdrop-blur-md border border-white/20 p-8 md:p-12 max-w-3xl"
+              className="bg-white/10 backdrop-blur-md border border-white/20 p-5 md:p-8 max-w-2xl"
             >
               {/* Category & Date */}
-              <div className="flex items-center gap-3 mb-4">
-                <span className="bg-background text-foreground px-3 py-1 text-[11px] font-medium tracking-wider uppercase">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="bg-background text-foreground px-2 py-0.5 text-[10px] font-medium tracking-wider uppercase">
                   {blogPosts[currentSlide].category}
                 </span>
-                <span className="text-primary-foreground/60 text-[12px] tracking-wide">
+                <span className="text-primary-foreground/60 text-[10px] tracking-wide">
                   {blogPosts[currentSlide].date.toUpperCase()}
                 </span>
               </div>
 
               {/* Title */}
-              <h2 className="text-2xl md:text-4xl lg:text-5xl font-normal text-white mb-6 leading-tight tracking-tight">
+              <h2 className="text-xl md:text-2xl lg:text-3xl font-normal text-white mb-4 leading-tight tracking-tight">
                 {blogPosts[currentSlide].title}
               </h2>
 
               {/* Description */}
-              <p className="text-white/70 text-[14px] font-normal leading-relaxed mb-8 max-w-2xl">
+              <p className="text-white/70 text-[13px] font-normal leading-relaxed mb-5 max-w-xl">
                 {blogPosts[currentSlide].description}
               </p>
 
               {/* Read More Button */}
-              <button className="group flex items-center gap-3 text-white text-[13px] font-medium tracking-wide hover:gap-4 transition-all">
+              <button className="group flex items-center gap-2 text-white text-[12px] font-medium tracking-wide hover:gap-3 transition-all">
                 READ ARTICLE
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="group-hover:translate-x-1 transition-transform">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="group-hover:translate-x-1 transition-transform">
                   <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </button>
