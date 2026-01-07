@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { 
   LogOut, 
   Plus, 
@@ -21,7 +22,9 @@ import {
   FileText,
   FolderOpen,
   AlertCircle,
-  Search
+  Search,
+  ChevronDown,
+  Globe
 } from 'lucide-react';
 
 interface BlogPost {
@@ -37,6 +40,17 @@ interface BlogPost {
   author_name: string | null;
   created_at: string;
   updated_at: string;
+}
+
+interface BlogSEO {
+  meta_title: string;
+  meta_description: string;
+  focus_keyword: string;
+  og_title: string;
+  og_description: string;
+  og_image: string;
+  is_indexable: boolean;
+  canonical_url: string;
 }
 
 interface Project {
@@ -64,6 +78,17 @@ const Admin: React.FC = () => {
   const [isNewBlog, setIsNewBlog] = useState(false);
   const [isNewProject, setIsNewProject] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [blogSEO, setBlogSEO] = useState<BlogSEO>({
+    meta_title: '',
+    meta_description: '',
+    focus_keyword: '',
+    og_title: '',
+    og_description: '',
+    og_image: '',
+    is_indexable: true,
+    canonical_url: '',
+  });
+  const [seoOpen, setSeoOpen] = useState(false);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -151,6 +176,77 @@ const Admin: React.FC = () => {
     }
   };
 
+  // Load SEO data when editing a blog
+  const loadBlogSEO = async (slug: string) => {
+    const route = `/blog/${slug}`;
+    const { data } = await supabase
+      .from('seo_pages')
+      .select('*')
+      .eq('route', route)
+      .maybeSingle();
+
+    if (data) {
+      setBlogSEO({
+        meta_title: data.meta_title || '',
+        meta_description: data.meta_description || '',
+        focus_keyword: data.focus_keyword || '',
+        og_title: data.og_title || '',
+        og_description: data.og_description || '',
+        og_image: data.og_image || '',
+        is_indexable: data.is_indexable ?? true,
+        canonical_url: data.canonical_url || '',
+      });
+    } else {
+      setBlogSEO({
+        meta_title: '',
+        meta_description: '',
+        focus_keyword: '',
+        og_title: '',
+        og_description: '',
+        og_image: '',
+        is_indexable: true,
+        canonical_url: '',
+      });
+    }
+  };
+
+  const saveBlogSEO = async (blogSlug: string, blogTitle: string, blogDescription: string | null, blogImage: string | null) => {
+    const route = `/blog/${blogSlug}`;
+    
+    // Check if SEO page exists
+    const { data: existingPage } = await supabase
+      .from('seo_pages')
+      .select('id')
+      .eq('route', route)
+      .maybeSingle();
+
+    const seoData = {
+      route,
+      template_type: 'blog_post',
+      meta_title: blogSEO.meta_title || blogTitle,
+      meta_description: blogSEO.meta_description || blogDescription || '',
+      focus_keyword: blogSEO.focus_keyword || null,
+      og_title: blogSEO.og_title || blogTitle,
+      og_description: blogSEO.og_description || blogDescription || '',
+      og_image: blogSEO.og_image || blogImage || null,
+      is_indexable: blogSEO.is_indexable,
+      canonical_url: blogSEO.canonical_url || null,
+      canonical_mode: blogSEO.canonical_url ? 'manual' : 'auto',
+      updated_by: user?.id,
+    };
+
+    if (existingPage) {
+      await supabase
+        .from('seo_pages')
+        .update(seoData)
+        .eq('id', existingPage.id);
+    } else {
+      await supabase
+        .from('seo_pages')
+        .insert([seoData]);
+    }
+  };
+
   const saveBlogPost = async () => {
     if (!editingBlog) return;
 
@@ -176,6 +272,8 @@ const Admin: React.FC = () => {
           variant: 'destructive',
         });
       } else {
+        // Save SEO data
+        await saveBlogSEO(slug, editingBlog.title, editingBlog.description, editingBlog.image_url);
         toast({ title: 'Blog yazısı oluşturuldu' });
         fetchBlogPosts();
       }
@@ -192,6 +290,8 @@ const Admin: React.FC = () => {
           variant: 'destructive',
         });
       } else {
+        // Save SEO data
+        await saveBlogSEO(slug, editingBlog.title, editingBlog.description, editingBlog.image_url);
         toast({ title: 'Blog yazısı güncellendi' });
         fetchBlogPosts();
       }
@@ -199,6 +299,7 @@ const Admin: React.FC = () => {
 
     setEditingBlog(null);
     setIsNewBlog(false);
+    setSeoOpen(false);
   };
 
   const deleteBlogPost = async (id: string) => {
@@ -485,6 +586,121 @@ const Admin: React.FC = () => {
                   </div>
                 </div>
 
+                {/* SEO Section */}
+                <Collapsible open={seoOpen} onOpenChange={setSeoOpen}>
+                  <CollapsibleTrigger asChild>
+                    <Button variant="outline" className="w-full justify-between">
+                      <span className="flex items-center gap-2">
+                        <Globe size={16} />
+                        SEO Ayarları
+                      </span>
+                      <ChevronDown size={16} className={`transition-transform ${seoOpen ? 'rotate-180' : ''}`} />
+                    </Button>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="mt-4 space-y-4 border border-border p-4 rounded-md">
+                    {/* SERP Preview */}
+                    <div className="bg-muted p-4 rounded-md">
+                      <p className="text-xs text-muted-foreground mb-2">Google Önizleme</p>
+                      <div className="space-y-1">
+                        <p className="text-primary text-lg truncate">
+                          {blogSEO.meta_title || editingBlog.title || 'Sayfa Başlığı'}
+                        </p>
+                        <p className="text-sm text-green-600 truncate">
+                          example.com/blog/{editingBlog.slug || 'slug'}
+                        </p>
+                        <p className="text-sm text-muted-foreground line-clamp-2">
+                          {blogSEO.meta_description || editingBlog.description || 'Meta açıklama buraya gelecek...'}
+                        </p>
+                      </div>
+                      <div className="mt-2 flex gap-2 text-xs">
+                        <span className={`${(blogSEO.meta_title || editingBlog.title || '').length > 60 ? 'text-destructive' : 'text-muted-foreground'}`}>
+                          Başlık: {(blogSEO.meta_title || editingBlog.title || '').length}/60
+                        </span>
+                        <span className={`${(blogSEO.meta_description || editingBlog.description || '').length > 160 ? 'text-destructive' : 'text-muted-foreground'}`}>
+                          Açıklama: {(blogSEO.meta_description || editingBlog.description || '').length}/160
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label>Meta Başlık</Label>
+                        <Input
+                          value={blogSEO.meta_title}
+                          onChange={(e) => setBlogSEO({ ...blogSEO, meta_title: e.target.value })}
+                          placeholder={editingBlog.title}
+                          maxLength={70}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Focus Keyword</Label>
+                        <Input
+                          value={blogSEO.focus_keyword}
+                          onChange={(e) => setBlogSEO({ ...blogSEO, focus_keyword: e.target.value })}
+                          placeholder="Hedef anahtar kelime"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>Meta Açıklama</Label>
+                      <Textarea
+                        value={blogSEO.meta_description}
+                        onChange={(e) => setBlogSEO({ ...blogSEO, meta_description: e.target.value })}
+                        placeholder={editingBlog.description || ''}
+                        rows={2}
+                        maxLength={170}
+                      />
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label>OG Başlık (Sosyal Medya)</Label>
+                        <Input
+                          value={blogSEO.og_title}
+                          onChange={(e) => setBlogSEO({ ...blogSEO, og_title: e.target.value })}
+                          placeholder={editingBlog.title}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>OG Görsel URL</Label>
+                        <Input
+                          value={blogSEO.og_image}
+                          onChange={(e) => setBlogSEO({ ...blogSEO, og_image: e.target.value })}
+                          placeholder={editingBlog.image_url || 'https://...'}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>OG Açıklama</Label>
+                      <Textarea
+                        value={blogSEO.og_description}
+                        onChange={(e) => setBlogSEO({ ...blogSEO, og_description: e.target.value })}
+                        placeholder={editingBlog.description || ''}
+                        rows={2}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>Canonical URL (Opsiyonel)</Label>
+                      <Input
+                        value={blogSEO.canonical_url}
+                        onChange={(e) => setBlogSEO({ ...blogSEO, canonical_url: e.target.value })}
+                        placeholder="Boş bırakılırsa otomatik"
+                      />
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <Switch
+                        checked={blogSEO.is_indexable}
+                        onCheckedChange={(checked) => setBlogSEO({ ...blogSEO, is_indexable: checked })}
+                      />
+                      <Label>Arama motorlarında indekslensin</Label>
+                    </div>
+                  </CollapsibleContent>
+                </Collapsible>
+
                 <div className="flex items-center gap-2">
                   <Switch
                     checked={editingBlog.published || false}
@@ -530,6 +746,9 @@ const Admin: React.FC = () => {
                       onClick={() => {
                         setEditingBlog(post);
                         setIsNewBlog(false);
+                        if (post.slug) {
+                          loadBlogSEO(post.slug);
+                        }
                       }}
                     >
                       <Edit size={16} />
