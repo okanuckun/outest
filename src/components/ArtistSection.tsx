@@ -42,7 +42,7 @@ const ArtistSection: React.FC = () => {
           </div>
           
           {/* Right side - About label and Arrow */}
-          <ScrollReveal direction="right" className="lg:w-[200px] shrink-0 order-last flex flex-col justify-between">
+          <ScrollReveal direction="none" className="lg:w-[200px] shrink-0 order-last flex flex-col justify-between">
             <h2 className="text-[#323232] text-[15px] font-medium leading-5 tracking-[-0.202px] uppercase max-sm:text-sm max-sm:leading-[16px] lg:text-left text-right hidden lg:block">
               ​about
             </h2>
