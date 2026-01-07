@@ -31,20 +31,6 @@ const VideoSection: React.FC = () => {
                   />
                   <div className="box-border w-full h-full absolute z-[2] bg-[rgba(0,0,0,0.28)] m-0 p-0 left-0 top-0" />
                   
-                  <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3, duration: 0.6 }}
-                    viewport={{ once: true }}
-                    className="box-border flex flex-col items-start self-stretch relative z-[3] m-0 pt-[26.095px] pb-0 px-[22.5px] max-sm:p-4"
-                  >
-                    <div className="box-border flex flex-col items-start self-stretch relative m-0 pb-px p-0">
-                      <h2 className="box-border self-stretch text-[#F6F6F6] text-[35px] font-medium leading-[39.6px] tracking-[-0.54px] uppercase relative m-0 p-0 max-md:text-2xl max-md:leading-7 max-sm:text-lg max-sm:leading-[22px]">
-                        Okan Uckun - Tattoo Artist
-                      </h2>
-                    </div>
-                  </motion.div>
-                  
                   <div className="box-border flex w-full h-full justify-center items-center absolute z-[4] m-0 p-0 left-0 top-0">
                     <motion.button 
                       onClick={handlePlayClick}
