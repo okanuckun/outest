@@ -11,6 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import RichTextEditor from '@/components/ui/rich-text-editor';
 import { 
   LogOut, 
   Plus, 
@@ -552,12 +553,12 @@ const Admin: React.FC = () => {
 
                 <div className="space-y-2">
                   <Label>Content</Label>
-                  <Textarea
-                    value={editingBlog.content || ''}
-                    onChange={(e) =>
-                      setEditingBlog({ ...editingBlog, content: e.target.value })
+                  <RichTextEditor
+                    content={editingBlog.content || ''}
+                    onChange={(content) =>
+                      setEditingBlog({ ...editingBlog, content })
                     }
-                    rows={10}
+                    placeholder="Write your article content here. Use H1, H2, H3 for headings..."
                   />
                 </div>
 
