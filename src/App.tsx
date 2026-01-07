@@ -11,6 +11,7 @@ import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import Work from "./pages/Work";
 import Project from "./pages/Project";
+import ProjectDetail from "./pages/ProjectDetail";
 import Booking from "./pages/Booking";
 import Auth from "./pages/Auth";
 import Admin from "./pages/Admin";
@@ -67,6 +68,7 @@ const AnimatedRoutes = () => {
           <Route path="/article" element={<Blog />} />
           <Route path="/work" element={<Work />} />
           <Route path="/project" element={<Project />} />
+          <Route path="/project/:id" element={<ProjectDetail />} />
           <Route path="/booking" element={<Booking />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/admin" element={<Admin />} />
