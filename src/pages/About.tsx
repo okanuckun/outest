@@ -7,6 +7,7 @@ import aboutImage1 from '@/assets/about-image-1.webp';
 import aboutImage2 from '@/assets/about-image-2.webp';
 import aboutImage3 from '@/assets/about-image-3.webp';
 import aboutHero from '@/assets/about-hero.jpg';
+import aboutBottom from '@/assets/about-bottom.jpg';
 const About: React.FC = () => {
   return <motion.div initial={{
     opacity: 0
@@ -211,10 +212,16 @@ const About: React.FC = () => {
         </div>
       </ScrollReveal>
 
-      {/* Approach Section - Split Layout */}
-      
-
-      {/* Final Image Grid */}
+      {/* Bottom Portrait Image */}
+      <ScrollReveal className="w-full">
+        <div className="w-full h-[70vh] lg:h-[90vh] overflow-hidden">
+          <motion.img src={aboutBottom} alt="Okan Uckun portrait" className="w-full h-full object-cover object-center" loading="lazy" whileHover={{
+          scale: 1.02
+        }} transition={{
+          duration: 0.8
+        }} />
+        </div>
+      </ScrollReveal>
       
 
       <Footer />
