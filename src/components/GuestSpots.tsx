@@ -3,6 +3,12 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
+import { ChevronDown } from 'lucide-react';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 
 interface GuestSpot {
   id: string;
@@ -14,7 +20,11 @@ interface GuestSpot {
   description: string | null;
 }
 
-const GuestSpots: React.FC = () => {
+interface GuestSpotsProps {
+  variant?: 'light' | 'dark';
+}
+
+const GuestSpots: React.FC<GuestSpotsProps> = ({ variant = 'light' }) => {
   const { data: guestSpots, isLoading } = useQuery({
     queryKey: ['guest-spots'],
     queryFn: async () => {
@@ -35,20 +45,32 @@ const GuestSpots: React.FC = () => {
     return null;
   }
 
+  const textColor = variant === 'dark' ? 'text-foreground' : 'text-[#F6F6F6]';
+  const mutedColor = variant === 'dark' ? 'text-muted-foreground' : 'text-white/60';
+
   return (
-    <div className="absolute top-32 left-6 md:top-36 md:left-12 z-20">
-      <div className="backdrop-blur-sm bg-black/40 border border-white/10 rounded-sm p-4 md:p-5 max-w-[260px]">
-        <p className="text-white/60 text-[10px] uppercase tracking-[0.2em] mb-3">
-          Upcoming Guest Spots
+    <Popover>
+      <PopoverTrigger asChild>
+        <button className={`inline-flex items-center gap-1 text-[15px] font-normal leading-5 tracking-[-0.15px] uppercase hover:opacity-70 transition-opacity ${textColor}`}>
+          Guest Spots
+          <ChevronDown size={14} className="opacity-60" />
+        </button>
+      </PopoverTrigger>
+      <PopoverContent 
+        align="end" 
+        className="w-[240px] p-3 bg-black/90 backdrop-blur-md border-white/10"
+      >
+        <p className={`text-[10px] uppercase tracking-[0.2em] mb-3 ${mutedColor}`}>
+          Upcoming Locations
         </p>
-        <div className="space-y-3">
+        <div className="space-y-2">
           {guestSpots.map((spot) => (
             <Link
               key={spot.id}
               to={`/booking?guest_spot=${spot.id}`}
-              className="group block"
+              className="group block p-2 rounded hover:bg-white/5 transition-colors"
             >
-              <div className="flex items-baseline justify-between gap-4">
+              <div className="flex items-baseline justify-between gap-3">
                 <div>
                   <p className="text-white text-sm font-light">
                     {spot.city}
@@ -58,14 +80,14 @@ const GuestSpots: React.FC = () => {
                   </p>
                 </div>
                 <span className="text-white/40 text-xs group-hover:text-white transition-colors">
-                  Book →
+                  →
                 </span>
               </div>
             </Link>
           ))}
         </div>
-      </div>
-    </div>
+      </PopoverContent>
+    </Popover>
   );
 };
 
