@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
@@ -20,7 +20,8 @@ import {
   Upload,
   FileText,
   FolderOpen,
-  AlertCircle
+  AlertCircle,
+  Search
 } from 'lucide-react';
 
 interface BlogPost {
@@ -310,7 +311,15 @@ const Admin: React.FC = () => {
     <div className="min-h-screen bg-background">
       <header className="border-b border-border">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <h1 className="text-xl font-medium text-foreground">Admin Panel</h1>
+          <div className="flex items-center gap-4">
+            <h1 className="text-xl font-medium text-foreground">Admin Panel</h1>
+            <Link to="/admin/seo">
+              <Button variant="outline" size="sm" className="gap-2">
+                <Search size={16} />
+                SEO Yönetimi
+              </Button>
+            </Link>
+          </div>
           <div className="flex items-center gap-4">
             <span className="text-sm text-muted-foreground">{user?.email}</span>
             <Button variant="ghost" size="sm" onClick={handleLogout}>
