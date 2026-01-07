@@ -6,7 +6,7 @@ import Footer from '@/components/Footer';
 declare global {
   interface Window {
     StewartForm?: {
-      init: (config: { studioId: string; container: string; theme: string }) => void;
+      init: (config: { artistId: string; container: string; theme: string }) => void;
     };
   }
 }
@@ -21,7 +21,7 @@ const Booking: React.FC = () => {
       // Initialize the form after script loads
       if (window.StewartForm) {
         window.StewartForm.init({
-          studioId: '68b2bf44-dc9f-4e0b-8f06-43d36ccd10f1',
+          artistId: '68b2bf44-dc9f-4e0b-8f06-43d36ccd10f1',
           container: '#stewart-studio-booking',
           theme: 'dark'
         });
