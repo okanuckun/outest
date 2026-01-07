@@ -63,7 +63,7 @@ const FeaturedWork: React.FC = () => {
         
         <ScrollReveal delay={0.4} className="w-full">
           <div className="w-full flex justify-end">
-            <div className="lg:w-[200px] shrink-0 flex justify-start">
+            <div className="lg:w-[200px] shrink-0 flex lg:justify-start justify-end">
               <motion.div 
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
