@@ -115,7 +115,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
       </div>
 
       {/* Content Overlay */}
-      <div className="relative h-full flex flex-col justify-end p-8 md:p-16 lg:p-24">
+      <div className="relative z-10 h-full flex flex-col justify-end p-8 md:p-16 lg:p-24">
         {/* Category & Year */}
         <motion.div 
           className="flex items-center gap-4 mb-4"
