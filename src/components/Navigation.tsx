@@ -238,8 +238,8 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
                   Monolith Studio
                 </h3>
                 <p className="text-[14px] text-black uppercase tracking-[0.02em] leading-relaxed">
-                  Brooklyn, NYC,<br />
-                  USA
+                  77 Washington Avenue,<br />
+                  Brooklyn, NYC
                 </p>
               </motion.div>
 
