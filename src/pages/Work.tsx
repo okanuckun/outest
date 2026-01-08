@@ -504,12 +504,13 @@ const Work: React.FC = () => {
               {lightboxIndex + 1} / {works.length}
             </div>
 
-            {/* Image */}
+            {/* Image with blur→sharp transition */}
             <motion.img
               key={lightboxIndex}
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.95, opacity: 0, filter: 'blur(20px)' }}
+              animate={{ scale: 1, opacity: 1, filter: 'blur(0px)' }}
+              exit={{ scale: 0.95, opacity: 0, filter: 'blur(10px)' }}
+              transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
               src={works[lightboxIndex]?.url}
               alt="Fullscreen view"
               className="max-w-[90vw] max-h-[90vh] object-contain"
