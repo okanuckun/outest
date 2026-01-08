@@ -61,9 +61,8 @@ const Index: React.FC = () => {
         <div className="relative z-10 flex h-full flex-col">
           <Navigation />
           <HeroSection />
+          <GuestSpots />
         </div>
-        
-        <GuestSpots />
       </div>
       
       <main>
