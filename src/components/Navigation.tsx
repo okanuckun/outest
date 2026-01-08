@@ -235,7 +235,7 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
                 className="mt-8"
               >
                 <h3 className="text-[13px] font-semibold text-black uppercase tracking-[0.05em] mb-2">
-                  Okan Uckun
+                  Monolith Studio
                 </h3>
                 <p className="text-[14px] text-black uppercase tracking-[0.02em] leading-relaxed">
                   Brooklyn, NYC,<br />
