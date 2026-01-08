@@ -111,54 +111,73 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
         </nav>
       </motion.header>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu Overlay - Fullscreen */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-            className={`fixed inset-x-0 top-[60px] z-40 ${menuBg} border-b border-border`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+            className={`fixed inset-0 z-40 ${menuBg}`}
           >
-            <nav className="flex flex-col p-6 gap-4">
-              {navItems.map((item, index) => (
+            {/* Close button */}
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.3 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className={`absolute top-5 right-4 p-1 ${menuText} z-50`}
+              aria-label="Close menu"
+            >
+              <X size={24} />
+            </motion.button>
+
+            <nav className="h-full flex flex-col justify-center items-center px-8">
+              <div className="flex flex-col items-center gap-8">
+                {navItems.map((item, index) => (
+                  <motion.div
+                    key={item.label}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ delay: 0.1 + index * 0.08, duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                  >
+                    <Link
+                      to={item.path}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`text-[clamp(32px,8vw,48px)] font-light uppercase tracking-[0.15em] ${menuText} hover:opacity-50 transition-opacity duration-300`}
+                    >
+                      {item.label}
+                    </Link>
+                  </motion.div>
+                ))}
+                
                 <motion.div
-                  key={item.label}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.3 }}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ delay: 0.1 + navItems.length * 0.08, duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="mt-4"
                 >
                   <Link
-                    to={item.path}
+                    to="/booking"
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`block text-lg uppercase tracking-wider ${menuText} hover:opacity-70 transition-opacity py-2`}
+                    className={`text-[clamp(32px,8vw,48px)] font-light uppercase tracking-[0.15em] ${menuText} hover:opacity-50 transition-opacity duration-300`}
                   >
-                    {item.label}
+                    Book
                   </Link>
                 </motion.div>
-              ))}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: navItems.length * 0.1, duration: 0.3 }}
-                className="pt-4 border-t border-white/20"
-              >
-                <Link
-                  to="/booking"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`block text-lg uppercase tracking-wider ${menuText} hover:opacity-70 transition-opacity py-2`}
-                >
-                  Book an appointment
-                </Link>
-              </motion.div>
+              </div>
+
+              {/* Bottom location */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: (navItems.length + 1) * 0.1, duration: 0.3 }}
-                className="pt-4"
+                transition={{ delay: 0.6, duration: 0.5 }}
+                className="absolute bottom-12 left-0 right-0 flex justify-center"
               >
-                <span className={`text-sm uppercase tracking-wider ${menuText} opacity-60`}>
+                <span className={`text-[12px] uppercase tracking-[0.3em] ${menuText} opacity-40`}>
                   Brooklyn, NY
                 </span>
               </motion.div>
