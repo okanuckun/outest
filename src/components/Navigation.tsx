@@ -1,17 +1,24 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
 
 interface NavigationProps {
   variant?: 'light' | 'dark';
 }
 
 const navItems = [
+  { label: 'Home', path: '/' },
   { label: 'Work', path: '/work' },
   { label: 'About', path: '/about' },
   { label: 'Blog', path: '/blog' },
   { label: 'Project', path: '/project' }
+];
+
+const socialLinks = [
+  { label: 'Instagram', url: 'https://instagram.com/okanuckun' },
+  { label: 'YouTube', url: 'https://youtube.com' },
+  { label: 'TikTok', url: 'https://tiktok.com' }
 ];
 
 const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
@@ -20,8 +27,6 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
   const textColor = variant === 'dark' ? 'text-foreground' : 'text-[#F6F6F6]';
   const borderColor = variant === 'dark' ? 'border-b-[#323232]' : 'border-b-[rgba(255,255,255,0.35)]';
   const logoStroke = variant === 'dark' ? 'hsl(0, 0%, 20%)' : '#F6F6F6';
-  const menuBg = variant === 'dark' ? 'bg-background' : 'bg-[#1a1a1a]';
-  const menuText = variant === 'dark' ? 'text-foreground' : 'text-[#F6F6F6]';
 
   return (
     <>
@@ -63,7 +68,7 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
               transition={{ delay: 0.4, duration: 0.5 }}
               className="box-border inline-flex items-center gap-[16px] relative m-0 p-0 max-md:hidden"
             >
-              {navItems.map((item) => (
+              {navItems.filter(item => item.label !== 'Home').map((item) => (
                 <motion.div 
                   key={item.label}
                   className="box-border flex flex-col items-start relative m-0 p-0"
@@ -102,7 +107,7 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.5 }}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`md:hidden p-1 ${textColor}`}
+              className={`md:hidden p-1 ${textColor} z-[60]`}
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -111,77 +116,136 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
         </nav>
       </motion.header>
 
-      {/* Mobile Menu Overlay - Fullscreen */}
+      {/* Mobile Menu - Fullscreen Editorial Style */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-            className={`fixed inset-0 z-40 ${menuBg}`}
+            transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+            className="fixed inset-0 z-50 bg-[#c4c4c4] overflow-y-auto"
           >
             {/* Close button */}
             <motion.button
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.3 }}
+              transition={{ delay: 0.1, duration: 0.2 }}
               onClick={() => setMobileMenuOpen(false)}
-              className={`absolute top-5 right-4 p-1 ${menuText} z-50`}
+              className="absolute top-5 right-5 p-2 text-black z-50"
               aria-label="Close menu"
             >
-              <X size={24} />
+              <X size={28} strokeWidth={1.5} />
             </motion.button>
 
-            <nav className="h-full flex flex-col justify-center items-center px-8">
-              <div className="flex flex-col items-center gap-8">
+            <div className="min-h-full flex flex-col px-6 pt-16 pb-8">
+              {/* Main Navigation Links */}
+              <motion.nav 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1, duration: 0.4 }}
+                className="flex flex-col gap-0"
+              >
                 {navItems.map((item, index) => (
                   <motion.div
                     key={item.label}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ delay: 0.1 + index * 0.08, duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.15 + index * 0.05, duration: 0.3 }}
                   >
                     <Link
                       to={item.path}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`text-[clamp(32px,8vw,48px)] font-light uppercase tracking-[0.15em] ${menuText} hover:opacity-50 transition-opacity duration-300`}
+                      className="block text-[42px] font-semibold text-black uppercase tracking-[-0.02em] leading-[1.1] hover:opacity-60 transition-opacity"
                     >
                       {item.label}
                     </Link>
                   </motion.div>
                 ))}
-                
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ delay: 0.1 + navItems.length * 0.08, duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-                  className="mt-4"
-                >
-                  <Link
-                    to="/booking"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`text-[clamp(32px,8vw,48px)] font-light uppercase tracking-[0.15em] ${menuText} hover:opacity-50 transition-opacity duration-300`}
-                  >
-                    Book
-                  </Link>
-                </motion.div>
-              </div>
+              </motion.nav>
 
-              {/* Bottom location */}
+              {/* Book Experience - Bordered Section */}
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6, duration: 0.5 }}
-                className="absolute bottom-12 left-0 right-0 flex justify-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.3 }}
+                className="mt-10 border-t border-b border-black/30 py-5"
               >
-                <span className={`text-[12px] uppercase tracking-[0.3em] ${menuText} opacity-40`}>
-                  Brooklyn, NY
-                </span>
+                <Link
+                  to="/booking"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between text-black hover:opacity-60 transition-opacity"
+                >
+                  <span className="text-[26px] font-medium uppercase tracking-[-0.01em]">
+                    Book Experience
+                  </span>
+                  <ArrowUpRight size={24} strokeWidth={1.5} />
+                </Link>
               </motion.div>
-            </nav>
+
+              {/* Follow Section */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.45, duration: 0.3 }}
+                className="mt-10"
+              >
+                <h3 className="text-[13px] font-semibold text-black uppercase tracking-[0.05em] mb-3">
+                  Follow
+                </h3>
+                <div className="flex flex-col gap-1">
+                  {socialLinks.map((link) => (
+                    <a
+                      key={link.label}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-[14px] text-black uppercase tracking-[0.02em] hover:opacity-60 transition-opacity"
+                    >
+                      <ArrowUpRight size={14} strokeWidth={1.5} />
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Reach Out Section */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.3 }}
+                className="mt-8"
+              >
+                <h3 className="text-[13px] font-semibold text-black uppercase tracking-[0.05em] mb-2">
+                  Reach Out
+                </h3>
+                <a
+                  href="mailto:hello@okanuckun.com"
+                  className="text-[14px] text-black uppercase tracking-[0.02em] hover:opacity-60 transition-opacity"
+                >
+                  hello@okanuckun.com
+                </a>
+              </motion.div>
+
+              {/* Studio Address */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.55, duration: 0.3 }}
+                className="mt-8"
+              >
+                <h3 className="text-[13px] font-semibold text-black uppercase tracking-[0.05em] mb-2">
+                  Okan Uckun
+                </h3>
+                <p className="text-[14px] text-black uppercase tracking-[0.02em] leading-relaxed">
+                  Brooklyn, NYC,<br />
+                  USA
+                </p>
+              </motion.div>
+
+              {/* Bottom Spacer */}
+              <div className="flex-1" />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
