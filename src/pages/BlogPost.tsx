@@ -1,197 +1,146 @@
-import { useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, Clock, Calendar, Tag, Share2, ChevronRight } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import ScrollReveal from '@/components/animations/ScrollReveal';
+import { supabase } from '@/integrations/supabase/client';
+import { format } from 'date-fns';
+import { Skeleton } from '@/components/ui/skeleton';
 
-import blogImage1 from '@/assets/work/Group_354.jpg';
-import blogImage2 from '@/assets/work/head1.jpg';
-import blogImage3 from '@/assets/work/Group_261.jpg';
+interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  description: string | null;
+  content: string | null;
+  category: string | null;
+  tags: string[] | null;
+  image_url: string | null;
+  author_name: string | null;
+  created_at: string;
+  updated_at: string;
+}
 
-// Blog post data - in production, this would come from a CMS or database
-const blogPostsData = [
-  {
-    id: 1,
-    slug: 'forearm-tattoos-perfect-canvas-for-realism',
-    title: 'Forearm Tattoos: A Perfect Canvas for Realism',
-    metaTitle: 'Forearm Tattoos: A Perfect Canvas for Realism | Okan Uckun',
-    metaDescription: 'Discover why forearm tattoos are ideal for realism art. Expert tips on design ideas, pain levels, healing, and planning your forearm tattoo piece.',
-    category: 'Inspiration',
-    date: '2025-05-18',
-    dateFormatted: 'May 18, 2025',
-    author: 'Okan Uckun',
-    authorRole: 'Tattoo Artist',
-    readTime: 8,
-    image: blogImage1,
-    excerpt: 'Forearm tattoos have surged in popularity as an ideal placement for both first-timers and seasoned collectors.',
-    content: [
-      {
-        type: 'paragraph',
-        text: 'Forearm tattoos have surged in popularity as an ideal placement for both first-timers and seasoned collectors. The forearm offers a unique combination of visibility, relatively low pain levels, and a flat canvas that makes it perfect for intricate realism work.'
-      },
-      {
-        type: 'heading',
-        text: 'Why Choose the Forearm for Your Tattoo?'
-      },
-      {
-        type: 'paragraph',
-        text: 'The forearm is one of the most versatile areas for tattooing. Its elongated shape accommodates both horizontal and vertical designs, while the skin\'s texture and thickness make it ideal for detailed work. Whether you prefer inner forearm pieces that you can admire daily or outer forearm designs that make a bold statement, this placement offers endless possibilities.'
-      },
-      {
-        type: 'heading',
-        text: 'Realism on the Forearm: What Makes It Special'
-      },
-      {
-        type: 'paragraph',
-        text: 'Realism tattoos require a skilled artist and the right canvas. The forearm\'s relatively flat surface allows for consistent needle depth, which is crucial for the subtle gradations and fine details that define photorealistic work. The skin here also tends to hold ink well, preserving the nuanced shading that brings realistic portraits and nature scenes to life.'
-      },
-      {
-        type: 'quote',
-        text: 'The forearm is where art meets visibility. It\'s the gallery you carry with you everywhere.',
-        author: 'Okan Uckun'
-      },
-      {
-        type: 'heading',
-        text: 'Pain Levels and Healing'
-      },
-      {
-        type: 'paragraph',
-        text: 'Compared to areas like the ribs, spine, or feet, the forearm is considered moderately low on the pain scale. The outer forearm tends to be less sensitive than the inner forearm, which has thinner skin and more nerve endings. Most clients describe the sensation as manageable, especially for those who have experienced other tattoo placements.'
-      },
-      {
-        type: 'paragraph',
-        text: 'Healing typically takes 2-3 weeks for the surface and up to 3-4 months for complete settling. The forearm\'s accessibility makes aftercare easier, as you can easily clean and moisturize the area without assistance.'
-      },
-      {
-        type: 'heading',
-        text: 'Design Considerations'
-      },
-      {
-        type: 'paragraph',
-        text: 'When planning a forearm piece, consider how the design flows with your arm\'s natural contours. Vertical designs work well along the length of the forearm, while wrap-around pieces can create stunning 360-degree art. For realism work, think about lighting, placement relative to your muscle structure, and how the tattoo will look in various arm positions.'
-      }
-    ],
-    tags: ['Forearm Tattoos', 'Realism', 'Tattoo Placement', 'First Tattoo'],
-    relatedPosts: [2, 3]
-  },
-  {
-    id: 2,
-    slug: 'sleeve-tattoo-ideas-inspiration-styles',
-    title: 'Sleeve Tattoo Ideas for Men: Inspiration and Styles',
-    metaTitle: 'Sleeve Tattoo Ideas for Men: Inspiration & Styles | Okan Uckun',
-    metaDescription: 'Explore the best sleeve tattoo ideas for men. From Japanese traditional to hyper-realistic portraits, discover styles and tips for your sleeve journey.',
-    category: 'Inspiration',
-    date: '2025-07-29',
-    dateFormatted: 'July 29, 2025',
-    author: 'Okan Uckun',
-    authorRole: 'Tattoo Artist',
-    readTime: 10,
-    image: blogImage2,
-    excerpt: 'Full sleeve tattoos represent the ultimate commitment to body art. Discover the most popular styles and how to plan your sleeve journey.',
-    content: [
-      {
-        type: 'paragraph',
-        text: 'Full sleeve tattoos represent the ultimate commitment to body art. They transform your arm into a continuous canvas of expression, telling stories that span from shoulder to wrist. Whether you\'re planning your first major piece or adding to an existing collection, understanding sleeve tattoo styles and planning is essential.'
-      },
-      {
-        type: 'heading',
-        text: 'Popular Sleeve Styles'
-      },
-      {
-        type: 'paragraph',
-        text: 'The world of sleeve tattoos offers incredible diversity. Japanese traditional sleeves feature bold lines, vibrant colors, and iconic imagery like koi fish, dragons, and cherry blossoms. Black and grey realism creates stunning portraits and scenes with photographic precision. Geometric and dotwork sleeves offer modern, abstract aesthetics that play with patterns and negative space.'
-      },
-      {
-        type: 'heading',
-        text: 'Planning Your Sleeve Journey'
-      },
-      {
-        type: 'paragraph',
-        text: 'A full sleeve typically requires multiple sessions spanning months or even years. Start with a clear vision and find an artist whose style aligns with your aesthetic. Consider how individual pieces will flow together—a cohesive sleeve often shares a common theme, color palette, or artistic style throughout.'
-      },
-      {
-        type: 'quote',
-        text: 'A sleeve is not just a collection of tattoos—it\'s a unified statement that tells your story across every inch of skin.',
-        author: 'Okan Uckun'
-      },
-      {
-        type: 'heading',
-        text: 'The Investment'
-      },
-      {
-        type: 'paragraph',
-        text: 'Quality sleeve work is a significant investment of both time and money. Depending on complexity and the artist\'s rate, a full sleeve can range from several thousand to tens of thousands of dollars. This is permanent art on your body—prioritize quality and artist expertise over cost savings.'
-      }
-    ],
-    tags: ['Sleeve Tattoos', 'Japanese Traditional', 'Tattoo Planning', 'Men\'s Tattoos'],
-    relatedPosts: [1, 3]
-  },
-  {
-    id: 3,
-    slug: 'skull-tattoos-symbolism-design-ideas',
-    title: 'Skull Tattoos: Symbolism and Design Ideas',
-    metaTitle: 'Skull Tattoos: Symbolism & Design Ideas Guide | Okan Uckun',
-    metaDescription: 'Explore the deep symbolism of skull tattoos across cultures. From mortality reminders to rebellion symbols, discover design ideas and realism techniques.',
-    category: 'Tattoo Styles',
-    date: '2025-05-17',
-    dateFormatted: 'May 17, 2025',
-    author: 'Okan Uckun',
-    authorRole: 'Tattoo Artist',
-    readTime: 7,
-    image: blogImage3,
-    excerpt: 'Skull tattoos carry deep symbolism across cultures. Explore the rich history and modern interpretations of skull designs in tattooing.',
-    content: [
-      {
-        type: 'paragraph',
-        text: 'Skull tattoos have been a staple of tattoo culture for centuries, carrying profound meanings that vary across cultures and individuals. Far from being merely macabre, these designs often represent life, death, transformation, and the eternal cycle that connects them all.'
-      },
-      {
-        type: 'heading',
-        text: 'The Symbolism of Skulls'
-      },
-      {
-        type: 'paragraph',
-        text: 'In many cultures, skulls serve as memento mori—reminders of mortality that encourage us to live fully. Mexican Día de los Muertos celebrations use sugar skulls to honor deceased loved ones with joy rather than sorrow. In Buddhism, skulls represent the impermanence of life and the importance of spiritual practice.'
-      },
-      {
-        type: 'heading',
-        text: 'Modern Interpretations'
-      },
-      {
-        type: 'paragraph',
-        text: 'Today\'s skull tattoos range from traditional bold designs to hyper-realistic portraits. They can represent rebellion, strength, protection, or simply an appreciation for the aesthetic. Combined with other elements like flowers, snakes, or geometric patterns, skulls become part of larger narratives unique to each wearer.'
-      },
-      {
-        type: 'quote',
-        text: 'Every skull tells a story of life lived. In death imagery, we often find the most powerful celebrations of existence.',
-        author: 'Okan Uckun'
-      },
-      {
-        type: 'heading',
-        text: 'Realism Skull Techniques'
-      },
-      {
-        type: 'paragraph',
-        text: 'Creating a realistic skull tattoo requires mastery of light and shadow. The skull\'s complex geometry—its hollows, ridges, and curves—demands precise shading techniques. A skilled artist captures not just the bone structure but the personality and emotion that even a skull can convey.'
-      }
-    ],
-    tags: ['Skull Tattoos', 'Symbolism', 'Realism', 'Cultural Meaning'],
-    relatedPosts: [1, 2]
-  }
-];
+interface ContentBlock {
+  type: 'paragraph' | 'heading' | 'quote';
+  text: string;
+  author?: string;
+}
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
-  const navigate = useNavigate();
-  
-  const post = blogPostsData.find(p => p.slug === slug);
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
   
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      if (!slug) return;
+      
+      setLoading(true);
+      try {
+        // Fetch the main post
+        const { data: postData, error: postError } = await supabase
+          .from('blog_posts')
+          .select('*')
+          .eq('slug', slug)
+          .eq('published', true)
+          .maybeSingle();
+
+        if (postError) throw postError;
+        setPost(postData);
+
+        // Fetch related posts (same category or just recent posts)
+        if (postData) {
+          const { data: relatedData, error: relatedError } = await supabase
+            .from('blog_posts')
+            .select('*')
+            .eq('published', true)
+            .neq('id', postData.id)
+            .order('created_at', { ascending: false })
+            .limit(2);
+
+          if (!relatedError && relatedData) {
+            setRelatedPosts(relatedData);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching blog post:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPost();
+  }, [slug]);
+
+  // Parse content - supports both JSON blocks and plain text
+  const parseContent = (content: string | null): ContentBlock[] => {
+    if (!content) return [];
+    
+    try {
+      const parsed = JSON.parse(content);
+      if (Array.isArray(parsed)) {
+        return parsed as ContentBlock[];
+      }
+    } catch {
+      // If not JSON, treat as plain paragraphs
+      return content.split('\n\n').filter(Boolean).map(text => ({
+        type: 'paragraph' as const,
+        text: text.trim()
+      }));
+    }
+    
+    return [];
+  };
+
+  // Estimate read time
+  const calculateReadTime = (content: string | null): number => {
+    if (!content) return 1;
+    const wordCount = content.split(/\s+/).length;
+    return Math.max(1, Math.ceil(wordCount / 200));
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background text-foreground">
+        <div className="fixed top-0 left-0 right-0 z-50">
+          <Navigation variant="dark" />
+        </div>
+        
+        {/* Hero Skeleton */}
+        <div className="relative h-[70vh] min-h-[500px] bg-muted">
+          <div className="absolute inset-0 flex flex-col justify-end px-[22.5px] pb-16 max-sm:px-4">
+            <div className="max-w-4xl">
+              <Skeleton className="h-4 w-48 mb-6" />
+              <Skeleton className="h-6 w-32 mb-4" />
+              <Skeleton className="h-12 w-full max-w-2xl mb-2" />
+              <Skeleton className="h-12 w-3/4 max-w-xl" />
+            </div>
+          </div>
+        </div>
+        
+        {/* Content Skeleton */}
+        <div className="px-[22.5px] max-sm:px-4 py-16 md:py-24">
+          <div className="max-w-3xl mx-auto space-y-6">
+            <Skeleton className="h-6 w-full" />
+            <Skeleton className="h-6 w-full" />
+            <Skeleton className="h-6 w-3/4" />
+            <Skeleton className="h-8 w-1/2 mt-8" />
+            <Skeleton className="h-6 w-full" />
+            <Skeleton className="h-6 w-full" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!post) {
     return (
@@ -206,25 +155,30 @@ const BlogPost = () => {
     );
   }
 
-  const relatedPosts = post.relatedPosts.map(id => blogPostsData.find(p => p.id === id)).filter(Boolean);
+  const contentBlocks = parseContent(post.content);
+  const readTime = calculateReadTime(post.content);
+  const formattedDate = format(new Date(post.created_at), 'MMMM d, yyyy');
+  const dateISO = format(new Date(post.created_at), 'yyyy-MM-dd');
+  const authorName = post.author_name || 'Okan Ağaoğlu';
+  const tags = post.tags || [];
 
   // JSON-LD Structured Data for SEO
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: post.title,
-    description: post.metaDescription,
-    image: post.image,
-    datePublished: post.date,
-    dateModified: post.date,
+    description: post.description,
+    image: post.image_url,
+    datePublished: post.created_at,
+    dateModified: post.updated_at,
     author: {
       '@type': 'Person',
-      name: post.author,
-      jobTitle: post.authorRole
+      name: authorName,
+      jobTitle: 'Tattoo Artist'
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Okan Uckun Tattoo',
+      name: 'Okan Ağaoğlu Tattoo',
       logo: {
         '@type': 'ImageObject',
         url: '/logo.png'
@@ -232,11 +186,11 @@ const BlogPost = () => {
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://okanuckun.com/blog/${post.slug}`
+      '@id': `https://okanagaoglu.com/blog/${post.slug}`
     },
     articleSection: post.category,
-    keywords: post.tags.join(', '),
-    wordCount: post.content.reduce((acc, block) => {
+    keywords: tags.join(', '),
+    wordCount: contentBlocks.reduce((acc, block) => {
       if (block.type === 'paragraph' || block.type === 'quote') {
         return acc + (block.text?.split(' ').length || 0);
       }
@@ -249,7 +203,7 @@ const BlogPost = () => {
       try {
         await navigator.share({
           title: post.title,
-          text: post.excerpt,
+          text: post.description || '',
           url: window.location.href
         });
       } catch (err) {
@@ -263,29 +217,29 @@ const BlogPost = () => {
   return (
     <>
       <Helmet>
-        <title>{post.metaTitle}</title>
-        <meta name="description" content={post.metaDescription} />
-        <meta name="keywords" content={post.tags.join(', ')} />
-        <link rel="canonical" href={`https://okanuckun.com/blog/${post.slug}`} />
+        <title>{post.title} | Okan Ağaoğlu</title>
+        <meta name="description" content={post.description || ''} />
+        <meta name="keywords" content={tags.join(', ')} />
+        <link rel="canonical" href={`https://okanagaoglu.com/blog/${post.slug}`} />
         
         {/* Open Graph */}
         <meta property="og:type" content="article" />
         <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.metaDescription} />
-        <meta property="og:image" content={post.image} />
-        <meta property="og:url" content={`https://okanuckun.com/blog/${post.slug}`} />
-        <meta property="article:published_time" content={post.date} />
-        <meta property="article:author" content={post.author} />
-        <meta property="article:section" content={post.category} />
-        {post.tags.map(tag => (
+        <meta property="og:description" content={post.description || ''} />
+        {post.image_url && <meta property="og:image" content={post.image_url} />}
+        <meta property="og:url" content={`https://okanagaoglu.com/blog/${post.slug}`} />
+        <meta property="article:published_time" content={post.created_at} />
+        <meta property="article:author" content={authorName} />
+        {post.category && <meta property="article:section" content={post.category} />}
+        {tags.map(tag => (
           <meta key={tag} property="article:tag" content={tag} />
         ))}
         
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={post.title} />
-        <meta name="twitter:description" content={post.metaDescription} />
-        <meta name="twitter:image" content={post.image} />
+        <meta name="twitter:description" content={post.description || ''} />
+        {post.image_url && <meta name="twitter:image" content={post.image_url} />}
         
         {/* JSON-LD */}
         <script type="application/ld+json">
@@ -296,8 +250,8 @@ const BlogPost = () => {
       <article className="min-h-screen bg-background text-foreground" itemScope itemType="https://schema.org/BlogPosting">
         {/* Hidden structured data */}
         <meta itemProp="headline" content={post.title} />
-        <meta itemProp="datePublished" content={post.date} />
-        <meta itemProp="author" content={post.author} />
+        <meta itemProp="datePublished" content={dateISO} />
+        <meta itemProp="author" content={authorName} />
         
         {/* Navigation */}
         <div className="fixed top-0 left-0 right-0 z-50">
@@ -312,12 +266,16 @@ const BlogPost = () => {
             transition={{ duration: 1.5, ease: [0.25, 0.1, 0.25, 1] }}
             className="absolute inset-0"
           >
-            <img
-              src={post.image}
-              alt={post.title}
-              className="w-full h-full object-cover"
-              itemProp="image"
-            />
+            {post.image_url ? (
+              <img
+                src={post.image_url}
+                alt={post.title}
+                className="w-full h-full object-cover"
+                itemProp="image"
+              />
+            ) : (
+              <div className="w-full h-full bg-muted" />
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
           </motion.div>
 
@@ -335,22 +293,24 @@ const BlogPost = () => {
                 <ChevronRight size={14} />
                 <Link to="/blog" className="hover:text-white transition-colors">Blog</Link>
                 <ChevronRight size={14} />
-                <span className="text-white/80">{post.category}</span>
+                <span className="text-white/80">{post.category || 'Article'}</span>
               </nav>
 
               {/* Meta */}
               <div className="flex flex-wrap items-center gap-4 mb-4">
-                <span className="bg-white text-black px-3 py-1 text-[11px] font-medium tracking-wider uppercase">
-                  {post.category}
-                </span>
+                {post.category && (
+                  <span className="bg-white text-black px-3 py-1 text-[11px] font-medium tracking-wider uppercase">
+                    {post.category}
+                  </span>
+                )}
                 <div className="flex items-center gap-4 text-white/70 text-[12px]">
                   <span className="flex items-center gap-1.5">
                     <Calendar size={14} />
-                    <time dateTime={post.date} itemProp="datePublished">{post.dateFormatted}</time>
+                    <time dateTime={dateISO} itemProp="datePublished">{formattedDate}</time>
                   </span>
                   <span className="flex items-center gap-1.5">
                     <Clock size={14} />
-                    {post.readTime} min read
+                    {readTime} min read
                   </span>
                 </div>
               </div>
@@ -374,11 +334,11 @@ const BlogPost = () => {
               <div className="flex items-center justify-between pb-8 mb-8 border-b border-border">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
-                    <span className="text-lg font-medium">{post.author.charAt(0)}</span>
+                    <span className="text-lg font-medium">{authorName.charAt(0)}</span>
                   </div>
                   <div>
-                    <p className="font-medium text-[14px]" itemProp="author">{post.author}</p>
-                    <p className="text-muted-foreground text-[12px]">{post.authorRole}</p>
+                    <p className="font-medium text-[14px]" itemProp="author">{authorName}</p>
+                    <p className="text-muted-foreground text-[12px]">Tattoo Artist</p>
                   </div>
                 </div>
                 <button 
@@ -394,7 +354,7 @@ const BlogPost = () => {
 
             {/* Content Blocks */}
             <div className="prose prose-lg max-w-none" itemProp="articleBody">
-              {post.content.map((block, index) => {
+              {contentBlocks.map((block, index) => {
                 if (block.type === 'paragraph') {
                   return (
                     <ScrollReveal key={index} delay={index * 0.05}>
@@ -434,21 +394,23 @@ const BlogPost = () => {
             </div>
 
             {/* Tags */}
-            <ScrollReveal>
-              <div className="mt-12 pt-8 border-t border-border">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <Tag size={16} className="text-muted-foreground" />
-                  {post.tags.map(tag => (
-                    <span 
-                      key={tag}
-                      className="px-3 py-1 bg-muted text-[12px] font-medium tracking-wide"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+            {tags.length > 0 && (
+              <ScrollReveal>
+                <div className="mt-12 pt-8 border-t border-border">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <Tag size={16} className="text-muted-foreground" />
+                    {tags.map(tag => (
+                      <span 
+                        key={tag}
+                        className="px-3 py-1 bg-muted text-[12px] font-medium tracking-wide"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </ScrollReveal>
+              </ScrollReveal>
+            )}
           </div>
         </div>
 
@@ -463,7 +425,7 @@ const BlogPost = () => {
               </ScrollReveal>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {relatedPosts.map((relatedPost, index) => relatedPost && (
+                {relatedPosts.map((relatedPost, index) => (
                   <ScrollReveal key={relatedPost.id} delay={index * 0.1}>
                     <Link 
                       to={`/blog/${relatedPost.slug}`}
@@ -475,17 +437,21 @@ const BlogPost = () => {
                         className="flex gap-6"
                       >
                         <div className="w-32 h-32 md:w-40 md:h-40 overflow-hidden flex-shrink-0">
-                          <motion.img
-                            src={relatedPost.image}
-                            alt={relatedPost.title}
-                            className="w-full h-full object-cover"
-                            whileHover={{ scale: 1.05 }}
-                            transition={{ duration: 0.6 }}
-                          />
+                          {relatedPost.image_url ? (
+                            <motion.img
+                              src={relatedPost.image_url}
+                              alt={relatedPost.title}
+                              className="w-full h-full object-cover"
+                              whileHover={{ scale: 1.05 }}
+                              transition={{ duration: 0.6 }}
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-muted" />
+                          )}
                         </div>
                         <div className="flex flex-col justify-center">
                           <span className="text-[11px] text-muted-foreground uppercase tracking-wide mb-2">
-                            {relatedPost.category} • {relatedPost.readTime} min
+                            {relatedPost.category || 'Article'} • {calculateReadTime(relatedPost.content)} min
                           </span>
                           <h3 className="text-lg md:text-xl font-medium leading-snug group-hover:opacity-70 transition-opacity">
                             {relatedPost.title}
