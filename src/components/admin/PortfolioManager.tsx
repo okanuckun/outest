@@ -3,20 +3,140 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  rectSortingStrategy,
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import { 
   Upload, 
   Trash2, 
   Image as ImageIcon,
   Loader2,
   CheckCircle,
-  X
+  GripVertical,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 
 interface PortfolioImage {
-  name: string;
+  id: string;
+  storage_path: string;
   url: string;
-  created_at: string;
+  display_order: number;
+  is_visible: boolean;
 }
+
+interface SortableImageProps {
+  image: PortfolioImage;
+  isSelected: boolean;
+  onSelect: () => void;
+  onDelete: () => void;
+  onToggleVisibility: () => void;
+}
+
+const SortableImage: React.FC<SortableImageProps> = ({ 
+  image, 
+  isSelected, 
+  onSelect, 
+  onDelete,
+  onToggleVisibility 
+}) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: image.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    zIndex: isDragging ? 1000 : 1,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`relative group aspect-square rounded-lg overflow-hidden border-2 transition-all ${
+        isSelected
+          ? 'border-primary ring-2 ring-primary/50'
+          : 'border-border hover:border-muted-foreground'
+      } ${!image.is_visible ? 'opacity-50' : ''}`}
+    >
+      {/* Drag handle */}
+      <div
+        {...attributes}
+        {...listeners}
+        className="absolute top-2 right-2 z-10 bg-black/60 text-white rounded p-1 cursor-grab active:cursor-grabbing opacity-0 group-hover:opacity-100 transition-opacity"
+      >
+        <GripVertical size={16} />
+      </div>
+
+      <img
+        src={image.url}
+        alt={image.storage_path}
+        className="w-full h-full object-cover cursor-pointer"
+        loading="lazy"
+        onClick={onSelect}
+      />
+      
+      {/* Selection indicator */}
+      {isSelected && (
+        <div className="absolute top-2 left-2 bg-primary text-primary-foreground rounded-full p-1">
+          <CheckCircle size={16} />
+        </div>
+      )}
+
+      {/* Visibility indicator */}
+      {!image.is_visible && (
+        <div className="absolute bottom-2 left-2 bg-black/60 text-white rounded-full p-1">
+          <EyeOff size={14} />
+        </div>
+      )}
+
+      {/* Hover overlay with actions */}
+      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+        <Button
+          variant="secondary"
+          size="sm"
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleVisibility();
+          }}
+        >
+          {image.is_visible ? <EyeOff size={16} /> : <Eye size={16} />}
+        </Button>
+        <Button
+          variant="destructive"
+          size="sm"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete();
+          }}
+        >
+          <Trash2 size={16} />
+        </Button>
+      </div>
+    </div>
+  );
+};
 
 const PortfolioManager: React.FC = () => {
   const { toast } = useToast();
@@ -26,26 +146,78 @@ const PortfolioManager: React.FC = () => {
   const [uploadProgress, setUploadProgress] = useState<{ total: number; completed: number }>({ total: 0, completed: 0 });
   const [selectedImages, setSelectedImages] = useState<Set<string>>(new Set());
   const [deleting, setDeleting] = useState(false);
+  const [saving, setSaving] = useState(false);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   const fetchImages = useCallback(async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase.storage
+      // Get images from database with order
+      const { data: dbImages, error: dbError } = await supabase
+        .from('portfolio_images')
+        .select('*')
+        .order('display_order', { ascending: true });
+
+      if (dbError) throw dbError;
+
+      // Get all files from storage
+      const { data: storageFiles, error: storageError } = await supabase.storage
         .from('portfolio')
-        .list('', {
-          limit: 500,
-          sortBy: { column: 'created_at', order: 'desc' }
-        });
+        .list('', { limit: 500 });
 
-      if (error) throw error;
+      if (storageError) throw storageError;
 
-      const imageList: PortfolioImage[] = (data || [])
-        .filter(file => file.name !== '.emptyFolderPlaceholder')
-        .map(file => ({
-          name: file.name,
-          url: supabase.storage.from('portfolio').getPublicUrl(file.name).data.publicUrl,
-          created_at: file.created_at || ''
+      const validFiles = (storageFiles || []).filter(
+        file => file.name !== '.emptyFolderPlaceholder'
+      );
+
+      // Create a map of existing db records
+      const dbMap = new Map((dbImages || []).map(img => [img.storage_path, img]));
+
+      // Sync: Add new storage files to database
+      const newFiles = validFiles.filter(file => !dbMap.has(file.name));
+      
+      if (newFiles.length > 0) {
+        const maxOrder = Math.max(0, ...(dbImages || []).map(img => img.display_order));
+        const newRecords = newFiles.map((file, index) => ({
+          storage_path: file.name,
+          display_order: maxOrder + index + 1,
+          is_visible: true,
         }));
+
+        await supabase.from('portfolio_images').insert(newRecords);
+      }
+
+      // Re-fetch after sync
+      const { data: finalImages, error: finalError } = await supabase
+        .from('portfolio_images')
+        .select('*')
+        .order('display_order', { ascending: true });
+
+      if (finalError) throw finalError;
+
+      // Filter out records where storage file no longer exists
+      const storageSet = new Set(validFiles.map(f => f.name));
+      const validDbImages = (finalImages || []).filter(img => storageSet.has(img.storage_path));
+
+      // Build final image list with URLs
+      const imageList: PortfolioImage[] = validDbImages.map(img => ({
+        id: img.id,
+        storage_path: img.storage_path,
+        url: supabase.storage.from('portfolio').getPublicUrl(img.storage_path).data.publicUrl,
+        display_order: img.display_order,
+        is_visible: img.is_visible ?? true,
+      }));
 
       setImages(imageList);
     } catch (error: any) {
@@ -63,6 +235,47 @@ const PortfolioManager: React.FC = () => {
     fetchImages();
   }, [fetchImages]);
 
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+    
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = images.findIndex(img => img.id === active.id);
+    const newIndex = images.findIndex(img => img.id === over.id);
+
+    const newImages = arrayMove(images, oldIndex, newIndex);
+    setImages(newImages);
+
+    // Save new order to database
+    setSaving(true);
+    try {
+      const updates = newImages.map((img, index) => ({
+        id: img.id,
+        storage_path: img.storage_path,
+        display_order: index,
+        is_visible: img.is_visible,
+      }));
+
+      for (const update of updates) {
+        await supabase
+          .from('portfolio_images')
+          .update({ display_order: update.display_order })
+          .eq('id', update.id);
+      }
+
+      toast({ title: 'Order saved' });
+    } catch (error: any) {
+      toast({
+        title: 'Error saving order',
+        description: error.message,
+        variant: 'destructive',
+      });
+      fetchImages(); // Revert on error
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
@@ -70,21 +283,30 @@ const PortfolioManager: React.FC = () => {
     setUploading(true);
     setUploadProgress({ total: files.length, completed: 0 });
 
+    const maxOrder = Math.max(0, ...images.map(img => img.display_order));
+
     const uploadPromises = Array.from(files).map(async (file, index) => {
       const fileExt = file.name.split('.').pop()?.toLowerCase();
       const fileName = `${Date.now()}-${index}.${fileExt}`;
 
-      const { error } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from('portfolio')
         .upload(fileName, file, {
           cacheControl: '3600',
           upsert: false
         });
 
-      if (error) {
-        console.error(`Error uploading ${file.name}:`, error);
-        return { success: false, name: file.name, error: error.message };
+      if (uploadError) {
+        console.error(`Error uploading ${file.name}:`, uploadError);
+        return { success: false, name: file.name, error: uploadError.message };
       }
+
+      // Add to database
+      await supabase.from('portfolio_images').insert({
+        storage_path: fileName,
+        display_order: maxOrder + index + 1,
+        is_visible: true,
+      });
 
       setUploadProgress(prev => ({ ...prev, completed: prev.completed + 1 }));
       return { success: true, name: file.name };
@@ -100,7 +322,7 @@ const PortfolioManager: React.FC = () => {
     if (successCount > 0) {
       toast({
         title: 'Upload Complete',
-        description: `${successCount} image(s) uploaded successfully${failCount > 0 ? `, ${failCount} failed` : ''}`,
+        description: `${successCount} image(s) uploaded${failCount > 0 ? `, ${failCount} failed` : ''}`,
       });
       fetchImages();
     } else {
@@ -111,17 +333,16 @@ const PortfolioManager: React.FC = () => {
       });
     }
 
-    // Reset input
     e.target.value = '';
   };
 
-  const toggleImageSelection = (imageName: string) => {
+  const toggleImageSelection = (imageId: string) => {
     setSelectedImages(prev => {
       const newSet = new Set(prev);
-      if (newSet.has(imageName)) {
-        newSet.delete(imageName);
+      if (newSet.has(imageId)) {
+        newSet.delete(imageId);
       } else {
-        newSet.add(imageName);
+        newSet.add(imageId);
       }
       return newSet;
     });
@@ -131,7 +352,30 @@ const PortfolioManager: React.FC = () => {
     if (selectedImages.size === images.length) {
       setSelectedImages(new Set());
     } else {
-      setSelectedImages(new Set(images.map(img => img.name)));
+      setSelectedImages(new Set(images.map(img => img.id)));
+    }
+  };
+
+  const toggleVisibility = async (image: PortfolioImage) => {
+    const newVisibility = !image.is_visible;
+    
+    // Optimistic update
+    setImages(prev => prev.map(img => 
+      img.id === image.id ? { ...img, is_visible: newVisibility } : img
+    ));
+
+    const { error } = await supabase
+      .from('portfolio_images')
+      .update({ is_visible: newVisibility })
+      .eq('id', image.id);
+
+    if (error) {
+      toast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive',
+      });
+      fetchImages();
     }
   };
 
@@ -146,47 +390,49 @@ const PortfolioManager: React.FC = () => {
 
     setDeleting(true);
 
-    const filesToDelete = Array.from(selectedImages);
-    const { error } = await supabase.storage
+    const imagesToDelete = images.filter(img => selectedImages.has(img.id));
+    const storagePaths = imagesToDelete.map(img => img.storage_path);
+    const dbIds = imagesToDelete.map(img => img.id);
+
+    // Delete from storage
+    const { error: storageError } = await supabase.storage
       .from('portfolio')
-      .remove(filesToDelete);
+      .remove(storagePaths);
 
-    setDeleting(false);
-
-    if (error) {
+    if (storageError) {
       toast({
-        title: 'Delete Error',
-        description: error.message,
+        title: 'Storage Delete Error',
+        description: storageError.message,
         variant: 'destructive',
       });
-    } else {
-      toast({
-        title: 'Deleted',
-        description: `${filesToDelete.length} image(s) deleted successfully`,
-      });
-      setSelectedImages(new Set());
-      fetchImages();
     }
+
+    // Delete from database
+    for (const id of dbIds) {
+      await supabase.from('portfolio_images').delete().eq('id', id);
+    }
+
+    setDeleting(false);
+    toast({
+      title: 'Deleted',
+      description: `${imagesToDelete.length} image(s) deleted`,
+    });
+    setSelectedImages(new Set());
+    fetchImages();
   };
 
-  const deleteSingleImage = async (imageName: string) => {
+  const deleteSingleImage = async (image: PortfolioImage) => {
     const confirmDelete = window.confirm('Are you sure you want to delete this image?');
     if (!confirmDelete) return;
 
-    const { error } = await supabase.storage
-      .from('portfolio')
-      .remove([imageName]);
+    // Delete from storage
+    await supabase.storage.from('portfolio').remove([image.storage_path]);
+    
+    // Delete from database
+    await supabase.from('portfolio_images').delete().eq('id', image.id);
 
-    if (error) {
-      toast({
-        title: 'Delete Error',
-        description: error.message,
-        variant: 'destructive',
-      });
-    } else {
-      toast({ title: 'Image deleted' });
-      fetchImages();
-    }
+    toast({ title: 'Image deleted' });
+    fetchImages();
   };
 
   return (
@@ -196,7 +442,8 @@ const PortfolioManager: React.FC = () => {
         <div>
           <h2 className="text-lg font-medium text-foreground">Portfolio Images</h2>
           <p className="text-sm text-muted-foreground">
-            {images.length} image(s) in portfolio
+            {images.length} image(s) • Drag to reorder
+            {saving && <span className="ml-2 text-primary">Saving...</span>}
           </p>
         </div>
 
@@ -216,25 +463,23 @@ const PortfolioManager: React.FC = () => {
               {uploading ? (
                 <>
                   <Loader2 size={16} className="mr-2 animate-spin" />
-                  Uploading {uploadProgress.completed}/{uploadProgress.total}
+                  {uploadProgress.completed}/{uploadProgress.total}
                 </>
               ) : (
                 <>
                   <Upload size={16} className="mr-2" />
-                  Upload Images
+                  Upload
                 </>
               )}
             </Button>
           </div>
 
-          {/* Select all button */}
           {images.length > 0 && (
             <Button variant="outline" onClick={selectAll}>
-              {selectedImages.size === images.length ? 'Deselect All' : 'Select All'}
+              {selectedImages.size === images.length ? 'Deselect' : 'Select All'}
             </Button>
           )}
 
-          {/* Delete selected button */}
           {selectedImages.size > 0 && (
             <Button 
               variant="destructive" 
@@ -284,49 +529,28 @@ const PortfolioManager: React.FC = () => {
         </div>
       )}
 
-      {/* Image grid */}
+      {/* Sortable Image grid */}
       {!loading && images.length > 0 && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-          {images.map((image) => (
-            <div
-              key={image.name}
-              className={`relative group aspect-square rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${
-                selectedImages.has(image.name)
-                  ? 'border-primary ring-2 ring-primary/50'
-                  : 'border-border hover:border-muted-foreground'
-              }`}
-              onClick={() => toggleImageSelection(image.name)}
-            >
-              <img
-                src={image.url}
-                alt={image.name}
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
-              
-              {/* Selection indicator */}
-              {selectedImages.has(image.name) && (
-                <div className="absolute top-2 left-2 bg-primary text-primary-foreground rounded-full p-1">
-                  <CheckCircle size={16} />
-                </div>
-              )}
-
-              {/* Hover overlay with delete button */}
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteSingleImage(image.name);
-                  }}
-                >
-                  <Trash2 size={16} />
-                </Button>
-              </div>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext items={images.map(img => img.id)} strategy={rectSortingStrategy}>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+              {images.map((image) => (
+                <SortableImage
+                  key={image.id}
+                  image={image}
+                  isSelected={selectedImages.has(image.id)}
+                  onSelect={() => toggleImageSelection(image.id)}
+                  onDelete={() => deleteSingleImage(image)}
+                  onToggleVisibility={() => toggleVisibility(image)}
+                />
+              ))}
             </div>
-          ))}
-        </div>
+          </SortableContext>
+        </DndContext>
       )}
     </div>
   );
