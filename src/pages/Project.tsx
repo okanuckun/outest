@@ -61,7 +61,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
     if (isHovered && images.length > 1) {
       intervalRef.current = setInterval(() => {
         setCurrentImageIndex((prev) => (prev + 1) % images.length);
-      }, 1500);
+      }, 3500);
     } else {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
@@ -205,8 +205,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
       </div>
 
       {/* Project Number */}
-      <div className="absolute top-8 md:top-16 lg:top-24 left-8 md:left-16 lg:left-24">
-        <span className="text-white/20 text-8xl md:text-9xl font-light">
+      <div className="absolute top-8 md:top-16 lg:top-24 left-8 md:left-16 lg:left-24 z-0 pointer-events-none">
+        <span className="text-white/10 text-8xl md:text-9xl font-light">
           {String(index + 1).padStart(2, '0')}
         </span>
       </div>
