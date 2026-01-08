@@ -191,19 +191,59 @@ const Booking: React.FC = () => {
       .filter(f => f.url)
       .map(f => f.url);
 
-    console.log('Form data:', { 
-      ...formData, 
-      referenceImages: referenceImageUrls,
-      placementImages: placementImageUrls 
-    });
-    
-    setTimeout(() => {
+    // Find guest spot name if selected
+    const selectedGuestSpot = guestSpots?.find(spot => spot.id === formData.guestSpotId);
+    const guestSpotName = selectedGuestSpot 
+      ? `${selectedGuestSpot.studio_name} - ${selectedGuestSpot.city}, ${selectedGuestSpot.country}`
+      : undefined;
+
+    try {
+      const { error } = await supabase.functions.invoke('send-booking-email', {
+        body: {
+          ...formData,
+          guestSpotName,
+          referenceImages: referenceImageUrls,
+          placementImages: placementImageUrls,
+        },
+      });
+
+      if (error) throw error;
+
       toast({
         title: "Request Submitted",
-        description: "We'll get back to you within 24-48 hours.",
+        description: "We'll get back to you within 24-48 hours. Check your email for confirmation.",
       });
+
+      // Reset form
+      setFormData({
+        firstName: '',
+        lastName: '',
+        phone: '',
+        email: '',
+        location: '',
+        locationType: null,
+        guestSpotId: null,
+        collectorType: null,
+        tattooPlacement: '',
+        tattooSize: '',
+        portfolioFavorites: '',
+        artistInspiration: '',
+        story: '',
+        preferredDate: '',
+        additionalNotes: '',
+      });
+      setUploadedFiles([]);
+      setPlacementPhotos([]);
+    } catch (error: any) {
+      console.error('Error submitting form:', error);
+      toast({
+        title: "Error",
+        description: "Failed to submit your request. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   const FileUploadArea = ({ 
