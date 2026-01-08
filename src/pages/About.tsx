@@ -82,22 +82,7 @@ const About: React.FC = () => {
         </div>
 
         {/* Right Side - Light with Quote (65%) */}
-        <div className="relative w-full lg:w-[65%] min-h-[60vh] lg:min-h-screen bg-[#f5f5f5] flex flex-col">
-          {/* Top Right Info */}
-          
-
-          {/* Quote Source */}
-          <motion.div initial={{
-          opacity: 0
-        }} animate={{
-          opacity: 1
-        }} transition={{
-          delay: 0.6,
-          duration: 0.6
-        }} className="px-6 mt-auto">
-            
-          </motion.div>
-
+        <div className="relative w-full lg:w-[65%] min-h-[40vh] lg:min-h-screen bg-[#f5f5f5] flex flex-col justify-end">
           {/* Main Quote */}
           <motion.div initial={{
           opacity: 0,
@@ -108,7 +93,7 @@ const About: React.FC = () => {
         }} transition={{
           delay: 0.7,
           duration: 0.8
-        }} className="px-6 pb-6 lg:pb-12">
+        }} className="px-6 py-8 lg:pb-12">
             <div className="flex">
               <span className="text-[40px] lg:text-[60px] font-bold text-[#323232] leading-none mr-2">"</span>
               <h1 className="text-[32px] md:text-[42px] lg:text-[52px] xl:text-[62px] font-bold text-[#323232] leading-[0.95] tracking-[-0.02em] uppercase">
