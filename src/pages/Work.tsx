@@ -1,29 +1,16 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import SEOHead from '@/components/SEOHead';
+import { supabase } from '@/integrations/supabase/client';
+import { Loader2 } from 'lucide-react';
 
-// Work images
-import glitch1 from '@/assets/work/glitch1.png';
-import DSC03538 from '@/assets/work/DSC03538.jpg';
-import DSC00339 from '@/assets/work/DSC00339.jpg';
-import b1 from '@/assets/work/b1.jpg';
-import a1 from '@/assets/work/a1.jpg';
-import DAGSIRT from '@/assets/work/DAGSIRT.jpg';
-import IMG_1636 from '@/assets/work/IMG_1636.jpg';
-import IMG_1727 from '@/assets/work/IMG_1727.jpg';
-import Untitled1 from '@/assets/work/Untitled-1.jpg';
-import uuh2 from '@/assets/work/uuh2.jpg';
-import dec2 from '@/assets/work/dec2.jpg';
-import d4 from '@/assets/work/d4.jpg';
-import head1 from '@/assets/work/head1.jpg';
-import Group_354 from '@/assets/work/Group_354.jpg';
-import Group_240 from '@/assets/work/Group_240.jpg';
-import Group_261 from '@/assets/work/Group_261.jpg';
-import c3 from '@/assets/work/c3.jpg';
-import Group_315 from '@/assets/work/Group_315.jpg';
-import Group_351 from '@/assets/work/Group_351.jpg';
+interface PortfolioImage {
+  id: string;
+  storage_path: string;
+  url: string;
+  display_order: number;
+}
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -38,40 +25,52 @@ const Work: React.FC = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [isScrolling, setIsScrolling] = useState(false);
+  const [works, setWorks] = useState<PortfolioImage[]>([]);
+  const [loading, setLoading] = useState(true);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Kendi fotoğraflarınız
-  const works = [
-    { id: 1, src: glitch1 },
-    { id: 2, src: DSC03538 },
-    { id: 3, src: DSC00339 },
-    { id: 4, src: b1 },
-    { id: 5, src: a1 },
-    { id: 6, src: DAGSIRT },
-    { id: 7, src: IMG_1636 },
-    { id: 8, src: IMG_1727 },
-    { id: 9, src: Untitled1 },
-    { id: 10, src: uuh2 },
-    { id: 11, src: dec2 },
-    { id: 12, src: d4 },
-    { id: 13, src: head1 },
-    { id: 14, src: Group_354 },
-    { id: 15, src: Group_240 },
-    { id: 16, src: Group_261 },
-    { id: 17, src: c3 },
-    { id: 18, src: Group_315 },
-    { id: 19, src: Group_351 },
-  ];
+  // Fetch portfolio images from database
+  useEffect(() => {
+    const fetchImages = async () => {
+      setLoading(true);
+      try {
+        const { data, error } = await supabase
+          .from('portfolio_images')
+          .select('*')
+          .eq('is_visible', true)
+          .order('display_order', { ascending: true });
+
+        if (error) throw error;
+
+        const imageList: PortfolioImage[] = (data || []).map(img => ({
+          id: img.id,
+          storage_path: img.storage_path,
+          url: supabase.storage.from('portfolio').getPublicUrl(img.storage_path).data.publicUrl,
+          display_order: img.display_order,
+        }));
+
+        setWorks(imageList);
+      } catch (error) {
+        console.error('Error fetching portfolio images:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchImages();
+  }, []);
 
   // İkili çiftler halinde görseller
   const totalPairs = Math.ceil(works.length / 2);
 
   const handlePrevPair = useCallback(() => {
+    if (totalPairs === 0) return;
     setCurrentPair(prev => prev > 0 ? prev - 1 : totalPairs - 1);
   }, [totalPairs]);
 
   const handleNextPair = useCallback(() => {
+    if (totalPairs === 0) return;
     setCurrentPair(prev => prev < totalPairs - 1 ? prev + 1 : 0);
   }, [totalPairs]);
 
@@ -105,7 +104,7 @@ const Work: React.FC = () => {
     const threshold = 60;
 
     const handleWheel = (e: WheelEvent) => {
-      if (lightboxOpen) return;
+      if (lightboxOpen || works.length === 0) return;
       
       e.preventDefault();
       
@@ -138,7 +137,7 @@ const Work: React.FC = () => {
 
     window.addEventListener('wheel', handleWheel, { passive: false });
     return () => window.removeEventListener('wheel', handleWheel);
-  }, [handleNextPair, handlePrevPair, isScrolling, lightboxOpen]);
+  }, [handleNextPair, handlePrevPair, isScrolling, lightboxOpen, works.length]);
 
   // Touch/Swipe navigation for mobile
   useEffect(() => {
@@ -249,6 +248,48 @@ const Work: React.FC = () => {
     }
   };
 
+  // Loading state
+  if (loading) {
+    return (
+      <>
+        <SEOHead
+          title="Work | Okan Uckun Tattoo Portfolio NYC"
+          description="Explore the tattoo portfolio of Okan Uckun featuring black and grey realism, portraits, geometric designs, and fine line work in New York City."
+          keywords="tattoo portfolio, black and grey tattoo, realism tattoo gallery, NYC tattoo work, Okan Uckun portfolio"
+          canonical="/work"
+          jsonLd={jsonLd}
+        />
+        <div className="h-screen w-screen overflow-hidden bg-black flex items-center justify-center">
+          <div className="fixed top-0 left-0 right-0 z-50">
+            <Navigation />
+          </div>
+          <Loader2 size={40} className="animate-spin text-white/50" />
+        </div>
+      </>
+    );
+  }
+
+  // Empty state
+  if (works.length === 0) {
+    return (
+      <>
+        <SEOHead
+          title="Work | Okan Uckun Tattoo Portfolio NYC"
+          description="Explore the tattoo portfolio of Okan Uckun featuring black and grey realism, portraits, geometric designs, and fine line work in New York City."
+          keywords="tattoo portfolio, black and grey tattoo, realism tattoo gallery, NYC tattoo work, Okan Uckun portfolio"
+          canonical="/work"
+          jsonLd={jsonLd}
+        />
+        <div className="h-screen w-screen overflow-hidden bg-black flex items-center justify-center">
+          <div className="fixed top-0 left-0 right-0 z-50">
+            <Navigation />
+          </div>
+          <p className="text-white/50 text-lg">No works available yet</p>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <SEOHead
@@ -286,8 +327,8 @@ const Work: React.FC = () => {
           >
             {leftImage && (
               <img
-                src={leftImage.src}
-                alt={`Work ${leftImageIndex + 1}`}
+                src={leftImage.url}
+                alt={`Tattoo work ${leftImageIndex + 1}`}
                 className="w-full h-full object-cover"
                 draggable={false}
               />
@@ -311,8 +352,8 @@ const Work: React.FC = () => {
           >
             {rightImage && (
               <img
-                src={rightImage.src}
-                alt={`Work ${rightImageIndex + 1}`}
+                src={rightImage.url}
+                alt={`Tattoo work ${rightImageIndex + 1}`}
                 className="w-full h-full object-cover"
                 draggable={false}
               />
@@ -425,7 +466,7 @@ const Work: React.FC = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              src={works[lightboxIndex]?.src}
+              src={works[lightboxIndex]?.url}
               alt="Fullscreen view"
               className="max-w-[90vw] max-h-[90vh] object-contain"
               onClick={(e) => e.stopPropagation()}
