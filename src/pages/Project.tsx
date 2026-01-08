@@ -205,7 +205,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
       </div>
 
       {/* Project Number */}
-      <div className="absolute top-8 md:top-16 lg:top-24 left-8 md:left-16 lg:left-24 z-0 pointer-events-none">
+      <div className="absolute top-24 md:top-20 lg:top-24 left-8 md:left-16 lg:left-24 z-0 pointer-events-none">
         <span className="text-white/10 text-8xl md:text-9xl font-light">
           {String(index + 1).padStart(2, '0')}
         </span>
