@@ -140,6 +140,89 @@ const Work: React.FC = () => {
     return () => window.removeEventListener('wheel', handleWheel);
   }, [handleNextPair, handlePrevPair, isScrolling, lightboxOpen]);
 
+  // Touch/Swipe navigation for mobile
+  useEffect(() => {
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+    const minSwipeDistance = 50;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      touchEndX = e.touches[0].clientX;
+      touchEndY = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = () => {
+      const deltaX = touchEndX - touchStartX;
+      const deltaY = touchEndY - touchStartY;
+      
+      // Only process if there was actual movement
+      if (touchEndX === 0 && touchEndY === 0) return;
+
+      // Check if horizontal swipe is dominant
+      if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        if (Math.abs(deltaX) > minSwipeDistance) {
+          if (deltaX > 0) {
+            // Swipe right - go to previous
+            if (lightboxOpen) {
+              setLightboxIndex(prev => prev > 0 ? prev - 1 : works.length - 1);
+            } else {
+              handlePrevPair();
+            }
+          } else {
+            // Swipe left - go to next
+            if (lightboxOpen) {
+              setLightboxIndex(prev => prev < works.length - 1 ? prev + 1 : 0);
+            } else {
+              handleNextPair();
+            }
+          }
+        }
+      } else {
+        // Vertical swipe
+        if (Math.abs(deltaY) > minSwipeDistance) {
+          if (deltaY > 0) {
+            // Swipe down - go to previous
+            if (lightboxOpen) {
+              setLightboxIndex(prev => prev > 0 ? prev - 1 : works.length - 1);
+            } else {
+              handlePrevPair();
+            }
+          } else {
+            // Swipe up - go to next
+            if (lightboxOpen) {
+              setLightboxIndex(prev => prev < works.length - 1 ? prev + 1 : 0);
+            } else {
+              handleNextPair();
+            }
+          }
+        }
+      }
+
+      // Reset values
+      touchStartX = 0;
+      touchStartY = 0;
+      touchEndX = 0;
+      touchEndY = 0;
+    };
+
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd);
+
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [handleNextPair, handlePrevPair, lightboxOpen, works.length]);
+
   const openLightbox = (index: number) => {
     setLightboxIndex(index);
     setLightboxOpen(true);
@@ -245,8 +328,11 @@ const Work: React.FC = () => {
         <span className="text-white text-[14px] font-medium tracking-[-0.02em]">
           {currentPair + 1} / {totalPairs}
         </span>
-        <span className="text-white/50 text-[11px] font-normal tracking-[0.3px] uppercase">
+        <span className="text-white/50 text-[11px] font-normal tracking-[0.3px] uppercase max-md:hidden">
           Scroll to navigate
+        </span>
+        <span className="text-white/50 text-[11px] font-normal tracking-[0.3px] uppercase md:hidden">
+          Swipe to navigate
         </span>
       </div>
 
