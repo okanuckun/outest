@@ -5,10 +5,20 @@ import ScrollReveal from '@/components/animations/ScrollReveal';
 import Footer from '@/components/Footer';
 import Navigation from '@/components/Navigation';
 import SEOHead from '@/components/SEOHead';
+import { supabase } from '@/integrations/supabase/client';
+import { Skeleton } from '@/components/ui/skeleton';
 
-import blogImage1 from '@/assets/work/Group_354.jpg';
-import blogImage2 from '@/assets/work/head1.jpg';
-import blogImage3 from '@/assets/work/Group_261.jpg';
+import defaultBlogImage from '@/assets/work/Group_354.jpg';
+
+interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  category: string | null;
+  description: string | null;
+  image_url: string | null;
+  created_at: string;
+}
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -22,63 +32,110 @@ const jsonLd = {
   }
 };
 
-const blogPosts = [
-  {
-    id: 1,
-    slug: 'forearm-tattoos-perfect-canvas-for-realism',
-    title: "FOREARM TATTOOS: A PERFECT CANVAS FOR REALISM",
-    category: "Inspiration",
-    date: "May 18, 2025",
-    description: "Forearm tattoos have surged in popularity as an ideal placement for both first-timers and seasoned collectors. In this guide, we explore why the forearm is a favorite canvas, especially for realism tattoos, covering design ideas, pain factors, and tips to plan your piece.",
-    image: blogImage1,
-  },
-  {
-    id: 2,
-    slug: 'sleeve-tattoo-ideas-inspiration-styles',
-    title: "SLEEVE TATTOO IDEAS FOR MEN: INSPIRATION AND STYLES",
-    category: "Inspiration",
-    date: "July 29, 2025",
-    description: "Full sleeve tattoos represent the ultimate commitment to body art. Discover the most popular styles, from traditional Japanese to hyper-realistic portraits, and learn how to plan your sleeve journey.",
-    image: blogImage2,
-  },
-  {
-    id: 3,
-    slug: 'skull-tattoos-symbolism-design-ideas',
-    title: "SKULL TATTOOS: SYMBOLISM AND DESIGN IDEAS",
-    category: "Tattoo Styles",
-    date: "May 17, 2025",
-    description: "Skull tattoos carry deep symbolism across cultures. From mortality reminders to rebellion symbols, explore the rich history and modern interpretations of skull designs in tattooing.",
-    image: blogImage3,
-  },
-];
-
 const Blog = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [searchParams] = useSearchParams();
   const gridRef = useRef<HTMLDivElement>(null);
-  const articleRefs = useRef<{ [key: number]: HTMLElement | null }>({});
+  const articleRefs = useRef<{ [key: string]: HTMLElement | null }>({});
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch blog posts from database
+  useEffect(() => {
+    const fetchPosts = async () => {
+      setLoading(true);
+      try {
+        const { data, error } = await supabase
+          .from('blog_posts')
+          .select('id, slug, title, category, description, image_url, created_at')
+          .eq('published', true)
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        setBlogPosts(data || []);
+      } catch (error) {
+        console.error('Error fetching blog posts:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   // Handle post navigation from homepage
   useEffect(() => {
     const postId = searchParams.get('post');
-    if (postId) {
-      const targetId = parseInt(postId);
-      // Small delay to ensure DOM is ready
+    if (postId && blogPosts.length > 0) {
       setTimeout(() => {
-        const targetArticle = articleRefs.current[targetId];
+        const targetArticle = articleRefs.current[postId];
         if (targetArticle) {
           targetArticle.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       }, 100);
     }
-  }, [searchParams]);
+  }, [searchParams, blogPosts]);
 
   useEffect(() => {
+    if (blogPosts.length === 0) return;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % blogPosts.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [blogPosts.length]);
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  };
+
+  if (loading) {
+    return (
+      <>
+        <SEOHead
+          title="Blog | Okan Uckun Tattoo Articles & Inspiration"
+          description="Read articles about tattoo art, styles, symbolism, and inspiration from NYC tattoo artist Okan Uckun."
+          keywords="tattoo blog, tattoo articles, tattoo inspiration"
+          canonical="/blog"
+          jsonLd={jsonLd}
+        />
+        <div className="min-h-screen bg-background text-foreground">
+          <div className="fixed top-0 left-0 right-0 z-50">
+            <Navigation />
+          </div>
+          <div className="h-screen flex items-center justify-center">
+            <Skeleton className="w-full h-full" />
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  if (blogPosts.length === 0) {
+    return (
+      <>
+        <SEOHead
+          title="Blog | Okan Uckun Tattoo Articles & Inspiration"
+          description="Read articles about tattoo art, styles, symbolism, and inspiration from NYC tattoo artist Okan Uckun."
+          keywords="tattoo blog, tattoo articles, tattoo inspiration"
+          canonical="/blog"
+          jsonLd={jsonLd}
+        />
+        <div className="min-h-screen bg-background text-foreground">
+          <div className="fixed top-0 left-0 right-0 z-50">
+            <Navigation />
+          </div>
+          <div className="h-screen flex items-center justify-center">
+            <p className="text-muted-foreground">No blog posts available yet.</p>
+          </div>
+          <Footer />
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -112,7 +169,7 @@ const Blog = () => {
           >
             <div 
               className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url(${post.image})` }}
+              style={{ backgroundImage: `url(${post.image_url || defaultBlogImage})` }}
             />
             <div className="absolute inset-0 bg-black/50" />
           </motion.div>
@@ -133,10 +190,10 @@ const Blog = () => {
               {/* Category & Date */}
               <div className="flex items-center gap-2 mb-3">
                 <span className="bg-background text-foreground px-2 py-0.5 text-[10px] font-medium tracking-wider uppercase">
-                  {blogPosts[currentSlide].category}
+                  {blogPosts[currentSlide]?.category || 'Article'}
                 </span>
                 <span className="text-primary-foreground/60 text-[10px] tracking-wide">
-                  {blogPosts[currentSlide].date.toUpperCase()}
+                  {formatDate(blogPosts[currentSlide]?.created_at).toUpperCase()}
                 </span>
               </div>
 
@@ -147,12 +204,12 @@ const Blog = () => {
 
               {/* Description */}
               <p className="text-white/70 text-[13px] font-normal leading-relaxed mb-5 max-w-xl">
-                {blogPosts[currentSlide].description}
+                {blogPosts[currentSlide]?.description || ''}
               </p>
 
               {/* Read More Button */}
               <Link 
-                to={`/blog/${blogPosts[currentSlide].slug}`}
+                to={`/blog/${blogPosts[currentSlide]?.slug}`}
                 className="group flex items-center gap-2 text-white text-[12px] font-medium tracking-wide hover:gap-3 transition-all"
               >
                 READ ARTICLE
@@ -238,7 +295,7 @@ const Blog = () => {
                 >
                   <div className="relative overflow-hidden mb-4 aspect-[4/5]">
                     <motion.img
-                      src={post.image}
+                      src={post.image_url || defaultBlogImage}
                       alt={post.title}
                       className="w-full h-full object-cover"
                       whileHover={{ scale: 1.05 }}
@@ -248,9 +305,9 @@ const Blog = () => {
                   {/* Meta Info */}
                   <div className="flex items-center justify-between text-[11px] font-normal tracking-wide text-muted-foreground mb-2">
                     <div className="flex items-center gap-1">
-                      <span className="uppercase">{post.category}</span>
+                      <span className="uppercase">{post.category || 'Article'}</span>
                       <span>•</span>
-                      <span className="uppercase">{post.date}</span>
+                      <span className="uppercase">{formatDate(post.created_at)}</span>
                     </div>
                     <span>5 MIN READ</span>
                   </div>

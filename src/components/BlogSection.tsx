@@ -1,50 +1,79 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import StaggerChildren, { StaggerItem } from '@/components/animations/StaggerChildren';
+import { supabase } from '@/integrations/supabase/client';
+import { Skeleton } from '@/components/ui/skeleton';
 
-import blogImage1 from '@/assets/work/Group_354.jpg';
-import blogImage2 from '@/assets/work/head1.jpg';
-import blogImage3 from '@/assets/work/Group_261.jpg';
+import defaultBlogImage from '@/assets/work/Group_354.jpg';
+
+interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  description: string | null;
+  category: string | null;
+  image_url: string | null;
+  created_at: string;
+}
 
 const BlogSection: React.FC = () => {
-  const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('blog_posts')
+          .select('id, slug, title, description, category, image_url, created_at')
+          .eq('published', true)
+          .order('created_at', { ascending: false })
+          .limit(3);
+
+        if (error) throw error;
+        setBlogPosts(data || []);
+      } catch (error) {
+        console.error('Error fetching blog posts:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   const handlePostClick = (slug: string) => {
     navigate(`/blog/${slug}`);
   };
 
-  const blogPosts = [
-    {
-      id: 1,
-      slug: 'sleeve-tattoo-ideas-inspiration-styles',
-      title: "Sleeve Tattoo Ideas",
-      description: "Inspiration, Styles, and Aftercare Tips",
-      category: "Inspiration",
-      date: "July 29, 2025",
-      image: blogImage1
-    },
-    {
-      id: 2,
-      slug: 'forearm-tattoos-perfect-canvas-for-realism',
-      title: "Forearm Tattoos",
-      description: "A Perfect Canvas for Realism",
-      category: "Inspiration",
-      date: "May 18, 2025",
-      image: blogImage2
-    },
-    {
-      id: 3,
-      slug: 'skull-tattoos-symbolism-design-ideas',
-      title: "Skull Tattoos",
-      description: "Symbolism, Design Ideas, and Realism Style Guide",
-      category: "Tattoo Styles",
-      date: "May 17, 2025",
-      image: blogImage3
-    }
-  ];
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  };
+
+  if (loading) {
+    return (
+      <section className="box-border flex w-full flex-col items-start gap-[50px] relative bg-background m-0 py-[80px] px-[22.5px] max-md:px-5 max-md:py-10 max-sm:px-4 max-sm:py-6">
+        <Skeleton className="h-16 w-48" />
+        <div className="w-full space-y-4">
+          {[1, 2, 3].map((i) => (
+            <Skeleton key={i} className="h-20 w-full" />
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  if (blogPosts.length === 0) {
+    return null; // Don't show section if no posts
+  }
 
   return (
     <section className="box-border flex w-full flex-col items-start gap-[50px] relative bg-background m-0 py-[80px] px-[22.5px] max-md:px-5 max-md:py-10 max-sm:px-4 max-sm:py-6">
@@ -54,7 +83,7 @@ const BlogSection: React.FC = () => {
             Article
           </h2>
           <div className="box-border text-muted-foreground text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase relative m-0 p-0">
-            3
+            {blogPosts.length}
           </div>
         </div>
       </ScrollReveal>
@@ -111,7 +140,7 @@ const BlogSection: React.FC = () => {
                     <div className="flex items-start gap-6 pb-6 pt-2">
                       <div className="w-[200px] h-[150px] md:w-[280px] md:h-[200px] overflow-hidden flex-shrink-0">
                         <motion.img
-                          src={post.image}
+                          src={post.image_url || defaultBlogImage}
                           alt={post.title}
                           className="w-full h-full object-cover"
                           loading="lazy"
@@ -123,10 +152,10 @@ const BlogSection: React.FC = () => {
                       </div>
                       <div className="flex flex-col gap-3">
                         <p className="text-muted-foreground text-sm md:text-base font-normal max-w-md">
-                          {post.description}
+                          {post.description || ''}
                         </p>
                         <span className="text-muted-foreground text-xs md:text-sm font-normal uppercase tracking-wide">
-                          {post.date}
+                          {formatDate(post.created_at)}
                         </span>
                       </div>
                     </div>
