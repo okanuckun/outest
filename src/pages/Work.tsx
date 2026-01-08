@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Navigation from '@/components/Navigation';
 import SEOHead from '@/components/SEOHead';
 import { supabase } from '@/integrations/supabase/client';
-import { Loader2 } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface PortfolioImage {
   id: string;
@@ -30,6 +30,12 @@ const Work: React.FC = () => {
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Preload images for smoother transitions
+  const preloadImage = useCallback((url: string) => {
+    const img = new Image();
+    img.src = url;
+  }, []);
+
   // Fetch portfolio images from database
   useEffect(() => {
     const fetchImages = async () => {
@@ -51,6 +57,9 @@ const Work: React.FC = () => {
         }));
 
         setWorks(imageList);
+
+        // Preload first 6 images for instant display
+        imageList.slice(0, 6).forEach(img => preloadImage(img.url));
       } catch (error) {
         console.error('Error fetching portfolio images:', error);
       } finally {
@@ -59,10 +68,29 @@ const Work: React.FC = () => {
     };
 
     fetchImages();
-  }, []);
+  }, [preloadImage]);
 
   // İkili çiftler halinde görseller
   const totalPairs = Math.ceil(works.length / 2);
+
+  // Preload adjacent pairs when navigating
+  useEffect(() => {
+    if (works.length === 0 || totalPairs === 0) return;
+    
+    // Preload next pair
+    const nextPair = (currentPair + 1) % totalPairs;
+    const nextLeft = works[nextPair * 2];
+    const nextRight = works[nextPair * 2 + 1];
+    if (nextLeft) preloadImage(nextLeft.url);
+    if (nextRight) preloadImage(nextRight.url);
+
+    // Preload previous pair
+    const prevPair = currentPair > 0 ? currentPair - 1 : totalPairs - 1;
+    const prevLeft = works[prevPair * 2];
+    const prevRight = works[prevPair * 2 + 1];
+    if (prevLeft) preloadImage(prevLeft.url);
+    if (prevRight) preloadImage(prevRight.url);
+  }, [currentPair, works, totalPairs, preloadImage]);
 
   const handlePrevPair = useCallback(() => {
     if (totalPairs === 0) return;
@@ -248,7 +276,7 @@ const Work: React.FC = () => {
     }
   };
 
-  // Loading state
+  // Loading state with skeleton
   if (loading) {
     return (
       <>
@@ -259,11 +287,27 @@ const Work: React.FC = () => {
           canonical="/work"
           jsonLd={jsonLd}
         />
-        <div className="h-screen w-screen overflow-hidden bg-black flex items-center justify-center">
+        <div className="h-screen w-screen overflow-hidden bg-black">
           <div className="fixed top-0 left-0 right-0 z-50">
             <Navigation />
           </div>
-          <Loader2 size={40} className="animate-spin text-white/50" />
+          <div className="h-full w-full flex">
+            {/* Left skeleton */}
+            <div className="w-1/2 h-full relative max-md:w-full">
+              <Skeleton className="w-full h-full bg-white/5" />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/20 pointer-events-none" />
+            </div>
+            {/* Right skeleton - hidden on mobile */}
+            <div className="w-1/2 h-full relative max-md:hidden">
+              <Skeleton className="w-full h-full bg-white/5" />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/20 pointer-events-none" />
+            </div>
+          </div>
+          {/* Counter skeleton */}
+          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center gap-2">
+            <Skeleton className="w-12 h-4 bg-white/10" />
+            <Skeleton className="w-24 h-3 bg-white/5" />
+          </div>
         </div>
       </>
     );
