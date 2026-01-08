@@ -124,7 +124,7 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-            className="fixed inset-0 z-50 bg-[#c4c4c4] overflow-y-auto"
+            className="fixed inset-0 z-[100] bg-[#c4c4c4] overflow-y-auto"
           >
             {/* Close button */}
             <motion.button
