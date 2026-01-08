@@ -37,6 +37,7 @@ const projectImages: Record<string, string[]> = {
 interface Project {
   id: string;
   title: string;
+  description: string | null;
   category: string | null;
   year: string | null;
   location: string | null;
@@ -134,7 +135,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
 
         {/* Title */}
         <motion.h2
-          className="text-4xl md:text-6xl lg:text-7xl font-light text-white tracking-tight mb-6"
+          className="text-4xl md:text-6xl lg:text-7xl font-light text-white tracking-tight mb-4"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -142,6 +143,19 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
         >
           {project.title}
         </motion.h2>
+
+        {/* Description */}
+        {project.description && (
+          <motion.p
+            className="text-white/70 text-base md:text-lg max-w-2xl mb-6 leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.35 }}
+          >
+            {project.description}
+          </motion.p>
+        )}
 
         {/* Location & Image Counter */}
         <motion.div 
