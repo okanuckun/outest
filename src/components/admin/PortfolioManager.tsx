@@ -170,23 +170,45 @@ const PortfolioManager: React.FC = () => {
 
       if (dbError) throw dbError;
 
-      // Get all files from storage
-      const { data: storageFiles, error: storageError } = await supabase.storage
-        .from('portfolio')
-        .list('', { limit: 500 });
+      // List storage files (supports subfolders)
+      const listAllPortfolioFiles = async (): Promise<{ name: string }[]> => {
+        const results: { name: string }[] = [];
+        const queue: string[] = [''];
 
-      if (storageError) throw storageError;
+        while (queue.length) {
+          const prefix = queue.shift()!;
 
-      const validFiles = (storageFiles || []).filter(
-        file => file.name !== '.emptyFolderPlaceholder'
-      );
+          const { data, error } = await supabase.storage
+            .from('portfolio')
+            .list(prefix, { limit: 500 });
+
+          if (error) throw error;
+
+          for (const item of data || []) {
+            if (item.name === '.emptyFolderPlaceholder') continue;
+
+            const fullName = prefix ? `${prefix}/${item.name}` : item.name;
+            const isFolder = item.metadata === null;
+
+            if (isFolder) {
+              queue.push(fullName);
+            } else {
+              results.push({ name: fullName });
+            }
+          }
+        }
+
+        return results;
+      };
+
+      const storageFiles = await listAllPortfolioFiles();
 
       // Create a map of existing db records
       const dbMap = new Map((dbImages || []).map(img => [img.storage_path, img]));
 
       // Sync: Add new storage files to database
-      const newFiles = validFiles.filter(file => !dbMap.has(file.name));
-      
+      const newFiles = (storageFiles || []).filter(file => !dbMap.has(file.name));
+
       if (newFiles.length > 0) {
         const maxOrder = Math.max(0, ...(dbImages || []).map(img => img.display_order));
         const newRecords = newFiles.map((file, index) => ({
@@ -195,7 +217,11 @@ const PortfolioManager: React.FC = () => {
           is_visible: true,
         }));
 
-        await supabase.from('portfolio_images').insert(newRecords);
+        const { error: insertError } = await supabase
+          .from('portfolio_images')
+          .insert(newRecords);
+
+        if (insertError) throw insertError;
       }
 
       // Re-fetch after sync
@@ -207,7 +233,7 @@ const PortfolioManager: React.FC = () => {
       if (finalError) throw finalError;
 
       // Filter out records where storage file no longer exists
-      const storageSet = new Set(validFiles.map(f => f.name));
+      const storageSet = new Set((storageFiles || []).map(f => f.name));
       const validDbImages = (finalImages || []).filter(img => storageSet.has(img.storage_path));
 
       // Build final image list with URLs
@@ -302,11 +328,17 @@ const PortfolioManager: React.FC = () => {
       }
 
       // Add to database
-      await supabase.from('portfolio_images').insert({
+      const { error: insertError } = await supabase.from('portfolio_images').insert({
         storage_path: fileName,
         display_order: maxOrder + index + 1,
         is_visible: true,
       });
+
+      if (insertError) {
+        // Keep storage + DB in sync (avoid orphan files)
+        await supabase.storage.from('portfolio').remove([fileName]);
+        return { success: false, name: file.name, error: insertError.message };
+      }
 
       setUploadProgress(prev => ({ ...prev, completed: prev.completed + 1 }));
       return { success: true, name: file.name };
