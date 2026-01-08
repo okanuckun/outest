@@ -13,6 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import RichTextEditor from '@/components/ui/rich-text-editor';
 import GuestSpotsManager from '@/components/admin/GuestSpotsManager';
+import PortfolioManager from '@/components/admin/PortfolioManager';
 import { 
   LogOut, 
   Plus, 
@@ -21,6 +22,7 @@ import {
   Save, 
   X, 
   Upload,
+  Camera,
   FileText,
   FolderOpen,
   AlertCircle,
@@ -448,6 +450,10 @@ const Admin: React.FC = () => {
             <TabsTrigger value="guest-spots" className="gap-2">
               <Globe size={16} />
               Guest Spots
+            </TabsTrigger>
+            <TabsTrigger value="portfolio" className="gap-2">
+              <Camera size={16} />
+              Portfolio
             </TabsTrigger>
           </TabsList>
 
@@ -996,6 +1002,10 @@ const Admin: React.FC = () => {
 
           <TabsContent value="guest-spots">
             <GuestSpotsManager />
+          </TabsContent>
+
+          <TabsContent value="portfolio">
+            <PortfolioManager />
           </TabsContent>
         </Tabs>
       </main>
