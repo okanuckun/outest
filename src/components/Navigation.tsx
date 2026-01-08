@@ -17,8 +17,8 @@ const navItems = [
 
 const socialLinks = [
   { label: 'Instagram', url: 'https://instagram.com/okanuckun' },
-  { label: 'YouTube', url: 'https://youtube.com' },
-  { label: 'TikTok', url: 'https://tiktok.com' }
+  { label: 'YouTube', url: 'https://youtube.com/monolithstudionyc' },
+  { label: 'TikTok', url: 'https://tiktok.com/okanuckun' }
 ];
 
 const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
@@ -177,7 +177,7 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
                   className="flex items-center justify-between text-black hover:opacity-60 transition-opacity"
                 >
                   <span className="text-[26px] font-medium uppercase tracking-[-0.01em]">
-                    Book Experience
+                    Book an Appointment
                   </span>
                   <ArrowUpRight size={24} strokeWidth={1.5} />
                 </Link>
@@ -220,10 +220,10 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
                   Reach Out
                 </h3>
                 <a
-                  href="mailto:hello@okanuckun.com"
+                  href="mailto:okanuckun@gmail.com"
                   className="text-[14px] text-black uppercase tracking-[0.02em] hover:opacity-60 transition-opacity"
                 >
-                  hello@okanuckun.com
+                  okanuckun@gmail.com
                 </a>
               </motion.div>
 
