@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 interface NavigationProps {
   variant?: 'light' | 'dark';
@@ -23,6 +24,7 @@ const socialLinks = [
 
 const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { enableHoverAnimations } = useReducedMotion();
   
   const textColor = variant === 'dark' ? 'text-foreground' : 'text-[#F6F6F6]';
   const borderColor = variant === 'dark' ? 'border-b-[#323232]' : 'border-b-[rgba(255,255,255,0.35)]';
@@ -72,8 +74,8 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
                 <motion.div 
                   key={item.label}
                   className="box-border flex flex-col items-start relative m-0 p-0"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={enableHoverAnimations ? { scale: 1.05 } : undefined}
+                  whileTap={enableHoverAnimations ? { scale: 0.95 } : undefined}
                 >
                   <Link 
                     to={item.path}
@@ -90,8 +92,8 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.25, duration: 0.3 }}
               className="box-border inline-flex flex-col items-start relative m-0 p-0 max-md:hidden"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={enableHoverAnimations ? { scale: 1.05 } : undefined}
+              whileTap={enableHoverAnimations ? { scale: 0.95 } : undefined}
             >
               <Link 
                 to="/booking"

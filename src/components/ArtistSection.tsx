@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import ScrollReveal from '@/components/animations/ScrollReveal';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 const ArtistSection: React.FC = () => {
+  const { enableHoverAnimations } = useReducedMotion();
   return (
     <section className="box-border w-full relative bg-white m-0 px-[23px] py-[80px] max-md:px-5 max-md:py-10 max-sm:px-4 max-sm:py-6">
       <div className="max-w-[1875px] mx-auto">
@@ -50,8 +52,8 @@ const ArtistSection: React.FC = () => {
             {/* Arrow link to About page */}
             <motion.div 
               className="mt-auto lg:mt-0 flex justify-end lg:justify-start"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={enableHoverAnimations ? { scale: 1.1 } : undefined}
+              whileTap={enableHoverAnimations ? { scale: 0.95 } : undefined}
             >
               <Link 
                 to="/about" 

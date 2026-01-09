@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import { supabase } from '@/integrations/supabase/client';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 interface FeaturedImage {
   id: string;
@@ -14,6 +15,7 @@ interface FeaturedImage {
 }
 
 const FeaturedWork: React.FC = () => {
+  const { enableHoverAnimations } = useReducedMotion();
   const { data: works = [], isLoading: loading } = useQuery({
     queryKey: ['featured-images'],
     queryFn: async () => {
@@ -95,8 +97,8 @@ const FeaturedWork: React.FC = () => {
           <div className="w-full flex justify-end">
             <div className="lg:w-[200px] shrink-0 flex lg:justify-start justify-end">
               <motion.div 
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={enableHoverAnimations ? { scale: 1.1 } : undefined}
+                whileTap={enableHoverAnimations ? { scale: 0.95 } : undefined}
               >
                 <Link 
                   to="/work" 
