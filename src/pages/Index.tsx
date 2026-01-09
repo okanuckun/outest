@@ -5,9 +5,10 @@ import HeroSection from '@/components/HeroSection';
 import GuestSpots from '@/components/GuestSpots';
 import Footer from '@/components/Footer';
 import SEOHead from '@/components/SEOHead';
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import heroBg from '@/assets/okan-hero.webp';
 
-// Lazy load below-the-fold components for better LCP
+// Lazy load below-the-fold components
 const ArtistSection = lazy(() => import('@/components/ArtistSection'));
 const FeaturedWork = lazy(() => import('@/components/FeaturedWork'));
 const BlogSection = lazy(() => import('@/components/BlogSection'));
@@ -15,6 +16,23 @@ const VideoSection = lazy(() => import('@/components/VideoSection'));
 
 // Minimal loading fallback
 const SectionFallback = () => <div className="min-h-[200px]" />;
+
+// Wrapper that only renders children when visible
+const LazySection: React.FC<{ children: React.ReactNode; minHeight?: string }> = ({ 
+  children, 
+  minHeight = '200px' 
+}) => {
+  const [ref, isVisible] = useIntersectionObserver<HTMLDivElement>({ 
+    rootMargin: '200px',
+    triggerOnce: true 
+  });
+
+  return (
+    <div ref={ref} style={{ minHeight: isVisible ? 'auto' : minHeight }}>
+      {isVisible ? children : null}
+    </div>
+  );
+};
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -71,18 +89,33 @@ const Index: React.FC = () => {
       </div>
       
       <main>
-        <Suspense fallback={<SectionFallback />}>
-          <ArtistSection />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
-          <FeaturedWork />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
-          <BlogSection />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
-          <VideoSection />
-        </Suspense>
+        {/* ArtistSection - load when scrolling near */}
+        <LazySection minHeight="300px">
+          <Suspense fallback={<SectionFallback />}>
+            <ArtistSection />
+          </Suspense>
+        </LazySection>
+
+        {/* FeaturedWork - load when scrolling near */}
+        <LazySection minHeight="400px">
+          <Suspense fallback={<SectionFallback />}>
+            <FeaturedWork />
+          </Suspense>
+        </LazySection>
+
+        {/* BlogSection - load when scrolling near */}
+        <LazySection minHeight="300px">
+          <Suspense fallback={<SectionFallback />}>
+            <BlogSection />
+          </Suspense>
+        </LazySection>
+
+        {/* VideoSection - load when scrolling near */}
+        <LazySection minHeight="400px">
+          <Suspense fallback={<SectionFallback />}>
+            <VideoSection />
+          </Suspense>
+        </LazySection>
       </main>
       
       <Footer />
