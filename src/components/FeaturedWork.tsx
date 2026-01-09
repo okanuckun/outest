@@ -74,27 +74,27 @@ const FeaturedWork: React.FC = () => {
             </div>
           ) : (
             <StaggerChildren staggerDelay={0.1} className="box-border grid grid-cols-6 gap-3 self-stretch relative m-0 p-0 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1">
-              {works.map((work) => (
-                <StaggerItem key={work.id} className="box-border flex flex-col items-start relative m-0 p-0">
-                  <Link to="/work" className="w-full h-full">
-                    <motion.article 
-                      whileHover={{ scale: 1.02 }} 
-                      transition={{ duration: 0.3 }} 
-                      className="box-border flex flex-col justify-center items-start self-stretch aspect-[1/1.8] relative m-0 p-0 overflow-hidden cursor-pointer"
-                    >
-                      <motion.img 
-                        src={work.url} 
-                        alt={work.alt} 
-                        className="box-border w-full h-full relative object-cover m-0 p-0" 
-                        loading="lazy"
-                        decoding="async"
-                        whileHover={{ scale: 1.1 }} 
-                        transition={{ duration: 0.5 }} 
-                      />
-                    </motion.article>
-                  </Link>
-                </StaggerItem>
-              ))}
+            {works.map((work, index) => (
+              <StaggerItem key={work.id} className="box-border flex flex-col items-start relative m-0 p-0">
+                <Link to="/work" className="w-full h-full">
+                  <motion.article 
+                    whileHover={{ scale: 1.02 }} 
+                    transition={{ duration: 0.3 }} 
+                    className="box-border flex flex-col justify-center items-start self-stretch aspect-[1/1.8] relative m-0 p-0 overflow-hidden cursor-pointer"
+                  >
+                    <motion.img 
+                      src={work.url} 
+                      alt={work.alt} 
+                      className="box-border w-full h-full relative object-cover m-0 p-0" 
+                      loading={index < 3 ? "eager" : "lazy"}
+                      decoding="async"
+                      whileHover={{ scale: 1.1 }} 
+                      transition={{ duration: 0.5 }} 
+                    />
+                  </motion.article>
+                </Link>
+              </StaggerItem>
+            ))}
             </StaggerChildren>
           )}
         </div>
