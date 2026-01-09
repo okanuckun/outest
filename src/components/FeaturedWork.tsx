@@ -5,23 +5,18 @@ import { ArrowUpRight } from 'lucide-react';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import StaggerChildren, { StaggerItem } from '@/components/animations/StaggerChildren';
 
-// Work images
-import glitch1 from '@/assets/work/glitch1.png';
-import DSC03538 from '@/assets/work/DSC03538.jpg';
-import DSC00339 from '@/assets/work/DSC00339.jpg';
-import Group_354 from '@/assets/work/Group_354.jpg';
-import head1 from '@/assets/work/head1.jpg';
-import Group_261 from '@/assets/work/Group_261.jpg';
+// Work images - WebP versions will be added
+// Placeholder until images are uploaded
+const works = [
+  { src: "", alt: "Abstract geometric tattoo", name: "glitch1" },
+  { src: "", alt: "Minimalist neck tattoo", name: "DSC03538" },
+  { src: "", alt: "Geometric circle tattoo", name: "DSC00339" },
+  { src: "", alt: "Fine line tattoo", name: "Group_354" },
+  { src: "", alt: "Portrait tattoo", name: "head1" },
+  { src: "", alt: "Blackwork tattoo", name: "Group_261" }
+];
 
 const FeaturedWork: React.FC = () => {
-  const works = [
-    { src: glitch1, alt: "Abstract geometric tattoo" },
-    { src: DSC03538, alt: "Minimalist neck tattoo" },
-    { src: DSC00339, alt: "Geometric circle tattoo" },
-    { src: Group_354, alt: "Fine line tattoo" },
-    { src: head1, alt: "Portrait tattoo" },
-    { src: Group_261, alt: "Blackwork tattoo" }
-  ];
 
   return (
     <section className="box-border w-full relative bg-background m-0 px-[23px] py-[80px] max-md:px-5 max-md:py-10 max-sm:px-4 max-sm:py-6">

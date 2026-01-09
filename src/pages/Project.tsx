@@ -13,25 +13,21 @@ import work01 from '@/assets/work/work-01.webp';
 import work02 from '@/assets/work/work-02.webp';
 import work03 from '@/assets/work/work-03.webp';
 import DAGSIRT from '@/assets/work/DAGSIRT.jpg';
-import DSC00339 from '@/assets/work/DSC00339.jpg';
-import DSC03538 from '@/assets/work/DSC03538.jpg';
 import Group_240 from '@/assets/work/Group_240.jpg';
-import Group_261 from '@/assets/work/Group_261.jpg';
 import Group_315 from '@/assets/work/Group_315.jpg';
 import a1 from '@/assets/work/a1.jpg';
 import b1 from '@/assets/work/b1.jpg';
 import c3 from '@/assets/work/c3.jpg';
-import head1 from '@/assets/work/head1.jpg';
 import dec2 from '@/assets/work/dec2.jpg';
 import d4 from '@/assets/work/d4.jpg';
 
 // Image mapping for projects
 const projectImages: Record<string, string[]> = {
   '2723cad7-e152-4c07-a772-e9ba31907d4d': [work01, work02, work03],
-  '8b7ebcd8-f647-4087-82ef-771ecedf17f1': [DAGSIRT, DSC00339, DSC03538],
-  '5f92bde4-e990-46d7-adde-826a9ba6e05b': [Group_240, Group_261, Group_315],
+  '8b7ebcd8-f647-4087-82ef-771ecedf17f1': [DAGSIRT, work01, work02],
+  '5f92bde4-e990-46d7-adde-826a9ba6e05b': [Group_240, Group_315, work03],
   'e61469d6-3b2e-4122-a145-d498da1c0cd5': [a1, b1, c3],
-  '0675b4c1-e6b1-46b1-9a29-d681099f4e3f': [head1, dec2, d4],
+  '0675b4c1-e6b1-46b1-9a29-d681099f4e3f': [dec2, d4, work01],
 };
 
 interface Project {
