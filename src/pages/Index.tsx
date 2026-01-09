@@ -9,7 +9,7 @@ import BlogSection from '@/components/BlogSection';
 import VideoSection from '@/components/VideoSection';
 import Footer from '@/components/Footer';
 import SEOHead from '@/components/SEOHead';
-import heroBg from '@/assets/okannew-2.jpg';
+import heroBg from '@/assets/okan-hero.webp';
 
 const jsonLd = {
   '@context': 'https://schema.org',
