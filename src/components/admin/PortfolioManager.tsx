@@ -197,6 +197,7 @@ const PortfolioManager: React.FC = () => {
   const [selectedImages, setSelectedImages] = useState<Set<string>>(new Set());
   const [deleting, setDeleting] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [bulkMoveTarget, setBulkMoveTarget] = useState<string>('');
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -537,6 +538,51 @@ const PortfolioManager: React.FC = () => {
     fetchImages();
   };
 
+  const handleBulkMove = async () => {
+    const targetPosition = parseInt(bulkMoveTarget, 10);
+    if (isNaN(targetPosition) || targetPosition < 1 || selectedImages.size === 0) return;
+
+    const targetIndex = Math.min(targetPosition - 1, images.length - 1);
+    
+    // Get selected images in their current order
+    const selectedIds = Array.from(selectedImages);
+    const selectedInOrder = images.filter(img => selectedIds.includes(img.id));
+    const remaining = images.filter(img => !selectedIds.includes(img.id));
+    
+    // Insert selected images at target position
+    const newImages = [
+      ...remaining.slice(0, targetIndex),
+      ...selectedInOrder,
+      ...remaining.slice(targetIndex),
+    ];
+
+    setImages(newImages);
+    setBulkMoveTarget('');
+
+    // Save new order to database
+    setSaving(true);
+    try {
+      for (let i = 0; i < newImages.length; i++) {
+        await supabase
+          .from('portfolio_images')
+          .update({ display_order: i })
+          .eq('id', newImages[i].id);
+      }
+
+      toast({ title: `${selectedImages.size} image(s) moved to position ${targetPosition}` });
+      setSelectedImages(new Set());
+    } catch (error: any) {
+      toast({
+        title: 'Error saving order',
+        description: error.message,
+        variant: 'destructive',
+      });
+      fetchImages();
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const deleteSingleImage = async (image: PortfolioImage) => {
     const confirmDelete = window.confirm('Are you sure you want to delete this image?');
     if (!confirmDelete) return;
@@ -597,18 +643,43 @@ const PortfolioManager: React.FC = () => {
           )}
 
           {selectedImages.size > 0 && (
-            <Button 
-              variant="destructive" 
-              onClick={deleteSelectedImages}
-              disabled={deleting}
-            >
-              {deleting ? (
-                <Loader2 size={16} className="mr-2 animate-spin" />
-              ) : (
-                <Trash2 size={16} className="mr-2" />
-              )}
-              Delete ({selectedImages.size})
-            </Button>
+            <>
+              {/* Bulk move controls */}
+              <div className="flex items-center gap-2">
+                <Input
+                  type="number"
+                  min="1"
+                  max={images.length}
+                  placeholder="Position"
+                  value={bulkMoveTarget}
+                  onChange={(e) => setBulkMoveTarget(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleBulkMove();
+                  }}
+                  className="w-24 h-9"
+                />
+                <Button 
+                  variant="secondary" 
+                  onClick={handleBulkMove}
+                  disabled={!bulkMoveTarget || saving}
+                >
+                  Move ({selectedImages.size})
+                </Button>
+              </div>
+
+              <Button 
+                variant="destructive" 
+                onClick={deleteSelectedImages}
+                disabled={deleting}
+              >
+                {deleting ? (
+                  <Loader2 size={16} className="mr-2 animate-spin" />
+                ) : (
+                  <Trash2 size={16} className="mr-2" />
+                )}
+                Delete ({selectedImages.size})
+              </Button>
+            </>
           )}
         </div>
       </div>
