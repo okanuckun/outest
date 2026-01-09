@@ -30,50 +30,28 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
 
   return (
     <>
-      <motion.header 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-        className="box-border flex h-[60px] flex-col items-start shrink-0 self-stretch relative z-50 m-0 p-0"
-      >
+      <header className="box-border flex h-[60px] flex-col items-start shrink-0 self-stretch relative z-50 m-0 p-0">
         <nav className={`box-border flex flex-col items-start self-stretch relative m-0 px-[22.5px] py-[18px] border-b border-solid ${borderColor} max-sm:px-4 max-sm:py-4`}>
           <div className="box-border h-5 self-stretch relative flex items-center justify-between m-0 p-0">
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.1, duration: 0.3 }}
-              className="box-border inline-flex items-center relative m-0 p-0"
-            >
+            <div className="box-border inline-flex items-center relative m-0 p-0">
               <Link to="/" className="hover:opacity-70 transition-opacity">
                 <svg width="40" height="20" viewBox="0 0 40 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <line x1="2" y1="18" x2="38" y2="2" stroke={logoStroke} strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
               </Link>
-            </motion.div>
+            </div>
             
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.15, duration: 0.3 }}
-              className="box-border inline-flex items-center relative m-0 p-0 max-md:hidden"
-            >
+            <div className="box-border inline-flex items-center relative m-0 p-0 max-md:hidden">
               <span className={`box-border text-[15px] font-normal leading-5 tracking-[-0.15px] uppercase m-0 p-0 ${textColor}`}>
                 brooklyn, ny
               </span>
-            </motion.div>
+            </div>
             
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.3 }}
-              className="box-border inline-flex items-center gap-[16px] relative m-0 p-0 max-md:hidden"
-            >
+            <div className="box-border inline-flex items-center gap-[16px] relative m-0 p-0 max-md:hidden">
               {navItems.filter(item => item.label !== 'Home').map((item) => (
-                <motion.div 
+                <div 
                   key={item.label}
-                  className="box-border flex flex-col items-start relative m-0 p-0"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  className="box-border flex flex-col items-start relative m-0 p-0 hover:scale-105 active:scale-95 transition-transform"
                 >
                   <Link 
                     to={item.path}
@@ -81,40 +59,30 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
                   >
                     {item.label}
                   </Link>
-                </motion.div>
+                </div>
               ))}
-            </motion.div>
+            </div>
             
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.25, duration: 0.3 }}
-              className="box-border inline-flex flex-col items-start relative m-0 p-0 max-md:hidden"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
+            <div className="box-border inline-flex flex-col items-start relative m-0 p-0 max-md:hidden hover:scale-105 active:scale-95 transition-transform">
               <Link 
                 to="/booking"
                 className={`box-border text-[15px] font-normal leading-5 tracking-[-0.15px] uppercase m-0 p-0 hover:opacity-70 transition-opacity ${textColor}`}
               >
                 Book an appointment
               </Link>
-            </motion.div>
+            </div>
 
             {/* Mobile Menu Button */}
-            <motion.button
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.15, duration: 0.3 }}
+            <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className={`md:hidden p-1 ${textColor} z-[60]`}
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </motion.button>
+            </button>
           </div>
         </nav>
-      </motion.header>
+      </header>
 
       {/* Mobile Menu - Fullscreen Editorial Style */}
       <AnimatePresence>
