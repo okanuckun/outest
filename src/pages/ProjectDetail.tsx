@@ -18,6 +18,7 @@ interface Project {
   year: string | null;
   location: string | null;
   images: string[] | null;
+  cover_image: string | null;
   published: boolean | null;
 }
 
@@ -124,39 +125,48 @@ const ProjectDetail: React.FC = () => {
 
           {/* Hero Image */}
           <div className="relative w-full h-[60vh] md:h-[70vh] overflow-hidden mb-12">
-            {project.images && project.images.length > 0 && (
-              <>
-                {project.images.map((image, index) => (
-                  <motion.img
-                    key={index}
-                    src={image}
-                    alt={`${project.title} - Image ${index + 1}`}
-                    className="absolute inset-0 w-full h-full object-cover"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: index === currentImageIndex ? 1 : 0 }}
-                    transition={{ duration: 0.6 }}
-                  />
-                ))}
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
-              </>
-            )}
-
-            {/* Image Navigation */}
-            {project.images && project.images.length > 1 && (
-              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3">
-                {project.images.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentImageIndex(index)}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      index === currentImageIndex
-                        ? 'bg-white w-8'
-                        : 'bg-white/40 hover:bg-white/60'
-                    }`}
-                  />
-                ))}
-              </div>
-            )}
+            {(() => {
+              // Build display images: cover first, then gallery
+              const displayImages = project.cover_image 
+                ? [project.cover_image, ...(project.images || [])]
+                : (project.images || []);
+              
+              if (displayImages.length === 0) return null;
+              
+              return (
+                <>
+                  {displayImages.map((image, index) => (
+                    <motion.img
+                      key={index}
+                      src={image}
+                      alt={`${project.title} - Image ${index + 1}`}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: index === currentImageIndex ? 1 : 0 }}
+                      transition={{ duration: 0.6 }}
+                    />
+                  ))}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+                  
+                  {/* Image Navigation */}
+                  {displayImages.length > 1 && (
+                    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3">
+                      {displayImages.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setCurrentImageIndex(index)}
+                          className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                            index === currentImageIndex
+                              ? 'bg-white w-8'
+                              : 'bg-white/40 hover:bg-white/60'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </>
+              );
+            })()}
           </div>
 
           {/* Project Info */}
@@ -214,32 +224,37 @@ const ProjectDetail: React.FC = () => {
             </motion.div>
 
             {/* Image Gallery */}
-            {project.images && project.images.length > 1 && (
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="mt-16"
-              >
-                <h2 className="text-xl font-light text-foreground/60 mb-8 uppercase tracking-wider">Gallery</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {project.images.map((image, index) => (
-                    <motion.div
-                      key={index}
-                      className="aspect-square overflow-hidden cursor-pointer"
-                      whileHover={{ scale: 0.98 }}
-                      onClick={() => setCurrentImageIndex(index)}
-                    >
-                      <img
-                        src={image}
-                        alt={`${project.title} - Gallery ${index + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
+            {(() => {
+              const galleryImages = project.images || [];
+              if (galleryImages.length <= 1) return null;
+              
+              return (
+                <motion.div
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="mt-16"
+                >
+                  <h2 className="text-xl font-light text-foreground/60 mb-8 uppercase tracking-wider">Gallery</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {galleryImages.map((image, index) => (
+                      <motion.div
+                        key={index}
+                        className="aspect-square overflow-hidden cursor-pointer"
+                        whileHover={{ scale: 0.98 }}
+                        onClick={() => setCurrentImageIndex(project.cover_image ? index + 1 : index)}
+                      >
+                        <img
+                          src={image}
+                          alt={`${project.title} - Gallery ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              );
+            })()}
           </div>
         </main>
 
