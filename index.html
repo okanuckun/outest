@@ -11,44 +11,77 @@
     <meta name="description" content="Okan Uckun - NYC Based, Minimalist, Geometric Tattoo Artist.">
     <meta name="author" content="Stevo Tattoo" />
 
-    
-    
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta property="og:title" content="Okan Uckun | Minimalist and Geometric Tattoo Artist , Brooklyn NYC">
+    <meta property="og:description" content="Okan Uckun - NYC Based, Minimalist, Geometric Tattoo Artist.">
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@StevoTattoo" />
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta name="twitter:title" content="Okan Uckun | Minimalist and Geometric Tattoo Artist , Brooklyn NYC">
+    <meta name="twitter:description" content="Okan Uckun - NYC Based, Minimalist, Geometric Tattoo Artist.">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600&display=swap" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
-    <!-- Font display swap for better LCP -->
+    <!-- Critical CSS - Inline for faster FCP -->
     <style>
-      @font-face {
-        font-family: 'Schibsted Grotesk';
-        font-display: swap;
+      /* System font stack as immediate fallback */
+      :root {
+        --font-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
       }
+      
+      /* Critical above-the-fold styles */
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
+      body { 
+        font-family: 'Schibsted Grotesk', var(--font-system);
+        background: #000; 
+        color: #F6F6F6;
+        -webkit-font-smoothing: antialiased;
+      }
+      
+      /* Hero critical path */
+      .hero-bg { 
+        position: absolute; 
+        inset: 0; 
+        width: 100%; 
+        height: 100%; 
+        object-fit: cover; 
+      }
+      
+      /* Prevent FOUT - hide text until font loads or timeout */
+      .fonts-loading h1 { opacity: 0; }
+      .fonts-loaded h1, .fonts-failed h1 { opacity: 1; transition: opacity 0.2s; }
     </style>
+
+    <!-- Google Fonts with font-display: optional for no layout shift -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link 
+      rel="preload" 
+      as="style" 
+      href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600&display=optional" 
+      crossorigin
+    >
+    <link 
+      href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600&display=optional" 
+      rel="stylesheet" 
+      media="print" 
+      onload="this.media='all'; document.documentElement.classList.remove('fonts-loading'); document.documentElement.classList.add('fonts-loaded');"
+    >
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600&display=optional" rel="stylesheet">
+    </noscript>
     
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <meta property="og:title" content="Okan Uckun | Minimalist and Geometric Tattoo Artist , Brooklyn NYC">
-  <meta name="twitter:title" content="Okan Uckun | Minimalist and Geometric Tattoo Artist , Brooklyn NYC">
-  <meta property="og:description" content="Okan Uckun - NYC Based, Minimalist, Geometric Tattoo Artist.">
-  <meta name="twitter:description" content="Okan Uckun - NYC Based, Minimalist, Geometric Tattoo Artist.">
-</head>
+    <!-- Font loading timeout fallback -->
+    <script>
+      document.documentElement.classList.add('fonts-loading');
+      setTimeout(function() {
+        if (!document.documentElement.classList.contains('fonts-loaded')) {
+          document.documentElement.classList.remove('fonts-loading');
+          document.documentElement.classList.add('fonts-failed');
+        }
+      }, 2000);
+    </script>
+  </head>
 
   <body>
     <div id="root"></div>
