@@ -15,6 +15,7 @@ import RichTextEditor from '@/components/ui/rich-text-editor';
 import GuestSpotsManager from '@/components/admin/GuestSpotsManager';
 import PortfolioManager from '@/components/admin/PortfolioManager';
 import EmailTemplatesManager from '@/components/admin/EmailTemplatesManager';
+import SiteSettingsManager from '@/components/admin/SiteSettingsManager';
 import { 
   LogOut, 
   Plus, 
@@ -30,7 +31,8 @@ import {
   Search,
   ChevronDown,
   Globe,
-  Mail
+  Mail,
+  Settings
 } from 'lucide-react';
 
 interface BlogPost {
@@ -460,6 +462,10 @@ const Admin: React.FC = () => {
             <TabsTrigger value="emails" className="gap-2">
               <Mail size={16} />
               Email Templates
+            </TabsTrigger>
+            <TabsTrigger value="settings" className="gap-2">
+              <Settings size={16} />
+              Settings
             </TabsTrigger>
           </TabsList>
 
@@ -1016,6 +1022,10 @@ const Admin: React.FC = () => {
 
           <TabsContent value="emails">
             <EmailTemplatesManager />
+          </TabsContent>
+
+          <TabsContent value="settings">
+            <SiteSettingsManager />
           </TabsContent>
         </Tabs>
       </main>
