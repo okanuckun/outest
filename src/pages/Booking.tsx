@@ -459,6 +459,13 @@ const Booking: React.FC = () => {
                       </button>
                     ))}
                   </div>
+                  
+                  {/* Guest Spot Info Message */}
+                  {formData.locationType === 'guest_spot' && (
+                    <p className="mt-3 text-sm text-[#1a1a1a]/60 italic">
+                      Spotlar oldukça limitli, erken rezervasyon önerilir.
+                    </p>
+                  )}
                 </div>
 
                 {/* Collector Type */}
