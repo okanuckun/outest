@@ -430,6 +430,7 @@ const Booking: React.FC = () => {
                     Where would you like to get tattooed?*
                   </label>
                   <div className="flex flex-wrap gap-3">
+                    {/* NYC - Monolith Studio */}
                     <button
                       type="button"
                       onClick={() => setFormData(prev => ({ ...prev, locationType: 'nyc', guestSpotId: null }))}
@@ -439,64 +440,25 @@ const Booking: React.FC = () => {
                           : 'bg-transparent text-[#1a1a1a] border-[#1a1a1a]/20 hover:border-[#1a1a1a]/60'
                       }`}
                     >
-                      NYC Studio
+                      NYC - Monolith Studio
                     </button>
-                    <button
-                      type="button"
-                      onClick={() => setFormData(prev => ({ ...prev, locationType: 'traveler', guestSpotId: null }))}
-                      className={`px-6 py-2.5 text-sm border transition-all ${
-                        formData.locationType === 'traveler'
-                          ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]'
-                          : 'bg-transparent text-[#1a1a1a] border-[#1a1a1a]/20 hover:border-[#1a1a1a]/60'
-                      }`}
-                    >
-                      I will travel to NYC
-                    </button>
-                    {guestSpots && guestSpots.length > 0 && (
+                    
+                    {/* Guest Spot Locations - Each as direct button */}
+                    {guestSpots && guestSpots.map((spot) => (
                       <button
+                        key={spot.id}
                         type="button"
-                        onClick={() => setFormData(prev => ({ ...prev, locationType: 'guest_spot', guestSpotId: null }))}
+                        onClick={() => setFormData(prev => ({ ...prev, locationType: 'guest_spot', guestSpotId: spot.id }))}
                         className={`px-6 py-2.5 text-sm border transition-all ${
-                          formData.locationType === 'guest_spot'
+                          formData.locationType === 'guest_spot' && formData.guestSpotId === spot.id
                             ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]'
                             : 'bg-transparent text-[#1a1a1a] border-[#1a1a1a]/20 hover:border-[#1a1a1a]/60'
                         }`}
                       >
-                        Guest Spot Location
+                        {spot.city} - {format(new Date(spot.start_date), 'MMM d')} to {format(new Date(spot.end_date), 'MMM d')}
                       </button>
-                    )}
+                    ))}
                   </div>
-
-                  {/* Guest Spot Selection */}
-                  {formData.locationType === 'guest_spot' && guestSpots && guestSpots.length > 0 && (
-                    <div className="mt-4 space-y-3">
-                      <p className="text-[#1a1a1a]/60 text-sm">Select your preferred guest spot location:</p>
-                      {guestSpots.map((spot) => (
-                        <button
-                          key={spot.id}
-                          type="button"
-                          onClick={() => setFormData(prev => ({ ...prev, guestSpotId: spot.id }))}
-                          className={`w-full text-left p-4 border transition-all ${
-                            formData.guestSpotId === spot.id
-                              ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]'
-                              : 'bg-white text-[#1a1a1a] border-[#1a1a1a]/20 hover:border-[#1a1a1a]/60'
-                          }`}
-                        >
-                          <div className="flex items-center gap-2 text-xs mb-1 opacity-70">
-                            <Calendar size={12} />
-                            <span>
-                              {format(new Date(spot.start_date), 'MMM d')} - {format(new Date(spot.end_date), 'MMM d, yyyy')}
-                            </span>
-                          </div>
-                          <div className="font-medium">{spot.studio_name}</div>
-                          <div className="flex items-center gap-1 text-sm opacity-70">
-                            <MapPin size={12} />
-                            <span>{spot.city}, {spot.country}</span>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  )}
                 </div>
 
                 {/* Collector Type */}
