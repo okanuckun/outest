@@ -1,8 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import ScrollReveal from '@/components/animations/ScrollReveal';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 const Footer: React.FC = () => {
+  const { enableHoverAnimations } = useReducedMotion();
   const contactInfo = [
     {
       label: 'BUSINESS INQUIRIES',
@@ -56,7 +58,7 @@ const Footer: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-[#1a1a1a] leading-relaxed hover:opacity-60 transition-opacity block"
-              whileHover={{ x: 4 }}
+              whileHover={enableHoverAnimations ? { x: 4 } : undefined}
               transition={{ duration: 0.2 }}
             >
               77 Washington Avenue<br />
@@ -75,7 +77,7 @@ const Footer: React.FC = () => {
                 <motion.a
                   href={info.href}
                   className="text-sm text-[#1a1a1a] hover:opacity-60 transition-opacity"
-                  whileHover={{ x: 4 }}
+                  whileHover={enableHoverAnimations ? { x: 4 } : undefined}
                   transition={{ duration: 0.2 }}
                 >
                   {info.value}
