@@ -14,6 +14,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import RichTextEditor from '@/components/ui/rich-text-editor';
 import GuestSpotsManager from '@/components/admin/GuestSpotsManager';
 import PortfolioManager from '@/components/admin/PortfolioManager';
+import EmailTemplatesManager from '@/components/admin/EmailTemplatesManager';
 import { 
   LogOut, 
   Plus, 
@@ -28,7 +29,8 @@ import {
   AlertCircle,
   Search,
   ChevronDown,
-  Globe
+  Globe,
+  Mail
 } from 'lucide-react';
 
 interface BlogPost {
@@ -454,6 +456,10 @@ const Admin: React.FC = () => {
             <TabsTrigger value="portfolio" className="gap-2">
               <Camera size={16} />
               Portfolio
+            </TabsTrigger>
+            <TabsTrigger value="emails" className="gap-2">
+              <Mail size={16} />
+              Email Templates
             </TabsTrigger>
           </TabsList>
 
@@ -1006,6 +1012,10 @@ const Admin: React.FC = () => {
 
           <TabsContent value="portfolio">
             <PortfolioManager />
+          </TabsContent>
+
+          <TabsContent value="emails">
+            <EmailTemplatesManager />
           </TabsContent>
         </Tabs>
       </main>

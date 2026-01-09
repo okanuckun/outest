@@ -1,6 +1,9 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
+const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY");
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -28,6 +31,20 @@ interface BookingRequest {
   placementImages: string[];
 }
 
+interface EmailTemplate {
+  id: string;
+  subject: string;
+  body: string;
+}
+
+function replaceTemplateVariables(template: string, data: Record<string, string>): string {
+  let result = template;
+  for (const [key, value] of Object.entries(data)) {
+    result = result.replace(new RegExp(`{{${key}}}`, 'g'), value || 'Not specified');
+  }
+  return result;
+}
+
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -39,7 +56,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Received booking request:", data);
 
     const locationText = data.locationType === 'nyc' 
-      ? 'NYC Studio' 
+      ? 'NYC - Monolith Studio' 
       : data.locationType === 'traveler' 
         ? `Traveler - ${data.location}` 
         : data.guestSpotName || data.location;
@@ -52,7 +69,8 @@ const handler = async (req: Request): Promise<Response> => {
       ? `<h3>Placement Photos:</h3><ul>${data.placementImages.map(url => `<li><a href="${url}">${url}</a></li>`).join('')}</ul>`
       : '';
 
-    const emailHtml = `
+    // Admin notification email (hardcoded)
+    const adminEmailHtml = `
       <h1>New Tattoo Booking Request</h1>
       
       <h2>Client Information</h2>
@@ -100,7 +118,7 @@ const handler = async (req: Request): Promise<Response> => {
         to: ["okanuckun@gmail.com"],
         reply_to: data.email,
         subject: `New Booking Request: ${data.firstName} ${data.lastName}`,
-        html: emailHtml,
+        html: adminEmailHtml,
       }),
     });
 
@@ -110,7 +128,39 @@ const handler = async (req: Request): Promise<Response> => {
       throw new Error(`Failed to send email: ${errorData}`);
     }
 
-    console.log("Email sent successfully");
+    console.log("Admin email sent successfully");
+
+    // Fetch confirmation email template from database
+    const supabase = createClient(SUPABASE_URL!, SUPABASE_ANON_KEY!);
+    const { data: template, error: templateError } = await supabase
+      .from('email_templates')
+      .select('subject, body')
+      .eq('id', 'booking_confirmation')
+      .single();
+
+    if (templateError) {
+      console.error("Failed to fetch email template:", templateError);
+    }
+
+    // Template variables for replacement
+    const templateVars: Record<string, string> = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      location: locationText,
+      tattooPlacement: data.tattooPlacement,
+      tattooSize: data.tattooSize,
+      preferredDate: data.preferredDate || 'Flexible',
+    };
+
+    // Use template from DB or fallback
+    const confirmationSubject = template 
+      ? replaceTemplateVariables(template.subject, templateVars)
+      : `Booking Request Received - ${data.firstName}`;
+    
+    const confirmationBody = template 
+      ? replaceTemplateVariables(template.body, templateVars)
+      : `<h1>Thank you for your booking request, ${data.firstName}!</h1><p>I have received your tattoo consultation request and will review it carefully.</p><p>You can expect to hear back from me within 24-48 hours.</p><br><p>Best regards,<br>Okan Uckun</p>`;
 
     // Send confirmation email to client
     const confirmationResponse = await fetch("https://api.resend.com/emails", {
@@ -122,21 +172,16 @@ const handler = async (req: Request): Promise<Response> => {
       body: JSON.stringify({
         from: "Okan Uckun <onboarding@resend.dev>",
         to: [data.email],
-        subject: "Booking Request Received",
-        html: `
-          <h1>Thank you for your booking request, ${data.firstName}!</h1>
-          <p>I have received your tattoo consultation request and will review it carefully.</p>
-          <p>You can expect to hear back from me within 24-48 hours.</p>
-          <br>
-          <p>Best regards,<br>Okan Uckun</p>
-        `,
+        subject: confirmationSubject,
+        html: confirmationBody,
       }),
     });
 
     if (!confirmationResponse.ok) {
-      console.error("Failed to send confirmation email");
+      const errorText = await confirmationResponse.text();
+      console.error("Failed to send confirmation email:", errorText);
     } else {
-      console.log("Confirmation email sent");
+      console.log("Confirmation email sent to client");
     }
 
     return new Response(JSON.stringify({ success: true }), {
