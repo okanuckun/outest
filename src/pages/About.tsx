@@ -9,7 +9,7 @@ import aboutImage2 from '@/assets/about-image-2.webp';
 import aboutImage3 from '@/assets/about-image-3.webp';
 import aboutHero from '@/assets/about-hero.jpg';
 import aboutBottom from '@/assets/about-bottom.jpg';
-import aboutPortrait from '@/assets/about-portrait.jpg';
+import aboutPortrait from '@/assets/about-portrait.webp';
 
 const jsonLd = {
   '@context': 'https://schema.org',
