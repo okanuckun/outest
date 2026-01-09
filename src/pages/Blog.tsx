@@ -8,7 +8,8 @@ import SEOHead from '@/components/SEOHead';
 import { supabase } from '@/integrations/supabase/client';
 import { Skeleton } from '@/components/ui/skeleton';
 
-import defaultBlogImage from '@/assets/work/Group_354.jpg';
+// Default blog image - will be replaced with webp
+const defaultBlogImage = '';
 
 interface BlogPost {
   id: string;
