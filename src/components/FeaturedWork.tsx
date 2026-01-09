@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
@@ -94,17 +93,12 @@ const FeaturedWork: React.FC = () => {
         <ScrollReveal delay={0.2} className="w-full">
           <div className="w-full flex justify-end">
             <div className="lg:w-[200px] shrink-0 flex lg:justify-start justify-end">
-              <motion.div 
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
+              <Link 
+                to="/work" 
+                className="inline-flex items-center justify-center w-12 h-12 border border-foreground text-foreground hover:bg-foreground hover:text-background transition-all hover:scale-110 active:scale-95"
               >
-                <Link 
-                  to="/work" 
-                  className="inline-flex items-center justify-center w-12 h-12 border border-foreground text-foreground hover:bg-foreground hover:text-background transition-colors"
-                >
-                  <ArrowUpRight size={24} strokeWidth={1.5} />
-                </Link>
-              </motion.div>
+                <ArrowUpRight size={24} strokeWidth={1.5} />
+              </Link>
             </div>
           </div>
         </ScrollReveal>

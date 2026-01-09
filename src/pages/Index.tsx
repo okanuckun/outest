@@ -67,6 +67,8 @@ const Index: React.FC = () => {
             <img
               src={heroBg}
               alt="Okan Uckun tattoo artist background"
+              width="1920"
+              height="1080"
               className="w-full h-full object-cover"
               loading="eager"
               fetchPriority="high"
