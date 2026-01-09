@@ -5,11 +5,9 @@ import HeroSection from '@/components/HeroSection';
 import GuestSpots from '@/components/GuestSpots';
 import Footer from '@/components/Footer';
 import SEOHead from '@/components/SEOHead';
-import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import heroBg from '@/assets/okan-hero.webp';
-import heroBgMobile from '@/assets/okan-hero-mobile.webp';
 
-// Lazy load below-the-fold components
+// Lazy load below-the-fold components for better LCP
 const ArtistSection = lazy(() => import('@/components/ArtistSection'));
 const FeaturedWork = lazy(() => import('@/components/FeaturedWork'));
 const BlogSection = lazy(() => import('@/components/BlogSection'));
@@ -17,23 +15,6 @@ const VideoSection = lazy(() => import('@/components/VideoSection'));
 
 // Minimal loading fallback
 const SectionFallback = () => <div className="min-h-[200px]" />;
-
-// Wrapper that only renders children when visible
-const LazySection: React.FC<{ children: React.ReactNode; minHeight?: string }> = ({ 
-  children, 
-  minHeight = '200px' 
-}) => {
-  const [ref, isVisible] = useIntersectionObserver<HTMLDivElement>({ 
-    rootMargin: '200px',
-    triggerOnce: true 
-  });
-
-  return (
-    <div ref={ref} style={{ minHeight: isVisible ? 'auto' : minHeight }}>
-      {isVisible ? children : null}
-    </div>
-  );
-};
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -69,20 +50,16 @@ const Index: React.FC = () => {
       >
       {/* Hero Section with Background */}
       <div className="box-border w-full h-[100svh] relative m-0 p-0">
-        {/* Background Image - Responsive with picture element */}
+        {/* Background Image with Parallax */}
         <div className="absolute inset-0 z-0">
-          <picture>
-            <source media="(max-width: 768px)" srcSet={heroBgMobile} type="image/webp" />
-            <source media="(min-width: 769px)" srcSet={heroBg} type="image/webp" />
-            <img
-              src={heroBg}
-              alt="Okan Uckun tattoo artist background"
-              className="w-full h-full object-cover"
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-            />
-          </picture>
+          <img
+            src={heroBg}
+            alt="Okan Uckun tattoo artist background"
+            className="w-full h-full object-cover"
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+          />
           <div className="absolute inset-0 bg-black/40" />
         </div>
         
@@ -94,33 +71,18 @@ const Index: React.FC = () => {
       </div>
       
       <main>
-        {/* ArtistSection - load when scrolling near */}
-        <LazySection minHeight="300px">
-          <Suspense fallback={<SectionFallback />}>
-            <ArtistSection />
-          </Suspense>
-        </LazySection>
-
-        {/* FeaturedWork - load when scrolling near */}
-        <LazySection minHeight="400px">
-          <Suspense fallback={<SectionFallback />}>
-            <FeaturedWork />
-          </Suspense>
-        </LazySection>
-
-        {/* BlogSection - load when scrolling near */}
-        <LazySection minHeight="300px">
-          <Suspense fallback={<SectionFallback />}>
-            <BlogSection />
-          </Suspense>
-        </LazySection>
-
-        {/* VideoSection - load when scrolling near */}
-        <LazySection minHeight="400px">
-          <Suspense fallback={<SectionFallback />}>
-            <VideoSection />
-          </Suspense>
-        </LazySection>
+        <Suspense fallback={<SectionFallback />}>
+          <ArtistSection />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <FeaturedWork />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <BlogSection />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <VideoSection />
+        </Suspense>
       </main>
       
       <Footer />

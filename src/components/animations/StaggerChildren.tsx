@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion, useInView, Variants } from 'framer-motion';
 import { useRef } from 'react';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 interface StaggerChildrenProps {
   children: React.ReactNode;
@@ -48,16 +47,6 @@ const StaggerChildren: React.FC<StaggerChildrenProps> = ({
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once, amount: threshold });
-  const { durationMultiplier, delayMultiplier, enableComplexAnimations } = useReducedMotion();
-
-  // On mobile with reduced motion, render without animation
-  if (!enableComplexAnimations) {
-    return (
-      <div ref={ref} className={className}>
-        {children}
-      </div>
-    );
-  }
 
   return (
     <motion.div
@@ -65,10 +54,7 @@ const StaggerChildren: React.FC<StaggerChildrenProps> = ({
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
       variants={containerVariants}
-      custom={{ 
-        staggerDelay: staggerDelay * delayMultiplier, 
-        initialDelay: initialDelay * delayMultiplier 
-      }}
+      custom={{ staggerDelay, initialDelay }}
       className={className}
     >
       {children}
@@ -80,13 +66,6 @@ export const StaggerItem: React.FC<{ children: React.ReactNode; className?: stri
   children,
   className = '',
 }) => {
-  const { enableComplexAnimations } = useReducedMotion();
-
-  // On mobile, render without motion wrapper
-  if (!enableComplexAnimations) {
-    return <div className={className}>{children}</div>;
-  }
-
   return (
     <motion.div variants={staggerItemVariants} className={className}>
       {children}
