@@ -31,7 +31,8 @@ import {
   Eye,
   EyeOff,
   Star,
-  Zap
+  Zap,
+  RefreshCw
 } from 'lucide-react';
 import { compressImage, formatBytes, isWebPSupported, type CompressionResult } from '@/lib/imageCompressor';
 
@@ -226,6 +227,8 @@ const PortfolioManager: React.FC = () => {
   const [deleting, setDeleting] = useState(false);
   const [saving, setSaving] = useState(false);
   const [bulkMoveTarget, setBulkMoveTarget] = useState<string>('');
+  const [optimizing, setOptimizing] = useState(false);
+  const [optimizeProgress, setOptimizeProgress] = useState<{ current: number; total: number; saved: number }>({ current: 0, total: 0, saved: 0 });
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -715,6 +718,128 @@ const PortfolioManager: React.FC = () => {
     fetchImages();
   };
 
+  // Optimize existing images - download, compress, re-upload
+  const optimizeExistingImages = async () => {
+    if (images.length === 0) return;
+
+    const confirmOptimize = window.confirm(
+      `Bu işlem ${images.length} görseli sıkıştıracak. Görseller değiştirilmeyecek, sadece boyutları küçültülecek. Devam etmek istiyor musunuz?`
+    );
+
+    if (!confirmOptimize) return;
+
+    setOptimizing(true);
+    setOptimizeProgress({ current: 0, total: images.length, saved: 0 });
+
+    const useWebP = isWebPSupported();
+    let totalSaved = 0;
+    let optimizedCount = 0;
+    let skippedCount = 0;
+
+    for (let i = 0; i < images.length; i++) {
+      const image = images[i];
+      setOptimizeProgress(prev => ({ ...prev, current: i + 1 }));
+
+      try {
+        // Download the image
+        const response = await fetch(image.url);
+        if (!response.ok) {
+          console.error(`Failed to fetch ${image.storage_path}`);
+          skippedCount++;
+          continue;
+        }
+
+        const originalBlob = await response.blob();
+        const originalSize = originalBlob.size;
+
+        // Skip if already small (under 200KB)
+        if (originalSize < 200 * 1024) {
+          skippedCount++;
+          continue;
+        }
+
+        // Create a File object from blob for compression
+        const file = new File([originalBlob], image.storage_path, { type: originalBlob.type });
+
+        // Compress the image
+        const result = await compressImage(file, {
+          maxWidth: 1600,
+          maxHeight: 2400,
+          quality: 0.82,
+          outputFormat: useWebP ? 'webp' : 'jpeg',
+        });
+
+        // Only re-upload if we saved at least 10%
+        if (result.compressionRatio < 10) {
+          skippedCount++;
+          continue;
+        }
+
+        // Generate new filename with proper extension
+        const newExt = useWebP ? 'webp' : 'jpg';
+        const baseName = image.storage_path.replace(/\.[^/.]+$/, '');
+        const newFileName = `${baseName}-opt.${newExt}`;
+
+        // Upload the compressed image with new name
+        const { error: uploadError } = await supabase.storage
+          .from('portfolio')
+          .upload(newFileName, result.blob, {
+            cacheControl: '31536000',
+            upsert: true,
+            contentType: useWebP ? 'image/webp' : 'image/jpeg',
+          });
+
+        if (uploadError) {
+          console.error(`Failed to upload optimized ${image.storage_path}:`, uploadError);
+          skippedCount++;
+          continue;
+        }
+
+        // Update database to point to new file
+        const { error: updateError } = await supabase
+          .from('portfolio_images')
+          .update({ storage_path: newFileName })
+          .eq('id', image.id);
+
+        if (updateError) {
+          console.error(`Failed to update database for ${image.storage_path}:`, updateError);
+          // Clean up the uploaded file
+          await supabase.storage.from('portfolio').remove([newFileName]);
+          skippedCount++;
+          continue;
+        }
+
+        // Delete old file
+        await supabase.storage.from('portfolio').remove([image.storage_path]);
+
+        totalSaved += (originalSize - result.compressedSize);
+        optimizedCount++;
+        setOptimizeProgress(prev => ({ ...prev, saved: totalSaved }));
+
+      } catch (error) {
+        console.error(`Error optimizing ${image.storage_path}:`, error);
+        skippedCount++;
+      }
+    }
+
+    setOptimizing(false);
+
+    const savedMB = (totalSaved / 1024 / 1024).toFixed(1);
+
+    if (optimizedCount > 0) {
+      toast({
+        title: 'Optimizasyon Tamamlandı',
+        description: `${optimizedCount} görsel optimize edildi, ${savedMB}MB tasarruf sağlandı. ${skippedCount} görsel atlandı (zaten optimize).`,
+      });
+      fetchImages();
+    } else {
+      toast({
+        title: 'Optimizasyon Tamamlandı',
+        description: 'Tüm görseller zaten optimize durumda.',
+      });
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Header with actions */}
@@ -743,6 +868,28 @@ const PortfolioManager: React.FC = () => {
             </div>
           )}
 
+          {/* Optimize existing images button */}
+          {images.length > 0 && (
+            <Button 
+              variant="outline" 
+              onClick={optimizeExistingImages}
+              disabled={optimizing || uploading || compressing}
+              className="border-orange-500 text-orange-600 hover:bg-orange-50"
+            >
+              {optimizing ? (
+                <>
+                  <RefreshCw size={16} className="mr-2 animate-spin" />
+                  {optimizeProgress.current}/{optimizeProgress.total} ({formatBytes(optimizeProgress.saved)} saved)
+                </>
+              ) : (
+                <>
+                  <RefreshCw size={16} className="mr-2" />
+                  Optimize All
+                </>
+              )}
+            </Button>
+          )}
+
           {/* Upload button */}
           <div className="relative">
             <Input
@@ -750,11 +897,11 @@ const PortfolioManager: React.FC = () => {
               accept="image/*,.webp"
               multiple
               onChange={handleFileUpload}
-              disabled={uploading || compressing}
+              disabled={uploading || compressing || optimizing}
               className="absolute inset-0 opacity-0 cursor-pointer"
               id="portfolio-upload"
             />
-            <Button disabled={uploading || compressing} className="pointer-events-none">
+            <Button disabled={uploading || compressing || optimizing} className="pointer-events-none">
               {compressing ? (
                 <>
                   <Zap size={16} className="mr-2" />
