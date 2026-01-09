@@ -443,28 +443,54 @@ const Booking: React.FC = () => {
                       NYC - Monolith Studio
                     </button>
                     
-                    {/* Guest Spot Locations - Each as direct button */}
-                    {guestSpots && guestSpots.map((spot) => (
+                    {/* Guest Spot Button */}
+                    {guestSpots && guestSpots.length > 0 && (
                       <button
-                        key={spot.id}
                         type="button"
-                        onClick={() => setFormData(prev => ({ ...prev, locationType: 'guest_spot', guestSpotId: spot.id }))}
+                        onClick={() => setFormData(prev => ({ ...prev, locationType: 'guest_spot', guestSpotId: null }))}
                         className={`px-6 py-2.5 text-sm border transition-all ${
-                          formData.locationType === 'guest_spot' && formData.guestSpotId === spot.id
+                          formData.locationType === 'guest_spot'
                             ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]'
                             : 'bg-transparent text-[#1a1a1a] border-[#1a1a1a]/20 hover:border-[#1a1a1a]/60'
                         }`}
                       >
-                        {spot.city} - {format(new Date(spot.start_date), 'MMM d')} to {format(new Date(spot.end_date), 'MMM d')}
+                        Guest Spot Location
                       </button>
-                    ))}
+                    )}
                   </div>
-                  
-                  {/* Guest Spot Info Message */}
-                  {formData.locationType === 'guest_spot' && (
-                    <p className="mt-3 text-sm text-[#1a1a1a]/60 italic">
-                      Spotlar oldukça limitli, erken rezervasyon önerilir.
-                    </p>
+
+                  {/* Guest Spot Selection */}
+                  {formData.locationType === 'guest_spot' && guestSpots && guestSpots.length > 0 && (
+                    <div className="mt-4 space-y-3">
+                      <p className="text-[#1a1a1a]/60 text-sm">Select your preferred guest spot location:</p>
+                      {guestSpots.map((spot) => (
+                        <button
+                          key={spot.id}
+                          type="button"
+                          onClick={() => setFormData(prev => ({ ...prev, guestSpotId: spot.id }))}
+                          className={`w-full text-left p-4 border transition-all ${
+                            formData.guestSpotId === spot.id
+                              ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]'
+                              : 'bg-white text-[#1a1a1a] border-[#1a1a1a]/20 hover:border-[#1a1a1a]/60'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2 text-xs mb-1 opacity-70">
+                            <Calendar size={12} />
+                            <span>
+                              {format(new Date(spot.start_date), 'MMM d')} - {format(new Date(spot.end_date), 'MMM d, yyyy')}
+                            </span>
+                          </div>
+                          <div className="font-medium">{spot.studio_name}</div>
+                          <div className="flex items-center gap-1 text-sm opacity-70">
+                            <MapPin size={12} />
+                            <span>{spot.city}, {spot.country}</span>
+                          </div>
+                        </button>
+                      ))}
+                      <p className="text-sm text-[#1a1a1a]/60 italic">
+                        Spots are quite limited, early booking is recommended.
+                      </p>
+                    </div>
                   )}
                 </div>
 
