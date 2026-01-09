@@ -53,6 +53,7 @@ const Booking: React.FC = () => {
   const placementFileInputRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [answerLater, setAnswerLater] = useState(false);
+  const [placementUndecided, setPlacementUndecided] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [placementPhotos, setPlacementPhotos] = useState<UploadedFile[]>([]);
   const [formData, setFormData] = useState<FormData>({
@@ -570,7 +571,7 @@ const Booking: React.FC = () => {
                   Share photos of your chosen tattoo placement, marked with a pen. Photos from multiple angles will help me determine the perfect design.
                 </p>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                   <div>
                     <label className="block text-[#1a1a1a] text-sm mb-2">Placement area</label>
                     <input
@@ -578,7 +579,8 @@ const Booking: React.FC = () => {
                       value={formData.tattooPlacement}
                       onChange={(e) => handleInputChange('tattooPlacement', e.target.value)}
                       placeholder="e.g., forearm, back, chest"
-                      className="w-full bg-white border border-[#1a1a1a]/20 px-3 py-2.5 text-sm text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
+                      disabled={placementUndecided}
+                      className="w-full bg-white border border-[#1a1a1a]/20 px-3 py-2.5 text-sm text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                   </div>
                   <div>
@@ -588,10 +590,27 @@ const Booking: React.FC = () => {
                       value={formData.tattooSize}
                       onChange={(e) => handleInputChange('tattooSize', e.target.value)}
                       placeholder="e.g., 10cm x 15cm"
-                      className="w-full bg-white border border-[#1a1a1a]/20 px-3 py-2.5 text-sm text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors"
+                      disabled={placementUndecided}
+                      className="w-full bg-white border border-[#1a1a1a]/20 px-3 py-2.5 text-sm text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:outline-none focus:border-[#1a1a1a]/60 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
+
+                <label className="flex items-center gap-3 cursor-pointer mb-6">
+                  <input
+                    type="checkbox"
+                    checked={placementUndecided}
+                    onChange={(e) => {
+                      setPlacementUndecided(e.target.checked);
+                      if (e.target.checked) {
+                        handleInputChange('tattooPlacement', '');
+                        handleInputChange('tattooSize', '');
+                      }
+                    }}
+                    className="w-4 h-4 accent-[#1a1a1a]"
+                  />
+                  <span className="text-[#1a1a1a]/70 text-sm">I haven't decided yet</span>
+                </label>
 
                 <FileUploadArea
                   inputRef={placementFileInputRef}
