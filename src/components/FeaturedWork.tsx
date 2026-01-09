@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import { supabase } from '@/integrations/supabase/client';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -13,47 +14,36 @@ interface FeaturedImage {
 }
 
 const FeaturedWork: React.FC = () => {
-  const [works, setWorks] = useState<FeaturedImage[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { data: works = [], isLoading: loading } = useQuery({
+    queryKey: ['featured-images'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('portfolio_images')
+        .select('id, storage_path')
+        .eq('is_featured', true)
+        .eq('is_visible', true)
+        .order('display_order', { ascending: true })
+        .limit(6);
 
-  useEffect(() => {
-    const fetchFeaturedImages = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('portfolio_images')
-          .select('id, storage_path')
-          .eq('is_featured', true)
-          .eq('is_visible', true)
-          .order('display_order', { ascending: true })
-          .limit(6);
+      if (error) throw error;
 
-        if (error) throw error;
+      const images: FeaturedImage[] = (data || []).map((img, index) => {
+        const baseUrl = supabase.storage.from('portfolio').getPublicUrl(img.storage_path).data.publicUrl;
+        const optimizedUrl = `${baseUrl}?width=600&quality=80`;
+        
+        return {
+          id: img.id,
+          url: optimizedUrl,
+          alt: `Featured tattoo work ${index + 1}`,
+        };
+      });
 
-        const images: FeaturedImage[] = (data || []).map((img, index) => {
-          // Get base URL and add transform parameters for optimization
-          const baseUrl = supabase.storage.from('portfolio').getPublicUrl(img.storage_path).data.publicUrl;
-          // Use Supabase image transformation if available (width=600 for grid display)
-          const optimizedUrl = `${baseUrl}?width=600&quality=80`;
-          
-          return {
-            id: img.id,
-            url: optimizedUrl,
-            alt: `Featured tattoo work ${index + 1}`,
-          };
-        });
+      return images;
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes cache
+  });
 
-        setWorks(images);
-      } catch (error) {
-        console.error('Error fetching featured images:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchFeaturedImages();
-  }, []);
-
-  // Don't render the section if no featured images
   if (!loading && works.length === 0) {
     return null;
   }
