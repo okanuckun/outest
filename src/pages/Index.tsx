@@ -7,6 +7,7 @@ import Footer from '@/components/Footer';
 import SEOHead from '@/components/SEOHead';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import heroBg from '@/assets/okan-hero.webp';
+import heroBgMobile from '@/assets/okan-hero-mobile.webp';
 
 // Lazy load below-the-fold components
 const ArtistSection = lazy(() => import('@/components/ArtistSection'));
@@ -68,16 +69,20 @@ const Index: React.FC = () => {
       >
       {/* Hero Section with Background */}
       <div className="box-border w-full h-[100svh] relative m-0 p-0">
-        {/* Background Image with Parallax */}
+        {/* Background Image - Responsive with picture element */}
         <div className="absolute inset-0 z-0">
-          <img
-            src={heroBg}
-            alt="Okan Uckun tattoo artist background"
-            className="w-full h-full object-cover"
-            loading="eager"
-            fetchPriority="high"
-            decoding="async"
-          />
+          <picture>
+            <source media="(max-width: 768px)" srcSet={heroBgMobile} type="image/webp" />
+            <source media="(min-width: 769px)" srcSet={heroBg} type="image/webp" />
+            <img
+              src={heroBg}
+              alt="Okan Uckun tattoo artist background"
+              className="w-full h-full object-cover"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
+          </picture>
           <div className="absolute inset-0 bg-black/40" />
         </div>
         

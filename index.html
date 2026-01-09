@@ -8,8 +8,9 @@
     <link rel="dns-prefetch" href="https://dbfkdfyworvptxwlvlyn.supabase.co">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://img.youtube.com">
-    <!-- Preload LCP hero image for faster rendering -->
-    <link rel="preload" as="image" href="/src/assets/okan-hero.webp" type="image/webp" fetchpriority="high">
+    <!-- Preload LCP hero image for faster rendering - responsive -->
+    <link rel="preload" as="image" href="/src/assets/okan-hero-mobile.webp" type="image/webp" fetchpriority="high" media="(max-width: 768px)">
+    <link rel="preload" as="image" href="/src/assets/okan-hero.webp" type="image/webp" fetchpriority="high" media="(min-width: 769px)">
     <title>Okan Uckun | Minimalist and Geometric Tattoo Artist , Brooklyn NYC</title>
     <meta name="description" content="Okan Uckun - NYC Based, Minimalist, Geometric Tattoo Artist.">
     <meta name="author" content="Stevo Tattoo" />
@@ -25,15 +26,19 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600&display=swap" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
-    <!-- Font display swap for better LCP -->
+    <!-- Font loading optimized for mobile - use optional display for faster FCP -->
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600&display=optional" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600&display=optional" rel="stylesheet"></noscript>
+    <!-- Critical CSS inline for faster FCP -->
     <style>
-      @font-face {
-        font-family: 'Schibsted Grotesk';
-        font-display: swap;
+      /* System font fallback for immediate render */
+      body {
+        font-family: 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #000;
       }
+      #root { min-height: 100vh; }
     </style>
     
   
