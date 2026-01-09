@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import Navigation from '@/components/Navigation';
 import HeroSection from '@/components/HeroSection';
-import ArtistSection from '@/components/ArtistSection';
-import FeaturedWork from '@/components/FeaturedWork';
 import GuestSpots from '@/components/GuestSpots';
-import BlogSection from '@/components/BlogSection';
-import VideoSection from '@/components/VideoSection';
 import Footer from '@/components/Footer';
 import SEOHead from '@/components/SEOHead';
 import heroBg from '@/assets/okan-hero.webp';
+
+// Lazy load below-the-fold components for better LCP
+const ArtistSection = lazy(() => import('@/components/ArtistSection'));
+const FeaturedWork = lazy(() => import('@/components/FeaturedWork'));
+const BlogSection = lazy(() => import('@/components/BlogSection'));
+const VideoSection = lazy(() => import('@/components/VideoSection'));
+
+// Minimal loading fallback
+const SectionFallback = () => <div className="min-h-[200px]" />;
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -66,10 +71,18 @@ const Index: React.FC = () => {
       </div>
       
       <main>
-        <ArtistSection />
-        <FeaturedWork />
-        <BlogSection />
-        <VideoSection />
+        <Suspense fallback={<SectionFallback />}>
+          <ArtistSection />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <FeaturedWork />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <BlogSection />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <VideoSection />
+        </Suspense>
       </main>
       
       <Footer />

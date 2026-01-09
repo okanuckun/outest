@@ -25,13 +25,13 @@ const containerVariants: Variants = {
 export const staggerItemVariants: Variants = {
   hidden: {
     opacity: 0,
-    y: 30,
+    y: 20,
   },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.5,
+      duration: 0.35,
       ease: [0.25, 0.1, 0.25, 1],
     },
   },
@@ -40,10 +40,10 @@ export const staggerItemVariants: Variants = {
 const StaggerChildren: React.FC<StaggerChildrenProps> = ({
   children,
   className = '',
-  staggerDelay = 0.1,
+  staggerDelay = 0.08,
   initialDelay = 0,
   once = true,
-  threshold = 0.1,
+  threshold = 0.15,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once, amount: threshold });

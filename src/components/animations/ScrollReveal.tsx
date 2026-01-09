@@ -17,11 +17,11 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
   children,
   className = '',
   delay = 0,
-  duration = 0.6,
+  duration = 0.4,
   direction = 'up',
-  distance = 50,
+  distance = 30,
   once = true,
-  threshold = 0.1,
+  threshold = 0.15,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once, amount: threshold });
