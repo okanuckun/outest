@@ -64,20 +64,14 @@ const Index: React.FC = () => {
         <div className="box-border w-full h-[100svh] relative m-0 p-0">
           {/* Background Image - Priority LCP element with format fallback */}
           <div className="absolute inset-0 z-0">
-            <picture>
-              {/* AVIF for modern browsers - if available */}
-              <source srcSet={heroBg.replace('.webp', '.avif')} type="image/avif" />
-              {/* WebP fallback */}
-              <source srcSet={heroBg} type="image/webp" />
-              <img
-                src={heroBg}
-                alt="Okan Uckun tattoo artist background"
-                className="w-full h-full object-cover"
-                loading="eager"
-                fetchPriority="high"
-                decoding="sync"
-              />
-            </picture>
+            <img
+              src={heroBg}
+              alt="Okan Uckun tattoo artist background"
+              className="w-full h-full object-cover"
+              loading="eager"
+              fetchPriority="high"
+              decoding="sync"
+            />
             <div className="absolute inset-0 bg-black/40" />
           </div>
           
