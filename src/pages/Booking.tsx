@@ -468,22 +468,26 @@ const Booking: React.FC = () => {
                           key={spot.id}
                           type="button"
                           onClick={() => setFormData(prev => ({ ...prev, guestSpotId: spot.id }))}
-                          className={`w-full text-left p-4 border transition-all ${
+                          className={`w-full text-left px-4 py-2.5 border transition-all ${
                             formData.guestSpotId === spot.id
                               ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]'
                               : 'bg-white text-[#1a1a1a] border-[#1a1a1a]/20 hover:border-[#1a1a1a]/60'
                           }`}
                         >
-                          <div className="flex items-center gap-2 text-xs mb-1 opacity-70">
-                            <Calendar size={12} />
-                            <span>
-                              {format(new Date(spot.start_date), 'MMM d')} - {format(new Date(spot.end_date), 'MMM d, yyyy')}
-                            </span>
-                          </div>
-                          <div className="font-medium">{spot.studio_name}</div>
-                          <div className="flex items-center gap-1 text-sm opacity-70">
-                            <MapPin size={12} />
-                            <span>{spot.city}, {spot.country}</span>
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <div className="font-medium text-sm">{spot.studio_name}</div>
+                              <div className="flex items-center gap-1 text-xs opacity-70">
+                                <MapPin size={10} />
+                                <span>{spot.city}, {spot.country}</span>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-1.5 text-xs opacity-70">
+                              <Calendar size={10} />
+                              <span>
+                                {format(new Date(spot.start_date), 'MMM d')} - {format(new Date(spot.end_date), 'MMM d')}
+                              </span>
+                            </div>
                           </div>
                         </button>
                       ))}
