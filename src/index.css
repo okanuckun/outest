@@ -125,7 +125,8 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground font-schibsted;
+    @apply bg-background text-foreground;
+    font-family: 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 }
 
