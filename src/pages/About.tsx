@@ -5,10 +5,7 @@ import Footer from '@/components/Footer';
 import Navigation from '@/components/Navigation';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import SEOHead from '@/components/SEOHead';
-import aboutImage2 from '@/assets/about-image-2.webp';
-import aboutImage3 from '@/assets/about-image-3.webp';
 import aboutHero from '@/assets/about-hero.webp';
-import aboutBottom from '@/assets/about-bottom.jpg';
 import aboutPortrait from '@/assets/about-portrait.webp';
 
 const jsonLd = {
