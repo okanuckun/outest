@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import DOMPurify from 'dompurify';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import PageTransition from '@/components/animations/PageTransition';
@@ -195,8 +196,19 @@ const ProjectDetail: React.FC = () => {
               {/* Description */}
               {project.description && (
                 <div 
-                  className="prose prose-lg prose-invert max-w-none text-foreground/80"
-                  dangerouslySetInnerHTML={{ __html: project.description }}
+                  className="prose prose-lg prose-invert max-w-none text-foreground/80 
+                    [&_p]:mb-4 [&_p]:leading-relaxed
+                    [&_h1]:text-3xl [&_h1]:font-light [&_h1]:mb-6 [&_h1]:mt-8
+                    [&_h2]:text-2xl [&_h2]:font-light [&_h2]:mb-4 [&_h2]:mt-6
+                    [&_h3]:text-xl [&_h3]:font-light [&_h3]:mb-3 [&_h3]:mt-4
+                    [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4
+                    [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-4
+                    [&_li]:mb-2
+                    [&_a]:text-primary [&_a]:underline [&_a]:hover:text-primary/80
+                    [&_strong]:font-semibold
+                    [&_em]:italic
+                    [&_blockquote]:border-l-2 [&_blockquote]:border-foreground/20 [&_blockquote]:pl-4 [&_blockquote]:italic"
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(project.description) }}
                 />
               )}
             </motion.div>
