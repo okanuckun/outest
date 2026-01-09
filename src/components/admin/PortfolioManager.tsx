@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Progress } from '@/components/ui/progress';
 import {
   DndContext,
   closestCenter,
@@ -29,8 +30,10 @@ import {
   GripVertical,
   Eye,
   EyeOff,
-  Star
+  Star,
+  Zap
 } from 'lucide-react';
+import { compressImage, formatBytes, isWebPSupported, type CompressionResult } from '@/lib/imageCompressor';
 
 interface PortfolioImage {
   id: string;
@@ -216,6 +219,8 @@ const PortfolioManager: React.FC = () => {
   const [images, setImages] = useState<PortfolioImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [compressing, setCompressing] = useState(false);
+  const [compressionStats, setCompressionStats] = useState<{ saved: number; total: number } | null>(null);
   const [uploadProgress, setUploadProgress] = useState<{ total: number; completed: number }>({ total: 0, completed: 0 });
   const [selectedImages, setSelectedImages] = useState<Set<string>>(new Set());
   const [deleting, setDeleting] = useState(false);
@@ -415,25 +420,82 @@ const PortfolioManager: React.FC = () => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
+    const fileArray = Array.from(files);
+    
+    // Step 1: Compress images
+    setCompressing(true);
+    setCompressionStats(null);
+    
+    const compressedFiles: { originalFile: File; blob: Blob; stats: CompressionResult }[] = [];
+    let totalOriginalSize = 0;
+    let totalCompressedSize = 0;
+
+    const useWebP = isWebPSupported();
+    
+    for (const file of fileArray) {
+      try {
+        const result = await compressImage(file, {
+          maxWidth: 1600,
+          maxHeight: 2400,
+          quality: 0.82,
+          outputFormat: useWebP ? 'webp' : 'jpeg',
+        });
+        
+        compressedFiles.push({
+          originalFile: file,
+          blob: result.blob,
+          stats: result,
+        });
+        
+        totalOriginalSize += result.originalSize;
+        totalCompressedSize += result.compressedSize;
+      } catch (error) {
+        console.error(`Failed to compress ${file.name}:`, error);
+        // Use original file if compression fails
+        compressedFiles.push({
+          originalFile: file,
+          blob: file,
+          stats: {
+            blob: file,
+            originalSize: file.size,
+            compressedSize: file.size,
+            compressionRatio: 0,
+            width: 0,
+            height: 0,
+          },
+        });
+        totalOriginalSize += file.size;
+        totalCompressedSize += file.size;
+      }
+    }
+
+    setCompressing(false);
+    setCompressionStats({
+      saved: totalOriginalSize - totalCompressedSize,
+      total: totalOriginalSize,
+    });
+
+    // Step 2: Upload compressed images
     setUploading(true);
-    setUploadProgress({ total: files.length, completed: 0 });
+    setUploadProgress({ total: compressedFiles.length, completed: 0 });
 
     const maxOrder = Math.max(0, ...images.map(img => img.display_order));
+    const fileExt = useWebP ? 'webp' : 'jpg';
 
-    const uploadPromises = Array.from(files).map(async (file, index) => {
-      const fileExt = file.name.split('.').pop()?.toLowerCase();
+    const uploadPromises = compressedFiles.map(async ({ blob, originalFile }, index) => {
       const fileName = `${Date.now()}-${index}.${fileExt}`;
 
       const { error: uploadError } = await supabase.storage
         .from('portfolio')
-        .upload(fileName, file, {
+        .upload(fileName, blob, {
           cacheControl: '3600',
-          upsert: false
+          upsert: false,
+          contentType: useWebP ? 'image/webp' : 'image/jpeg',
         });
 
       if (uploadError) {
-        console.error(`Error uploading ${file.name}:`, uploadError);
-        return { success: false, name: file.name, error: uploadError.message };
+        console.error(`Error uploading ${originalFile.name}:`, uploadError);
+        return { success: false, name: originalFile.name, error: uploadError.message };
       }
 
       // Add to database
@@ -446,11 +508,11 @@ const PortfolioManager: React.FC = () => {
       if (insertError) {
         // Keep storage + DB in sync (avoid orphan files)
         await supabase.storage.from('portfolio').remove([fileName]);
-        return { success: false, name: file.name, error: insertError.message };
+        return { success: false, name: originalFile.name, error: insertError.message };
       }
 
       setUploadProgress(prev => ({ ...prev, completed: prev.completed + 1 }));
-      return { success: true, name: file.name };
+      return { success: true, name: originalFile.name };
     });
 
     const results = await Promise.all(uploadPromises);
@@ -460,10 +522,13 @@ const PortfolioManager: React.FC = () => {
     setUploading(false);
     setUploadProgress({ total: 0, completed: 0 });
 
+    const savedMB = ((totalOriginalSize - totalCompressedSize) / 1024 / 1024).toFixed(1);
+    const compressionPercent = Math.round((1 - totalCompressedSize / totalOriginalSize) * 100);
+
     if (successCount > 0) {
       toast({
         title: 'Upload Complete',
-        description: `${successCount} image(s) uploaded${failCount > 0 ? `, ${failCount} failed` : ''}`,
+        description: `${successCount} image(s) uploaded${failCount > 0 ? `, ${failCount} failed` : ''}. Saved ${savedMB}MB (${compressionPercent}% smaller)`,
       });
       fetchImages();
     } else {
@@ -474,6 +539,8 @@ const PortfolioManager: React.FC = () => {
       });
     }
 
+    // Clear stats after a delay
+    setTimeout(() => setCompressionStats(null), 5000);
     e.target.value = '';
   };
 
@@ -660,7 +727,22 @@ const PortfolioManager: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex gap-2 flex-wrap items-center">
+          {/* Compression status */}
+          {compressing && (
+            <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted px-3 py-1.5 rounded-md">
+              <Loader2 size={14} className="animate-spin" />
+              <span>Compressing images...</span>
+            </div>
+          )}
+          
+          {compressionStats && !compressing && !uploading && (
+            <div className="flex items-center gap-2 text-sm text-green-600 bg-green-50 px-3 py-1.5 rounded-md">
+              <Zap size={14} />
+              <span>Saved {formatBytes(compressionStats.saved)} ({Math.round((compressionStats.saved / compressionStats.total) * 100)}%)</span>
+            </div>
+          )}
+
           {/* Upload button */}
           <div className="relative">
             <Input
@@ -668,12 +750,17 @@ const PortfolioManager: React.FC = () => {
               accept="image/*,.webp"
               multiple
               onChange={handleFileUpload}
-              disabled={uploading}
+              disabled={uploading || compressing}
               className="absolute inset-0 opacity-0 cursor-pointer"
               id="portfolio-upload"
             />
-            <Button disabled={uploading} className="pointer-events-none">
-              {uploading ? (
+            <Button disabled={uploading || compressing} className="pointer-events-none">
+              {compressing ? (
+                <>
+                  <Zap size={16} className="mr-2" />
+                  Compressing...
+                </>
+              ) : uploading ? (
                 <>
                   <Loader2 size={16} className="mr-2 animate-spin" />
                   {uploadProgress.completed}/{uploadProgress.total}
