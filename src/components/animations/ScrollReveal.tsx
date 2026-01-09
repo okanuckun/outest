@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, useInView, Variants } from 'framer-motion';
 import { useRef } from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 interface ScrollRevealProps {
   children: React.ReactNode;
@@ -25,6 +26,16 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once, amount: threshold });
+  const { durationMultiplier, delayMultiplier, enableComplexAnimations } = useReducedMotion();
+
+  // On mobile with reduced motion, render without animation
+  if (!enableComplexAnimations) {
+    return (
+      <div ref={ref} className={className}>
+        {children}
+      </div>
+    );
+  }
 
   const getInitialPosition = () => {
     switch (direction) {
@@ -53,8 +64,8 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
       x: 0,
       y: 0,
       transition: {
-        duration,
-        delay,
+        duration: duration * durationMultiplier,
+        delay: delay * delayMultiplier,
         ease: [0.25, 0.1, 0.25, 1],
       },
     },
