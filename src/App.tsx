@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ReactLenis } from "lenis/react";
 import { AnimatePresence, motion } from "framer-motion";
+import MetaPixel from "@/components/MetaPixel";
 
 // Eager load Index for fast initial render
 import Index from "./pages/Index";
@@ -94,6 +95,7 @@ const App = () => (
       <ReactLenis root options={{ lerp: 0.08, smoothWheel: true }}>
         <Toaster />
         <Sonner />
+        <MetaPixel />
         <BrowserRouter>
           <AnimatedRoutes />
         </BrowserRouter>
