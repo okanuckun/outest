@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import StaggerChildren, { StaggerItem } from '@/components/animations/StaggerChildren';
 import { supabase } from '@/integrations/supabase/client';
@@ -22,24 +21,31 @@ interface BlogPost {
 
 const BlogSection: React.FC = () => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const { data: blogPosts = [], isLoading: loading } = useQuery({
-    queryKey: ['blog-posts-featured'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('blog_posts')
-        .select('id, slug, title, description, category, image_url, created_at')
-        .eq('published', true)
-        .order('created_at', { ascending: false })
-        .limit(3);
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('blog_posts')
+          .select('id, slug, title, description, category, image_url, created_at')
+          .eq('published', true)
+          .order('created_at', { ascending: false })
+          .limit(3);
 
-      if (error) throw error;
-      return data as BlogPost[];
-    },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes cache
-  });
+        if (error) throw error;
+        setBlogPosts(data || []);
+      } catch (error) {
+        console.error('Error fetching blog posts:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   const handlePostClick = (slug: string) => {
     navigate(`/blog/${slug}`);

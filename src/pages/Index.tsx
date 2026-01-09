@@ -1,6 +1,8 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react';
+import React, { lazy, Suspense } from 'react';
+import { motion } from 'framer-motion';
 import Navigation from '@/components/Navigation';
 import HeroSection from '@/components/HeroSection';
+import GuestSpots from '@/components/GuestSpots';
 import Footer from '@/components/Footer';
 import SEOHead from '@/components/SEOHead';
 import heroBg from '@/assets/okan-hero.webp';
@@ -10,7 +12,6 @@ const ArtistSection = lazy(() => import('@/components/ArtistSection'));
 const FeaturedWork = lazy(() => import('@/components/FeaturedWork'));
 const BlogSection = lazy(() => import('@/components/BlogSection'));
 const VideoSection = lazy(() => import('@/components/VideoSection'));
-const GuestSpots = lazy(() => import('@/components/GuestSpots'));
 
 // Minimal loading fallback
 const SectionFallback = () => <div className="min-h-[200px]" />;
@@ -32,24 +33,6 @@ const jsonLd = {
 };
 
 const Index: React.FC = () => {
-  const [showDeferred, setShowDeferred] = useState(false);
-  
-  // Defer non-critical components after initial paint
-  useEffect(() => {
-    // Wait for LCP to complete before loading deferred content
-    const timer = requestIdleCallback ? 
-      requestIdleCallback(() => setShowDeferred(true), { timeout: 1000 }) :
-      setTimeout(() => setShowDeferred(true), 100);
-    
-    return () => {
-      if (requestIdleCallback && typeof timer === 'number') {
-        cancelIdleCallback(timer);
-      } else {
-        clearTimeout(timer as unknown as number);
-      }
-    };
-  }, []);
-
   return (
     <>
       <SEOHead
@@ -59,34 +42,33 @@ const Index: React.FC = () => {
         canonical="/"
         jsonLd={jsonLd}
       />
-      <div className="box-border w-full min-h-screen relative overflow-x-hidden bg-black m-0 p-0">
-        {/* Hero Section with Background */}
-        <div className="box-border w-full h-[100svh] relative m-0 p-0">
-          {/* Background Image - Priority LCP element with format fallback */}
-          <div className="absolute inset-0 z-0">
-            <img
-              src={heroBg}
-              alt="Okan Uckun tattoo artist background"
-              width="1920"
-              height="1080"
-              className="w-full h-full object-cover"
-              loading="eager"
-              fetchPriority="high"
-              decoding="sync"
-            />
-            <div className="absolute inset-0 bg-black/40" />
-          </div>
-          
-          <div className="relative z-10 flex h-full flex-col">
-            <Navigation />
-            <HeroSection />
-            {showDeferred && (
-              <Suspense fallback={null}>
-                <GuestSpots />
-              </Suspense>
-            )}
-          </div>
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="box-border w-full min-h-screen relative overflow-x-hidden bg-black m-0 p-0"
+      >
+      {/* Hero Section with Background */}
+      <div className="box-border w-full h-[100svh] relative m-0 p-0">
+        {/* Background Image with Parallax */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={heroBg}
+            alt="Okan Uckun tattoo artist background"
+            className="w-full h-full object-cover"
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+          />
+          <div className="absolute inset-0 bg-black/40" />
         </div>
+        
+        <div className="relative z-10 flex h-full flex-col">
+          <Navigation />
+          <HeroSection />
+          <GuestSpots />
+        </div>
+      </div>
       
       <main>
         <Suspense fallback={<SectionFallback />}>
@@ -103,8 +85,8 @@ const Index: React.FC = () => {
         </Suspense>
       </main>
       
-        <Footer />
-      </div>
+      <Footer />
+      </motion.div>
     </>
   );
 };
