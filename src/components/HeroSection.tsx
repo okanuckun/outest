@@ -23,8 +23,8 @@ const HeroSection: React.FC = () => {
             y: 0,
             opacity: 1
           }} transition={{
-            delay: 0.8,
-            duration: 0.8,
+            delay: 0.3,
+            duration: 0.5,
             ease: [0.25, 0.1, 0.25, 1]
           }} className="block text-[#F6F6F6] text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase">
               Saying more with less.
@@ -37,8 +37,8 @@ const HeroSection: React.FC = () => {
         }} animate={{
           opacity: 1
         }} transition={{
-          delay: 1.2,
-          duration: 0.6
+          delay: 0.6,
+          duration: 0.4
         }} className="pb-2 max-sm:pb-1">
             <motion.div animate={{
             y: [0, 8, 0]

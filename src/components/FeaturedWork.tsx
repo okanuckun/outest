@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import ScrollReveal from '@/components/animations/ScrollReveal';
-import StaggerChildren, { StaggerItem } from '@/components/animations/StaggerChildren';
 import { supabase } from '@/integrations/supabase/client';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -30,11 +29,18 @@ const FeaturedWork: React.FC = () => {
 
         if (error) throw error;
 
-        const images: FeaturedImage[] = (data || []).map((img, index) => ({
-          id: img.id,
-          url: supabase.storage.from('portfolio').getPublicUrl(img.storage_path).data.publicUrl,
-          alt: `Featured tattoo work ${index + 1}`,
-        }));
+        const images: FeaturedImage[] = (data || []).map((img, index) => {
+          // Get base URL and add transform parameters for optimization
+          const baseUrl = supabase.storage.from('portfolio').getPublicUrl(img.storage_path).data.publicUrl;
+          // Use Supabase image transformation if available (width=600 for grid display)
+          const optimizedUrl = `${baseUrl}?width=600&quality=80`;
+          
+          return {
+            id: img.id,
+            url: optimizedUrl,
+            alt: `Featured tattoo work ${index + 1}`,
+          };
+        });
 
         setWorks(images);
       } catch (error) {
@@ -73,33 +79,29 @@ const FeaturedWork: React.FC = () => {
               ))}
             </div>
           ) : (
-            <StaggerChildren staggerDelay={0.1} className="box-border grid grid-cols-6 gap-3 self-stretch relative m-0 p-0 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1">
+            <div className="box-border grid grid-cols-6 gap-3 self-stretch relative m-0 p-0 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1">
             {works.map((work, index) => (
-              <StaggerItem key={work.id} className="box-border flex flex-col items-start relative m-0 p-0">
+              <div key={work.id} className="box-border flex flex-col items-start relative m-0 p-0">
                 <Link to="/work" className="w-full h-full">
-                  <motion.article 
-                    whileHover={{ scale: 1.02 }} 
-                    transition={{ duration: 0.3 }} 
-                    className="box-border flex flex-col justify-center items-start self-stretch aspect-[1/1.8] relative m-0 p-0 overflow-hidden cursor-pointer"
+                  <article 
+                    className="box-border flex flex-col justify-center items-start self-stretch aspect-[1/1.8] relative m-0 p-0 overflow-hidden cursor-pointer group"
                   >
-                    <motion.img 
+                    <img 
                       src={work.url} 
                       alt={work.alt} 
-                      className="box-border w-full h-full relative object-cover m-0 p-0" 
+                      className="box-border w-full h-full relative object-cover m-0 p-0 transition-transform duration-300 group-hover:scale-105" 
                       loading={index < 3 ? "eager" : "lazy"}
                       decoding="async"
-                      whileHover={{ scale: 1.1 }} 
-                      transition={{ duration: 0.5 }} 
                     />
-                  </motion.article>
+                  </article>
                 </Link>
-              </StaggerItem>
+              </div>
             ))}
-            </StaggerChildren>
+            </div>
           )}
         </div>
         
-        <ScrollReveal delay={0.4} className="w-full">
+        <ScrollReveal delay={0.2} className="w-full">
           <div className="w-full flex justify-end">
             <div className="lg:w-[200px] shrink-0 flex lg:justify-start justify-end">
               <motion.div 

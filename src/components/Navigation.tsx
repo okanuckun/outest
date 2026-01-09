@@ -33,7 +33,7 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
       <motion.header 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+        transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
         className="box-border flex h-[60px] flex-col items-start shrink-0 self-stretch relative z-50 m-0 p-0"
       >
         <nav className={`box-border flex flex-col items-start self-stretch relative m-0 px-[22.5px] py-[18px] border-b border-solid ${borderColor} max-sm:px-4 max-sm:py-4`}>
@@ -41,7 +41,7 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
+              transition={{ delay: 0.1, duration: 0.3 }}
               className="box-border inline-flex items-center relative m-0 p-0"
             >
               <Link to="/" className="hover:opacity-70 transition-opacity">
@@ -54,7 +54,7 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
+              transition={{ delay: 0.15, duration: 0.3 }}
               className="box-border inline-flex items-center relative m-0 p-0 max-md:hidden"
             >
               <span className={`box-border text-[15px] font-normal leading-5 tracking-[-0.15px] uppercase m-0 p-0 ${textColor}`}>
@@ -65,7 +65,7 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
+              transition={{ delay: 0.2, duration: 0.3 }}
               className="box-border inline-flex items-center gap-[16px] relative m-0 p-0 max-md:hidden"
             >
               {navItems.filter(item => item.label !== 'Home').map((item) => (
@@ -88,7 +88,7 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
+              transition={{ delay: 0.25, duration: 0.3 }}
               className="box-border inline-flex flex-col items-start relative m-0 p-0 max-md:hidden"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -105,7 +105,7 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
             <motion.button
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
+              transition={{ delay: 0.15, duration: 0.3 }}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className={`md:hidden p-1 ${textColor} z-[60]`}
               aria-label="Toggle menu"
