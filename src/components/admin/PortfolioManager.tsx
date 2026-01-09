@@ -28,7 +28,8 @@ import {
   CheckCircle,
   GripVertical,
   Eye,
-  EyeOff
+  EyeOff,
+  Star
 } from 'lucide-react';
 
 interface PortfolioImage {
@@ -37,6 +38,7 @@ interface PortfolioImage {
   url: string;
   display_order: number;
   is_visible: boolean;
+  is_featured: boolean;
 }
 
 interface SortableImageProps {
@@ -46,6 +48,7 @@ interface SortableImageProps {
   onSelect: () => void;
   onDelete: () => void;
   onToggleVisibility: () => void;
+  onToggleFeatured: () => void;
   onOrderChange: (newOrder: number) => void;
 }
 
@@ -56,6 +59,7 @@ const SortableImage: React.FC<SortableImageProps> = ({
   onSelect, 
   onDelete,
   onToggleVisibility,
+  onToggleFeatured,
   onOrderChange
 }) => {
   const [orderInput, setOrderInput] = useState<string>('');
@@ -154,6 +158,13 @@ const SortableImage: React.FC<SortableImageProps> = ({
         </div>
       )}
 
+      {/* Featured star indicator */}
+      {image.is_featured && (
+        <div className="absolute bottom-2 right-2 bg-yellow-500 text-black rounded-full p-1">
+          <Star size={14} fill="currentColor" />
+        </div>
+      )}
+
       {/* Visibility indicator */}
       {!image.is_visible && (
         <div className="absolute bottom-2 left-2 bg-black/60 text-white rounded-full p-1">
@@ -163,6 +174,18 @@ const SortableImage: React.FC<SortableImageProps> = ({
 
       {/* Hover overlay with actions */}
       <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+        <Button
+          variant="secondary"
+          size="sm"
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleFeatured();
+          }}
+          className={image.is_featured ? 'bg-yellow-500 hover:bg-yellow-600 text-black' : ''}
+          title={image.is_featured ? 'Remove from featured' : 'Add to featured'}
+        >
+          <Star size={16} fill={image.is_featured ? 'currentColor' : 'none'} />
+        </Button>
         <Button
           variant="secondary"
           size="sm"
@@ -294,6 +317,7 @@ const PortfolioManager: React.FC = () => {
         url: supabase.storage.from('portfolio').getPublicUrl(img.storage_path).data.publicUrl,
         display_order: img.display_order,
         is_visible: img.is_visible ?? true,
+        is_featured: img.is_featured ?? false,
       }));
 
       setImages(imageList);
@@ -493,6 +517,33 @@ const PortfolioManager: React.FC = () => {
         variant: 'destructive',
       });
       fetchImages();
+    }
+  };
+
+  const toggleFeatured = async (image: PortfolioImage) => {
+    const newFeatured = !image.is_featured;
+    
+    // Optimistic update
+    setImages(prev => prev.map(img => 
+      img.id === image.id ? { ...img, is_featured: newFeatured } : img
+    ));
+
+    const { error } = await supabase
+      .from('portfolio_images')
+      .update({ is_featured: newFeatured })
+      .eq('id', image.id);
+
+    if (error) {
+      toast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive',
+      });
+      fetchImages();
+    } else {
+      toast({
+        title: newFeatured ? 'Added to featured' : 'Removed from featured',
+      });
     }
   };
 
@@ -734,6 +785,7 @@ const PortfolioManager: React.FC = () => {
                   onSelect={() => toggleImageSelection(image.id)}
                   onDelete={() => deleteSingleImage(image)}
                   onToggleVisibility={() => toggleVisibility(image)}
+                  onToggleFeatured={() => toggleFeatured(image)}
                   onOrderChange={(targetIndex) => handleOrderChange(image.id, index, targetIndex)}
                 />
               ))}

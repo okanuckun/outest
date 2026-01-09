@@ -133,6 +133,7 @@ export type Database = {
           created_at: string
           display_order: number
           id: string
+          is_featured: boolean | null
           is_visible: boolean | null
           storage_path: string
           updated_at: string
@@ -141,6 +142,7 @@ export type Database = {
           created_at?: string
           display_order?: number
           id?: string
+          is_featured?: boolean | null
           is_visible?: boolean | null
           storage_path: string
           updated_at?: string
@@ -149,6 +151,7 @@ export type Database = {
           created_at?: string
           display_order?: number
           id?: string
+          is_featured?: boolean | null
           is_visible?: boolean | null
           storage_path?: string
           updated_at?: string

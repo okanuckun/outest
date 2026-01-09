@@ -1,22 +1,56 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import StaggerChildren, { StaggerItem } from '@/components/animations/StaggerChildren';
+import { supabase } from '@/integrations/supabase/client';
+import { Skeleton } from '@/components/ui/skeleton';
 
-// Work images - WebP versions will be added
-// Placeholder until images are uploaded
-const works = [
-  { src: "", alt: "Abstract geometric tattoo", name: "glitch1" },
-  { src: "", alt: "Minimalist neck tattoo", name: "DSC03538" },
-  { src: "", alt: "Geometric circle tattoo", name: "DSC00339" },
-  { src: "", alt: "Fine line tattoo", name: "Group_354" },
-  { src: "", alt: "Portrait tattoo", name: "head1" },
-  { src: "", alt: "Blackwork tattoo", name: "Group_261" }
-];
+interface FeaturedImage {
+  id: string;
+  url: string;
+  alt: string;
+}
 
 const FeaturedWork: React.FC = () => {
+  const [works, setWorks] = useState<FeaturedImage[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchFeaturedImages = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('portfolio_images')
+          .select('id, storage_path')
+          .eq('is_featured', true)
+          .eq('is_visible', true)
+          .order('display_order', { ascending: true })
+          .limit(6);
+
+        if (error) throw error;
+
+        const images: FeaturedImage[] = (data || []).map((img, index) => ({
+          id: img.id,
+          url: supabase.storage.from('portfolio').getPublicUrl(img.storage_path).data.publicUrl,
+          alt: `Featured tattoo work ${index + 1}`,
+        }));
+
+        setWorks(images);
+      } catch (error) {
+        console.error('Error fetching featured images:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFeaturedImages();
+  }, []);
+
+  // Don't render the section if no featured images
+  if (!loading && works.length === 0) {
+    return null;
+  }
 
   return (
     <section className="box-border w-full relative bg-background m-0 px-[23px] py-[80px] max-md:px-5 max-md:py-10 max-sm:px-4 max-sm:py-6">
@@ -32,29 +66,37 @@ const FeaturedWork: React.FC = () => {
             </div>
           </ScrollReveal>
           
-          <StaggerChildren staggerDelay={0.1} className="box-border grid grid-cols-6 gap-3 self-stretch relative m-0 p-0 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1">
-            {works.map((work, index) => (
-              <StaggerItem key={index} className="box-border flex flex-col items-start relative m-0 p-0">
-                <Link to="/work" className="w-full h-full">
-                  <motion.article 
-                    whileHover={{ scale: 1.02 }} 
-                    transition={{ duration: 0.3 }} 
-                    className="box-border flex flex-col justify-center items-start self-stretch aspect-[1/1.8] relative m-0 p-0 overflow-hidden cursor-pointer"
-                  >
-                    <motion.img 
-                      src={work.src} 
-                      alt={work.alt} 
-                      className="box-border w-full h-full relative object-cover m-0 p-0" 
-                      loading="lazy"
-                      decoding="async"
-                      whileHover={{ scale: 1.1 }} 
-                      transition={{ duration: 0.5 }} 
-                    />
-                  </motion.article>
-                </Link>
-              </StaggerItem>
-            ))}
-          </StaggerChildren>
+          {loading ? (
+            <div className="box-border grid grid-cols-6 gap-3 self-stretch relative m-0 p-0 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1">
+              {[...Array(6)].map((_, index) => (
+                <Skeleton key={index} className="aspect-[1/1.8] rounded-lg" />
+              ))}
+            </div>
+          ) : (
+            <StaggerChildren staggerDelay={0.1} className="box-border grid grid-cols-6 gap-3 self-stretch relative m-0 p-0 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1">
+              {works.map((work) => (
+                <StaggerItem key={work.id} className="box-border flex flex-col items-start relative m-0 p-0">
+                  <Link to="/work" className="w-full h-full">
+                    <motion.article 
+                      whileHover={{ scale: 1.02 }} 
+                      transition={{ duration: 0.3 }} 
+                      className="box-border flex flex-col justify-center items-start self-stretch aspect-[1/1.8] relative m-0 p-0 overflow-hidden cursor-pointer"
+                    >
+                      <motion.img 
+                        src={work.url} 
+                        alt={work.alt} 
+                        className="box-border w-full h-full relative object-cover m-0 p-0" 
+                        loading="lazy"
+                        decoding="async"
+                        whileHover={{ scale: 1.1 }} 
+                        transition={{ duration: 0.5 }} 
+                      />
+                    </motion.article>
+                  </Link>
+                </StaggerItem>
+              ))}
+            </StaggerChildren>
+          )}
         </div>
         
         <ScrollReveal delay={0.4} className="w-full">
