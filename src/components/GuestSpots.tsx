@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Link } from 'react-router-dom';
@@ -14,27 +14,10 @@ interface GuestSpot {
   description: string | null;
 }
 
-const GuestSpots: React.FC = () => {
-  const { data: guestSpots, isLoading } = useQuery({
-    queryKey: ['guest-spots'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('guest_spots')
-        .select('*')
-        .gte('end_date', new Date().toISOString().split('T')[0])
-        .eq('is_active', true)
-        .order('start_date', { ascending: true })
-        .limit(3);
-      
-      if (error) throw error;
-      return data as GuestSpot[];
-    },
-  });
-
-  if (isLoading || !guestSpots || guestSpots.length === 0) {
-    return null;
-  }
-
+// Separate content component for lazy loading
+const GuestSpotsContent: React.FC<{ guestSpots: GuestSpot[] }> = ({ guestSpots }) => {
+  if (guestSpots.length === 0) return null;
+  
   return (
     <div className="absolute top-32 right-[22.5px] max-sm:right-4 md:top-36 z-20">
       <div className="backdrop-blur-sm bg-black/40 border border-white/10 rounded-sm p-3 md:p-4 w-[220px]">
@@ -67,6 +50,33 @@ const GuestSpots: React.FC = () => {
       </div>
     </div>
   );
+};
+
+const GuestSpots: React.FC = () => {
+  const { data: guestSpots } = useQuery({
+    queryKey: ['guest-spots'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('guest_spots')
+        .select('id,city,start_date,end_date')
+        .gte('end_date', new Date().toISOString().split('T')[0])
+        .eq('is_active', true)
+        .order('start_date', { ascending: true })
+        .limit(3);
+      
+      if (error) throw error;
+      return data as GuestSpot[];
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes - reduce refetches
+    gcTime: 10 * 60 * 1000, // 10 minutes cache
+  });
+
+  // Don't block render - show nothing until data arrives
+  if (!guestSpots || guestSpots.length === 0) {
+    return null;
+  }
+
+  return <GuestSpotsContent guestSpots={guestSpots} />;
 };
 
 export default GuestSpots;
