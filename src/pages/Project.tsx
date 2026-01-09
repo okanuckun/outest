@@ -143,14 +143,19 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
         {/* Description */}
         {project.description && (
           <motion.p
-            className="text-white/70 text-base md:text-lg max-w-2xl mb-6 leading-relaxed"
+            className="text-white/70 text-base md:text-lg max-w-2xl mb-6 leading-relaxed line-clamp-3"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.35 }}
-          >
-            {project.description}
-          </motion.p>
+            dangerouslySetInnerHTML={{ 
+              __html: project.description
+                .replace(/<[^>]*>/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim()
+                .slice(0, 200) + (project.description.length > 200 ? '...' : '')
+            }}
+          />
         )}
 
         {/* Location & Image Counter */}
