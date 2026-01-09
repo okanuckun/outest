@@ -161,6 +161,7 @@ export type Database = {
       projects: {
         Row: {
           category: string | null
+          cover_image: string | null
           created_at: string
           description: string | null
           display_order: number | null
@@ -174,6 +175,7 @@ export type Database = {
         }
         Insert: {
           category?: string | null
+          cover_image?: string | null
           created_at?: string
           description?: string | null
           display_order?: number | null
@@ -187,6 +189,7 @@ export type Database = {
         }
         Update: {
           category?: string | null
+          cover_image?: string | null
           created_at?: string
           description?: string | null
           display_order?: number | null

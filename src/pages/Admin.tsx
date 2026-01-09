@@ -69,6 +69,7 @@ interface Project {
   year: string | null;
   location: string | null;
   images: string[] | null;
+  cover_image: string | null;
   published: boolean | null;
   display_order: number | null;
   created_at: string;
@@ -169,7 +170,7 @@ const Admin: React.FC = () => {
 
   const handleImageUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    type: 'blog' | 'project'
+    type: 'blog' | 'project' | 'project-cover'
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -182,6 +183,8 @@ const Admin: React.FC = () => {
     } else if (type === 'project' && editingProject) {
       const currentImages = editingProject.images || [];
       setEditingProject({ ...editingProject, images: [...currentImages, url] });
+    } else if (type === 'project-cover' && editingProject) {
+      setEditingProject({ ...editingProject, cover_image: url });
     }
   };
 
@@ -810,6 +813,7 @@ const Admin: React.FC = () => {
                     year: new Date().getFullYear().toString(),
                     location: '',
                     images: [],
+                    cover_image: null,
                     published: false,
                     display_order: projects.length,
                     created_at: '',
@@ -896,6 +900,47 @@ const Admin: React.FC = () => {
                     }
                     placeholder="Write project description here. Use H1, H2, H3 for headings..."
                   />
+                </div>
+
+                {/* Cover Image Section */}
+                <div className="space-y-2">
+                  <Label className="flex items-center gap-2">
+                    <Camera size={16} />
+                    Kapak Fotoğrafı (Project Sayfasında Görünür)
+                  </Label>
+                  <div className="flex items-start gap-4">
+                    {editingProject.cover_image ? (
+                      <div className="relative">
+                        <img
+                          src={editingProject.cover_image}
+                          alt="Cover"
+                          className="w-48 h-32 object-cover rounded border border-border"
+                        />
+                        <button
+                          onClick={() => setEditingProject({ ...editingProject, cover_image: null })}
+                          className="absolute -top-2 -right-2 w-6 h-6 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center"
+                        >
+                          <X size={12} />
+                        </button>
+                      </div>
+                    ) : (
+                      <label className="cursor-pointer">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={(e) => handleImageUpload(e, 'project-cover')}
+                        />
+                        <div className="w-48 h-32 border border-dashed border-border flex flex-col items-center justify-center hover:bg-accent transition-colors rounded gap-2">
+                          <Upload size={24} className="text-muted-foreground" />
+                          <span className="text-xs text-muted-foreground">Kapak Yükle</span>
+                        </div>
+                      </label>
+                    )}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Bu görsel Project sayfasındaki arka plan olarak kullanılır.
+                  </p>
                 </div>
 
                 <div className="space-y-2">
