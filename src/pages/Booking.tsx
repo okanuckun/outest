@@ -8,6 +8,7 @@ import Footer from '@/components/Footer';
 import SEOHead from '@/components/SEOHead';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { trackMetaEvent } from '@/components/MetaPixel';
 import { format } from 'date-fns';
 
 interface GuestSpot {
@@ -208,6 +209,12 @@ const Booking: React.FC = () => {
       });
 
       if (error) throw error;
+
+      // Track conversion event
+      trackMetaEvent('Lead', {
+        content_name: 'Tattoo Booking Request',
+        content_category: formData.locationType === 'guest_spot' ? 'Guest Spot' : 'NYC Studio',
+      });
 
       toast({
         title: "Request Submitted",

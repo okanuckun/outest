@@ -9,6 +9,14 @@ declare global {
   }
 }
 
+// Track custom events
+export const trackMetaEvent = (eventName: string, params?: Record<string, any>) => {
+  if (typeof window !== 'undefined' && window.fbq) {
+    window.fbq('track', eventName, params);
+    console.log('Meta Pixel event:', eventName, params);
+  }
+};
+
 const MetaPixel = () => {
   const { data: settings } = useQuery({
     queryKey: ['site-settings'],
