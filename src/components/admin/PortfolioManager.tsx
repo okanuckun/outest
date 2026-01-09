@@ -41,19 +41,25 @@ interface PortfolioImage {
 
 interface SortableImageProps {
   image: PortfolioImage;
+  index: number;
   isSelected: boolean;
   onSelect: () => void;
   onDelete: () => void;
   onToggleVisibility: () => void;
+  onOrderChange: (newOrder: number) => void;
 }
 
 const SortableImage: React.FC<SortableImageProps> = ({ 
   image, 
+  index,
   isSelected, 
   onSelect, 
   onDelete,
-  onToggleVisibility 
+  onToggleVisibility,
+  onOrderChange
 }) => {
+  const [orderInput, setOrderInput] = useState<string>('');
+  const [isEditing, setIsEditing] = useState(false);
   const {
     attributes,
     listeners,
@@ -70,6 +76,15 @@ const SortableImage: React.FC<SortableImageProps> = ({
     zIndex: isDragging ? 1000 : 1,
   };
 
+  const handleOrderSubmit = () => {
+    const newOrder = parseInt(orderInput, 10);
+    if (!isNaN(newOrder) && newOrder >= 1) {
+      onOrderChange(newOrder - 1); // Convert to 0-indexed
+    }
+    setOrderInput('');
+    setIsEditing(false);
+  };
+
   return (
     <div
       ref={setNodeRef}
@@ -80,6 +95,41 @@ const SortableImage: React.FC<SortableImageProps> = ({
           : 'border-border hover:border-muted-foreground'
       } ${!image.is_visible ? 'opacity-50' : ''}`}
     >
+      {/* Order number badge */}
+      {isEditing ? (
+        <div className="absolute top-2 left-2 z-20">
+          <input
+            type="number"
+            min="1"
+            value={orderInput}
+            onChange={(e) => setOrderInput(e.target.value)}
+            onBlur={handleOrderSubmit}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleOrderSubmit();
+              if (e.key === 'Escape') {
+                setOrderInput('');
+                setIsEditing(false);
+              }
+            }}
+            autoFocus
+            className="w-14 h-7 text-center text-sm font-medium bg-white border border-primary rounded shadow-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            placeholder={String(index + 1)}
+          />
+        </div>
+      ) : (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsEditing(true);
+            setOrderInput(String(index + 1));
+          }}
+          className="absolute top-2 left-2 z-10 bg-black/70 hover:bg-primary text-white text-xs font-bold rounded w-7 h-7 flex items-center justify-center transition-colors"
+          title="Click to set order"
+        >
+          {index + 1}
+        </button>
+      )}
+
       {/* Drag handle */}
       <div
         {...attributes}
@@ -297,6 +347,40 @@ const PortfolioManager: React.FC = () => {
         variant: 'destructive',
       });
       fetchImages(); // Revert on error
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleOrderChange = async (imageId: string, currentIndex: number, targetIndex: number) => {
+    if (targetIndex < 0 || targetIndex >= images.length || currentIndex === targetIndex) return;
+
+    const newImages = arrayMove(images, currentIndex, targetIndex);
+    setImages(newImages);
+
+    // Save new order to database
+    setSaving(true);
+    try {
+      const updates = newImages.map((img, index) => ({
+        id: img.id,
+        display_order: index,
+      }));
+
+      for (const update of updates) {
+        await supabase
+          .from('portfolio_images')
+          .update({ display_order: update.display_order })
+          .eq('id', update.id);
+      }
+
+      toast({ title: 'Order updated' });
+    } catch (error: any) {
+      toast({
+        title: 'Error saving order',
+        description: error.message,
+        variant: 'destructive',
+      });
+      fetchImages();
     } finally {
       setSaving(false);
     }
@@ -570,14 +654,16 @@ const PortfolioManager: React.FC = () => {
         >
           <SortableContext items={images.map(img => img.id)} strategy={rectSortingStrategy}>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-              {images.map((image) => (
+              {images.map((image, index) => (
                 <SortableImage
                   key={image.id}
                   image={image}
+                  index={index}
                   isSelected={selectedImages.has(image.id)}
                   onSelect={() => toggleImageSelection(image.id)}
                   onDelete={() => deleteSingleImage(image)}
                   onToggleVisibility={() => toggleVisibility(image)}
+                  onOrderChange={(targetIndex) => handleOrderChange(image.id, index, targetIndex)}
                 />
               ))}
             </div>
