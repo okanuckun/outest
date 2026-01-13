@@ -147,7 +147,7 @@ const handler = async (req: Request): Promise<Response> => {
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: `${data.firstName} ${data.lastName} <onboarding@resend.dev>`,
+        from: `${data.firstName} ${data.lastName} <bookings@okanuckun.com>`,
         to: ["okanuckun@gmail.com"],
         reply_to: data.email,
         subject: `Booking Request: ${data.firstName} ${data.lastName}`,
@@ -204,7 +204,7 @@ const handler = async (req: Request): Promise<Response> => {
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: "Okan Uckun <onboarding@resend.dev>",
+        from: "Okan Uckun <hello@okanuckun.com>",
         to: [data.email],
         subject: confirmationSubject,
         html: confirmationBody,
