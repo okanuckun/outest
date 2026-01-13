@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ParallaxImageProps {
   src: string;
@@ -16,13 +17,15 @@ const ParallaxImage: React.FC<ParallaxImageProps> = ({
   speed = 0.5,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start end', 'end start'],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], ['-10%', '10%']);
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1, 1.1]);
+  // Disable parallax effects on mobile to prevent janky resize behavior
+  const y = useTransform(scrollYProgress, [0, 1], isMobile ? ['0%', '0%'] : ['-10%', '10%']);
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], isMobile ? [1, 1, 1] : [1.1, 1, 1.1]);
 
   return (
     <div ref={ref} className={`overflow-hidden ${className}`}>
