@@ -150,7 +150,7 @@ const handler = async (req: Request): Promise<Response> => {
         from: `${data.firstName} ${data.lastName} <onboarding@resend.dev>`,
         to: ["okanuckun@gmail.com"],
         reply_to: data.email,
-        subject: `New Booking Request: ${data.firstName} ${data.lastName}`,
+        subject: `Booking Request: ${data.firstName} ${data.lastName}`,
         html: adminEmailHtml,
       }),
     });
