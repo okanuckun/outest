@@ -221,9 +221,15 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
                 </h3>
                 <a
                   href="mailto:okanuckun@gmail.com"
-                  className="text-[14px] text-black uppercase tracking-[0.02em] hover:opacity-60 transition-opacity"
+                  className="block text-[14px] text-black uppercase tracking-[0.02em] hover:opacity-60 transition-opacity"
                 >
                   okanuckun@gmail.com
+                </a>
+                <a
+                  href="tel:+16167777073"
+                  className="block text-[14px] text-black uppercase tracking-[0.02em] hover:opacity-60 transition-opacity mt-1"
+                >
+                  +1 (616) 777-7073
                 </a>
               </motion.div>
 
