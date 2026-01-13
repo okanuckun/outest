@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Upload, X, MapPin, Calendar, RotateCcw, CheckCircle, Mail, Clock, ArrowLeft } from 'lucide-react';
+import { Upload, X, MapPin, Calendar, RotateCcw, CheckCircle, Mail, Clock, ArrowLeft, Phone } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Navigation from '@/components/Navigation';
@@ -480,7 +480,7 @@ const Booking: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
-                className="bg-[#1a1a1a]/5 p-6 mb-12 text-left"
+                className="bg-[#1a1a1a]/5 p-6 mb-6 text-left"
               >
                 <h3 className="font-medium text-[#1a1a1a] mb-4">What happens next?</h3>
                 <ol className="space-y-3 text-sm text-[#1a1a1a]/70">
@@ -497,6 +497,29 @@ const Booking: React.FC = () => {
                     <span>Once confirmed, we'll schedule your session</span>
                   </li>
                 </ol>
+              </motion.div>
+
+              {/* Contact Fallback */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.65 }}
+                className="bg-white p-6 mb-12 border border-[#1a1a1a]/10"
+              >
+                <div className="flex items-start gap-4">
+                  <Phone className="w-5 h-5 text-[#1a1a1a]/60 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm text-[#1a1a1a]/70 mb-2">
+                      If you don't hear back from us within 3 days, feel free to reach out directly:
+                    </p>
+                    <a
+                      href="tel:+16167777073"
+                      className="text-[#1a1a1a] font-medium hover:underline"
+                    >
+                      +1 (616) 777-7073
+                    </a>
+                  </div>
+                </div>
               </motion.div>
 
               {/* Actions */}
