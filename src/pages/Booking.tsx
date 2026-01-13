@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Upload, X, MapPin, Calendar, RotateCcw } from 'lucide-react';
+import { Upload, X, MapPin, Calendar, RotateCcw, CheckCircle, Mail, Clock, ArrowLeft } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Navigation from '@/components/Navigation';
@@ -99,6 +99,8 @@ const Booking: React.FC = () => {
   const [placementPhotos, setPlacementPhotos] = useState<UploadedFile[]>([]);
   const [formData, setFormData] = useState<FormData>(getInitialFormData);
   const [showRestoredNotice, setShowRestoredNotice] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submittedEmail, setSubmittedEmail] = useState('');
   
   const initialOptions = getInitialOptions();
   const [answerLater, setAnswerLater] = useState(initialOptions.answerLater);
@@ -280,10 +282,8 @@ const Booking: React.FC = () => {
         content_category: formData.locationType === 'guest_spot' ? 'Guest Spot' : 'NYC Studio',
       });
 
-      toast({
-        title: "Request Submitted",
-        description: "We'll get back to you within 24-48 hours. Check your email for confirmation.",
-      });
+      // Store email for success page
+      setSubmittedEmail(formData.email);
 
       // Clear saved data and reset form
       clearSavedData();
@@ -309,6 +309,9 @@ const Booking: React.FC = () => {
       setAnswerLater(false);
       setPlacementUndecided(false);
       setSizeUndecided(false);
+      
+      // Show success page
+      setIsSubmitted(true);
     } catch (error: any) {
       console.error('Error submitting form:', error);
       toast({
@@ -410,19 +413,129 @@ const Booking: React.FC = () => {
       
       <main className="relative z-10 pt-40 md:pt-48 pb-24">
         <div className="container mx-auto px-6 md:px-12 lg:px-24">
-          {/* Hero Title */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-            className="mb-20"
-          >
-            <h1 className="text-[12vw] md:text-[10vw] lg:text-[8vw] font-bold text-[#1a1a1a] leading-[0.9] tracking-[-0.03em] uppercase">
-              Book
-              <br />
-              <span className="text-[#1a1a1a]">Experience</span>
-            </h1>
-          </motion.div>
+          {/* Success State */}
+          {isSubmitted ? (
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+              className="max-w-2xl mx-auto text-center py-12"
+            >
+              {/* Success Icon */}
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                className="w-24 h-24 mx-auto mb-8 bg-[#1a1a1a] rounded-full flex items-center justify-center"
+              >
+                <CheckCircle className="w-12 h-12 text-white" />
+              </motion.div>
+
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#1a1a1a] leading-tight mb-6"
+              >
+                Request Received
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="text-lg text-[#1a1a1a]/70 mb-12 max-w-md mx-auto"
+              >
+                Thank you for reaching out. Your booking request has been successfully submitted.
+              </motion.p>
+
+              {/* Info Cards */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12"
+              >
+                <div className="bg-white p-6 border border-[#1a1a1a]/10">
+                  <Mail className="w-6 h-6 text-[#1a1a1a]/60 mx-auto mb-3" />
+                  <h3 className="font-medium text-[#1a1a1a] mb-2">Check Your Email</h3>
+                  <p className="text-sm text-[#1a1a1a]/60">
+                    A confirmation has been sent to<br />
+                    <span className="font-medium text-[#1a1a1a]">{submittedEmail}</span>
+                  </p>
+                </div>
+
+                <div className="bg-white p-6 border border-[#1a1a1a]/10">
+                  <Clock className="w-6 h-6 text-[#1a1a1a]/60 mx-auto mb-3" />
+                  <h3 className="font-medium text-[#1a1a1a] mb-2">Response Time</h3>
+                  <p className="text-sm text-[#1a1a1a]/60">
+                    We typically respond within<br />
+                    <span className="font-medium text-[#1a1a1a]">24-48 hours</span>
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* What's Next */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                className="bg-[#1a1a1a]/5 p-6 mb-12 text-left"
+              >
+                <h3 className="font-medium text-[#1a1a1a] mb-4">What happens next?</h3>
+                <ol className="space-y-3 text-sm text-[#1a1a1a]/70">
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-[#1a1a1a] text-white rounded-full flex items-center justify-center text-xs">1</span>
+                    <span>We'll review your request and design ideas</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-[#1a1a1a] text-white rounded-full flex items-center justify-center text-xs">2</span>
+                    <span>You'll receive an email with availability and pricing details</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-[#1a1a1a] text-white rounded-full flex items-center justify-center text-xs">3</span>
+                    <span>Once confirmed, we'll schedule your session</span>
+                  </li>
+                </ol>
+              </motion.div>
+
+              {/* Actions */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7 }}
+                className="flex flex-col sm:flex-row gap-4 justify-center"
+              >
+                <a
+                  href="/"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#1a1a1a] text-white text-sm hover:bg-[#1a1a1a]/90 transition-colors"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  Back to Home
+                </a>
+                <a
+                  href="/work"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-[#1a1a1a] text-[#1a1a1a] text-sm hover:bg-[#1a1a1a] hover:text-white transition-colors"
+                >
+                  View Portfolio
+                </a>
+              </motion.div>
+            </motion.div>
+          ) : (
+            <>
+              {/* Hero Title */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+                className="mb-20"
+              >
+                <h1 className="text-[12vw] md:text-[10vw] lg:text-[8vw] font-bold text-[#1a1a1a] leading-[0.9] tracking-[-0.03em] uppercase">
+                  Book
+                  <br />
+                  <span className="text-[#1a1a1a]">Experience</span>
+                </h1>
+              </motion.div>
 
           {/* Restored Notice */}
           {showRestoredNotice && (
@@ -860,6 +973,8 @@ const Booking: React.FC = () => {
               </motion.button>
             </form>
           </motion.div>
+            </>
+          )}
         </div>
       </main>
 
