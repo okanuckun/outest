@@ -3,6 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY");
 
 const corsHeaders = {
@@ -54,6 +55,38 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const data: BookingRequest = await req.json();
     console.log("Received booking request:", data);
+
+    // Save booking to database using service role key (bypasses RLS)
+    const supabaseAdmin = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!);
+    
+    const { error: dbError } = await supabaseAdmin
+      .from('bookings')
+      .insert({
+        first_name: data.firstName,
+        last_name: data.lastName,
+        email: data.email,
+        phone: data.phone || null,
+        location: data.location || null,
+        location_type: data.locationType || null,
+        guest_spot_name: data.guestSpotName || null,
+        collector_type: data.collectorType || null,
+        tattoo_placement: data.tattooPlacement || null,
+        tattoo_size: data.tattooSize || null,
+        portfolio_favorites: data.portfolioFavorites || null,
+        artist_inspiration: data.artistInspiration || null,
+        story: data.story || null,
+        preferred_date: data.preferredDate || null,
+        additional_notes: data.additionalNotes || null,
+        reference_images: data.referenceImages || [],
+        placement_images: data.placementImages || [],
+        status: 'pending',
+      });
+
+    if (dbError) {
+      console.error("Failed to save booking to database:", dbError);
+    } else {
+      console.log("Booking saved to database successfully");
+    }
 
     const locationText = data.locationType === 'nyc' 
       ? 'NYC - Monolith Studio' 
