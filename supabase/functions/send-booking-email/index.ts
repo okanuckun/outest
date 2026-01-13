@@ -88,11 +88,10 @@ const handler = async (req: Request): Promise<Response> => {
       console.log("Booking saved to database successfully");
     }
 
-    const locationText = data.locationType === 'nyc' 
+    // Requested studio text (NYC or Guest Spot)
+    const requestedStudio = data.locationType === 'nyc' 
       ? 'NYC - Monolith Studio' 
-      : data.locationType === 'traveler' 
-        ? `Traveler - ${data.location}` 
-        : data.guestSpotName || data.location;
+      : data.guestSpotName || 'Guest Spot';
 
     const referenceImagesHtml = data.referenceImages?.length > 0
       ? `<h3>Reference Images:</h3><ul>${data.referenceImages.map(url => `<li><a href="${url}">${url}</a></li>`).join('')}</ul>`
@@ -111,7 +110,8 @@ const handler = async (req: Request): Promise<Response> => {
         <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Name:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${data.firstName} ${data.lastName}</td></tr>
         <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Email:</strong></td><td style="padding: 8px; border: 1px solid #ddd;"><a href="mailto:${data.email}">${data.email}</a></td></tr>
         <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Phone:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${data.phone || 'Not provided'}</td></tr>
-        <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Location:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${locationText}</td></tr>
+        <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Location:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${data.location || 'Not provided'}</td></tr>
+        <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Requested Studio:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${requestedStudio}</td></tr>
         <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Collector Type:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${data.collectorType === 'new' ? 'New Collector' : 'Returning Collector'}</td></tr>
       </table>
 
@@ -180,7 +180,8 @@ const handler = async (req: Request): Promise<Response> => {
       firstName: data.firstName,
       lastName: data.lastName,
       email: data.email,
-      location: locationText,
+      location: data.location || 'Not provided',
+      requestedStudio: requestedStudio,
       tattooPlacement: data.tattooPlacement,
       tattooSize: data.tattooSize,
       preferredDate: data.preferredDate || 'Flexible',
