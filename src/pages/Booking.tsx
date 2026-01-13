@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Upload, X, MapPin, Calendar } from 'lucide-react';
+import { Upload, X, MapPin, Calendar, RotateCcw } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Navigation from '@/components/Navigation';
@@ -46,17 +46,19 @@ type UploadedFile = {
   url?: string;
 };
 
-const Booking: React.FC = () => {
-  const { toast } = useToast();
-  const [searchParams] = useSearchParams();
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const placementFileInputRef = useRef<HTMLInputElement>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [answerLater, setAnswerLater] = useState(false);
-  const [placementUndecided, setPlacementUndecided] = useState(false);
-  const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
-  const [placementPhotos, setPlacementPhotos] = useState<UploadedFile[]>([]);
-  const [formData, setFormData] = useState<FormData>({
+const STORAGE_KEY = 'booking-form-data';
+const STORAGE_OPTIONS_KEY = 'booking-form-options';
+
+const getInitialFormData = (): FormData => {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      return JSON.parse(saved);
+    }
+  } catch (e) {
+    console.error('Error loading saved form data:', e);
+  }
+  return {
     firstName: '',
     lastName: '',
     phone: '',
@@ -72,7 +74,68 @@ const Booking: React.FC = () => {
     story: '',
     preferredDate: '',
     additionalNotes: '',
-  });
+  };
+};
+
+const getInitialOptions = () => {
+  try {
+    const saved = localStorage.getItem(STORAGE_OPTIONS_KEY);
+    if (saved) {
+      return JSON.parse(saved);
+    }
+  } catch (e) {
+    console.error('Error loading saved options:', e);
+  }
+  return { answerLater: false, placementUndecided: false, sizeUndecided: false };
+};
+
+const Booking: React.FC = () => {
+  const { toast } = useToast();
+  const [searchParams] = useSearchParams();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const placementFileInputRef = useRef<HTMLInputElement>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
+  const [placementPhotos, setPlacementPhotos] = useState<UploadedFile[]>([]);
+  const [formData, setFormData] = useState<FormData>(getInitialFormData);
+  const [showRestoredNotice, setShowRestoredNotice] = useState(false);
+  
+  const initialOptions = getInitialOptions();
+  const [answerLater, setAnswerLater] = useState(initialOptions.answerLater);
+  const [placementUndecided, setPlacementUndecided] = useState(initialOptions.placementUndecided);
+  const [sizeUndecided, setSizeUndecided] = useState(initialOptions.sizeUndecided || false);
+
+  // Check if form was restored from localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      const hasData = Object.values(parsed).some(v => v !== '' && v !== null);
+      if (hasData) {
+        setShowRestoredNotice(true);
+        setTimeout(() => setShowRestoredNotice(false), 5000);
+      }
+    }
+  }, []);
+
+  // Save form data to localStorage on changes
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+  }, [formData]);
+
+  // Save options to localStorage on changes
+  useEffect(() => {
+    localStorage.setItem(STORAGE_OPTIONS_KEY, JSON.stringify({ 
+      answerLater, 
+      placementUndecided,
+      sizeUndecided 
+    }));
+  }, [answerLater, placementUndecided, sizeUndecided]);
+
+  const clearSavedData = () => {
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(STORAGE_OPTIONS_KEY);
+  };
 
   const { data: guestSpots } = useQuery({
     queryKey: ['booking-guest-spots'],
@@ -222,7 +285,8 @@ const Booking: React.FC = () => {
         description: "We'll get back to you within 24-48 hours. Check your email for confirmation.",
       });
 
-      // Reset form
+      // Clear saved data and reset form
+      clearSavedData();
       setFormData({
         firstName: '',
         lastName: '',
@@ -242,6 +306,9 @@ const Booking: React.FC = () => {
       });
       setUploadedFiles([]);
       setPlacementPhotos([]);
+      setAnswerLater(false);
+      setPlacementUndecided(false);
+      setSizeUndecided(false);
     } catch (error: any) {
       console.error('Error submitting form:', error);
       toast({
@@ -356,6 +423,53 @@ const Booking: React.FC = () => {
               <span className="text-[#1a1a1a]">Experience</span>
             </h1>
           </motion.div>
+
+          {/* Restored Notice */}
+          {showRestoredNotice && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="mb-8 p-4 bg-[#1a1a1a]/5 border border-[#1a1a1a]/10 flex items-center justify-between"
+            >
+              <div className="flex items-center gap-3">
+                <RotateCcw className="w-4 h-4 text-[#1a1a1a]/60" />
+                <p className="text-sm text-[#1a1a1a]/80">
+                  Your previous progress has been restored.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  clearSavedData();
+                  setFormData({
+                    firstName: '',
+                    lastName: '',
+                    phone: '',
+                    email: '',
+                    location: '',
+                    locationType: null,
+                    guestSpotId: null,
+                    collectorType: null,
+                    tattooPlacement: '',
+                    tattooSize: '',
+                    portfolioFavorites: '',
+                    artistInspiration: '',
+                    story: '',
+                    preferredDate: '',
+                    additionalNotes: '',
+                  });
+                  setAnswerLater(false);
+                  setPlacementUndecided(false);
+                  setSizeUndecided(false);
+                  setShowRestoredNotice(false);
+                }}
+                className="text-sm text-[#1a1a1a]/60 hover:text-[#1a1a1a] underline"
+              >
+                Start fresh
+              </button>
+            </motion.div>
+          )}
 
           {/* Form Section */}
           <motion.div
