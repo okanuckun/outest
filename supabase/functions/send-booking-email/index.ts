@@ -147,7 +147,7 @@ const handler = async (req: Request): Promise<Response> => {
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: "Booking <onboarding@resend.dev>",
+        from: `${data.firstName} ${data.lastName} <onboarding@resend.dev>`,
         to: ["okanuckun@gmail.com"],
         reply_to: data.email,
         subject: `New Booking Request: ${data.firstName} ${data.lastName}`,
