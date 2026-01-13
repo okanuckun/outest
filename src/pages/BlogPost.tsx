@@ -9,6 +9,7 @@ import ScrollReveal from '@/components/animations/ScrollReveal';
 import { supabase } from '@/integrations/supabase/client';
 import { format } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
+import DOMPurify from 'dompurify';
 
 interface BlogPost {
   id: string;
@@ -81,9 +82,21 @@ const BlogPost = () => {
     fetchPost();
   }, [slug]);
 
+  // Check if content is HTML
+  const isHtmlContent = (content: string | null): boolean => {
+    if (!content) return false;
+    // Check if it starts with HTML tags or contains common HTML patterns
+    return content.trim().startsWith('<') || /<[a-z][\s\S]*>/i.test(content);
+  };
+
   // Parse content - supports both JSON blocks and plain text
   const parseContent = (content: string | null): ContentBlock[] => {
     if (!content) return [];
+    
+    // If it's HTML, don't parse as blocks - we'll render it directly
+    if (isHtmlContent(content)) {
+      return [];
+    }
     
     try {
       const parsed = JSON.parse(content);
@@ -99,6 +112,15 @@ const BlogPost = () => {
     }
     
     return [];
+  };
+
+  // Sanitize HTML content
+  const sanitizeHtml = (content: string | null): string => {
+    if (!content) return '';
+    return DOMPurify.sanitize(content, {
+      ADD_TAGS: ['iframe'],
+      ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling']
+    });
   };
 
   // Estimate read time
@@ -352,45 +374,54 @@ const BlogPost = () => {
               </div>
             </ScrollReveal>
 
-            {/* Content Blocks */}
+            {/* Content - HTML or Blocks */}
             <div className="prose prose-lg max-w-none" itemProp="articleBody">
-              {contentBlocks.map((block, index) => {
-                if (block.type === 'paragraph') {
-                  return (
-                    <ScrollReveal key={index} delay={index * 0.05}>
-                      <p className="text-[16px] md:text-[17px] leading-relaxed text-foreground/90 mb-6">
-                        {block.text}
-                      </p>
-                    </ScrollReveal>
-                  );
-                }
-                if (block.type === 'heading') {
-                  return (
-                    <ScrollReveal key={index} delay={index * 0.05}>
-                      <h2 className="text-2xl md:text-3xl font-medium mt-12 mb-6 tracking-tight">
-                        {block.text}
-                      </h2>
-                    </ScrollReveal>
-                  );
-                }
-                if (block.type === 'quote') {
-                  return (
-                    <ScrollReveal key={index} delay={index * 0.05}>
-                      <blockquote className="border-l-2 border-foreground pl-6 my-10">
-                        <p className="text-xl md:text-2xl font-light italic leading-relaxed mb-3">
-                          "{block.text}"
+              {isHtmlContent(post.content) ? (
+                <ScrollReveal>
+                  <div 
+                    className="blog-content text-[16px] md:text-[17px] leading-relaxed text-foreground/90"
+                    dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
+                  />
+                </ScrollReveal>
+              ) : (
+                contentBlocks.map((block, index) => {
+                  if (block.type === 'paragraph') {
+                    return (
+                      <ScrollReveal key={index} delay={index * 0.05}>
+                        <p className="text-[16px] md:text-[17px] leading-relaxed text-foreground/90 mb-6">
+                          {block.text}
                         </p>
-                        {block.author && (
-                          <cite className="text-[13px] text-muted-foreground not-italic">
-                            — {block.author}
-                          </cite>
-                        )}
-                      </blockquote>
-                    </ScrollReveal>
-                  );
-                }
-                return null;
-              })}
+                      </ScrollReveal>
+                    );
+                  }
+                  if (block.type === 'heading') {
+                    return (
+                      <ScrollReveal key={index} delay={index * 0.05}>
+                        <h2 className="text-2xl md:text-3xl font-medium mt-12 mb-6 tracking-tight">
+                          {block.text}
+                        </h2>
+                      </ScrollReveal>
+                    );
+                  }
+                  if (block.type === 'quote') {
+                    return (
+                      <ScrollReveal key={index} delay={index * 0.05}>
+                        <blockquote className="border-l-2 border-foreground pl-6 my-10">
+                          <p className="text-xl md:text-2xl font-light italic leading-relaxed mb-3">
+                            "{block.text}"
+                          </p>
+                          {block.author && (
+                            <cite className="text-[13px] text-muted-foreground not-italic">
+                              — {block.author}
+                            </cite>
+                          )}
+                        </blockquote>
+                      </ScrollReveal>
+                    );
+                  }
+                  return null;
+                })
+              )}
             </div>
 
             {/* Tags */}
