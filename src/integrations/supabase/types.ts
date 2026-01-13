@@ -59,6 +59,78 @@ export type Database = {
         }
         Relationships: []
       }
+      bookings: {
+        Row: {
+          additional_notes: string | null
+          artist_inspiration: string | null
+          collector_type: string | null
+          created_at: string
+          email: string
+          first_name: string
+          guest_spot_name: string | null
+          id: string
+          last_name: string
+          location: string | null
+          location_type: string | null
+          phone: string | null
+          placement_images: string[] | null
+          portfolio_favorites: string | null
+          preferred_date: string | null
+          reference_images: string[] | null
+          status: string | null
+          story: string | null
+          tattoo_placement: string | null
+          tattoo_size: string | null
+          updated_at: string
+        }
+        Insert: {
+          additional_notes?: string | null
+          artist_inspiration?: string | null
+          collector_type?: string | null
+          created_at?: string
+          email: string
+          first_name: string
+          guest_spot_name?: string | null
+          id?: string
+          last_name: string
+          location?: string | null
+          location_type?: string | null
+          phone?: string | null
+          placement_images?: string[] | null
+          portfolio_favorites?: string | null
+          preferred_date?: string | null
+          reference_images?: string[] | null
+          status?: string | null
+          story?: string | null
+          tattoo_placement?: string | null
+          tattoo_size?: string | null
+          updated_at?: string
+        }
+        Update: {
+          additional_notes?: string | null
+          artist_inspiration?: string | null
+          collector_type?: string | null
+          created_at?: string
+          email?: string
+          first_name?: string
+          guest_spot_name?: string | null
+          id?: string
+          last_name?: string
+          location?: string | null
+          location_type?: string | null
+          phone?: string | null
+          placement_images?: string[] | null
+          portfolio_favorites?: string | null
+          preferred_date?: string | null
+          reference_images?: string[] | null
+          status?: string | null
+          story?: string | null
+          tattoo_placement?: string | null
+          tattoo_size?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       email_templates: {
         Row: {
           body: string

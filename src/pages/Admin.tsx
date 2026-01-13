@@ -16,6 +16,7 @@ import GuestSpotsManager from '@/components/admin/GuestSpotsManager';
 import PortfolioManager from '@/components/admin/PortfolioManager';
 import EmailTemplatesManager from '@/components/admin/EmailTemplatesManager';
 import SiteSettingsManager from '@/components/admin/SiteSettingsManager';
+import BookingsManager from '@/components/admin/BookingsManager';
 import { 
   LogOut, 
   Plus, 
@@ -32,7 +33,8 @@ import {
   ChevronDown,
   Globe,
   Mail,
-  Settings
+  Settings,
+  Inbox
 } from 'lucide-react';
 
 interface BlogPost {
@@ -445,7 +447,11 @@ const Admin: React.FC = () => {
 
       <main className="max-w-7xl mx-auto px-4 py-8">
         <Tabs defaultValue="blogs" className="space-y-6">
-          <TabsList>
+          <TabsList className="flex-wrap h-auto gap-1">
+            <TabsTrigger value="bookings" className="gap-2">
+              <Inbox size={16} />
+              Bookings
+            </TabsTrigger>
             <TabsTrigger value="blogs" className="gap-2">
               <FileText size={16} />
               Blog Posts
@@ -471,6 +477,10 @@ const Admin: React.FC = () => {
               Settings
             </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="bookings">
+            <BookingsManager />
+          </TabsContent>
 
           <TabsContent value="blogs" className="space-y-6">
             <div className="flex justify-between items-center">
