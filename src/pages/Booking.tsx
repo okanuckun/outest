@@ -310,8 +310,9 @@ const Booking: React.FC = () => {
       setPlacementUndecided(false);
       setSizeUndecided(false);
       
-      // Show success page
+      // Show success page and scroll to top
       setIsSubmitted(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error: any) {
       console.error('Error submitting form:', error);
       toast({
