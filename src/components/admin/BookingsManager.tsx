@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { Mail, Phone, MapPin, Calendar, User, Image, Trash2, Eye } from 'lucide-react';
+import BookingsDashboard from './BookingsDashboard';
 
 interface Booking {
   id: string;
@@ -109,6 +110,11 @@ const BookingsManager: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      {/* Dashboard */}
+      {bookings && bookings.length > 0 && (
+        <BookingsDashboard bookings={bookings} />
+      )}
+
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">Booking Requests ({bookings?.length || 0})</h2>
         <Select value={filterStatus} onValueChange={setFilterStatus}>
