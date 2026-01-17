@@ -241,6 +241,7 @@ export type Database = {
           images: string[] | null
           location: string | null
           published: boolean | null
+          slug: string | null
           title: string
           updated_at: string
           year: string | null
@@ -255,6 +256,7 @@ export type Database = {
           images?: string[] | null
           location?: string | null
           published?: boolean | null
+          slug?: string | null
           title: string
           updated_at?: string
           year?: string | null
@@ -269,6 +271,7 @@ export type Database = {
           images?: string[] | null
           location?: string | null
           published?: boolean | null
+          slug?: string | null
           title?: string
           updated_at?: string
           year?: string | null
@@ -665,6 +668,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_project_slug: { Args: { title: string }; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

@@ -66,6 +66,7 @@ interface BlogSEO {
 interface Project {
   id: string;
   title: string;
+  slug: string | null;
   description: string | null;
   category: string | null;
   year: string | null;
@@ -337,10 +338,21 @@ const Admin: React.FC = () => {
   const saveProject = async () => {
     if (!editingProject) return;
 
+    // Auto-generate slug if not provided
+    const slug = editingProject.slug || editingProject.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+
+    const projectData = {
+      ...editingProject,
+      slug,
+    };
+
     if (isNewProject) {
       const { error } = await supabase
         .from('projects')
-        .insert([editingProject]);
+        .insert([projectData]);
 
       if (error) {
         toast({
@@ -355,7 +367,7 @@ const Admin: React.FC = () => {
     } else {
       const { error } = await supabase
         .from('projects')
-        .update(editingProject)
+        .update(projectData)
         .eq('id', editingProject.id);
 
       if (error) {
@@ -818,6 +830,7 @@ const Admin: React.FC = () => {
                   setEditingProject({
                     id: '',
                     title: '',
+                    slug: '',
                     description: '',
                     category: '',
                     year: new Date().getFullYear().toString(),
@@ -870,6 +883,22 @@ const Admin: React.FC = () => {
                     />
                   </div>
                   <div className="space-y-2">
+                    <Label>Slug (URL)</Label>
+                    <Input
+                      value={editingProject.slug || ''}
+                      onChange={(e) =>
+                        setEditingProject({ ...editingProject, slug: e.target.value })
+                      }
+                      placeholder="auto-generated-from-title"
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      URL: /project/{editingProject.slug || editingProject.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'slug'}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
                     <Label>Category</Label>
                     <Input
                       value={editingProject.category || ''}
@@ -878,9 +907,6 @@ const Admin: React.FC = () => {
                       }
                     />
                   </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label>Year</Label>
                     <Input
@@ -890,15 +916,16 @@ const Admin: React.FC = () => {
                       }
                     />
                   </div>
-                  <div className="space-y-2">
-                    <Label>Location</Label>
-                    <Input
-                      value={editingProject.location || ''}
-                      onChange={(e) =>
-                        setEditingProject({ ...editingProject, location: e.target.value })
-                      }
-                    />
-                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Location</Label>
+                  <Input
+                    value={editingProject.location || ''}
+                    onChange={(e) =>
+                      setEditingProject({ ...editingProject, location: e.target.value })
+                    }
+                  />
                 </div>
 
                 <div className="space-y-2">

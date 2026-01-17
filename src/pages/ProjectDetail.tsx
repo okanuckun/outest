@@ -13,6 +13,7 @@ import { ArrowLeft, MapPin, Calendar, Tag } from 'lucide-react';
 interface Project {
   id: string;
   title: string;
+  slug: string | null;
   description: string | null;
   category: string | null;
   year: string | null;
@@ -23,7 +24,7 @@ interface Project {
 }
 
 const ProjectDetail: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
@@ -31,13 +32,26 @@ const ProjectDetail: React.FC = () => {
 
   useEffect(() => {
     const fetchProject = async () => {
-      if (!id) return;
+      if (!slug) return;
 
-      const { data, error } = await supabase
+      // Try to find by slug first, then by id (for backward compatibility)
+      let { data, error } = await supabase
         .from('projects')
         .select('*')
-        .eq('id', id)
+        .eq('slug', slug)
         .single();
+
+      // If not found by slug, try by id
+      if (error || !data) {
+        const result = await supabase
+          .from('projects')
+          .select('*')
+          .eq('id', slug)
+          .single();
+        
+        data = result.data;
+        error = result.error;
+      }
 
       if (error || !data) {
         console.error('Error fetching project:', error);
@@ -50,7 +64,7 @@ const ProjectDetail: React.FC = () => {
     };
 
     fetchProject();
-  }, [id, navigate]);
+  }, [slug, navigate]);
 
   if (loading) {
     return (
@@ -76,7 +90,7 @@ const ProjectDetail: React.FC = () => {
     '@type': 'CreativeWork',
     name: project.title,
     description: `${project.title} - ${project.category || 'Art Project'} by Okan Uckun${project.location ? `, ${project.location}` : ''}${project.year ? ` (${project.year})` : ''}`,
-    url: `https://okanuckun.com/project/${project.id}`,
+    url: `https://okanuckun.com/project/${project.slug || project.id}`,
     image: project.images?.[0] || undefined,
     dateCreated: project.year || undefined,
     locationCreated: project.location ? {
@@ -103,7 +117,7 @@ const ProjectDetail: React.FC = () => {
         ogTitle={project.title}
         ogDescription={metaDescription}
         ogImage={project.images?.[0]}
-        canonical={`/project/${project.id}`}
+        canonical={`/project/${project.slug || project.id}`}
         jsonLd={projectJsonLd}
       />
       <div className="min-h-screen bg-background">
