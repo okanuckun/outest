@@ -11,6 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 interface Project {
   id: string;
   title: string;
+  slug: string | null;
   description: string | null;
   category: string | null;
   year: string | null;
@@ -67,7 +68,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
       className="relative w-full h-screen cursor-pointer group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={() => navigate(`/project/${project.id}`)}
+      onClick={() => navigate(`/project/${project.slug || project.id}`)}
     >
       {/* Background Images with Crossfade */}
       <div className="absolute inset-0 overflow-hidden">
