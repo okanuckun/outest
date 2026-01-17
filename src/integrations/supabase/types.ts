@@ -239,6 +239,7 @@ export type Database = {
           display_order: number | null
           id: string
           images: string[] | null
+          instagram_url: string | null
           location: string | null
           published: boolean | null
           slug: string | null
@@ -254,6 +255,7 @@ export type Database = {
           display_order?: number | null
           id?: string
           images?: string[] | null
+          instagram_url?: string | null
           location?: string | null
           published?: boolean | null
           slug?: string | null
@@ -269,6 +271,7 @@ export type Database = {
           display_order?: number | null
           id?: string
           images?: string[] | null
+          instagram_url?: string | null
           location?: string | null
           published?: boolean | null
           slug?: string | null
