@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Link } from 'react-router-dom';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 interface GuestSpot {
   id: string;
@@ -18,10 +18,13 @@ const GuestSpots: React.FC = () => {
   const { data: guestSpots, isLoading } = useQuery({
     queryKey: ['guest-spots'],
     queryFn: async () => {
+      // Use local date (not UTC) to avoid off-by-one issues around timezone
+      const today = format(new Date(), 'yyyy-MM-dd');
+
       const { data, error } = await supabase
         .from('guest_spots')
         .select('*')
-        .gte('end_date', new Date().toISOString().split('T')[0])
+        .gte('end_date', today)
         .eq('is_active', true)
         .order('start_date', { ascending: true })
         .limit(3);
@@ -54,7 +57,7 @@ const GuestSpots: React.FC = () => {
                     {spot.city}
                   </p>
                   <p className="text-white/50 text-xs">
-                    {format(new Date(spot.start_date), 'MMM d')} – {format(new Date(spot.end_date), 'd')}
+                    {format(parseISO(spot.start_date), 'MMM d')} – {format(parseISO(spot.end_date), 'd')}
                   </p>
                 </div>
                 <span className="text-white/40 text-xs group-hover:text-white transition-colors">

@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { Plus, Trash2, MapPin, Calendar, Edit } from 'lucide-react';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import {
   Dialog,
   DialogContent,
@@ -263,7 +263,7 @@ const GuestSpotsManager: React.FC = () => {
                   <div className="flex items-center gap-2 text-muted-foreground text-xs mb-1">
                     <Calendar size={12} />
                     <span>
-                      {format(new Date(spot.start_date), 'MMM d')} - {format(new Date(spot.end_date), 'MMM d, yyyy')}
+                      {format(parseISO(spot.start_date), 'MMM d')} - {format(parseISO(spot.end_date), 'MMM d, yyyy')}
                     </span>
                     {!spot.is_active && (
                       <span className="text-yellow-500">(Inactive)</span>
