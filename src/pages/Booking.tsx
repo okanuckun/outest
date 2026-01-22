@@ -9,7 +9,7 @@ import SEOHead from '@/components/SEOHead';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { trackMetaEvent } from '@/components/MetaPixel';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 interface GuestSpot {
   id: string;
@@ -744,7 +744,7 @@ const Booking: React.FC = () => {
                             <div className="flex items-center gap-1.5 text-xs opacity-70">
                               <Calendar size={10} />
                               <span>
-                                {format(new Date(spot.start_date), 'MMM d')} - {format(new Date(spot.end_date), 'MMM d')}
+                                {format(parseISO(spot.start_date), 'MMM d')} - {format(parseISO(spot.end_date), 'MMM d')}
                               </span>
                             </div>
                           </div>
