@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 
 const Footer: React.FC = () => {
@@ -114,32 +115,56 @@ const Footer: React.FC = () => {
         </div>
       </ScrollReveal>
 
-      {/* Giant Brand Text */}
+      {/* Giant Brand Text - Links to Homepage */}
       <div className="relative w-full">
-        <motion.div
-          className="w-full font-black leading-[0.85] tracking-[-0.02em] text-[#1a1a1a] text-center whitespace-nowrap"
-          style={{
-            fontSize: 'min(18vw, 280px)',
-          }}
-          initial={{
-            opacity: 0,
-            y: 40,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 0.8,
-            ease: 'easeOut',
-          }}
-          viewport={{
-            once: true,
-          }}
-        >
-          MONOLITH
-        </motion.div>
+        <Link to="/" aria-label="Go to homepage">
+          <motion.div
+            className="w-full font-black leading-[0.85] tracking-[-0.02em] text-[#1a1a1a] text-center whitespace-nowrap hover:opacity-80 transition-opacity cursor-pointer"
+            style={{
+              fontSize: 'min(18vw, 280px)',
+            }}
+            initial={{
+              opacity: 0,
+              y: 40,
+            }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            transition={{
+              duration: 0.8,
+              ease: 'easeOut',
+            }}
+            viewport={{
+              once: true,
+            }}
+          >
+            MONOLITH
+          </motion.div>
+        </Link>
       </div>
+      
+      {/* Footer Navigation */}
+      <nav className="px-6 md:px-12 py-6 flex flex-wrap justify-center gap-4 md:gap-8">
+        <Link to="/" className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider">
+          Home
+        </Link>
+        <Link to="/work" className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider">
+          Work
+        </Link>
+        <Link to="/about" className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider">
+          About
+        </Link>
+        <Link to="/blog" className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider">
+          Blog
+        </Link>
+        <Link to="/project" className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider">
+          Project
+        </Link>
+        <Link to="/booking" className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider">
+          Booking
+        </Link>
+      </nav>
       
       {/* Bottom Padding */}
       <div className="h-4" />
