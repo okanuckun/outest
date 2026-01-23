@@ -16,9 +16,6 @@ const HeroSection: React.FC = () => {
         {/* Headline */}
         <div className="flex items-end justify-between">
           <div className="overflow-hidden">
-            <h1 className="text-[#F6F6F6] text-[clamp(14px,2.5vw,18px)] font-normal leading-[1.4] tracking-[0.02em] uppercase mb-2 opacity-80">
-              Okan Uckun — NYC Tattoo Artist
-            </h1>
             <motion.p
               initial={{ y: 100, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
