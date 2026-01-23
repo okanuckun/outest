@@ -181,7 +181,7 @@ const BlogPost = () => {
   const readTime = calculateReadTime(post.content);
   const formattedDate = format(new Date(post.created_at), 'MMMM d, yyyy');
   const dateISO = format(new Date(post.created_at), 'yyyy-MM-dd');
-  const authorName = post.author_name || 'Okan Ağaoğlu';
+  const authorName = post.author_name || 'Okan Uckun';
   const tags = post.tags || [];
 
   // JSON-LD Structured Data for SEO
@@ -200,10 +200,11 @@ const BlogPost = () => {
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Okan Ağaoğlu Tattoo',
+      name: 'Okan Uckun Tattoo',
+      url: 'https://www.okanuckun.com',
       logo: {
         '@type': 'ImageObject',
-        url: '/logo.png'
+        url: 'https://www.okanuckun.com/og-image.jpg'
       }
     },
     mainEntityOfPage: {
