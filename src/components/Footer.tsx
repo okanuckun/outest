@@ -16,8 +16,8 @@ const Footer: React.FC = () => {
     },
     {
       label: 'CALL US',
-      value: '(+90) 555 123 45 67',
-      href: 'tel:+905551234567',
+      value: '+1 (616) 777-7073',
+      href: 'tel:+16167777073',
     },
   ];
 
