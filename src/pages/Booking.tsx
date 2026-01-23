@@ -404,8 +404,6 @@ const Booking: React.FC = () => {
         keywords="book tattoo NYC, tattoo appointment, tattoo consultation, Okan Uckun booking, NYC tattoo session"
         ogTitle="Book Your Tattoo Session | Okan Uckun NYC"
         ogDescription="Schedule your custom tattoo consultation with Okan Uckun. World-renowned black & grey realism artist based in NYC. Book now!"
-        ogImage="https://outest.lovable.app/og-image.jpg"
-        canonical="https://outest.lovable.app/booking"
       />
       <motion.div
         initial={{ opacity: 0 }}

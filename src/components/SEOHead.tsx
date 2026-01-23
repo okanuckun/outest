@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet-async';
+import { useLocation } from 'react-router-dom';
 
 interface SEOHeadProps {
   title?: string;
@@ -25,8 +26,16 @@ const SEOHead = ({
   noindex = false,
   jsonLd,
 }: SEOHeadProps) => {
-  const siteUrl = 'https://okanuckun.com';
-  const fullCanonical = canonical ? `${siteUrl}${canonical}` : undefined;
+  const location = useLocation();
+  const siteUrl = 'https://www.okanuckun.com';
+  
+  // Auto-generate canonical from current route if not provided
+  const currentPath = location.pathname;
+  const fullCanonical = canonical 
+    ? (canonical.startsWith('http') ? canonical : `${siteUrl}${canonical}`)
+    : `${siteUrl}${currentPath}`;
+  
+  const fullOgImage = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
 
   return (
     <Helmet>
@@ -35,21 +44,21 @@ const SEOHead = ({
       <meta name="keywords" content={keywords} />
       
       {noindex && <meta name="robots" content="noindex, nofollow" />}
-      {fullCanonical && <link rel="canonical" href={fullCanonical} />}
+      <link rel="canonical" href={fullCanonical} />
       
       {/* Open Graph */}
       <meta property="og:type" content={ogType} />
       <meta property="og:title" content={ogTitle || title} />
       <meta property="og:description" content={ogDescription || description} />
-      <meta property="og:image" content={ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`} />
-      {fullCanonical && <meta property="og:url" content={fullCanonical} />}
+      <meta property="og:image" content={fullOgImage} />
+      <meta property="og:url" content={fullCanonical} />
       <meta property="og:site_name" content="Okan Uckun Tattoo" />
       
       {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={ogTitle || title} />
       <meta name="twitter:description" content={ogDescription || description} />
-      <meta name="twitter:image" content={ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`} />
+      <meta name="twitter:image" content={fullOgImage} />
       
       {/* JSON-LD */}
       {jsonLd && (

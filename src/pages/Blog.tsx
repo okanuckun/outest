@@ -102,8 +102,6 @@ const Blog = () => {
           keywords="tattoo blog, tattoo articles, tattoo inspiration"
           ogTitle="Tattoo Blog | Okan Uckun NYC"
           ogDescription="Articles about tattoo art, styles, and inspiration from NYC tattoo artist Okan Uckun. Tips on placement, designs, and tattoo culture."
-          ogImage="https://outest.lovable.app/og-image.jpg"
-          canonical="https://outest.lovable.app/blog"
           jsonLd={jsonLd}
         />
         <div className="min-h-screen bg-background text-foreground">
@@ -127,8 +125,6 @@ const Blog = () => {
           keywords="tattoo blog, tattoo articles, tattoo inspiration"
           ogTitle="Tattoo Blog | Okan Uckun NYC"
           ogDescription="Articles about tattoo art, styles, and inspiration from NYC tattoo artist Okan Uckun. Tips on placement, designs, and tattoo culture."
-          ogImage="https://outest.lovable.app/og-image.jpg"
-          canonical="https://outest.lovable.app/blog"
           jsonLd={jsonLd}
         />
         <div className="min-h-screen bg-background text-foreground">
@@ -152,8 +148,6 @@ const Blog = () => {
         keywords="tattoo blog, tattoo articles, tattoo inspiration, tattoo styles, forearm tattoo, sleeve tattoo, skull tattoo"
         ogTitle="Tattoo Blog | Okan Uckun NYC"
         ogDescription="Articles about tattoo art, styles, and inspiration from NYC tattoo artist Okan Uckun. Tips on placement, designs, and tattoo culture."
-        ogImage="https://outest.lovable.app/og-image.jpg"
-        canonical="https://outest.lovable.app/blog"
         jsonLd={jsonLd}
       />
       <div className="min-h-screen bg-background text-foreground">
