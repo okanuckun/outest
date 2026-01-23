@@ -282,9 +282,12 @@ const Work: React.FC = () => {
       <>
         <SEOHead
           title="Work | Okan Uckun Tattoo Portfolio NYC"
-          description="Explore the tattoo portfolio of Okan Uckun featuring black and grey realism, portraits, geometric designs, and fine line work in New York City."
+          description="Explore the tattoo portfolio of Okan Uckun featuring black and grey realism, portraits, geometric designs, and fine line work in New York City. Browse through our collection of unique custom tattoo designs created with precision and artistic excellence."
           keywords="tattoo portfolio, black and grey tattoo, realism tattoo gallery, NYC tattoo work, Okan Uckun portfolio"
-          canonical="/work"
+          ogTitle="Tattoo Portfolio | Okan Uckun NYC"
+          ogDescription="Explore Okan Uckun's tattoo portfolio featuring black & grey realism, geometric designs, and fine line work. NYC's premier tattoo artist."
+          ogImage="https://outest.lovable.app/og-image.jpg"
+          canonical="https://outest.lovable.app/work"
           jsonLd={jsonLd}
         />
         <div className="h-screen w-screen overflow-hidden bg-black">
@@ -319,9 +322,12 @@ const Work: React.FC = () => {
       <>
         <SEOHead
           title="Work | Okan Uckun Tattoo Portfolio NYC"
-          description="Explore the tattoo portfolio of Okan Uckun featuring black and grey realism, portraits, geometric designs, and fine line work in New York City."
+          description="Explore the tattoo portfolio of Okan Uckun featuring black and grey realism, portraits, geometric designs, and fine line work in New York City. Browse through our collection of unique custom tattoo designs created with precision and artistic excellence."
           keywords="tattoo portfolio, black and grey tattoo, realism tattoo gallery, NYC tattoo work, Okan Uckun portfolio"
-          canonical="/work"
+          ogTitle="Tattoo Portfolio | Okan Uckun NYC"
+          ogDescription="Explore Okan Uckun's tattoo portfolio featuring black & grey realism, geometric designs, and fine line work. NYC's premier tattoo artist."
+          ogImage="https://outest.lovable.app/og-image.jpg"
+          canonical="https://outest.lovable.app/work"
           jsonLd={jsonLd}
         />
         <div className="h-screen w-screen overflow-hidden bg-black flex items-center justify-center">
@@ -338,9 +344,12 @@ const Work: React.FC = () => {
     <>
       <SEOHead
         title="Work | Okan Uckun Tattoo Portfolio NYC"
-        description="Explore the tattoo portfolio of Okan Uckun featuring black and grey realism, portraits, geometric designs, and fine line work in New York City."
+        description="Explore the tattoo portfolio of Okan Uckun featuring black and grey realism, portraits, geometric designs, and fine line work in New York City. Browse through our collection of unique custom tattoo designs created with precision and artistic excellence."
         keywords="tattoo portfolio, black and grey tattoo, realism tattoo gallery, NYC tattoo work, Okan Uckun portfolio"
-        canonical="/work"
+        ogTitle="Tattoo Portfolio | Okan Uckun NYC"
+        ogDescription="Explore Okan Uckun's tattoo portfolio featuring black & grey realism, geometric designs, and fine line work. NYC's premier tattoo artist."
+        ogImage="https://outest.lovable.app/og-image.jpg"
+        canonical="https://outest.lovable.app/work"
         jsonLd={jsonLd}
       />
       <motion.div 

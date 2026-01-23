@@ -98,9 +98,12 @@ const Blog = () => {
       <>
         <SEOHead
           title="Blog | Okan Uckun Tattoo Articles & Inspiration"
-          description="Read articles about tattoo art, styles, symbolism, and inspiration from NYC tattoo artist Okan Uckun."
+          description="Read articles about tattoo art, styles, symbolism, and inspiration from NYC tattoo artist Okan Uckun. Expert tips on placement, designs, aftercare, and tattoo culture."
           keywords="tattoo blog, tattoo articles, tattoo inspiration"
-          canonical="/blog"
+          ogTitle="Tattoo Blog | Okan Uckun NYC"
+          ogDescription="Articles about tattoo art, styles, and inspiration from NYC tattoo artist Okan Uckun. Tips on placement, designs, and tattoo culture."
+          ogImage="https://outest.lovable.app/og-image.jpg"
+          canonical="https://outest.lovable.app/blog"
           jsonLd={jsonLd}
         />
         <div className="min-h-screen bg-background text-foreground">
@@ -120,9 +123,12 @@ const Blog = () => {
       <>
         <SEOHead
           title="Blog | Okan Uckun Tattoo Articles & Inspiration"
-          description="Read articles about tattoo art, styles, symbolism, and inspiration from NYC tattoo artist Okan Uckun."
+          description="Read articles about tattoo art, styles, symbolism, and inspiration from NYC tattoo artist Okan Uckun. Expert tips on placement, designs, aftercare, and tattoo culture."
           keywords="tattoo blog, tattoo articles, tattoo inspiration"
-          canonical="/blog"
+          ogTitle="Tattoo Blog | Okan Uckun NYC"
+          ogDescription="Articles about tattoo art, styles, and inspiration from NYC tattoo artist Okan Uckun. Tips on placement, designs, and tattoo culture."
+          ogImage="https://outest.lovable.app/og-image.jpg"
+          canonical="https://outest.lovable.app/blog"
           jsonLd={jsonLd}
         />
         <div className="min-h-screen bg-background text-foreground">
@@ -142,9 +148,12 @@ const Blog = () => {
     <>
       <SEOHead
         title="Blog | Okan Uckun Tattoo Articles & Inspiration"
-        description="Read articles about tattoo art, styles, symbolism, and inspiration from NYC tattoo artist Okan Uckun. Tips on placement, designs, and more."
+        description="Read articles about tattoo art, styles, symbolism, and inspiration from NYC tattoo artist Okan Uckun. Expert tips on placement, designs, aftercare, and tattoo culture."
         keywords="tattoo blog, tattoo articles, tattoo inspiration, tattoo styles, forearm tattoo, sleeve tattoo, skull tattoo"
-        canonical="/blog"
+        ogTitle="Tattoo Blog | Okan Uckun NYC"
+        ogDescription="Articles about tattoo art, styles, and inspiration from NYC tattoo artist Okan Uckun. Tips on placement, designs, and tattoo culture."
+        ogImage="https://outest.lovable.app/og-image.jpg"
+        canonical="https://outest.lovable.app/blog"
         jsonLd={jsonLd}
       />
       <div className="min-h-screen bg-background text-foreground">

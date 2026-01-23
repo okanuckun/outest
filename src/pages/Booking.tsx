@@ -400,9 +400,12 @@ const Booking: React.FC = () => {
     <>
       <SEOHead
         title="Book a Tattoo Session | Okan Uckun NYC"
-        description="Book your tattoo session with Okan Uckun in New York City. Fill out the form to start your journey with a renowned black and grey realism artist."
+        description="Book your custom tattoo session with Okan Uckun in New York City. Fill out our consultation form to start your journey with a world-renowned black and grey realism artist. Available for studio appointments and guest spots worldwide."
         keywords="book tattoo NYC, tattoo appointment, tattoo consultation, Okan Uckun booking, NYC tattoo session"
-        canonical="/booking"
+        ogTitle="Book Your Tattoo Session | Okan Uckun NYC"
+        ogDescription="Schedule your custom tattoo consultation with Okan Uckun. World-renowned black & grey realism artist based in NYC. Book now!"
+        ogImage="https://outest.lovable.app/og-image.jpg"
+        canonical="https://outest.lovable.app/booking"
       />
       <motion.div
         initial={{ opacity: 0 }}
