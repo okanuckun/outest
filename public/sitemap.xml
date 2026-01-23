@@ -38,7 +38,19 @@
   </url>
   <url>
     <loc>https://outest.lovable.app/blog/Minimalismsilinceandthetattoo</loc>
-    <lastmod>2026-01-13</lastmod>
+    <lastmod>2026-01-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://outest.lovable.app/project/brainwave-tattoo</loc>
+    <lastmod>2026-01-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://outest.lovable.app/project/digital-abstractions</loc>
+    <lastmod>2026-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
