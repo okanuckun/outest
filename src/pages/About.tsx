@@ -14,8 +14,8 @@ const jsonLd = {
   name: 'Okan Uckun',
   jobTitle: 'Tattoo Artist',
   description: 'Pioneer of minimalist and geometric tattoos, co-founder of Monolith Studio in New York City.',
-  url: 'https://okanuckun.com/about',
-  sameAs: ['https://instagram.com/okanuckun'],
+  url: 'https://www.okanuckun.com/about',
+  sameAs: ['https://www.instagram.com/okanuckun', 'https://www.tiktok.com/@okanuckun', 'https://www.youtube.com/@okanuckun'],
   worksFor: {
     '@type': 'Organization',
     name: 'Monolith Studio'

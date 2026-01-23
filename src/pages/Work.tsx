@@ -17,7 +17,7 @@ const jsonLd = {
   '@type': 'ImageGallery',
   name: 'Okan Uckun Tattoo Portfolio',
   description: 'Explore the tattoo portfolio of Okan Uckun featuring black and grey realism, portraits, and fine line work.',
-  url: 'https://okanuckun.com/work'
+  url: 'https://www.okanuckun.com/work'
 };
 
 const Work: React.FC = () => {

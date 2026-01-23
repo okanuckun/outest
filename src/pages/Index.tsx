@@ -21,14 +21,15 @@ const jsonLd = {
   '@type': 'LocalBusiness',
   name: 'Okan Uckun Tattoo',
   description: 'Professional tattoo artist specializing in black and grey realism, portraits, and fine line work in New York City.',
-  image: '/og-image.jpg',
+  image: 'https://www.okanuckun.com/og-image.jpg',
   address: {
     '@type': 'PostalAddress',
-    addressLocality: 'New York',
+    streetAddress: '77 Washington Avenue',
+    addressLocality: 'Brooklyn',
     addressRegion: 'NY',
     addressCountry: 'US'
   },
-  url: 'https://okanuckun.com',
+  url: 'https://www.okanuckun.com',
   priceRange: '$$$'
 };
 
@@ -72,6 +73,8 @@ const Index: React.FC = () => {
       </div>
       
       <main>
+        {/* SEO H1 - Visually hidden for crawlers */}
+        <h1 className="sr-only">Okan Uckun - NYC Tattoo Artist Specializing in Black & Grey Realism</h1>
         <Suspense fallback={<SectionFallback />}>
           <ArtistSection />
         </Suspense>

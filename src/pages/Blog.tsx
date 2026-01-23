@@ -26,10 +26,11 @@ const jsonLd = {
   '@type': 'Blog',
   name: 'Okan Uckun Tattoo Blog',
   description: 'Articles about tattoo art, styles, symbolism, and inspiration from NYC tattoo artist Okan Uckun.',
-  url: 'https://okanuckun.com/blog',
+  url: 'https://www.okanuckun.com/blog',
   author: {
     '@type': 'Person',
-    name: 'Okan Uckun'
+    name: 'Okan Uckun',
+    url: 'https://www.okanuckun.com'
   }
 };
 

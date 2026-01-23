@@ -225,12 +225,12 @@ const ProjectPage: React.FC = () => {
     '@type': 'CollectionPage',
     name: 'Projects by Okan Uckun',
     description: 'Explore the artistic projects and creative works by Okan Uckun, including live art performances, digital art, editorial work, and photography.',
-    url: 'https://okanuckun.com/project',
+    url: 'https://www.okanuckun.com/project',
     author: {
       '@type': 'Person',
       name: 'Okan Uckun',
       jobTitle: 'Tattoo Artist',
-      url: 'https://okanuckun.com'
+      url: 'https://www.okanuckun.com'
     }
   };
 
@@ -262,6 +262,9 @@ const ProjectPage: React.FC = () => {
         </div>
 
         <main>
+          {/* SEO H1 - Visually hidden for crawlers */}
+          <h1 className="sr-only">Projects by Okan Uckun - Creative Works & Art Portfolio</h1>
+          
           {/* Projects - Full Screen Vertical Scroll */}
           {projects.length > 0 ? (
             projects.map((project, index) => (

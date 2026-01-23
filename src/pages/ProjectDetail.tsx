@@ -91,8 +91,8 @@ const ProjectDetail: React.FC = () => {
     '@type': 'CreativeWork',
     name: project.title,
     description: `${project.title} - ${project.category || 'Art Project'} by Okan Uckun${project.location ? `, ${project.location}` : ''}${project.year ? ` (${project.year})` : ''}`,
-    url: `https://okanuckun.com/project/${project.slug || project.id}`,
-    image: project.images?.[0] || undefined,
+    url: `https://www.okanuckun.com/project/${project.slug || project.id}`,
+    image: project.cover_image || project.images?.[0] || undefined,
     dateCreated: project.year || undefined,
     locationCreated: project.location ? {
       '@type': 'Place',
@@ -102,7 +102,7 @@ const ProjectDetail: React.FC = () => {
       '@type': 'Person',
       name: 'Okan Uckun',
       jobTitle: 'Tattoo Artist',
-      url: 'https://okanuckun.com'
+      url: 'https://www.okanuckun.com'
     },
     genre: project.category || undefined
   };
