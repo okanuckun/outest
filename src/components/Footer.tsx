@@ -49,13 +49,13 @@ const Footer: React.FC = () => {
       {/* Contact Info Row */}
       <ScrollReveal>
         <div className="flex flex-col md:flex-row justify-between items-start px-6 md:px-12 pt-8 pb-12">
-          {/* Left - Copyright */}
+          {/* Left - Address & Social */}
           <div className="mb-8 md:mb-0">
             <motion.a
               href="https://www.google.com/maps/search/77+Washington+Avenue+Brooklyn+NYC"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-[#1a1a1a] leading-relaxed hover:opacity-60 transition-opacity block"
+              className="text-sm text-[#1a1a1a] leading-relaxed hover:opacity-60 transition-opacity block mb-4"
               whileHover={{ x: 4 }}
               transition={{ duration: 0.2 }}
             >
@@ -63,6 +63,25 @@ const Footer: React.FC = () => {
               Brooklyn<br />
               NYC
             </motion.a>
+            {/* Social Links - External Links for SEO */}
+            <div className="flex gap-4 mt-3">
+              <a 
+                href="https://www.instagram.com/okanuckun" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-xs text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider"
+              >
+                Instagram
+              </a>
+              <a 
+                href="https://www.facebook.com/okanuckuntattoo" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-xs text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider"
+              >
+                Facebook
+              </a>
+            </div>
           </div>
 
           {/* Right - Contact Info */}
