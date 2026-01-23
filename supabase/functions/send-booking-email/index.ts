@@ -163,9 +163,8 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Admin email sent successfully");
 
-    // Fetch confirmation email template from database
-    const supabase = createClient(SUPABASE_URL!, SUPABASE_ANON_KEY!);
-    const { data: template, error: templateError } = await supabase
+    // Fetch confirmation email template from database using service role (bypasses RLS)
+    const { data: template, error: templateError } = await supabaseAdmin
       .from('email_templates')
       .select('subject, body')
       .eq('id', 'booking_confirmation')
