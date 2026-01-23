@@ -398,13 +398,7 @@ const Booking: React.FC = () => {
 
   return (
     <>
-      <SEOHead
-        title="Book a Tattoo Session | Okan Uckun NYC"
-        description="Book your custom tattoo session with Okan Uckun in New York City. Fill out our consultation form to start your journey with a world-renowned black and grey realism artist. Available for studio appointments and guest spots worldwide."
-        keywords="book tattoo NYC, tattoo appointment, tattoo consultation, Okan Uckun booking, NYC tattoo session"
-        ogTitle="Book Your Tattoo Session | Okan Uckun NYC"
-        ogDescription="Schedule your custom tattoo consultation with Okan Uckun. World-renowned black & grey realism artist based in NYC. Book now!"
-      />
+      <SEOHead />
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

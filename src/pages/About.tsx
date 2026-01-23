@@ -25,14 +25,7 @@ const jsonLd = {
 const About: React.FC = () => {
   return (
     <>
-      <SEOHead
-        title="About Okan Uckun | Tattoo Artist NYC"
-        description="Learn about Okan Uckun, a pioneer of minimalist and geometric tattoos based in NYC. With an architecture degree, Master's in Modern Art, and co-founder of Monolith Studio. Over 15 years of professional experience creating unique custom tattoo designs across 50+ countries worldwide."
-        keywords="Okan Uckun, tattoo artist biography, NYC tattoo artist, minimalist tattoo, geometric tattoo, Monolith Studio"
-        ogTitle="About Okan Uckun | NYC Tattoo Artist & Co-Founder of Monolith Studio"
-        ogDescription="Pioneer of minimalist and geometric tattoos based in NYC. Architecture background, 15+ years experience, co-founder of Monolith Studio."
-        jsonLd={jsonLd}
-      />
+      <SEOHead jsonLd={jsonLd} />
       <motion.div initial={{
         opacity: 0
       }} animate={{
