@@ -27,7 +27,7 @@ const HeroSection: React.FC = () => {
             duration: 0.5,
             ease: [0.25, 0.1, 0.25, 1]
           }} className="block text-[#F6F6F6] text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase">
-              Saying more with less.
+              <span className="sr-only">Okan Uckun NYC Tattoo Artist - </span>Saying more with less.
             </motion.span>
           </h1>
           

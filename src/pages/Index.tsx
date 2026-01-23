@@ -36,9 +36,12 @@ const Index: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="Okan Uckun | Tattoo Artist NYC - Black & Grey Realism"
-        description="Okan Uckun is a renowned tattoo artist based in New York City, specializing in black and grey realism, portraits, and fine line work. Book your session today."
-        keywords="tattoo artist NYC, black and grey tattoo, realism tattoo, portrait tattoo, fine line tattoo, New York tattoo artist, Okan Uckun"
+        title="Okan Uckun | NYC Tattoo Artist - Black & Grey Realism Specialist"
+        description="Okan Uckun is a world-renowned tattoo artist based in New York City, specializing in black and grey realism, geometric tattoos, minimalist designs, and fine line work. With over 15 years of experience and work in 50+ countries, book your custom tattoo session today."
+        keywords="tattoo artist NYC, black and grey tattoo, realism tattoo, portrait tattoo, fine line tattoo, New York tattoo artist, Okan Uckun, geometric tattoo, minimalist tattoo, Brooklyn tattoo"
+        ogTitle="Okan Uckun | NYC Tattoo Artist - Black & Grey Realism Specialist"
+        ogDescription="World-renowned tattoo artist specializing in black & grey realism, geometric, and minimalist tattoos in New York City. Book your session today."
+        ogImage="/og-image.jpg"
         canonical="/"
         jsonLd={jsonLd}
       />

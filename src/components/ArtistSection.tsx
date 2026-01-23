@@ -13,9 +13,12 @@ const ArtistSection: React.FC = () => {
           <div className="flex-1">
             <ScrollReveal delay={0.2}>
               <div className="mb-10">
-                <h3 className="text-[#323232] text-[28px] font-medium leading-[34px] tracking-[-0.4px] uppercase max-md:text-[22px] max-md:leading-7 max-sm:text-lg max-sm:leading-5">
+                <h2 className="text-[#323232] text-[28px] font-medium leading-[34px] tracking-[-0.4px] uppercase max-md:text-[22px] max-md:leading-7 max-sm:text-lg max-sm:leading-5">
                   OKAN UCKUN IS RECOGNIZED AS ONE OF THE PIONEERS OF MINIMALIST TATTOOS AND GEOMETRIC TATTOOS. IN 2024, HE CO-FOUNDED MONOLITH STUDIO WITH OSCAR AKERMO AND CONTINUES TO RUN HIS UNIQUE ART PROJECT, INM STUDIO.
-                </h3>
+                </h2>
+                <p className="text-[#666] text-[16px] font-normal leading-[24px] mt-6 max-w-[800px] max-md:text-[14px] max-md:leading-[20px]">
+                  As a professional tattoo artist based in New York City with over 15 years of experience, Okan specializes in creating unique, custom designs that tell each client's personal story. His distinctive style blends architectural precision with artistic expression, resulting in tattoos that are both visually striking and deeply meaningful. Whether you're looking for black and grey realism, geometric patterns, or minimalist line work, Okan brings unparalleled expertise to every piece.
+                </p>
               </div>
             </ScrollReveal>
             
