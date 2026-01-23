@@ -31,8 +31,6 @@ const About: React.FC = () => {
         keywords="Okan Uckun, tattoo artist biography, NYC tattoo artist, minimalist tattoo, geometric tattoo, Monolith Studio"
         ogTitle="About Okan Uckun | NYC Tattoo Artist & Co-Founder of Monolith Studio"
         ogDescription="Pioneer of minimalist and geometric tattoos based in NYC. Architecture background, 15+ years experience, co-founder of Monolith Studio."
-        ogImage="https://outest.lovable.app/og-image.jpg"
-        canonical="https://outest.lovable.app/about"
         jsonLd={jsonLd}
       />
       <motion.div initial={{

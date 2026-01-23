@@ -286,8 +286,6 @@ const Work: React.FC = () => {
           keywords="tattoo portfolio, black and grey tattoo, realism tattoo gallery, NYC tattoo work, Okan Uckun portfolio"
           ogTitle="Tattoo Portfolio | Okan Uckun NYC"
           ogDescription="Explore Okan Uckun's tattoo portfolio featuring black & grey realism, geometric designs, and fine line work. NYC's premier tattoo artist."
-          ogImage="https://outest.lovable.app/og-image.jpg"
-          canonical="https://outest.lovable.app/work"
           jsonLd={jsonLd}
         />
         <div className="h-screen w-screen overflow-hidden bg-black">
@@ -326,8 +324,6 @@ const Work: React.FC = () => {
           keywords="tattoo portfolio, black and grey tattoo, realism tattoo gallery, NYC tattoo work, Okan Uckun portfolio"
           ogTitle="Tattoo Portfolio | Okan Uckun NYC"
           ogDescription="Explore Okan Uckun's tattoo portfolio featuring black & grey realism, geometric designs, and fine line work. NYC's premier tattoo artist."
-          ogImage="https://outest.lovable.app/og-image.jpg"
-          canonical="https://outest.lovable.app/work"
           jsonLd={jsonLd}
         />
         <div className="h-screen w-screen overflow-hidden bg-black flex items-center justify-center">
@@ -348,8 +344,6 @@ const Work: React.FC = () => {
         keywords="tattoo portfolio, black and grey tattoo, realism tattoo gallery, NYC tattoo work, Okan Uckun portfolio"
         ogTitle="Tattoo Portfolio | Okan Uckun NYC"
         ogDescription="Explore Okan Uckun's tattoo portfolio featuring black & grey realism, geometric designs, and fine line work. NYC's premier tattoo artist."
-        ogImage="https://outest.lovable.app/og-image.jpg"
-        canonical="https://outest.lovable.app/work"
         jsonLd={jsonLd}
       />
       <motion.div 

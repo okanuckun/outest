@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, Clock, Calendar, Tag, Share2, ChevronRight } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import ScrollReveal from '@/components/animations/ScrollReveal';
+import SEOHead from '@/components/SEOHead';
 import { supabase } from '@/integrations/supabase/client';
 import { format } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -208,7 +208,7 @@ const BlogPost = () => {
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://okanagaoglu.com/blog/${post.slug}`
+      '@id': `https://www.okanuckun.com/blog/${post.slug}`
     },
     articleSection: post.category,
     keywords: tags.join(', '),
@@ -238,36 +238,17 @@ const BlogPost = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{post.title} | Okan Ağaoğlu</title>
-        <meta name="description" content={post.description || ''} />
-        <meta name="keywords" content={tags.join(', ')} />
-        <link rel="canonical" href={`https://okanagaoglu.com/blog/${post.slug}`} />
-        
-        {/* Open Graph */}
-        <meta property="og:type" content="article" />
-        <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.description || ''} />
-        {post.image_url && <meta property="og:image" content={post.image_url} />}
-        <meta property="og:url" content={`https://okanagaoglu.com/blog/${post.slug}`} />
-        <meta property="article:published_time" content={post.created_at} />
-        <meta property="article:author" content={authorName} />
-        {post.category && <meta property="article:section" content={post.category} />}
-        {tags.map(tag => (
-          <meta key={tag} property="article:tag" content={tag} />
-        ))}
-        
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={post.title} />
-        <meta name="twitter:description" content={post.description || ''} />
-        {post.image_url && <meta name="twitter:image" content={post.image_url} />}
-        
-        {/* JSON-LD */}
-        <script type="application/ld+json">
-          {JSON.stringify(jsonLd)}
-        </script>
-      </Helmet>
+      <SEOHead
+        title={`${post.title} | Okan Uckun`}
+        description={post.description || ''}
+        keywords={tags.join(', ')}
+        ogTitle={post.title}
+        ogDescription={post.description || ''}
+        ogImage={post.image_url || undefined}
+        ogType="article"
+        canonical={`/blog/${post.slug}`}
+        jsonLd={jsonLd}
+      />
 
       <article className="min-h-screen bg-background text-foreground" itemScope itemType="https://schema.org/BlogPosting">
         {/* Hidden structured data */}
