@@ -280,14 +280,7 @@ const Work: React.FC = () => {
   if (loading) {
     return (
       <>
-        <SEOHead
-          title="Work | Okan Uckun Tattoo Portfolio NYC"
-          description="Explore the tattoo portfolio of Okan Uckun featuring black and grey realism, portraits, geometric designs, and fine line work in New York City. Browse through our collection of unique custom tattoo designs created with precision and artistic excellence."
-          keywords="tattoo portfolio, black and grey tattoo, realism tattoo gallery, NYC tattoo work, Okan Uckun portfolio"
-          ogTitle="Tattoo Portfolio | Okan Uckun NYC"
-          ogDescription="Explore Okan Uckun's tattoo portfolio featuring black & grey realism, geometric designs, and fine line work. NYC's premier tattoo artist."
-          jsonLd={jsonLd}
-        />
+        <SEOHead jsonLd={jsonLd} />
         <div className="h-screen w-screen overflow-hidden bg-black">
           <div className="fixed top-0 left-0 right-0 z-50">
             <Navigation />
@@ -318,14 +311,7 @@ const Work: React.FC = () => {
   if (works.length === 0) {
     return (
       <>
-        <SEOHead
-          title="Work | Okan Uckun Tattoo Portfolio NYC"
-          description="Explore the tattoo portfolio of Okan Uckun featuring black and grey realism, portraits, geometric designs, and fine line work in New York City. Browse through our collection of unique custom tattoo designs created with precision and artistic excellence."
-          keywords="tattoo portfolio, black and grey tattoo, realism tattoo gallery, NYC tattoo work, Okan Uckun portfolio"
-          ogTitle="Tattoo Portfolio | Okan Uckun NYC"
-          ogDescription="Explore Okan Uckun's tattoo portfolio featuring black & grey realism, geometric designs, and fine line work. NYC's premier tattoo artist."
-          jsonLd={jsonLd}
-        />
+        <SEOHead jsonLd={jsonLd} />
         <div className="h-screen w-screen overflow-hidden bg-black flex items-center justify-center">
           <div className="fixed top-0 left-0 right-0 z-50">
             <Navigation />
@@ -338,14 +324,7 @@ const Work: React.FC = () => {
 
   return (
     <>
-      <SEOHead
-        title="Work | Okan Uckun Tattoo Portfolio NYC"
-        description="Explore the tattoo portfolio of Okan Uckun featuring black and grey realism, portraits, geometric designs, and fine line work in New York City. Browse through our collection of unique custom tattoo designs created with precision and artistic excellence."
-        keywords="tattoo portfolio, black and grey tattoo, realism tattoo gallery, NYC tattoo work, Okan Uckun portfolio"
-        ogTitle="Tattoo Portfolio | Okan Uckun NYC"
-        ogDescription="Explore Okan Uckun's tattoo portfolio featuring black & grey realism, geometric designs, and fine line work. NYC's premier tattoo artist."
-        jsonLd={jsonLd}
-      />
+      <SEOHead jsonLd={jsonLd} />
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

@@ -36,14 +36,7 @@ const jsonLd = {
 const Index: React.FC = () => {
   return (
     <>
-      <SEOHead
-        title="Okan Uckun | NYC Tattoo Artist - Black & Grey Realism Specialist"
-        description="Okan Uckun is a world-renowned tattoo artist based in New York City, specializing in black and grey realism, geometric tattoos, minimalist designs, and fine line work. With over 15 years of professional experience working across 50+ countries worldwide, Okan creates unique custom tattoo designs. Book your personalized tattoo consultation and session today at our Brooklyn studio."
-        keywords="tattoo artist NYC, black and grey tattoo, realism tattoo, portrait tattoo, fine line tattoo, New York tattoo artist, Okan Uckun, geometric tattoo, minimalist tattoo, Brooklyn tattoo"
-        ogTitle="Okan Uckun | NYC Tattoo Artist - Black & Grey Realism Specialist"
-        ogDescription="World-renowned tattoo artist specializing in black & grey realism, geometric, and minimalist tattoos in New York City. With 15+ years of experience across 50+ countries. Book your custom session today."
-        jsonLd={jsonLd}
-      />
+      <SEOHead jsonLd={jsonLd} />
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

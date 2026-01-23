@@ -249,13 +249,7 @@ const ProjectPage: React.FC = () => {
 
   return (
     <PageTransition>
-      <SEOHead
-        title="Projects | Okan Uckun - Creative Works & Art Projects"
-        description="Explore the artistic projects and creative works by Okan Uckun. From live art performances to digital abstractions, editorial work, and photography collections."
-        keywords="Okan Uckun projects, art projects, live art, digital art, editorial, photography, creative works, tattoo artist portfolio"
-        canonical="/project"
-        jsonLd={projectJsonLd}
-      />
+      <SEOHead jsonLd={projectJsonLd} />
       <div className="min-h-screen bg-background">
         <div className="fixed top-0 left-0 right-0 z-50">
           <Navigation />

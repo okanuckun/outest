@@ -97,14 +97,7 @@ const Blog = () => {
   if (loading) {
     return (
       <>
-        <SEOHead
-          title="Blog | Okan Uckun Tattoo Articles & Inspiration"
-          description="Read articles about tattoo art, styles, symbolism, and inspiration from NYC tattoo artist Okan Uckun. Expert tips on placement, designs, aftercare, and tattoo culture."
-          keywords="tattoo blog, tattoo articles, tattoo inspiration"
-          ogTitle="Tattoo Blog | Okan Uckun NYC"
-          ogDescription="Articles about tattoo art, styles, and inspiration from NYC tattoo artist Okan Uckun. Tips on placement, designs, and tattoo culture."
-          jsonLd={jsonLd}
-        />
+        <SEOHead jsonLd={jsonLd} />
         <div className="min-h-screen bg-background text-foreground">
           <div className="fixed top-0 left-0 right-0 z-50">
             <Navigation />
@@ -120,14 +113,7 @@ const Blog = () => {
   if (blogPosts.length === 0) {
     return (
       <>
-        <SEOHead
-          title="Blog | Okan Uckun Tattoo Articles & Inspiration"
-          description="Read articles about tattoo art, styles, symbolism, and inspiration from NYC tattoo artist Okan Uckun. Expert tips on placement, designs, aftercare, and tattoo culture."
-          keywords="tattoo blog, tattoo articles, tattoo inspiration"
-          ogTitle="Tattoo Blog | Okan Uckun NYC"
-          ogDescription="Articles about tattoo art, styles, and inspiration from NYC tattoo artist Okan Uckun. Tips on placement, designs, and tattoo culture."
-          jsonLd={jsonLd}
-        />
+        <SEOHead jsonLd={jsonLd} />
         <div className="min-h-screen bg-background text-foreground">
           <div className="fixed top-0 left-0 right-0 z-50">
             <Navigation />
@@ -143,14 +129,7 @@ const Blog = () => {
 
   return (
     <>
-      <SEOHead
-        title="Blog | Okan Uckun Tattoo Articles & Inspiration"
-        description="Read articles about tattoo art, styles, symbolism, and inspiration from NYC tattoo artist Okan Uckun. Expert tips on placement, designs, aftercare, and tattoo culture."
-        keywords="tattoo blog, tattoo articles, tattoo inspiration, tattoo styles, forearm tattoo, sleeve tattoo, skull tattoo"
-        ogTitle="Tattoo Blog | Okan Uckun NYC"
-        ogDescription="Articles about tattoo art, styles, and inspiration from NYC tattoo artist Okan Uckun. Tips on placement, designs, and tattoo culture."
-        jsonLd={jsonLd}
-      />
+      <SEOHead jsonLd={jsonLd} />
       <div className="min-h-screen bg-background text-foreground">
       {/* Navigation */}
       <div className="fixed top-0 left-0 right-0 z-50">
