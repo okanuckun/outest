@@ -1,7 +1,9 @@
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
+import { useSEOData } from '@/hooks/useSEOData';
 
 interface SEOHeadProps {
+  // Override props - these will take precedence over database values
   title?: string;
   description?: string;
   keywords?: string;
@@ -15,27 +17,77 @@ interface SEOHeadProps {
 }
 
 const SEOHead = ({
-  title = 'Okan Uckun | Tattoo Artist NYC',
-  description = 'Okan Uckun is a renowned tattoo artist based in New York City, specializing in black and grey realism, portraits, and fine line work.',
-  keywords = 'tattoo artist NYC, black and grey tattoo, realism tattoo, portrait tattoo, fine line tattoo, New York tattoo',
-  ogTitle,
-  ogDescription,
-  ogImage = '/og-image.jpg',
-  ogType = 'website',
-  canonical,
-  noindex = false,
-  jsonLd,
+  title: propTitle,
+  description: propDescription,
+  keywords: propKeywords,
+  ogTitle: propOgTitle,
+  ogDescription: propOgDescription,
+  ogImage: propOgImage,
+  ogType: propOgType,
+  canonical: propCanonical,
+  noindex: propNoindex,
+  jsonLd: propJsonLd,
 }: SEOHeadProps) => {
   const location = useLocation();
   const siteUrl = 'https://www.okanuckun.com';
-  
-  // Auto-generate canonical from current route if not provided
   const currentPath = location.pathname;
+  
+  // Fetch SEO data from database
+  const { pageData, globalData, loading } = useSEOData(currentPath);
+
+  // Fallback defaults
+  const defaultTitle = 'Okan Uckun | Tattoo Artist NYC';
+  const defaultDescription = 'Okan Uckun is a renowned tattoo artist based in New York City, specializing in black and grey realism, portraits, and fine line work.';
+  const defaultKeywords = 'tattoo artist NYC, black and grey tattoo, realism tattoo, portrait tattoo, fine line tattoo, New York tattoo';
+
+  // Priority: Props > Database > Defaults
+  const rawTitle = propTitle || pageData?.meta_title || defaultTitle;
+  const description = propDescription || pageData?.meta_description || defaultDescription;
+  const keywords = propKeywords || pageData?.meta_keywords || defaultKeywords;
+  
+  // Apply title template from global settings
+  const title = globalData.title_template && !propTitle && pageData?.meta_title
+    ? globalData.title_template
+        .replace('{title}', pageData.meta_title)
+        .replace('{site_name}', globalData.site_name)
+    : rawTitle;
+
+  const ogTitle = propOgTitle || pageData?.og_title || rawTitle;
+  const ogDescription = propOgDescription || pageData?.og_description || description;
+  const ogImage = propOgImage || pageData?.og_image || globalData.default_og_image || '/og-image.jpg';
+  const ogType = propOgType || (pageData?.og_type as 'website' | 'article') || 'website';
+  
+  const twitterCard = pageData?.twitter_card || 'summary_large_image';
+  const twitterImage = pageData?.twitter_image || ogImage;
+  
+  // Canonical URL: Props > Database > Auto-generate
+  const canonical = propCanonical || pageData?.canonical_url;
   const fullCanonical = canonical 
     ? (canonical.startsWith('http') ? canonical : `${siteUrl}${canonical}`)
     : `${siteUrl}${currentPath}`;
   
+  // Noindex: Props > Database > Default (false)
+  const noindex = propNoindex !== undefined 
+    ? propNoindex 
+    : (pageData?.is_indexable === false);
+  
+  const robots = noindex ? 'noindex, nofollow' : (pageData?.robots_meta || globalData.default_robots || 'index, follow');
+  
   const fullOgImage = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
+
+  // Schema/JSON-LD: Props > Database
+  const schemaData = propJsonLd || pageData?.schema_data;
+
+  // Don't render until we have data (prevents flash of default values)
+  // But still render something for SSR/crawler visibility
+  if (loading) {
+    return (
+      <Helmet>
+        <title>{defaultTitle}</title>
+        <meta name="description" content={defaultDescription} />
+      </Helmet>
+    );
+  }
 
   return (
     <Helmet>
@@ -43,27 +95,27 @@ const SEOHead = ({
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
       
-      {noindex && <meta name="robots" content="noindex, nofollow" />}
+      <meta name="robots" content={robots} />
       <link rel="canonical" href={fullCanonical} />
       
       {/* Open Graph */}
       <meta property="og:type" content={ogType} />
-      <meta property="og:title" content={ogTitle || title} />
-      <meta property="og:description" content={ogDescription || description} />
+      <meta property="og:title" content={ogTitle} />
+      <meta property="og:description" content={ogDescription} />
       <meta property="og:image" content={fullOgImage} />
       <meta property="og:url" content={fullCanonical} />
-      <meta property="og:site_name" content="Okan Uckun Tattoo" />
+      <meta property="og:site_name" content={globalData.site_name} />
       
       {/* Twitter Card */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={ogTitle || title} />
-      <meta name="twitter:description" content={ogDescription || description} />
-      <meta name="twitter:image" content={fullOgImage} />
+      <meta name="twitter:card" content={twitterCard} />
+      <meta name="twitter:title" content={ogTitle} />
+      <meta name="twitter:description" content={ogDescription} />
+      <meta name="twitter:image" content={twitterImage.startsWith('http') ? twitterImage : `${siteUrl}${twitterImage}`} />
       
       {/* JSON-LD */}
-      {jsonLd && (
+      {schemaData && (
         <script type="application/ld+json">
-          {JSON.stringify(jsonLd)}
+          {JSON.stringify(schemaData)}
         </script>
       )}
     </Helmet>
