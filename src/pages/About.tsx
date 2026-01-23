@@ -27,9 +27,12 @@ const About: React.FC = () => {
     <>
       <SEOHead
         title="About Okan Uckun | Tattoo Artist NYC"
-        description="Learn about Okan Uckun, a pioneer of minimalist and geometric tattoos based in NYC. Architecture degree, Master's in Modern Art, and co-founder of Monolith Studio."
+        description="Learn about Okan Uckun, a pioneer of minimalist and geometric tattoos based in NYC. With an architecture degree, Master's in Modern Art, and co-founder of Monolith Studio. Over 15 years of professional experience creating unique custom tattoo designs across 50+ countries worldwide."
         keywords="Okan Uckun, tattoo artist biography, NYC tattoo artist, minimalist tattoo, geometric tattoo, Monolith Studio"
-        canonical="/about"
+        ogTitle="About Okan Uckun | NYC Tattoo Artist & Co-Founder of Monolith Studio"
+        ogDescription="Pioneer of minimalist and geometric tattoos based in NYC. Architecture background, 15+ years experience, co-founder of Monolith Studio."
+        ogImage="https://outest.lovable.app/og-image.jpg"
+        canonical="https://outest.lovable.app/about"
         jsonLd={jsonLd}
       />
       <motion.div initial={{

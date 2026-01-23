@@ -51,15 +51,33 @@ const Footer: React.FC = () => {
         <div className="flex flex-col md:flex-row justify-between items-start px-6 md:px-12 pt-8 pb-12">
           {/* Left - Instagram & Address */}
           <div className="mb-8 md:mb-0">
-            {/* Instagram Link */}
-            <a 
-              href="https://www.instagram.com/okanuckun" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider block mb-3"
-            >
-              Instagram
-            </a>
+            {/* Social Links */}
+            <div className="flex gap-4 mb-3">
+              <a 
+                href="https://www.instagram.com/okanuckun" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider"
+              >
+                Instagram
+              </a>
+              <a 
+                href="https://www.tiktok.com/@okanuckun" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider"
+              >
+                TikTok
+              </a>
+              <a 
+                href="https://www.youtube.com/@okanuckun" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider"
+              >
+                YouTube
+              </a>
+            </div>
             {/* Address */}
             <motion.a
               href="https://www.google.com/maps/search/77+Washington+Avenue+Brooklyn+NYC"
