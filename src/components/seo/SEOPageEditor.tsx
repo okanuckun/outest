@@ -96,10 +96,17 @@ export const SEOPageEditor: React.FC<SEOPageEditorProps> = ({
 
   const [uploading, setUploading] = useState(false);
   const [activeTab, setActiveTab] = useState('meta');
+  const [schemaText, setSchemaText] = useState('');
+  const [schemaError, setSchemaError] = useState<string | null>(null);
 
   useEffect(() => {
     if (page) {
       setFormData(page);
+      setSchemaText(JSON.stringify(page.schema_data || [], null, 2));
+      setSchemaError(null);
+    } else {
+      setSchemaText('[]');
+      setSchemaError(null);
     }
   }, [page]);
 
@@ -128,7 +135,14 @@ export const SEOPageEditor: React.FC<SEOPageEditorProps> = ({
   };
 
   const handleSave = () => {
-    onSave(formData);
+    // Try to parse schema before saving
+    try {
+      const parsedSchema = JSON.parse(schemaText);
+      onSave({ ...formData, schema_data: parsedSchema });
+    } catch {
+      // Save with current formData schema_data if parsing fails
+      onSave(formData);
+    }
   };
 
   const score = calculateSEOScore(formData as SEOPage);
@@ -556,22 +570,30 @@ export const SEOPageEditor: React.FC<SEOPageEditorProps> = ({
                 <div className="space-y-2">
                   <Label>Schema JSON-LD (Gelişmiş)</Label>
                   <Textarea
-                    value={JSON.stringify(formData.schema_data || [], null, 2)}
+                    value={schemaText}
                     onChange={(e) => {
+                      const value = e.target.value;
+                      setSchemaText(value);
+                      // Validate JSON on change
                       try {
-                        const parsed = JSON.parse(e.target.value);
-                        handleChange('schema_data', parsed);
-                      } catch {
-                        // Invalid JSON, ignore
+                        JSON.parse(value);
+                        setSchemaError(null);
+                        handleChange('schema_data', JSON.parse(value));
+                      } catch (err) {
+                        setSchemaError('Geçersiz JSON formatı');
                       }
                     }}
                     rows={10}
-                    className="font-mono text-sm"
+                    className={`font-mono text-sm ${schemaError ? 'border-red-500' : ''}`}
                     placeholder='[{"@type": "WebSite", ...}]'
                   />
-                  <p className="text-xs text-muted-foreground">
-                    Geçerli JSON-LD formatında olmalıdır
-                  </p>
+                  {schemaError ? (
+                    <p className="text-xs text-red-500">{schemaError}</p>
+                  ) : (
+                    <p className="text-xs text-muted-foreground">
+                      Geçerli JSON-LD formatında olmalıdır
+                    </p>
+                  )}
                 </div>
               </div>
             </TabsContent>
