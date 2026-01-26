@@ -108,67 +108,67 @@ const SubscriptionPopup: React.FC = () => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[101] w-[90%] max-w-md"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[101] w-[85%] max-w-xs"
           >
-            <div className="bg-[#111] border border-white/10 rounded-lg p-8 relative">
+            <div className="bg-[#111] border border-white/10 rounded-lg p-5 relative">
               {/* Close button */}
               <button
                 onClick={handleClose}
-                className="absolute top-4 right-4 text-white/50 hover:text-white transition-colors"
+                className="absolute top-3 right-3 text-white/50 hover:text-white transition-colors"
                 aria-label="Close"
               >
-                <X size={20} />
+                <X size={16} />
               </button>
 
               {!hasSubscribed ? (
                 <>
                   {/* Header */}
-                  <div className="text-center mb-6">
-                    <h2 className="text-2xl font-medium text-white mb-2">
+                  <div className="text-center mb-4">
+                    <h2 className="text-lg font-medium text-white mb-1">
                       Stay in the Loop
                     </h2>
-                    <p className="text-white/60 text-sm">
-                      Get updates on new work, guest spots, and exclusive content.
+                    <p className="text-white/60 text-xs">
+                      Get updates on new work and guest spots.
                     </p>
                   </div>
 
                   {/* Form */}
-                  <form onSubmit={handleSubmit} className="space-y-4">
+                  <form onSubmit={handleSubmit} className="space-y-3">
                     <input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Enter your email"
-                      className="w-full bg-white/5 border border-white/10 rounded-md px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-white/30 transition-colors"
+                      className="w-full bg-white/5 border border-white/10 rounded-md px-3 py-2.5 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-white/30 transition-colors"
                       disabled={isSubmitting}
                       required
                     />
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full bg-white text-black font-medium py-3 rounded-md hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full bg-white text-black text-sm font-medium py-2.5 rounded-md hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isSubmitting ? 'Subscribing...' : 'Subscribe'}
                     </button>
                   </form>
 
-                  <p className="text-white/30 text-xs text-center mt-4">
+                  <p className="text-white/30 text-[10px] text-center mt-3">
                     No spam, unsubscribe anytime.
                   </p>
                 </>
               ) : (
                 /* Success State */
-                <div className="text-center py-4">
-                  <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="text-center py-2">
+                  <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <h2 className="text-xl font-medium text-white mb-2">
+                  <h2 className="text-base font-medium text-white mb-1">
                     You're In!
                   </h2>
-                  <p className="text-white/60 text-sm">
-                    Thanks for subscribing. Stay tuned!
+                  <p className="text-white/60 text-xs">
+                    Thanks for subscribing.
                   </p>
                 </div>
               )}
