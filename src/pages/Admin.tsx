@@ -17,6 +17,7 @@ import PortfolioManager from '@/components/admin/PortfolioManager';
 import EmailTemplatesManager from '@/components/admin/EmailTemplatesManager';
 import SiteSettingsManager from '@/components/admin/SiteSettingsManager';
 import BookingsManager from '@/components/admin/BookingsManager';
+import SubscribersManager from '@/components/admin/SubscribersManager';
 import { 
   LogOut, 
   Plus, 
@@ -34,7 +35,8 @@ import {
   Globe,
   Mail,
   Settings,
-  Inbox
+  Inbox,
+  Users
 } from 'lucide-react';
 
 interface BlogPost {
@@ -488,6 +490,10 @@ const Admin: React.FC = () => {
             <TabsTrigger value="settings" className="gap-2">
               <Settings size={16} />
               Settings
+            </TabsTrigger>
+            <TabsTrigger value="subscribers" className="gap-2">
+              <Users size={16} />
+              Subscribers
             </TabsTrigger>
           </TabsList>
 
@@ -1110,6 +1116,10 @@ const Admin: React.FC = () => {
 
           <TabsContent value="settings">
             <SiteSettingsManager />
+          </TabsContent>
+
+          <TabsContent value="subscribers">
+            <SubscribersManager />
           </TabsContent>
         </Tabs>
       </main>
