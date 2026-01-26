@@ -144,30 +144,12 @@ const Footer: React.FC = () => {
         </Link>
       </div>
       
-      {/* Footer Navigation */}
-      <nav className="px-6 md:px-12 py-6 flex flex-wrap justify-center gap-4 md:gap-8">
-        <Link to="/" className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider">
-          Home
-        </Link>
-        <Link to="/work" className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider">
-          Work
-        </Link>
-        <Link to="/about" className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider">
-          About
-        </Link>
-        <Link to="/blog" className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider">
-          Blog
-        </Link>
-        <Link to="/project" className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider">
-          Project
-        </Link>
-        <Link to="/booking" className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider">
-          Booking
-        </Link>
-      </nav>
-      
-      {/* Bottom Padding */}
-      <div className="h-4" />
+      {/* Copyright */}
+      <div className="px-6 md:px-12 py-6 text-center">
+        <span className="text-[11px] text-[#888] uppercase tracking-wider">
+          © {new Date().getFullYear()} Monolith Studio. All rights reserved.
+        </span>
+      </div>
     </footer>
   );
 };
