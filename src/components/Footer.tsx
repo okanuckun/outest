@@ -71,7 +71,7 @@ const Footer: React.FC = () => {
                 TikTok
               </a>
               <a 
-                href="https://www.youtube.com/@okanuckun" 
+                href="https://www.youtube.com/@monolithstudionyc" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider"
