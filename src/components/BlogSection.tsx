@@ -79,14 +79,9 @@ const BlogSection: React.FC = () => {
   return (
     <section className="box-border flex w-full flex-col items-start gap-[50px] relative bg-background m-0 py-[80px] px-[22.5px] max-md:px-5 max-md:py-10 max-sm:px-4 max-sm:py-6">
       <ScrollReveal>
-        <div className="box-border flex items-end justify-between self-stretch relative m-0 p-0 flex-wrap gap-4">
-          <h2 className="box-border text-foreground text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase relative m-0 p-0">
-            Article
-          </h2>
-          <div className="box-border text-muted-foreground text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase relative m-0 p-0">
-            {blogPosts.length}
-          </div>
-        </div>
+        <h2 className="box-border text-foreground text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase relative m-0 p-0">
+          Article
+        </h2>
       </ScrollReveal>
       
       <StaggerChildren staggerDelay={0.15} className="box-border flex flex-col items-start self-stretch relative m-0 p-0 w-full">
