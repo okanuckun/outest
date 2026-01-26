@@ -5,6 +5,7 @@ import HeroSection from '@/components/HeroSection';
 import GuestSpots from '@/components/GuestSpots';
 import Footer from '@/components/Footer';
 import SEOHead from '@/components/SEOHead';
+import SubscriptionPopup from '@/components/SubscriptionPopup';
 import heroBg from '@/assets/okan-hero.webp';
 
 // Lazy load below-the-fold components for better LCP
@@ -83,6 +84,7 @@ const Index: React.FC = () => {
       </main>
       
       <Footer />
+      <SubscriptionPopup />
       </motion.div>
     </>
   );
