@@ -39,13 +39,12 @@ const Shop = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="min-h-screen bg-black"
+        className="min-h-screen bg-[#f5f5f5]"
       >
         {/* Header */}
         <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 to-black z-0" />
           <div className="relative z-10">
-            <Navigation variant="light" />
+            <Navigation variant="dark" />
           </div>
         </div>
 
@@ -64,10 +63,10 @@ const Shop = () => {
               transition={{ delay: 0.2, duration: 0.5 }}
               className="mb-16"
             >
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white uppercase tracking-[-0.02em] mb-4">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-[#323232] uppercase tracking-[-0.02em] mb-4">
                 Shop
               </h1>
-              <p className="text-white/60 text-lg max-w-2xl">
+              <p className="text-[#888] text-lg max-w-2xl">
                 Explore exclusive art prints and original pieces available for purchase.
               </p>
             </motion.div>
@@ -75,21 +74,21 @@ const Shop = () => {
             {/* Products Grid */}
             {loading ? (
               <div className="flex items-center justify-center py-32">
-                <Loader2 className="w-8 h-8 animate-spin text-white/40" />
+                <Loader2 className="w-8 h-8 animate-spin text-[#888]" />
               </div>
             ) : error ? (
               <div className="text-center py-32">
-                <p className="text-white/60">{error}</p>
+                <p className="text-[#888]">{error}</p>
               </div>
             ) : products.length === 0 ? (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.5 }}
-                className="text-center py-32 border border-white/10 rounded-lg"
+                className="text-center py-32 border border-[#ddd] rounded-lg"
               >
-                <p className="text-white/60 text-lg mb-2">No products available yet</p>
-                <p className="text-white/40 text-sm">
+                <p className="text-[#888] text-lg mb-2">No products available yet</p>
+                <p className="text-[#aaa] text-sm">
                   Check back soon for new artwork and prints.
                 </p>
               </motion.div>

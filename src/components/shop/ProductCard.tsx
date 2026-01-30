@@ -43,7 +43,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       to={`/shop/${node.handle}`}
       className="group block"
     >
-      <div className="aspect-square overflow-hidden bg-white/5 mb-4">
+      <div className="aspect-square overflow-hidden bg-white mb-4">
         {firstImage ? (
           <img 
             src={firstImage.url} 
@@ -51,17 +51,17 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-white/40">
+          <div className="w-full h-full flex items-center justify-center text-[#888]">
             No image
           </div>
         )}
       </div>
       <div className="space-y-2">
-        <h3 className="text-[15px] font-medium uppercase tracking-[-0.15px] text-white group-hover:opacity-70 transition-opacity">
+        <h3 className="text-[15px] font-medium uppercase tracking-[-0.15px] text-[#323232] group-hover:opacity-70 transition-opacity">
           {node.title}
         </h3>
         {price && (
-          <p className="text-[14px] text-white/60">
+          <p className="text-[14px] text-[#888]">
             {price.currencyCode} {parseFloat(price.amount).toFixed(2)}
           </p>
         )}
@@ -70,7 +70,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           disabled={isLoading || !firstVariant?.availableForSale}
           variant="outline"
           size="sm"
-          className="w-full border-white/20 text-white hover:bg-white hover:text-black transition-colors"
+          className="w-full border-[#323232] text-[#323232] hover:bg-[#323232] hover:text-white transition-colors"
         >
           {isLoading ? (
             <Loader2 className="w-4 h-4 animate-spin" />
