@@ -65,19 +65,19 @@ const ShopProduct = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-white/40" />
+      <div className="min-h-screen bg-[#f5f5f5] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-[#888]" />
       </div>
     );
   }
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-black">
-        <Navigation variant="light" />
+      <div className="min-h-screen bg-[#f5f5f5]">
+        <Navigation variant="dark" />
         <div className="flex flex-col items-center justify-center py-32 px-6">
-          <p className="text-white/60 text-lg mb-4">Product not found</p>
-          <Link to="/shop" className="text-white underline">
+          <p className="text-[#888] text-lg mb-4">Product not found</p>
+          <Link to="/shop" className="text-[#323232] underline">
             Back to Shop
           </Link>
         </div>
@@ -96,13 +96,12 @@ const ShopProduct = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="min-h-screen bg-black"
+        className="min-h-screen bg-[#f5f5f5]"
       >
         {/* Header */}
         <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 to-black z-0" />
           <div className="relative z-10">
-            <Navigation variant="light" />
+            <Navigation variant="dark" />
           </div>
         </div>
 
@@ -117,7 +116,7 @@ const ShopProduct = () => {
             {/* Back Button */}
             <Link 
               to="/shop"
-              className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors mb-8"
+              className="inline-flex items-center gap-2 text-[#888] hover:text-[#323232] transition-colors mb-8"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to Shop
@@ -128,7 +127,7 @@ const ShopProduct = () => {
               {/* Images */}
               <div className="space-y-4">
                 {/* Main Image */}
-                <div className="aspect-square overflow-hidden bg-white/5">
+                <div className="aspect-square overflow-hidden bg-white">
                   {images[selectedImageIndex]?.node ? (
                     <img 
                       src={images[selectedImageIndex].node.url}
@@ -136,7 +135,7 @@ const ShopProduct = () => {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-white/40">
+                    <div className="w-full h-full flex items-center justify-center text-[#888]">
                       No image
                     </div>
                   )}
@@ -149,8 +148,8 @@ const ShopProduct = () => {
                       <button
                         key={index}
                         onClick={() => setSelectedImageIndex(index)}
-                        className={`aspect-square overflow-hidden bg-white/5 transition-opacity ${
-                          index === selectedImageIndex ? 'ring-2 ring-white' : 'opacity-60 hover:opacity-100'
+                        className={`aspect-square overflow-hidden bg-white transition-opacity ${
+                          index === selectedImageIndex ? 'ring-2 ring-[#323232]' : 'opacity-60 hover:opacity-100'
                         }`}
                       >
                         <img 
@@ -167,11 +166,11 @@ const ShopProduct = () => {
               {/* Product Info */}
               <div className="space-y-8">
                 <div>
-                  <h1 className="text-3xl md:text-4xl font-semibold text-white uppercase tracking-[-0.02em] mb-4">
+                  <h1 className="text-3xl md:text-4xl font-semibold text-[#323232] uppercase tracking-[-0.02em] mb-4">
                     {product.title}
                   </h1>
                   {selectedVariant && (
-                    <p className="text-2xl text-white">
+                    <p className="text-2xl text-[#323232]">
                       {selectedVariant.price.currencyCode} {parseFloat(selectedVariant.price.amount).toFixed(2)}
                     </p>
                   )}
@@ -179,15 +178,15 @@ const ShopProduct = () => {
 
                 {/* Description */}
                 {product.description && (
-                  <div className="prose prose-invert max-w-none">
-                    <p className="text-white/70 leading-relaxed">{product.description}</p>
+                  <div className="prose max-w-none">
+                    <p className="text-[#666] leading-relaxed">{product.description}</p>
                   </div>
                 )}
 
                 {/* Options */}
                 {product.options && product.options.filter(opt => opt.name !== 'Title' || opt.values[0] !== 'Default Title').map((option, optIndex) => (
                   <div key={optIndex} className="space-y-3">
-                    <label className="text-sm uppercase tracking-wider text-white/60">
+                    <label className="text-sm uppercase tracking-wider text-[#888]">
                       {option.name}
                     </label>
                     <div className="flex flex-wrap gap-2">
@@ -202,8 +201,8 @@ const ShopProduct = () => {
                           }}
                           className={`px-4 py-2 text-sm border transition-colors ${
                             selectedVariant?.selectedOptions.some(so => so.name === option.name && so.value === value)
-                              ? 'border-white bg-white text-black'
-                              : 'border-white/20 text-white hover:border-white/40'
+                              ? 'border-[#323232] bg-[#323232] text-white'
+                              : 'border-[#ddd] text-[#323232] hover:border-[#888]'
                           }`}
                         >
                           {value}
@@ -215,7 +214,7 @@ const ShopProduct = () => {
 
                 {/* Quantity */}
                 <div className="space-y-3">
-                  <label className="text-sm uppercase tracking-wider text-white/60">
+                  <label className="text-sm uppercase tracking-wider text-[#888]">
                     Quantity
                   </label>
                   <div className="flex items-center gap-4">
@@ -223,16 +222,16 @@ const ShopProduct = () => {
                       variant="outline"
                       size="icon"
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="border-white/20 text-white hover:bg-white/10"
+                      className="border-[#ddd] text-[#323232] hover:bg-[#f0f0f0]"
                     >
                       <Minus className="w-4 h-4" />
                     </Button>
-                    <span className="text-white text-lg w-12 text-center">{quantity}</span>
+                    <span className="text-[#323232] text-lg w-12 text-center">{quantity}</span>
                     <Button
                       variant="outline"
                       size="icon"
                       onClick={() => setQuantity(quantity + 1)}
-                      className="border-white/20 text-white hover:bg-white/10"
+                      className="border-[#ddd] text-[#323232] hover:bg-[#f0f0f0]"
                     >
                       <Plus className="w-4 h-4" />
                     </Button>
@@ -244,7 +243,7 @@ const ShopProduct = () => {
                   onClick={handleAddToCart}
                   disabled={isLoading || !selectedVariant?.availableForSale}
                   size="lg"
-                  className="w-full bg-white text-black hover:bg-white/90 h-14 text-base uppercase tracking-wider"
+                  className="w-full bg-[#323232] text-white hover:bg-[#1a1a1a] h-14 text-base uppercase tracking-wider"
                 >
                   {isLoading ? (
                     <Loader2 className="w-5 h-5 animate-spin" />
