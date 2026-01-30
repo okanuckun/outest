@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-route
 import { ReactLenis } from "lenis/react";
 import { AnimatePresence, motion } from "framer-motion";
 import MetaPixel from "@/components/MetaPixel";
+import { useCartSync } from "@/hooks/useCartSync";
 
 // Eager load Index for fast initial render
 import Index from "./pages/Index";
@@ -19,6 +20,8 @@ const Work = lazy(() => import("./pages/Work"));
 const Project = lazy(() => import("./pages/Project"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
 const Booking = lazy(() => import("./pages/Booking"));
+const Shop = lazy(() => import("./pages/Shop"));
+const ShopProduct = lazy(() => import("./pages/ShopProduct"));
 const Auth = lazy(() => import("./pages/Auth"));
 const Admin = lazy(() => import("./pages/Admin"));
 const AdminSEO = lazy(() => import("./pages/AdminSEO"));
@@ -56,6 +59,7 @@ const pageVariants = {
 
 const AnimatedRoutes = () => {
   const location = useLocation();
+  useCartSync(); // Sync cart on visibility change
 
   return (
     <AnimatePresence mode="wait">
@@ -78,6 +82,8 @@ const AnimatedRoutes = () => {
             <Route path="/project/:slug" element={<ProjectDetail />} />
             <Route path="/booking" element={<Booking />} />
             <Route path="/appointment" element={<Navigate to="/booking" replace />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/shop/:handle" element={<ShopProduct />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin/seo" element={<AdminSEO />} />
