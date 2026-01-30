@@ -12,8 +12,7 @@ const navItems = [
   { label: 'Work', path: '/work' },
   { label: 'About', path: '/about' },
   { label: 'Blog', path: '/blog' },
-  { label: 'Project', path: '/project' },
-  { label: 'Shop', path: '/shop' }
+  { label: 'Project', path: '/project' }
 ];
 
 const socialLinks = [
