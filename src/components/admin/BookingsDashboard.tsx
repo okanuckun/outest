@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
-import { TrendingUp, TrendingDown, Mail, Clock, CheckCircle, XCircle, Users, Calendar } from 'lucide-react';
+import { TrendingUp, TrendingDown, Mail, Clock, CheckCircle, XCircle, Users, Calendar, MapPin } from 'lucide-react';
 import { format, subMonths, startOfMonth, endOfMonth, isWithinInterval, parseISO } from 'date-fns';
 
 interface Booking {
@@ -9,6 +9,7 @@ interface Booking {
   status: string;
   created_at: string;
   location_type: string | null;
+  guest_spot_name: string | null;
 }
 
 interface BookingsDashboardProps {
@@ -99,6 +100,33 @@ const BookingsDashboard: React.FC<BookingsDashboardProps> = ({ bookings }) => {
     { name: 'Guest Spots', value: stats.guestSpot },
     { name: 'Travelers', value: stats.traveler },
   ].filter(item => item.value > 0), [stats]);
+
+  // Detailed location breakdown including specific guest spot names
+  const detailedLocationData = useMemo(() => {
+    const locationCounts: Record<string, number> = {};
+    
+    bookings.forEach(booking => {
+      let locationLabel: string;
+      
+      if (booking.location_type === 'nyc') {
+        locationLabel = 'NYC Studio';
+      } else if (booking.location_type === 'guest_spot' && booking.guest_spot_name) {
+        locationLabel = booking.guest_spot_name;
+      } else if (booking.location_type === 'traveler') {
+        locationLabel = 'Traveler';
+      } else {
+        locationLabel = 'Unknown';
+      }
+      
+      locationCounts[locationLabel] = (locationCounts[locationLabel] || 0) + 1;
+    });
+    
+    return Object.entries(locationCounts)
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count);
+  }, [bookings]);
+
+  const LOCATION_COLORS = ['#1a1a1a', '#3b82f6', '#22c55e', '#f59e0b', '#8b5cf6', '#ec4899'];
 
   return (
     <div className="space-y-6 mb-8">
@@ -254,25 +282,69 @@ const BookingsDashboard: React.FC<BookingsDashboardProps> = ({ bookings }) => {
         </Card>
       </div>
 
-      {/* Location Breakdown */}
-      {locationData.length > 0 && (
+      {/* Detailed Location Breakdown with Bar Chart */}
+      {detailedLocationData.length > 0 && (
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium">Location Breakdown</CardTitle>
+            <CardTitle className="text-base font-medium flex items-center gap-2">
+              <MapPin className="w-4 h-4" />
+              Requested Locations
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-3 gap-4">
-              <div className="text-center p-4 bg-muted/50 rounded-lg">
-                <p className="text-2xl font-bold">{stats.nyc}</p>
-                <p className="text-sm text-muted-foreground">NYC Studio</p>
+            <div className="h-[250px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart 
+                  data={detailedLocationData} 
+                  layout="vertical"
+                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                >
+                  <XAxis type="number" axisLine={false} tickLine={false} fontSize={12} allowDecimals={false} />
+                  <YAxis 
+                    type="category" 
+                    dataKey="name" 
+                    axisLine={false} 
+                    tickLine={false} 
+                    fontSize={12} 
+                    width={120}
+                    tick={{ fill: '#666' }}
+                  />
+                  <Tooltip 
+                    contentStyle={{ 
+                      background: 'white', 
+                      border: '1px solid #e5e7eb',
+                      borderRadius: '8px',
+                      fontSize: '12px'
+                    }}
+                    formatter={(value: number) => [`${value} requests`, 'Count']}
+                  />
+                  <Bar 
+                    dataKey="count" 
+                    radius={[0, 4, 4, 0]}
+                  >
+                    {detailedLocationData.map((entry, index) => (
+                      <Cell 
+                        key={`cell-${index}`} 
+                        fill={LOCATION_COLORS[index % LOCATION_COLORS.length]} 
+                      />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+            {/* Summary stats below chart */}
+            <div className="grid grid-cols-3 gap-4 mt-4 pt-4 border-t">
+              <div className="text-center">
+                <p className="text-xl font-bold">{stats.nyc}</p>
+                <p className="text-xs text-muted-foreground">NYC Studio</p>
               </div>
-              <div className="text-center p-4 bg-muted/50 rounded-lg">
-                <p className="text-2xl font-bold">{stats.guestSpot}</p>
-                <p className="text-sm text-muted-foreground">Guest Spots</p>
+              <div className="text-center">
+                <p className="text-xl font-bold">{stats.guestSpot}</p>
+                <p className="text-xs text-muted-foreground">Guest Spots</p>
               </div>
-              <div className="text-center p-4 bg-muted/50 rounded-lg">
-                <p className="text-2xl font-bold">{stats.traveler}</p>
-                <p className="text-sm text-muted-foreground">Travelers</p>
+              <div className="text-center">
+                <p className="text-xl font-bold">{stats.traveler}</p>
+                <p className="text-xs text-muted-foreground">Travelers</p>
               </div>
             </div>
           </CardContent>
