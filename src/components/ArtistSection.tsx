@@ -3,19 +3,15 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import ScrollReveal from '@/components/animations/ScrollReveal';
-
 const ArtistSection: React.FC = () => {
-  return (
-    <section className="box-border w-full relative bg-white m-0 px-[23px] py-[80px] max-md:px-5 max-md:py-10 max-sm:px-4 max-sm:py-6">
+  return <section className="box-border w-full relative bg-white m-0 px-[23px] py-[80px] max-md:px-5 max-md:py-10 max-sm:px-4 max-sm:py-6">
       <div className="max-w-[1875px] mx-auto">
         <div className="flex flex-col lg:flex-row gap-10">
           {/* Left side - Main text aligned with "saying" */}
           <div className="flex-1">
             <ScrollReveal delay={0.2}>
               <div className="mb-10">
-                <h2 className="text-[#323232] text-[28px] font-medium leading-[34px] tracking-[-0.4px] uppercase max-md:text-[22px] max-md:leading-7 max-sm:text-lg max-sm:leading-5">
-                  OKAN UCKUN IS RECOGNIZED AS ONE OF THE PIONEERS OF MINIMALIST TATTOOS AND GEOMETRIC TATTOOS. IN 2024, HE CO-FOUNDED MONOLITH STUDIO WITH OSCAR AKERMO AND CONTINUES TO RUN HIS UNIQUE ART PROJECT, INM STUDIO.
-                </h2>
+                <h2 className="text-[#323232] text-[28px] font-medium leading-[34px] tracking-[-0.4px] uppercase max-md:text-[22px] max-md:leading-7 max-sm:text-lg max-sm:leading-5">RECOGNIZED AS ONE OF THE PIONEERS OF MINIMALIST AND GEOMETRIC TATTOOING, OKAN UCKUN—TRAINED AS AN ARCHITECT—CO-FOUNDED MONOLITH STUDIO IN 2024 AND CONTINUES TO PUSH HIS ARTISTIC VISION THROUGH HIS ONGOING PROJECT, IMNOTMINIMAL.</h2>
               </div>
             </ScrollReveal>
             
@@ -48,23 +44,18 @@ const ArtistSection: React.FC = () => {
             </h2>
             
             {/* Arrow link to About page */}
-            <motion.div 
-              className="mt-auto lg:mt-0 flex justify-end lg:justify-start"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Link 
-                to="/about" 
-                className="inline-flex items-center justify-center w-12 h-12 border border-foreground text-foreground hover:bg-foreground hover:text-background transition-colors"
-              >
+            <motion.div className="mt-auto lg:mt-0 flex justify-end lg:justify-start" whileHover={{
+            scale: 1.1
+          }} whileTap={{
+            scale: 0.95
+          }}>
+              <Link to="/about" className="inline-flex items-center justify-center w-12 h-12 border border-foreground text-foreground hover:bg-foreground hover:text-background transition-colors">
                 <ArrowUpRight size={24} strokeWidth={1.5} />
               </Link>
             </motion.div>
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default ArtistSection;
