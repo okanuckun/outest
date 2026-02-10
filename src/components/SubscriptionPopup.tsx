@@ -104,13 +104,13 @@ const SubscriptionPopup: React.FC = () => {
           
           {/* Popup */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[101] w-[85%] max-w-xs"
+            className="fixed inset-0 z-[101] flex items-center justify-center pointer-events-none"
           >
-            <div className="bg-[#111] border border-white/10 rounded-lg p-5 relative">
+            <div className="w-[85%] max-w-xs pointer-events-auto bg-[#111] border border-white/10 rounded-lg p-5 relative">
               {/* Close button */}
               <button
                 onClick={handleClose}
@@ -122,7 +122,6 @@ const SubscriptionPopup: React.FC = () => {
 
               {!hasSubscribed ? (
                 <>
-                  {/* Header */}
                   <div className="text-center mb-4">
                     <h2 className="text-lg font-medium text-white mb-1">
                       Stay in the Loop
@@ -132,7 +131,6 @@ const SubscriptionPopup: React.FC = () => {
                     </p>
                   </div>
 
-                  {/* Form */}
                   <form onSubmit={handleSubmit} className="space-y-3">
                     <input
                       type="email"
@@ -157,7 +155,6 @@ const SubscriptionPopup: React.FC = () => {
                   </p>
                 </>
               ) : (
-                /* Success State */
                 <div className="text-center py-2">
                   <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-3">
                     <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
