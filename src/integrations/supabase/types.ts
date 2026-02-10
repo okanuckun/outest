@@ -77,6 +77,7 @@ export type Database = {
           portfolio_favorites: string | null
           preferred_date: string | null
           reference_images: string[] | null
+          referral_source: string | null
           status: string | null
           story: string | null
           tattoo_placement: string | null
@@ -100,6 +101,7 @@ export type Database = {
           portfolio_favorites?: string | null
           preferred_date?: string | null
           reference_images?: string[] | null
+          referral_source?: string | null
           status?: string | null
           story?: string | null
           tattoo_placement?: string | null
@@ -123,6 +125,7 @@ export type Database = {
           portfolio_favorites?: string | null
           preferred_date?: string | null
           reference_images?: string[] | null
+          referral_source?: string | null
           status?: string | null
           story?: string | null
           tattoo_placement?: string | null
