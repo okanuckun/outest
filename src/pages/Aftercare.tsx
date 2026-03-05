@@ -24,7 +24,7 @@ const Aftercare: React.FC = () => {
           <ScrollReveal>
             <div className="space-y-6 text-[15px] text-[#1a1a1a] leading-relaxed">
               <p>
-                Each artist will make a unique aftercare suggestion. You can read the blog for special aftercare recommendations of Okan Uckun, who is an expert in minimal tattoos.
+                Each artist will make a unique aftercare suggestion. You can read the blog for special aftercare recommendations of Okan Uckun.
               </p>
               <p>
                 These, so called "Minimal Tattoos", are different than other ones. So, please be careful about this process. You are going to carry these for the rest of your life and I would like them to look great.
