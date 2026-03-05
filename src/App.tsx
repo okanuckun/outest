@@ -25,6 +25,7 @@ const ShopProduct = lazy(() => import("./pages/ShopProduct"));
 const Auth = lazy(() => import("./pages/Auth"));
 const Admin = lazy(() => import("./pages/Admin"));
 const AdminSEO = lazy(() => import("./pages/AdminSEO"));
+const Aftercare = lazy(() => import("./pages/Aftercare"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient({
@@ -87,6 +88,7 @@ const AnimatedRoutes = () => {
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin/seo" element={<AdminSEO />} />
+            <Route path="/aftercare" element={<Aftercare />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

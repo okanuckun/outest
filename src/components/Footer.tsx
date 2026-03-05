@@ -42,6 +42,18 @@ const Footer: React.FC = () => {
         </div>
       </ScrollReveal>
 
+      {/* Aftercare Link */}
+      <ScrollReveal>
+        <div className="px-6 md:px-12 pt-4 pb-2">
+          <Link 
+            to="/aftercare" 
+            className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider"
+          >
+            Aftercare →
+          </Link>
+        </div>
+      </ScrollReveal>
+
       {/* Horizontal Line */}
       <div className="w-full px-6 md:px-12">
         <div className="w-full h-px bg-[#1a1a1a]/20" />
