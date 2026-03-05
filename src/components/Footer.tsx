@@ -111,6 +111,23 @@ const Footer: React.FC = () => {
                 </motion.a>
               </div>
             ))}
+            {/* Aftercare */}
+            <div className="flex flex-col gap-2">
+              <span className="text-[11px] text-[#888] uppercase tracking-wider">
+                AFTERCARE
+              </span>
+              <motion.div
+                whileHover={{ x: 4 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Link
+                  to="/aftercare"
+                  className="text-sm text-[#1a1a1a] hover:opacity-60 transition-opacity"
+                >
+                  Read Guide
+                </Link>
+              </motion.div>
+            </div>
           </div>
         </div>
       </ScrollReveal>
