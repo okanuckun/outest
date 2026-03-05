@@ -25,6 +25,7 @@ const ShopProduct = lazy(() => import("./pages/ShopProduct"));
 const Auth = lazy(() => import("./pages/Auth"));
 const Admin = lazy(() => import("./pages/Admin"));
 const AdminSEO = lazy(() => import("./pages/AdminSEO"));
+const Aftercare = lazy(() => import("./pages/Aftercare"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient({
