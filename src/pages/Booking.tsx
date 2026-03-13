@@ -166,6 +166,18 @@ const Booking: React.FC = () => {
     }
   }, [searchParams, guestSpots]);
 
+  // Reset guest_spot selection if no active guest spots available (e.g. expired since last visit)
+  useEffect(() => {
+    if (guestSpots !== undefined && (!guestSpots || guestSpots.length === 0)) {
+      setFormData(prev => {
+        if (prev.locationType === 'guest_spot') {
+          return { ...prev, locationType: null, guestSpotId: null };
+        }
+        return prev;
+      });
+    }
+  }, [guestSpots]);
+
   const handleInputChange = (field: keyof FormData, value: string | 'new' | 'returning' | 'nyc' | 'traveler' | null) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
