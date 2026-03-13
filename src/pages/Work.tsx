@@ -27,7 +27,7 @@ const Work: React.FC = () => {
   const [isScrolling, setIsScrolling] = useState(false);
   const [works, setWorks] = useState<PortfolioImage[]>([]);
   const [loading, setLoading] = useState(true);
-  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
+  const scrollTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Preload images for smoother transitions
