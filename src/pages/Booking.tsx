@@ -798,6 +798,28 @@ const Booking: React.FC = () => {
                     </button>
                   </div>
                 </div>
+
+                {/* How did you find us */}
+                <div>
+                  <label className="block text-[#1a1a1a] text-sm mb-3">
+                    How did you find us?
+                  </label>
+                  <select
+                    value={formData.referralSource}
+                    onChange={(e) => handleInputChange('referralSource', e.target.value)}
+                    className="w-full px-4 py-3 bg-transparent border border-[#1a1a1a]/20 text-[#1a1a1a] text-sm focus:outline-none focus:border-[#1a1a1a]/60 transition-colors appearance-none cursor-pointer"
+                  >
+                    <option value="">Select an option</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="tiktok">TikTok</option>
+                    <option value="pinterest">Pinterest</option>
+                    <option value="google">Google Search</option>
+                    <option value="ai">ChatGPT / AI</option>
+                    <option value="word_of_mouth">Word of Mouth</option>
+                    <option value="ads">Ads</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
               </div>
 
               {/* Answer Later Option */}

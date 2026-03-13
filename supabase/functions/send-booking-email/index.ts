@@ -115,6 +115,7 @@ const handler = async (req: Request): Promise<Response> => {
         <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Location:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${data.location || 'Not provided'}</td></tr>
         <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Requested Studio:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${requestedStudio}</td></tr>
         <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Collector Type:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${data.collectorType === 'new' ? 'New Collector' : 'Returning Collector'}</td></tr>
+        <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Referral Source:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${data.referralSource || 'Not specified'}</td></tr>
       </table>
 
       <h2>Tattoo Details</h2>
