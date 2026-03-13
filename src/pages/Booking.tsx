@@ -800,7 +800,7 @@ const Booking: React.FC = () => {
                 </div>
 
                 {/* How did you find us */}
-                <div>
+                <div className="mt-6">
                   <label className="block text-[#1a1a1a] text-sm mb-3">
                     How did you find us?
                   </label>
