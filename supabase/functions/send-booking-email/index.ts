@@ -21,6 +21,7 @@ interface BookingRequest {
   locationType: string | null;
   guestSpotName?: string;
   collectorType: string | null;
+  referralSource: string | null;
   tattooPlacement: string;
   tattooSize: string;
   portfolioFavorites: string;
