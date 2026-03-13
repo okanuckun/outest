@@ -802,7 +802,7 @@ const Booking: React.FC = () => {
                 {/* How did you find us */}
                 <div className="mt-6">
                   <label className="block text-[#1a1a1a] text-sm mb-3">
-                    How did you find us?
+                    How did you find me?
                   </label>
                   <select
                     value={formData.referralSource}
