@@ -30,6 +30,7 @@ type FormData = {
   locationType: 'nyc' | 'traveler' | 'guest_spot' | null;
   guestSpotId: string | null;
   collectorType: 'new' | 'returning' | null;
+  referralSource: string;
   tattooPlacement: string;
   tattooSize: string;
   portfolioFavorites: string;
