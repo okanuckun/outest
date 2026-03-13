@@ -80,6 +80,7 @@ const handler = async (req: Request): Promise<Response> => {
         additional_notes: data.additionalNotes || null,
         reference_images: data.referenceImages || [],
         placement_images: data.placementImages || [],
+        referral_source: data.referralSource || null,
         status: 'pending',
       });
 
