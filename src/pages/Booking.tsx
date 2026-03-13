@@ -419,7 +419,7 @@ const Booking: React.FC = () => {
       >
       <Navigation variant="dark" />
       
-      <main className="relative z-10 pt-40 md:pt-48 pb-24">
+      <main className={`relative z-10 ${isSubmitted ? 'pt-20 md:pt-24' : 'pt-40 md:pt-48'} pb-24`}>
         <div className="container mx-auto px-6 md:px-12 lg:px-24">
           {/* Success State */}
           {isSubmitted ? (
