@@ -68,6 +68,7 @@ const getInitialFormData = (): FormData => {
     locationType: null,
     guestSpotId: null,
     collectorType: null,
+    referralSource: '',
     tattooPlacement: '',
     tattooSize: '',
     portfolioFavorites: '',
