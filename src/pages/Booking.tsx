@@ -310,6 +310,7 @@ const Booking: React.FC = () => {
         locationType: null,
         guestSpotId: null,
         collectorType: null,
+        referralSource: '',
         tattooPlacement: '',
         tattooSize: '',
         portfolioFavorites: '',
