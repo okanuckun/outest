@@ -1,33 +1,25 @@
-# Robots.txt for www.okanuckun.com
+User-agent: *
+Allow: /
+Disallow: /nogooglebot/
+Sitemap: https://www.okanuckun.com/sitemap.xml
 
 User-agent: Googlebot
 Allow: /
-Disallow: /admin
-Disallow: /auth
-Disallow: /appointment
-Disallow: /tattoos
 
 User-agent: Bingbot
 Allow: /
-Disallow: /admin
-Disallow: /auth
 
-User-agent: Twitterbot
+User-agent: GPTBot
 Allow: /
 
-User-agent: facebookexternalhit
+User-agent: ClaudeBot
 Allow: /
 
-User-agent: AhrefsBot
+User-agent: PerplexityBot
 Allow: /
-Disallow: /admin
-Disallow: /auth
 
-User-agent: *
+User-agent: anthropic-ai
 Allow: /
-Disallow: /admin
-Disallow: /auth
-Disallow: /appointment
-Disallow: /tattoos
 
-Sitemap: https://www.okanuckun.com/sitemap.xml
+User-agent: Meta-ExternalAgent
+Allow: /
