@@ -22,7 +22,11 @@ const Footer: React.FC = () => {
     },
   ];
 
-  const styles = ['GEOMETRIC TATTOO', 'ABSTRACT TATTOO', 'MINIMALIST TATTOO'];
+  const styles = [
+    { label: 'GEOMETRIC TATTOO', link: '/geometric-tattoos' },
+    { label: 'ABSTRACT TATTOO', link: null },
+    { label: 'MINIMALIST TATTOO', link: null },
+  ];
 
   return (
     <footer className="relative bg-[#f5f5f5] text-[#1a1a1a] w-full overflow-hidden">
