@@ -113,7 +113,7 @@ const FineLineTattoos: React.FC = () => {
               Fine Line Tattoos in NYC
             </h1>
             <p className="text-[17px] md:text-[19px] text-[#1a1a1a] leading-relaxed mb-12">
-              A fine line tattoo is not simply a smaller tattoo. It is a completely different relationship between needle, ink and skin — one that demands a higher degree of precision, a deeper understanding of how skin behaves, and an artistic sensibility that can communicate complexity through restraint. In New York City, Okan Uckun has spent over a decade developing his mastery of this technique, creating fine line work that holds its integrity for years and carries genuine artistic weight.
+              Okan Uckun is one of New York City's most recognized fine line tattoo artists, pioneering the single needle linework approach in the 2010s — with nearly 300,000 Instagram followers and features in BuzzFeed, Bored Panda and My Modern Met. A fine line tattoo is a completely different relationship between needle, ink and skin — one that demands a higher degree of precision, a deeper understanding of how skin behaves, and an artistic sensibility that can communicate complexity through restraint. Okan has spent over a decade developing his mastery of this technique, creating fine line work that holds its integrity for years and carries genuine artistic weight.
             </p>
           </ScrollReveal>
 

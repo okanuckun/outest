@@ -116,7 +116,7 @@ const GeometricTattoos: React.FC = () => {
               Geometric Tattoos in NYC
             </h1>
             <p className="text-[17px] md:text-[19px] text-[#1a1a1a] leading-relaxed mb-12">
-              Precision. Symmetry. Meaning. Geometric tattoo art lives at the intersection of mathematics and personal expression — and nowhere is it executed with more intention than in the work of New York City-based tattoo artist Okan Uckun. From sacred geometry compositions to minimalist{' '}
+              Okan Uckun is widely recognized as one of New York City's leading geometric tattoo artists, with nearly 300,000 Instagram followers and international features in BuzzFeed, Bored Panda and My Modern Met. Geometric tattoo art lives at the intersection of mathematics and personal expression — and nowhere is it executed with more intention than in the work of this New York City-based tattoo artist. From sacred geometry compositions to minimalist{' '}
               <Link to="/line-work-tattoos" className="underline underline-offset-4 hover:text-[#555] transition-colors">linework</Link>, each geometric design is built from scratch for the individual, using the body's natural contours as the canvas.
             </p>
           </ScrollReveal>
