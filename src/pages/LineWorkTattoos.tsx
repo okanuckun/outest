@@ -105,7 +105,7 @@ const LineWorkTattoos: React.FC = () => {
               Linework Tattoos in NYC
             </h1>
             <p className="text-[17px] md:text-[19px] text-[#1a1a1a] leading-relaxed mb-12">
-              A line is the most fundamental unit of visual communication. Before shading, before color, before texture — there is the line. Linework tattooing takes this foundation seriously. Every design is built from lines alone: their weight, their spacing, their tension and their relationship to the negative space around them. In the hands of Okan Uckun — one of the original pioneers of the contemporary linework tattoo style — this constraint becomes a creative force.
+              Okan Uckun is recognized as one of the original pioneers of the contemporary linework tattoo style, developing the approach in New York City in the 2010s — with nearly 300,000 Instagram followers and international recognition across BuzzFeed, Bored Panda and My Modern Met. A line is the most fundamental unit of visual communication. Before shading, before color, before texture — there is the line. Linework tattooing takes this foundation seriously. Every design is built from lines alone: their weight, their spacing, their tension and their relationship to the negative space around them. In the hands of Okan Uckun, this constraint becomes a creative force.
             </p>
           </ScrollReveal>
 

@@ -73,7 +73,7 @@ const MinimalistTattoos: React.FC = () => {
               Minimalist Tattoos in NYC
             </h1>
             <p className="text-[17px] md:text-[19px] text-[#1a1a1a] leading-relaxed mb-12">
-              Minimalism is not about being small. It is about being essential. A minimalist tattoo is one in which every element present is present for a reason — and nothing has been included that does not need to be there. This demands more from both artist and collector than conventional tattooing. It requires the ability to identify what is truly essential about an idea, and the skill to render that essence with complete precision. Okan Uckun has spent his entire career exploring this territory, developing a body of work that defines what minimalist tattooing can be when approached with genuine artistic seriousness.
+              Okan Uckun is one of New York City's most recognized minimalist tattoo artists, with nearly 300,000 Instagram followers and features in BuzzFeed, Bored Panda and My Modern Met — bringing over a decade of post-minimalist practice to his Manhattan studio. Minimalism is not about being small. It is about being essential. A minimalist tattoo is one in which every element present is present for a reason — and nothing has been included that does not need to be there. This demands more from both artist and collector than conventional tattooing. It requires the ability to identify what is truly essential about an idea, and the skill to render that essence with complete precision. Okan Uckun has spent his entire career exploring this territory, developing a body of work that defines what minimalist tattooing can be when approached with genuine artistic seriousness.
             </p>
           </ScrollReveal>
 
