@@ -96,6 +96,7 @@ const AnimatedRoutes = () => {
             <Route path="/geometric-tattoos" element={<GeometricTattoos />} />
             <Route path="/fine-line-tattoos" element={<FineLineTattoos />} />
             <Route path="/line-work-tattoos" element={<LineWorkTattoos />} />
+            <Route path="/minimalist-tattoos" element={<MinimalistTattoos />} />
             <Route path="/line-work-tattos" element={<Navigate to="/line-work-tattoos" replace />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
