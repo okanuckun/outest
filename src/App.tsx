@@ -27,6 +27,7 @@ const Admin = lazy(() => import("./pages/Admin"));
 const AdminSEO = lazy(() => import("./pages/AdminSEO"));
 const Aftercare = lazy(() => import("./pages/Aftercare"));
 const GeometricTattoos = lazy(() => import("./pages/GeometricTattoos"));
+const FineLineTattoos = lazy(() => import("./pages/FineLineTattoos"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient({
@@ -91,6 +92,7 @@ const AnimatedRoutes = () => {
             <Route path="/admin/seo" element={<AdminSEO />} />
             <Route path="/aftercare" element={<Aftercare />} />
             <Route path="/geometric-tattoos" element={<GeometricTattoos />} />
+            <Route path="/fine-line-tattoos" element={<FineLineTattoos />} />
             <Route path="/line-work-tattos" element={<Navigate to="/line-work-tattoos" replace />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
