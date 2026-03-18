@@ -34,9 +34,15 @@ const Footer: React.FC = () => {
           </span>
           <div className="flex justify-between items-center w-full">
             {styles.map((style) => (
-              <span key={style} className="text-[11px] text-[#1a1a1a] uppercase tracking-wider">
-                {style}
-              </span>
+              style.link ? (
+                <Link key={style.label} to={style.link} className="text-[11px] text-[#1a1a1a] uppercase tracking-wider hover:text-[#555] transition-colors">
+                  {style.label}
+                </Link>
+              ) : (
+                <span key={style.label} className="text-[11px] text-[#1a1a1a] uppercase tracking-wider">
+                  {style.label}
+                </span>
+              )
             ))}
           </div>
         </div>
