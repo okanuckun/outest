@@ -29,6 +29,7 @@ const Aftercare = lazy(() => import("./pages/Aftercare"));
 const GeometricTattoos = lazy(() => import("./pages/GeometricTattoos"));
 const FineLineTattoos = lazy(() => import("./pages/FineLineTattoos"));
 const LineWorkTattoos = lazy(() => import("./pages/LineWorkTattoos"));
+const MinimalistTattoos = lazy(() => import("./pages/MinimalistTattoos"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient({
