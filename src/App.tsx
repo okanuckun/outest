@@ -27,6 +27,7 @@ const Admin = lazy(() => import("./pages/Admin"));
 const AdminSEO = lazy(() => import("./pages/AdminSEO"));
 const Aftercare = lazy(() => import("./pages/Aftercare"));
 const GeometricTattoos = lazy(() => import("./pages/GeometricTattoos"));
+const FineLineTattoos = lazy(() => import("./pages/FineLineTattoos"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient({
