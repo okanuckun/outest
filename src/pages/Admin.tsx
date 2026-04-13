@@ -1103,7 +1103,8 @@ const Admin: React.FC = () => {
             </div>
           </TabsContent>
 
-          <TabsContent value="guest-spots">
+          <TabsContent value="guest-spots" className="space-y-6">
+            <NYCAppointmentsManager />
             <GuestSpotsManager />
           </TabsContent>
 
