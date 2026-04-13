@@ -45,35 +45,27 @@ const GuestSpots: React.FC = () => {
           Upcoming Guest Spots
         </p>
         <div className="space-y-2">
-          {guestSpots.map((spot) => {
-            // NYC Monolith Studio → link to booking with NYC pre-selected
-            const isNYC = spot.studio_name === 'Monolith Studio' && spot.city === 'New York City';
-            const linkTo = isNYC
-              ? '/booking?location_type=nyc'
-              : `/booking?guest_spot=${spot.id}`;
-
-            return (
-              <Link
-                key={spot.id}
-                to={linkTo}
-                className="group block"
-              >
-                <div className="flex items-baseline justify-between gap-4">
-                  <div>
-                    <p className="text-white text-sm font-light">
-                      {spot.city}
-                    </p>
-                    <p className="text-white/50 text-xs">
-                      {format(parseISO(spot.start_date), 'MMM d')} – {format(parseISO(spot.end_date), 'd')}
-                    </p>
-                  </div>
-                  <span className="text-white/40 text-xs group-hover:text-white transition-colors">
-                    Book →
-                  </span>
+          {guestSpots.map((spot) => (
+            <Link
+              key={spot.id}
+              to={`/booking?guest_spot=${spot.id}`}
+              className="group block"
+            >
+              <div className="flex items-baseline justify-between gap-4">
+                <div>
+                  <p className="text-white text-sm font-light">
+                    {spot.city}
+                  </p>
+                  <p className="text-white/50 text-xs">
+                    {format(parseISO(spot.start_date), 'MMM d')} – {format(parseISO(spot.end_date), 'd')}
+                  </p>
                 </div>
-              </Link>
-            );
-          })}
+                <span className="text-white/40 text-xs group-hover:text-white transition-colors">
+                  Book →
+                </span>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </div>
