@@ -156,10 +156,18 @@ const Booking: React.FC = () => {
     },
   });
 
-  // Pre-select guest spot from URL parameter
+  // Pre-select guest spot or NYC from URL parameters
   useEffect(() => {
     const guestSpotId = searchParams.get('guest_spot');
-    if (guestSpotId && guestSpots?.some(spot => spot.id === guestSpotId)) {
+    const locationType = searchParams.get('location_type');
+    
+    if (locationType === 'nyc') {
+      setFormData(prev => ({
+        ...prev,
+        locationType: 'nyc',
+        guestSpotId: null,
+      }));
+    } else if (guestSpotId && guestSpots?.some(spot => spot.id === guestSpotId)) {
       setFormData(prev => ({
         ...prev,
         locationType: 'guest_spot',
