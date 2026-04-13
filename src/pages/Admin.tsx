@@ -13,6 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import RichTextEditor from '@/components/ui/rich-text-editor';
 import GuestSpotsManager from '@/components/admin/GuestSpotsManager';
+import NYCAppointmentsManager from '@/components/admin/NYCAppointmentsManager';
 import PortfolioManager from '@/components/admin/PortfolioManager';
 import EmailTemplatesManager from '@/components/admin/EmailTemplatesManager';
 import SiteSettingsManager from '@/components/admin/SiteSettingsManager';
