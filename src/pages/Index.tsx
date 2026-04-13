@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import Navigation from '@/components/Navigation';
 import HeroSection from '@/components/HeroSection';
 import GuestSpots from '@/components/GuestSpots';
+import NYCAppointments from '@/components/NYCAppointments';
 import Footer from '@/components/Footer';
 import SEOHead from '@/components/SEOHead';
 import SubscriptionPopup from '@/components/SubscriptionPopup';
@@ -61,8 +62,9 @@ const Index: React.FC = () => {
         
         <div className="relative z-10 flex h-full flex-col">
           <Navigation />
-          <HeroSection />
-          <GuestSpots />
+           <HeroSection />
+           <NYCAppointments />
+           <GuestSpots />
         </div>
       </div>
       

@@ -4,60 +4,57 @@ import { supabase } from '@/integrations/supabase/client';
 import { Link } from 'react-router-dom';
 import { format, parseISO } from 'date-fns';
 
-interface GuestSpot {
+interface NYCAppointment {
   id: string;
-  studio_name: string;
-  city: string;
-  country: string;
+  label: string;
   start_date: string;
   end_date: string;
   description: string | null;
 }
 
-const GuestSpots: React.FC = () => {
-  const { data: guestSpots, isLoading } = useQuery({
-    queryKey: ['guest-spots'],
+const NYCAppointments: React.FC = () => {
+  const { data: appointments, isLoading } = useQuery({
+    queryKey: ['nyc-appointments'],
     queryFn: async () => {
-      // Use local date (not UTC) to avoid off-by-one issues around timezone
       const today = format(new Date(), 'yyyy-MM-dd');
 
       const { data, error } = await supabase
-        .from('guest_spots')
+        .from('nyc_appointments')
         .select('*')
         .gte('end_date', today)
         .eq('is_active', true)
         .order('start_date', { ascending: true })
         .limit(3);
-      
+
       if (error) throw error;
-      return data as GuestSpot[];
+      return data as NYCAppointment[];
     },
   });
 
-  if (isLoading || !guestSpots || guestSpots.length === 0) {
+  if (isLoading || !appointments || appointments.length === 0) {
     return null;
   }
 
   return (
-    <div className="absolute top-32 right-[22.5px] max-sm:right-4 md:top-36 z-20">
+    <div className="absolute top-32 left-[22.5px] max-sm:left-4 md:top-36 z-20">
       <div className="backdrop-blur-sm bg-black/40 border border-white/10 rounded-sm p-3 md:p-4 w-[220px]">
         <p className="text-white/60 text-[10px] uppercase tracking-[0.2em] mb-2">
-          Upcoming Guest Spots
+          Available Appointments
         </p>
         <div className="space-y-2">
-          {guestSpots.map((spot) => (
+          {appointments.map((appt) => (
             <Link
-              key={spot.id}
-              to={`/booking?guest_spot=${spot.id}`}
+              key={appt.id}
+              to="/booking?location_type=nyc"
               className="group block"
             >
               <div className="flex items-baseline justify-between gap-4">
                 <div>
                   <p className="text-white text-sm font-light">
-                    {spot.city}
+                    {appt.label}
                   </p>
                   <p className="text-white/50 text-xs">
-                    {format(parseISO(spot.start_date), 'MMM d')} – {format(parseISO(spot.end_date), 'd')}
+                    {format(parseISO(appt.start_date), 'MMM d')} – {format(parseISO(appt.end_date), 'MMM d')}
                   </p>
                 </div>
                 <span className="text-white/40 text-xs group-hover:text-white transition-colors">
@@ -72,4 +69,4 @@ const GuestSpots: React.FC = () => {
   );
 };
 
-export default GuestSpots;
+export default NYCAppointments;
