@@ -203,6 +203,39 @@ export type Database = {
         }
         Relationships: []
       }
+      nyc_appointments: {
+        Row: {
+          created_at: string
+          description: string | null
+          end_date: string
+          id: string
+          is_active: boolean
+          label: string
+          start_date: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          end_date: string
+          id?: string
+          is_active?: boolean
+          label?: string
+          start_date: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          end_date?: string
+          id?: string
+          is_active?: boolean
+          label?: string
+          start_date?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       portfolio_images: {
         Row: {
           created_at: string
