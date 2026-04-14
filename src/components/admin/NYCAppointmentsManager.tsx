@@ -32,7 +32,7 @@ const NYCAppointmentsManager: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingAppt, setEditingAppt] = useState<NYCAppointment | null>(null);
   const [formData, setFormData] = useState({
-    label: 'NYC - Monolith Studio',
+    label: 'NYC - Monolith',
     start_date: '',
     end_date: '',
     description: '',
@@ -104,7 +104,7 @@ const NYCAppointmentsManager: React.FC = () => {
 
   const resetForm = () => {
     setFormData({
-      label: 'NYC - Monolith Studio',
+      label: 'NYC - Monolith',
       start_date: '',
       end_date: '',
       description: '',
@@ -157,7 +157,7 @@ const NYCAppointmentsManager: React.FC = () => {
                   id="label"
                   value={formData.label}
                   onChange={(e) => setFormData({ ...formData, label: e.target.value })}
-                  placeholder="NYC - Monolith Studio"
+                  placeholder="NYC - Monolith"
                   required
                 />
               </div>
