@@ -118,6 +118,32 @@
 
   .controls { display: flex; align-items: center; gap: 10px; }
 
+  /* mode switch */
+  .mode-switch {
+    display: flex; gap: 0; border: 1px solid var(--border);
+  }
+  .mode-switch button {
+    padding: 7px 14px; border: none; background: transparent;
+    color: var(--muted); font: 11px 'Share Tech Mono', monospace;
+    cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
+  }
+  .mode-switch button.active {
+    background: var(--fg); color: var(--bg);
+  }
+  .mode-switch button:hover:not(.active) { color: var(--fg); }
+
+  /* SVG drop zone */
+  .svg-drop {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 8px;
+    border: 2px dashed var(--border); margin: 8px;
+    cursor: pointer; z-index: 5;
+  }
+  .svg-drop.dragover { border-color: var(--fg); background: rgba(237,237,237,0.03); }
+  .svg-drop .label { font: 12px 'Share Tech Mono', monospace; color: var(--muted); text-transform: uppercase; }
+  .svg-drop .sub { font: 10px 'Share Tech Mono', monospace; color: var(--muted); opacity: 0.6; }
+  .svg-progress { font: 10px 'Share Tech Mono', monospace; color: var(--muted); margin-top: 4px; }
+
   /* connection buttons */
   .conn-btn {
     display: inline-flex;
@@ -560,9 +586,13 @@
         <span class="arrow">→</span>
         <span class="logo">axidraw</span>
         <span class="divider"></span>
-        <span class="dim">v0.8</span>
+        <span class="dim">v0.9</span>
       </div>
       <div class="controls">
+        <div class="mode-switch" id="mode-switch">
+          <button data-mode="eeg" class="active" title="EEG brain-driven mode">EEG</button>
+          <button data-mode="svg" title="SVG file plotting mode">SVG</button>
+        </div>
         <button class="conn-btn" id="conn-muse" title="Connect Muse headset (Bluetooth)">
           <span class="cdot"></span>
           <span>muse</span>
@@ -609,8 +639,14 @@
           <span class="panel-title">axidraw.viewport</span>
           <span class="panel-meta"><span id="plot-source">simulated</span> · <span id="paper-label">A3 · 420×297mm</span></span>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" style="position:relative;">
           <canvas id="plot-canvas"></canvas>
+          <div class="svg-drop" id="svg-drop" style="display:none;">
+            <span class="label">drop svg file here</span>
+            <span class="sub">or click to browse</span>
+            <input type="file" accept=".svg" id="svg-file-input" style="display:none;">
+            <span class="svg-progress" id="svg-progress"></span>
+          </div>
           <div class="plot-overlay" id="plot-overlay">
             <div class="progress-ring">
               <svg viewBox="0 0 64 64">
@@ -799,6 +835,8 @@
     settings: { drawSpeed:50, travelSpeed:90, penLift:60, penLower:40 },
     quality: { score:0, variance:0, lineRatio:0, status:'—' },
     simContact: true,
+    mode: 'eeg',  // 'eeg' or 'svg'
+    svg: { paths: [], currentPath: 0, currentPoint: 0, plotting: false, totalPoints: 0, plotted: 0 },
     sources: { eeg:'sim', plotter:'sim' },
     muse: null,
     axidraw: null,
@@ -1560,6 +1598,222 @@
     updatePaperUI();
   }
 
+  // ═══════════════════════════════════════════════════════════════
+  //   SVG PARSER & PLOTTER
+  // ═══════════════════════════════════════════════════════════════
+  function parseSVG(svgText) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(svgText, 'image/svg+xml');
+    const svg = doc.querySelector('svg');
+    if (!svg) { pushLog('⚠ invalid SVG'); return []; }
+
+    // Get SVG dimensions for scaling
+    let svgW, svgH;
+    const vb = svg.getAttribute('viewBox');
+    if (vb) {
+      const parts = vb.split(/[\s,]+/).map(Number);
+      svgW = parts[2]; svgH = parts[3];
+    } else {
+      svgW = parseFloat(svg.getAttribute('width')) || 100;
+      svgH = parseFloat(svg.getAttribute('height')) || 100;
+    }
+
+    // Scale to fit paper with margin
+    const paperW = state.paper.w - 2 * MARGIN;
+    const paperH = state.paper.h - 2 * MARGIN;
+    const scale = Math.min(paperW / svgW, paperH / svgH);
+    const offsetX = MARGIN + (paperW - svgW * scale) / 2;
+    const offsetY = MARGIN + (paperH - svgH * scale) / 2;
+
+    // Extract all paths — flatten groups/transforms
+    const paths = [];
+    const elements = svg.querySelectorAll('path, line, polyline, polygon, rect, circle, ellipse');
+
+    // Render SVG into a hidden container to get computed paths
+    const container = document.createElement('div');
+    container.style.cssText = 'position:absolute;left:-9999px;top:-9999px;';
+    container.innerHTML = svgText;
+    document.body.appendChild(container);
+    const renderedSvg = container.querySelector('svg');
+
+    const allEls = renderedSvg ? renderedSvg.querySelectorAll('path, line, polyline, polygon, rect, circle, ellipse') : [];
+
+    for (const el of allEls) {
+      let points = [];
+
+      if (el.tagName === 'line') {
+        const x1 = parseFloat(el.getAttribute('x1')) || 0;
+        const y1 = parseFloat(el.getAttribute('y1')) || 0;
+        const x2 = parseFloat(el.getAttribute('x2')) || 0;
+        const y2 = parseFloat(el.getAttribute('y2')) || 0;
+        points = [
+          { x: x1 * scale + offsetX, y: y1 * scale + offsetY },
+          { x: x2 * scale + offsetX, y: y2 * scale + offsetY },
+        ];
+      } else if (el.tagName === 'polyline' || el.tagName === 'polygon') {
+        const raw = el.getAttribute('points') || '';
+        const pairs = raw.trim().split(/\s+/);
+        for (const pair of pairs) {
+          const [x, y] = pair.split(',').map(Number);
+          if (!isNaN(x) && !isNaN(y)) {
+            points.push({ x: x * scale + offsetX, y: y * scale + offsetY });
+          }
+        }
+        if (el.tagName === 'polygon' && points.length > 0) {
+          points.push({ ...points[0] }); // close
+        }
+      } else if (el.getTotalLength) {
+        // path, rect, circle, ellipse — sample with getPointAtLength
+        try {
+          const len = el.getTotalLength();
+          const step = Math.max(0.5, len / Math.min(2000, Math.max(20, len * 2)));
+          for (let d = 0; d <= len; d += step) {
+            const pt = el.getPointAtLength(d);
+            points.push({ x: pt.x * scale + offsetX, y: pt.y * scale + offsetY });
+          }
+          // Ensure endpoint
+          const last = el.getPointAtLength(len);
+          points.push({ x: last.x * scale + offsetX, y: last.y * scale + offsetY });
+        } catch { continue; }
+      }
+
+      if (points.length >= 2) paths.push(points);
+    }
+
+    document.body.removeChild(container);
+    pushLog(`svg · ${paths.length} paths, ${paths.reduce((a, p) => a + p.length, 0)} points`);
+    return paths;
+  }
+
+  async function plotSVG() {
+    const s = state.svg;
+    if (!s.paths.length) { pushLog('⚠ no SVG loaded'); return; }
+    if (!state.axidraw) { pushLog('⚠ connect AxiDraw first'); return; }
+    if (s.plotting) return;
+
+    s.plotting = true;
+    s.currentPath = 0;
+    s.currentPoint = 0;
+    s.plotted = 0;
+    s.totalPoints = s.paths.reduce((a, p) => a + p.length, 0);
+    state.session = STATES.ACTIVE;
+    updateSessionUI();
+    pushLog('▶ SVG plotting started');
+
+    const a = state.axidraw;
+    const drawSpeedMM = (state.settings.drawSpeed / 100) * 40;  // mm/s
+    const travelSpeedMM = (state.settings.travelSpeed / 100) * 80;
+
+    try {
+      for (let pi = 0; pi < s.paths.length; pi++) {
+        if (!s.plotting) break;
+        s.currentPath = pi;
+        const path = s.paths[pi];
+
+        // Travel to start of path — pen UP
+        const start = path[0];
+        await axiSend('SP,1');
+        a.penIsDown = false;
+        state.plot.penDown = false;
+        await new Promise(r => setTimeout(r, 150));
+
+        // Move to path start
+        await axiMoveToSmooth(start.x, start.y, travelSpeedMM);
+
+        // Wait for pause
+        while (state.session === STATES.PAUSED && s.plotting) {
+          await new Promise(r => setTimeout(r, 200));
+        }
+        if (!s.plotting) break;
+
+        // Pen DOWN
+        await axiSend('SP,0');
+        a.penIsDown = true;
+        state.plot.penDown = true;
+        await new Promise(r => setTimeout(r, 200));
+
+        // Draw path
+        for (let i = 1; i < path.length; i++) {
+          if (!s.plotting) break;
+
+          // Wait for pause
+          while (state.session === STATES.PAUSED && s.plotting) {
+            await new Promise(r => setTimeout(r, 200));
+          }
+          if (!s.plotting) break;
+
+          s.currentPoint = i;
+          s.plotted++;
+          const pt = path[i];
+
+          await axiMoveToSmooth(pt.x, pt.y, drawSpeedMM);
+
+          // Update trail for viewport
+          state.plot.trail.push({ x: pt.x, y: pt.y, penDown: true });
+          if (state.plot.trail.length > 5000) state.plot.trail.shift();
+        }
+
+        // Pen UP after each path
+        await axiSend('SP,1');
+        a.penIsDown = false;
+        state.plot.penDown = false;
+        await new Promise(r => setTimeout(r, 100));
+
+        $('svg-progress').textContent = `${pi + 1}/${s.paths.length} paths · ${Math.round(s.plotted / s.totalPoints * 100)}%`;
+      }
+    } catch (e) {
+      pushLog('⚠ plot error: ' + (e.message || e));
+    }
+
+    // Done — pen up and home
+    s.plotting = false;
+    state.plot.penDown = false;
+    pushLog('■ SVG plotting complete');
+    await returnHome();
+    state.session = STATES.IDLE;
+    updateSessionUI();
+  }
+
+  async function axiMoveToSmooth(targetX, targetY, speedMM) {
+    const a = state.axidraw;
+    if (!a) return;
+
+    const dx = targetX - a.lastX;
+    const dy = targetY - a.lastY;
+    const dist = Math.hypot(dx, dy);
+    if (dist < 0.05) return;
+
+    // Break into segments for safety
+    const MAX_SEG = 8; // mm per segment
+    const segments = Math.max(1, Math.ceil(dist / MAX_SEG));
+
+    for (let i = 0; i < segments; i++) {
+      const frac = (i + 1) / segments;
+      const sx = a.lastX + dx * frac;
+      const sy = a.lastY + dy * frac;
+      const segDx = sx - a.lastX;
+      const segDy = sy - a.lastY;
+      const segDist = Math.hypot(segDx, segDy);
+
+      const stepsX = Math.round(segDx * AXI_STEPS_PER_MM);
+      const stepsY = Math.round(segDy * AXI_STEPS_PER_MM);
+      if (stepsX === 0 && stepsY === 0) continue;
+
+      const duration = Math.max(20, Math.round((segDist / Math.max(1, speedMM)) * 1000));
+      await axiSend(`XM,${duration},${stepsX},${stepsY}`);
+      a.lastX += stepsX / AXI_STEPS_PER_MM;
+      a.lastY += stepsY / AXI_STEPS_PER_MM;
+      state.plot.x = a.lastX;
+      state.plot.y = a.lastY;
+
+      await new Promise(r => setTimeout(r, Math.max(10, duration - 10)));
+    }
+  }
+
+  function stopSVGPlot() {
+    state.svg.plotting = false;
+  }
+
   let axiInterval = null;
   function startAxiLoop() {
     if (axiInterval) return;
@@ -1875,15 +2129,103 @@
   //   INPUT / BUTTONS
   // ═══════════════════════════════════════════════════════════════
   $('primary-btn').addEventListener('click', () => {
-    if (state.session === STATES.IDLE) startSession();
-    else stopSession();
+    if (state.mode === 'svg') {
+      if (state.session === STATES.IDLE) {
+        // Clear preview trail before plotting
+        state.plot.trail.length = 0;
+        state.plot.x = MARGIN;
+        state.plot.y = MARGIN;
+        plotSVG();
+      } else {
+        stopSVGPlot();
+        stopSession();
+      }
+    } else {
+      if (state.session === STATES.IDLE) startSession();
+      else stopSession();
+    }
   });
 
-  $('pause-btn').addEventListener('click', () => pauseSession());
+  $('pause-btn').addEventListener('click', () => {
+    if (state.mode === 'svg') {
+      // In SVG mode, pause/resume the plot
+      if (state.session === STATES.ACTIVE) {
+        state.session = STATES.PAUSED;
+        if (state.axidraw) axiSend('SP,1'); // pen up while paused
+        updateSessionUI();
+        pushLog('◐ SVG plot paused');
+      } else if (state.session === STATES.PAUSED) {
+        state.session = STATES.ACTIVE;
+        updateSessionUI();
+        pushLog('▶ SVG plot resumed');
+      }
+    } else {
+      pauseSession();
+    }
+  });
 
   $('theme-toggle').addEventListener('click', toggleTheme);
   $('conn-muse').addEventListener('click', connectMuse);
   $('conn-axi').addEventListener('click', connectAxidraw);
+
+  // ── Mode switch ──
+  function setMode(mode) {
+    state.mode = mode;
+    $('mode-switch').querySelectorAll('button').forEach(b => {
+      b.classList.toggle('active', b.dataset.mode === mode);
+    });
+    // Show/hide EEG panels, show SVG drop zone
+    const eegPanels = document.querySelectorAll('.panel-eeg, .panel-bands, .panel-signal');
+    eegPanels.forEach(p => p.style.display = mode === 'svg' ? 'none' : '');
+    $('svg-drop').style.display = mode === 'svg' ? 'flex' : 'none';
+    $('conn-muse').style.display = mode === 'svg' ? 'none' : '';
+    pushLog(`mode · ${mode.toUpperCase()}`);
+  }
+  $('mode-switch').addEventListener('click', (e) => {
+    const btn = e.target.closest('button');
+    if (!btn || state.session !== STATES.IDLE) return;
+    setMode(btn.dataset.mode);
+  });
+
+  // ── SVG file handling ──
+  const svgDrop = $('svg-drop');
+  const svgInput = $('svg-file-input');
+
+  svgDrop.addEventListener('click', () => svgInput.click());
+  svgDrop.addEventListener('dragover', (e) => { e.preventDefault(); svgDrop.classList.add('dragover'); });
+  svgDrop.addEventListener('dragleave', () => svgDrop.classList.remove('dragover'));
+  svgDrop.addEventListener('drop', (e) => {
+    e.preventDefault();
+    svgDrop.classList.remove('dragover');
+    const file = e.dataTransfer.files[0];
+    if (file && file.name.endsWith('.svg')) loadSVGFile(file);
+    else pushLog('⚠ only .svg files accepted');
+  });
+  svgInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) loadSVGFile(file);
+  });
+
+  function loadSVGFile(file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const text = e.target.result;
+      state.svg.paths = parseSVG(text);
+      state.plot.trail.length = 0; // clear EEG trail
+      // Add SVG paths to trail for preview
+      for (const path of state.svg.paths) {
+        for (let i = 0; i < path.length; i++) {
+          state.plot.trail.push({ x: path[i].x, y: path[i].y, penDown: i > 0 });
+        }
+        // gap between paths
+        if (state.plot.trail.length > 0) {
+          state.plot.trail.push({ x: path[path.length-1].x, y: path[path.length-1].y, penDown: false });
+        }
+      }
+      $('svg-progress').textContent = `loaded · ${state.svg.paths.length} paths`;
+    };
+    reader.readAsText(file);
+  }
 
   function toggleTheme() {
     const cur = document.body.getAttribute('data-theme');
@@ -1911,10 +2253,25 @@
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
     if (e.code === 'Space') {
       e.preventDefault();
-      if (state.session === STATES.IDLE) startSession();
-      else stopSession();
+      if (state.mode === 'svg') {
+        if (state.session === STATES.IDLE) {
+          state.plot.trail.length = 0;
+          state.plot.x = MARGIN; state.plot.y = MARGIN;
+          plotSVG();
+        } else { stopSVGPlot(); stopSession(); }
+      } else {
+        if (state.session === STATES.IDLE) startSession();
+        else stopSession();
+      }
     } else if (e.key === 'p' || e.key === 'P') {
-      if (state.session === STATES.ACTIVE || state.session === STATES.PAUSED) pauseSession();
+      if (state.session === STATES.ACTIVE || state.session === STATES.PAUSED) {
+        if (state.mode === 'svg') {
+          // toggle pause in SVG mode
+          $('pause-btn').click();
+        } else {
+          pauseSession();
+        }
+      }
     } else if (e.key === 't' || e.key === 'T') {
       toggleTheme();
     } else if ((e.key === 'c' || e.key === 'C') && !state.muse) {
