@@ -586,7 +586,7 @@
         <span class="arrow">→</span>
         <span class="logo">axidraw</span>
         <span class="divider"></span>
-        <span class="dim">v0.9</span>
+        <span class="dim">v0.9.1</span>
       </div>
       <div class="controls">
         <div class="mode-switch" id="mode-switch">
@@ -2187,23 +2187,39 @@
     setMode(btn.dataset.mode);
   });
 
+  // ── Prevent browser from opening dropped files ──
+  document.addEventListener('dragover', (e) => e.preventDefault());
+  document.addEventListener('drop', (e) => e.preventDefault());
+
   // ── SVG file handling ──
   const svgDrop = $('svg-drop');
   const svgInput = $('svg-file-input');
 
-  svgDrop.addEventListener('click', () => svgInput.click());
-  svgDrop.addEventListener('dragover', (e) => { e.preventDefault(); svgDrop.classList.add('dragover'); });
-  svgDrop.addEventListener('dragleave', () => svgDrop.classList.remove('dragover'));
-  svgDrop.addEventListener('drop', (e) => {
+  svgDrop.addEventListener('click', (e) => {
+    e.stopPropagation();
+    svgInput.click();
+  });
+  svgDrop.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    svgDrop.classList.add('dragover');
+  });
+  svgDrop.addEventListener('dragleave', (e) => {
     e.preventDefault();
     svgDrop.classList.remove('dragover');
+  });
+  svgDrop.addEventListener('drop', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    svgDrop.classList.remove('dragover');
     const file = e.dataTransfer.files[0];
-    if (file && file.name.endsWith('.svg')) loadSVGFile(file);
+    if (file && (file.name.endsWith('.svg') || file.type === 'image/svg+xml')) loadSVGFile(file);
     else pushLog('⚠ only .svg files accepted');
   });
   svgInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (file) loadSVGFile(file);
+    svgInput.value = ''; // allow re-selecting same file
   });
 
   function loadSVGFile(file) {
