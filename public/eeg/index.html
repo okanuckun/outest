@@ -778,7 +778,7 @@
     bandsBaseline: { delta:0.30, theta:0.45, alpha:0.60, beta:0.45, gamma:0.20 },
     phase: 0,
     plot: { x:210, y:148.5, homeX:210, homeY:148.5, penDown:false, penWant:false, confidence:0, links:0, distance:0, trail:[], penTransition:0, penTarget:false },
-    settings: { drawSpeed:25, travelSpeed:75, penLift:60, penLower:40 },
+    settings: { drawSpeed:50, travelSpeed:90, penLift:60, penLower:40 },
     quality: { score:0, variance:0, lineRatio:0, status:'—' },
     simContact: true,
     sources: { eeg:'sim', plotter:'sim' },
@@ -1177,10 +1177,10 @@
     const isReal = state.sources.eeg !== 'sim';
     const baseAlpha = isReal ? state.bandsBaseline.alpha : 0.5;
     const baseBeta  = isReal ? state.bandsBaseline.beta  : 0.5;
-    const sensitivity = isReal ? 3.0 : 1.1;
+    const sensitivity = isReal ? 6.0 : 2.2;
     const vx = (state.bands.alpha - baseAlpha) * sensitivity * gain * speedFactor;
     const vy = (state.bands.beta  - baseBeta)  * sensitivity * gain * speedFactor;
-    const step = dtMs * 0.06;
+    const step = dtMs * 0.18;
     const nx = clamp(p.x + vx * step, 10, 410);
     const ny = clamp(p.y + vy * step, 10, 287);
 
