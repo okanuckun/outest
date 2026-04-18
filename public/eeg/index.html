@@ -560,7 +560,7 @@
         <span class="arrow">→</span>
         <span class="logo">axidraw</span>
         <span class="divider"></span>
-        <span class="dim">v0.7</span>
+        <span class="dim">v0.8</span>
       </div>
       <div class="controls">
         <button class="conn-btn" id="conn-muse" title="Connect Muse headset (Bluetooth)">
@@ -582,6 +582,10 @@
         <button class="primary-btn" id="primary-btn">
           <span class="icon">▶</span>
           <span id="primary-text">start</span>
+        </button>
+        <button class="primary-btn" id="pause-btn" style="display:none;">
+          <span class="icon" id="pause-icon">◐</span>
+          <span id="pause-text">pause</span>
         </button>
         <button class="icon-btn" id="theme-toggle" title="Invert theme">◐</button>
       </div>
@@ -1109,8 +1113,8 @@
       state.plot.penWant = false;
       state.plot.penTransition = 0;
       state.plot.penTarget = false;
-      // lift pen and return to home on real plotter
-      if (state.axidraw) returnHome();
+      state.plot.speed = 0;
+      // Home return is handled by stopSession() which awaits it
     }
     if (next === STATES.PAUSED) {
       state.plot.confidence = 0;
@@ -1126,10 +1130,34 @@
       pushLog('▶ checking contact...');
     }
   }
-  function stopSession() {
-    if (state.session !== STATES.IDLE) {
-      transition(STATES.IDLE);
-      pushLog('■ session ended');
+
+  function pauseSession() {
+    if (state.session === STATES.ACTIVE) {
+      transition(STATES.PAUSED);
+      pushLog('◐ paused by user');
+    } else if (state.session === STATES.PAUSED) {
+      // Resume: go back to checking briefly to verify contact
+      transition(STATES.CHECKING);
+      pushLog('▶ resuming — checking contact...');
+    }
+  }
+
+  async function stopSession() {
+    if (state.session === STATES.IDLE) return;
+    const hadAxidraw = !!state.axidraw;
+    state.session = STATES.IDLE;
+    state.plot.penDown = false;
+    state.plot.confidence = 0;
+    state.plot.penWant = false;
+    state.plot.penTransition = 0;
+    state.plot.penTarget = false;
+    state.plot.speed = 0;
+    updateSessionUI();
+    pushLog('■ session ended');
+
+    // Return home — await it so plotter completes before anything else
+    if (hadAxidraw && state.axidraw) {
+      await returnHome();
     }
   }
 
@@ -1790,16 +1818,21 @@
     const btn  = $('primary-btn');
     chip.dataset.state = state.session;
     const map = {
-      [STATES.IDLE]:     { chip:'IDLE',     btn:'start', ico:'▶', stop:false, overlay:true,  title:'standby',         sub:'press start to begin session',                variant:'idle' },
-      [STATES.CHECKING]: { chip:'CHECKING', btn:'stop',  ico:'■', stop:true,  overlay:true,  title:'checking signal', sub:'verifying electrode contact — hold still',   variant:'checking' },
-      [STATES.ACTIVE]:   { chip:'ACTIVE',   btn:'stop',  ico:'■', stop:true,  overlay:false, title:'',                sub:'',                                            variant:'active' },
-      [STATES.PAUSED]:   { chip:'PAUSED',   btn:'stop',  ico:'■', stop:true,  overlay:true,  title:'no contact',      sub:'signal lost — reattach or adjust electrode', variant:'paused' },
+      [STATES.IDLE]:     { chip:'IDLE',     btn:'start', ico:'▶', stop:false, pause:false, pauseIco:'◐', pauseTxt:'pause', overlay:true,  title:'standby',         sub:'press start to begin session',                variant:'idle' },
+      [STATES.CHECKING]: { chip:'CHECKING', btn:'stop',  ico:'■', stop:true,  pause:false, pauseIco:'◐', pauseTxt:'pause', overlay:true,  title:'checking signal', sub:'verifying electrode contact — hold still',   variant:'checking' },
+      [STATES.ACTIVE]:   { chip:'ACTIVE',   btn:'stop',  ico:'■', stop:true,  pause:true,  pauseIco:'◐', pauseTxt:'pause', overlay:false, title:'',                sub:'',                                            variant:'active' },
+      [STATES.PAUSED]:   { chip:'PAUSED',   btn:'stop',  ico:'■', stop:true,  pause:true,  pauseIco:'▶', pauseTxt:'resume', overlay:true,  title:'paused',          sub:'press resume to continue or stop to end',   variant:'paused' },
     };
     const m = map[state.session];
     $('state-text').textContent = m.chip;
     $('primary-text').textContent = m.btn;
     btn.querySelector('.icon').textContent = m.ico;
     btn.classList.toggle('stop', m.stop);
+
+    const pauseBtn = $('pause-btn');
+    pauseBtn.style.display = m.pause ? '' : 'none';
+    $('pause-icon').textContent = m.pauseIco;
+    $('pause-text').textContent = m.pauseTxt;
     const overlay = $('plot-overlay');
     overlay.classList.toggle('show', m.overlay);
     overlay.dataset.variant = m.variant;
@@ -1846,6 +1879,8 @@
     else stopSession();
   });
 
+  $('pause-btn').addEventListener('click', () => pauseSession());
+
   $('theme-toggle').addEventListener('click', toggleTheme);
   $('conn-muse').addEventListener('click', connectMuse);
   $('conn-axi').addEventListener('click', connectAxidraw);
@@ -1878,6 +1913,8 @@
       e.preventDefault();
       if (state.session === STATES.IDLE) startSession();
       else stopSession();
+    } else if (e.key === 'p' || e.key === 'P') {
+      if (state.session === STATES.ACTIVE || state.session === STATES.PAUSED) pauseSession();
     } else if (e.key === 't' || e.key === 'T') {
       toggleTheme();
     } else if ((e.key === 'c' || e.key === 'C') && !state.muse) {
