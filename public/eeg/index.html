@@ -560,7 +560,7 @@
         <span class="arrow">→</span>
         <span class="logo">axidraw</span>
         <span class="divider"></span>
-        <span class="dim">v0.5</span>
+        <span class="dim">v0.6</span>
       </div>
       <div class="controls">
         <button class="conn-btn" id="conn-muse" title="Connect Muse headset (Bluetooth)">
@@ -739,7 +739,7 @@
   const CONFIDENCE_MAX    = 0.75;
   const PEN_DOWN_MIN      = 0.60;
   const AXI_STEPS_PER_MM  = 80;     // AxiDraw V3/SE/A3/A1 default
-  const AXI_TICK_MS       = 60;     // how often to push commands to AxiDraw
+  const AXI_TICK_MS       = 80;     // how often to push commands to AxiDraw
   const PAPER_SIZES = {
     'A4':     { w: 297,  h: 210,  label: 'A4 — 297×210 mm' },
     'A3':     { w: 420,  h: 297,  label: 'A3 — 420×297 mm' },
@@ -791,7 +791,7 @@
     phase: 0,
     paperSize: 'A3',
     paper: { w: 420, h: 297 },
-    plot: { x:MARGIN, y:MARGIN, penDown:false, penWant:false, confidence:0, links:0, distance:0, trail:[], penTransition:0, penTarget:false },
+    plot: { x:MARGIN, y:MARGIN, tx:MARGIN, ty:MARGIN, penDown:false, penWant:false, confidence:0, links:0, distance:0, trail:[], penTransition:0, penTarget:false },
     settings: { drawSpeed:50, travelSpeed:90, penLift:60, penLower:40 },
     quality: { score:0, variance:0, lineRatio:0, status:'—' },
     simContact: true,
@@ -1209,23 +1209,30 @@
 
     const speedPct = p.penDown ? s.drawSpeed : s.travelSpeed;
     const speedFactor = speedPct / 100;
-    // Use dynamic baseline for real EEG so small fluctuations drive movement.
-    // Sim mode uses fixed 0.5 center (fake data already has wide swings).
+
+    // Band-to-velocity mapping.
+    // Real EEG: alpha typically 0.4–0.8, beta 0.1–0.4. Use fixed realistic centers.
+    // Sim: synthetic data swings around 0.5, keep original mapping.
     const isReal = state.sources.eeg !== 'sim';
-    const baseAlpha = isReal ? state.bandsBaseline.alpha : 0.5;
-    const baseBeta  = isReal ? state.bandsBaseline.beta  : 0.5;
-    const sensitivity = isReal ? 8.0 : 2.2;
-    let vx = (state.bands.alpha - baseAlpha) * sensitivity * gain * speedFactor;
-    let vy = (state.bands.beta  - baseBeta)  * sensitivity * gain * speedFactor;
-    // In real mode: if both axes are near-zero, use raw band values as gentle drift
-    // so plotter never fully freezes while session is active
-    if (isReal && Math.abs(vx) < 0.02 && Math.abs(vy) < 0.02 && gain > 0.1) {
-      vx = (state.bands.alpha - 0.5) * 1.5 * speedFactor;
-      vy = (state.bands.beta  - 0.5) * 1.5 * speedFactor;
-    }
+    const centerAlpha = isReal ? 0.55 : 0.5;
+    const centerBeta  = isReal ? 0.25 : 0.5;
+    const sensitivity = isReal ? 5.0 : 2.2;
+    const vx = (state.bands.alpha - centerAlpha) * sensitivity * gain * speedFactor;
+    const vy = (state.bands.beta  - centerBeta)  * sensitivity * gain * speedFactor;
+
     const step = dtMs * 0.18;
-    const nx = clamp(p.x + vx * step, MARGIN, state.paper.w - MARGIN);
-    const ny = clamp(p.y + vy * step, MARGIN, state.paper.h - MARGIN);
+
+    // Compute target position (raw, noisy)
+    const rawX = clamp(p.tx + vx * step, MARGIN, state.paper.w - MARGIN);
+    const rawY = clamp(p.ty + vy * step, MARGIN, state.paper.h - MARGIN);
+    p.tx = rawX;
+    p.ty = rawY;
+
+    // Smooth actual position toward target — eliminates jitter
+    // Lower value = smoother but laggier. 0.08 gives ~200ms smoothing at 60fps.
+    const smooth = p.penDown ? 0.06 : 0.12;
+    const nx = p.x + (p.tx - p.x) * smooth;
+    const ny = p.y + (p.ty - p.y) * smooth;
 
     if (p.penDown) p.distance += Math.hypot(nx - p.x, ny - p.y);
     p.x = nx; p.y = ny;
@@ -1515,10 +1522,11 @@
       return;
     }
 
-    // position sync
+    // position sync — only move if accumulated distance is meaningful
     const dx = state.plot.x - a.lastX;
     const dy = state.plot.y - a.lastY;
-    if (Math.abs(dx) < 0.05 && Math.abs(dy) < 0.05) return;
+    const dist = Math.hypot(dx, dy);
+    if (dist < 0.3) return;  // ignore micro-jitter below 0.3mm
 
     // safety clamp — no big jumps per tick
     const MAX_MM = 6;
@@ -1528,9 +1536,12 @@
     const stepsY = Math.round(cdy * AXI_STEPS_PER_MM);
     if (stepsX === 0 && stepsY === 0) return;
 
+    // Duration scales with distance — longer moves get more time for smoother motion
+    const moveDist = Math.hypot(cdx, cdy);
+    const duration = Math.max(AXI_TICK_MS, Math.round(moveDist * 20));
+
     a.sending = true;
-    // XM = firmware-handled XY move. Duration = tick window.
-    await axiSend(`XM,${AXI_TICK_MS - 5},${stepsX},${stepsY}`);
+    await axiSend(`XM,${duration},${stepsX},${stepsY}`);
     a.lastX += stepsX / AXI_STEPS_PER_MM;
     a.lastY += stepsY / AXI_STEPS_PER_MM;
     a.sending = false;
