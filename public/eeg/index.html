@@ -775,6 +775,7 @@
     ],
     bands:       { delta:0.30, theta:0.45, alpha:0.60, beta:0.45, gamma:0.20 },
     bandsTarget: { delta:0.30, theta:0.45, alpha:0.60, beta:0.45, gamma:0.20 },
+    bandsBaseline: { delta:0.30, theta:0.45, alpha:0.60, beta:0.45, gamma:0.20 },
     phase: 0,
     plot: { x:210, y:148.5, penDown:false, penWant:false, confidence:0, links:0, distance:0, trail:[], penTransition:0, penTarget:false },
     settings: { drawSpeed:25, travelSpeed:75, penLift:60, penLower:40 },
@@ -971,6 +972,8 @@
     // smooth toward target
     for (const key in state.bands) {
       state.bands[key] += (state.bandsTarget[key] - state.bands[key]) * 0.2;
+      // slow-moving baseline for real EEG (tracks average over ~10s)
+      state.bandsBaseline[key] += (state.bands[key] - state.bandsBaseline[key]) * 0.02;
     }
   }
 
@@ -979,39 +982,54 @@
   //   Works the same for real and simulated data.
   // ═══════════════════════════════════════════════════════════════
   function computeQuality() {
-    const buf = state.channels[0].buffer;
     const n = 256;
-    const start = buf.length - n;
-
-    let sum = 0, sumSq = 0;
-    for (let i = start; i < buf.length; i++) {
-      const v = buf[i];
-      sum += v; sumSq += v * v;
-    }
-    const mean = sum / n;
-    const variance = Math.max(0, sumSq / n - mean * mean);
-    const std = Math.sqrt(variance);
-
-    let re = 0, im = 0;
     const fs = state.eegRate || 256;
-    for (let i = 0; i < n; i++) {
-      const tSec = (state.samples - n + i) / fs;
-      const ph = 2 * Math.PI * 60 * tSec;
-      const v = buf[start + i];
-      re += v * Math.cos(ph);
-      im += v * Math.sin(ph);
-    }
-    const line60 = Math.sqrt(re * re + im * im) / n;
-    const lineRatio = std > 0.1 ? (line60 * 2) / std : 1;
+    const nCh = state.channels.length;
 
-    // Healthy EEG std is device/units-dependent. With Muse µV scaled by 0.15
-    // (to match HUD amplitude), healthy std lands around 10–50. Stay lenient.
+    // Aggregate quality across all active channels
+    let totalStd = 0, totalLineRatio = 0;
+    for (let c = 0; c < nCh; c++) {
+      const buf = state.channels[c].buffer;
+      const start = buf.length - n;
+
+      let sum = 0, sumSq = 0;
+      for (let i = start; i < buf.length; i++) {
+        const v = buf[i];
+        sum += v; sumSq += v * v;
+      }
+      const mean = sum / n;
+      const variance = Math.max(0, sumSq / n - mean * mean);
+      totalStd += Math.sqrt(variance);
+
+      let re = 0, im = 0;
+      for (let i = 0; i < n; i++) {
+        const tSec = (state.samples - n + i) / fs;
+        const ph = 2 * Math.PI * 60 * tSec;
+        const v = buf[start + i];
+        re += v * Math.cos(ph);
+        im += v * Math.sin(ph);
+      }
+      const chStd = Math.sqrt(Math.max(0, sumSq / n - mean * mean));
+      const line60 = Math.sqrt(re * re + im * im) / n;
+      totalLineRatio += chStd > 0.1 ? (line60 * 2) / chStd : 1;
+    }
+    const std = totalStd / nCh;
+    const lineRatio = totalLineRatio / nCh;
+
+    // Healthy EEG std is device/units-dependent.
+    // Sim mode: amplitudes ~30-50 std.  Muse real (µV*0.12): std ~2-10.
+    // Use source-aware thresholds so real Muse doesn't get scored zero.
+    const isReal = state.sources.eeg !== 'sim';
+    const stdLo  = isReal ? 1   : 5;
+    const stdOk  = isReal ? 3   : 12;
+    const stdHi  = isReal ? 25  : 70;
+    const stdMax = isReal ? 50  : 110;
     const stdScore =
-        std < 5   ? 0
-      : std < 12  ? (std - 5) / 7
-      : std < 70  ? 1
-      : std < 110 ? 1 - (std - 70) / 40
-      :             0;
+        std < stdLo  ? 0
+      : std < stdOk  ? (std - stdLo) / (stdOk - stdLo)
+      : std < stdHi  ? 1
+      : std < stdMax ? 1 - (std - stdHi) / (stdMax - stdHi)
+      :                0;
     const lineScore = clamp01(1 - lineRatio * 1.2);
     const raw = stdScore * 0.6 + stdScore * lineScore * 0.4;
 
@@ -1154,8 +1172,14 @@
 
     const speedPct = p.penDown ? s.drawSpeed : s.travelSpeed;
     const speedFactor = speedPct / 100;
-    const vx = (state.bands.alpha - 0.5) * 1.1 * gain * speedFactor;
-    const vy = (state.bands.beta  - 0.5) * 1.1 * gain * speedFactor;
+    // Use dynamic baseline for real EEG so small fluctuations drive movement.
+    // Sim mode uses fixed 0.5 center (fake data already has wide swings).
+    const isReal = state.sources.eeg !== 'sim';
+    const baseAlpha = isReal ? state.bandsBaseline.alpha : 0.5;
+    const baseBeta  = isReal ? state.bandsBaseline.beta  : 0.5;
+    const sensitivity = isReal ? 3.0 : 1.1;
+    const vx = (state.bands.alpha - baseAlpha) * sensitivity * gain * speedFactor;
+    const vy = (state.bands.beta  - baseBeta)  * sensitivity * gain * speedFactor;
     const step = dtMs * 0.06;
     const nx = clamp(p.x + vx * step, 10, 410);
     const ny = clamp(p.y + vy * step, 10, 287);
@@ -1224,6 +1248,8 @@
       state.muse = { device, server, service, control, eegChars };
       state.sources.eeg = 'muse';
       state.eegRate = 256;
+      // Reset baseline to current bands so plotter starts from neutral
+      for (const key in state.bandsBaseline) state.bandsBaseline[key] = state.bands[key];
       updateConnUI();
       pushLog('muse · CONNECTED');
 
@@ -1231,8 +1257,10 @@
         state.muse = null;
         state.sources.eeg = 'sim';
         state.eegRate = SAMPLE_RATE_SIM;
+        // Reset baseline when switching back to sim
+        for (const key in state.bandsBaseline) state.bandsBaseline[key] = state.bands[key];
         updateConnUI();
-        pushLog('muse · disconnected');
+        pushLog('⚠ muse · CONNECTION LOST — fell back to sim');
       });
     } catch (e) {
       pushLog('muse · failed: ' + (e.message || e));
