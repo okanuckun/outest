@@ -560,7 +560,7 @@
         <span class="arrow">→</span>
         <span class="logo">axidraw</span>
         <span class="divider"></span>
-        <span class="dim">v0.3</span>
+        <span class="dim">v0.4</span>
       </div>
       <div class="controls">
         <button class="conn-btn" id="conn-muse" title="Connect Muse headset (Bluetooth)">
@@ -967,13 +967,15 @@
     }
     const t = Math.max(1e-6, total);
     for (const b of BAND_DEFS) {
-      state.bandsTarget[b.key] = Math.min(1, (pow[b.key] / t) * 3);
+      // Softer normalization: prevent any single band from saturating at 1.0
+      // so relative changes remain visible in the mapping
+      state.bandsTarget[b.key] = Math.min(0.85, (pow[b.key] / t) * 2.5);
     }
     // smooth toward target
     for (const key in state.bands) {
       state.bands[key] += (state.bandsTarget[key] - state.bands[key]) * 0.2;
-      // slow-moving baseline for real EEG (tracks average over ~10s)
-      state.bandsBaseline[key] += (state.bands[key] - state.bandsBaseline[key]) * 0.02;
+      // very slow baseline (~30s to converge) so short-term changes drive plotter
+      state.bandsBaseline[key] += (state.bands[key] - state.bandsBaseline[key]) * 0.005;
     }
   }
 
@@ -1177,9 +1179,15 @@
     const isReal = state.sources.eeg !== 'sim';
     const baseAlpha = isReal ? state.bandsBaseline.alpha : 0.5;
     const baseBeta  = isReal ? state.bandsBaseline.beta  : 0.5;
-    const sensitivity = isReal ? 6.0 : 2.2;
-    const vx = (state.bands.alpha - baseAlpha) * sensitivity * gain * speedFactor;
-    const vy = (state.bands.beta  - baseBeta)  * sensitivity * gain * speedFactor;
+    const sensitivity = isReal ? 8.0 : 2.2;
+    let vx = (state.bands.alpha - baseAlpha) * sensitivity * gain * speedFactor;
+    let vy = (state.bands.beta  - baseBeta)  * sensitivity * gain * speedFactor;
+    // In real mode: if both axes are near-zero, use raw band values as gentle drift
+    // so plotter never fully freezes while session is active
+    if (isReal && Math.abs(vx) < 0.02 && Math.abs(vy) < 0.02 && gain > 0.1) {
+      vx = (state.bands.alpha - 0.5) * 1.5 * speedFactor;
+      vy = (state.bands.beta  - 0.5) * 1.5 * speedFactor;
+    }
     const step = dtMs * 0.18;
     const nx = clamp(p.x + vx * step, 10, 410);
     const ny = clamp(p.y + vy * step, 10, 287);
