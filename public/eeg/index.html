@@ -777,7 +777,7 @@
     bandsTarget: { delta:0.30, theta:0.45, alpha:0.60, beta:0.45, gamma:0.20 },
     bandsBaseline: { delta:0.30, theta:0.45, alpha:0.60, beta:0.45, gamma:0.20 },
     phase: 0,
-    plot: { x:210, y:148.5, penDown:false, penWant:false, confidence:0, links:0, distance:0, trail:[], penTransition:0, penTarget:false },
+    plot: { x:210, y:148.5, homeX:210, homeY:148.5, penDown:false, penWant:false, confidence:0, links:0, distance:0, trail:[], penTransition:0, penTarget:false },
     settings: { drawSpeed:25, travelSpeed:75, penLift:60, penLower:40 },
     quality: { score:0, variance:0, lineRatio:0, status:'—' },
     simContact: true,
@@ -1072,8 +1072,8 @@
       state.plot.penWant = false;
       state.plot.penTransition = 0;
       state.plot.penTarget = false;
-      // lift pen on real plotter
-      if (state.axidraw) axiSend('SP,1');
+      // lift pen and return to home on real plotter
+      if (state.axidraw) returnHome();
     }
     if (next === STATES.PAUSED) {
       state.plot.confidence = 0;
@@ -1371,6 +1371,63 @@
     try { await a.encoderClosed.catch(() => {}); } catch {}
     try { await a.port.close(); } catch {}
     pushLog('axidraw · disconnected');
+  }
+
+  const HOME_X = 210;
+  const HOME_Y = 148.5;
+
+  async function returnHome() {
+    const a = state.axidraw;
+    if (!a) return;
+
+    // Pen up first
+    await axiSend('SP,1');
+    a.penIsDown = false;
+
+    // Calculate distance to home
+    const dx = HOME_X - a.lastX;
+    const dy = HOME_Y - a.lastY;
+    const dist = Math.hypot(dx, dy);
+    if (dist < 0.5) {
+      a.lastX = HOME_X;
+      a.lastY = HOME_Y;
+      state.plot.x = HOME_X;
+      state.plot.y = HOME_Y;
+      pushLog('home · already at origin');
+      return;
+    }
+
+    pushLog('home · returning to origin...');
+
+    // Move in segments (max 6mm per step for safety)
+    const MAX_STEP = 6;
+    let cx = a.lastX, cy = a.lastY;
+    while (true) {
+      const rdx = HOME_X - cx;
+      const rdy = HOME_Y - cy;
+      const rd = Math.hypot(rdx, rdy);
+      if (rd < 0.1) break;
+
+      const scale = Math.min(1, MAX_STEP / rd);
+      const mx = rdx * scale;
+      const my = rdy * scale;
+      const stepsX = Math.round(mx * AXI_STEPS_PER_MM);
+      const stepsY = Math.round(my * AXI_STEPS_PER_MM);
+      if (stepsX === 0 && stepsY === 0) break;
+
+      await axiSend(`XM,${AXI_TICK_MS},${stepsX},${stepsY}`);
+      cx += stepsX / AXI_STEPS_PER_MM;
+      cy += stepsY / AXI_STEPS_PER_MM;
+
+      // Brief pause between segments
+      await new Promise(r => setTimeout(r, AXI_TICK_MS + 5));
+    }
+
+    a.lastX = HOME_X;
+    a.lastY = HOME_Y;
+    state.plot.x = HOME_X;
+    state.plot.y = HOME_Y;
+    pushLog('home · origin reached ●');
   }
 
   let axiInterval = null;
