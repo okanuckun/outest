@@ -560,7 +560,7 @@
         <span class="arrow">→</span>
         <span class="logo">axidraw</span>
         <span class="divider"></span>
-        <span class="dim">v0.6</span>
+        <span class="dim">v0.7</span>
       </div>
       <div class="controls">
         <button class="conn-btn" id="conn-muse" title="Connect Muse headset (Bluetooth)">
@@ -791,7 +791,7 @@
     phase: 0,
     paperSize: 'A3',
     paper: { w: 420, h: 297 },
-    plot: { x:MARGIN, y:MARGIN, tx:MARGIN, ty:MARGIN, penDown:false, penWant:false, confidence:0, links:0, distance:0, trail:[], penTransition:0, penTarget:false },
+    plot: { x:MARGIN, y:MARGIN, tx:MARGIN, ty:MARGIN, vx:0, vy:0, prevDx:0, prevDy:0, speed:0, penDown:false, penWant:false, confidence:0, links:0, distance:0, trail:[], penTransition:0, penTarget:false },
     settings: { drawSpeed:50, travelSpeed:90, penLift:60, penLower:40 },
     quality: { score:0, variance:0, lineRatio:0, status:'—' },
     simContact: true,
@@ -1209,28 +1209,62 @@
 
     const speedPct = p.penDown ? s.drawSpeed : s.travelSpeed;
     const speedFactor = speedPct / 100;
+    const maxSpeed = (p.penDown ? 40 : 80) * speedFactor; // mm/s
 
     // Band-to-velocity mapping.
-    // Real EEG: alpha typically 0.4–0.8, beta 0.1–0.4. Use fixed realistic centers.
-    // Sim: synthetic data swings around 0.5, keep original mapping.
     const isReal = state.sources.eeg !== 'sim';
     const centerAlpha = isReal ? 0.55 : 0.5;
     const centerBeta  = isReal ? 0.25 : 0.5;
     const sensitivity = isReal ? 5.0 : 2.2;
-    const vx = (state.bands.alpha - centerAlpha) * sensitivity * gain * speedFactor;
-    const vy = (state.bands.beta  - centerBeta)  * sensitivity * gain * speedFactor;
+    const rawVx = (state.bands.alpha - centerAlpha) * sensitivity * gain * speedFactor;
+    const rawVy = (state.bands.beta  - centerBeta)  * sensitivity * gain * speedFactor;
 
-    const step = dtMs * 0.18;
+    const dtSec = dtMs / 1000;
 
-    // Compute target position (raw, noisy)
-    const rawX = clamp(p.tx + vx * step, MARGIN, state.paper.w - MARGIN);
-    const rawY = clamp(p.ty + vy * step, MARGIN, state.paper.h - MARGIN);
-    p.tx = rawX;
-    p.ty = rawY;
+    // ── Cornering: slow down when direction changes sharply ──
+    const rawLen = Math.hypot(rawVx, rawVy);
+    if (rawLen > 0.001) {
+      const ndx = rawVx / rawLen;
+      const ndy = rawVy / rawLen;
+      // dot product with previous direction → 1.0 = same dir, -1.0 = reversal
+      const prevLen = Math.hypot(p.prevDx, p.prevDy);
+      let cornerFactor = 1;
+      if (prevLen > 0.001) {
+        const dot = (ndx * p.prevDx + ndy * p.prevDy) / prevLen;
+        // dot=1 → full speed, dot=0 → 50% speed, dot=-1 → 15% speed
+        cornerFactor = clamp01(0.15 + 0.85 * (dot + 1) / 2);
+      }
+      p.prevDx = ndx;
+      p.prevDy = ndy;
 
-    // Smooth actual position toward target — eliminates jitter
-    // Lower value = smoother but laggier. 0.08 gives ~200ms smoothing at 60fps.
-    const smooth = p.penDown ? 0.06 : 0.12;
+      // ── Trapezoid velocity: accelerate/decelerate toward target speed ──
+      const targetSpeed = rawLen * maxSpeed * cornerFactor;
+      const accel = maxSpeed * 3; // mm/s² — reach max in ~0.3s
+      if (p.speed < targetSpeed) {
+        p.speed = Math.min(targetSpeed, p.speed + accel * dtSec);
+      } else {
+        p.speed = Math.max(targetSpeed, p.speed - accel * 1.5 * dtSec); // decel faster
+      }
+    } else {
+      // Decelerate to zero
+      const decel = maxSpeed * 4;
+      p.speed = Math.max(0, p.speed - decel * dtSec);
+    }
+
+    // Apply velocity with current speed magnitude in previous direction
+    const moveLen = Math.hypot(p.prevDx, p.prevDy);
+    let mvx = 0, mvy = 0;
+    if (moveLen > 0.001 && p.speed > 0.01) {
+      mvx = (p.prevDx / moveLen) * p.speed * dtSec;
+      mvy = (p.prevDy / moveLen) * p.speed * dtSec;
+    }
+
+    // ── Smooth target position ──
+    p.tx = clamp(p.tx + mvx, MARGIN, state.paper.w - MARGIN);
+    p.ty = clamp(p.ty + mvy, MARGIN, state.paper.h - MARGIN);
+
+    // ── Smooth actual position toward target ──
+    const smooth = p.penDown ? 0.10 : 0.18;
     const nx = p.x + (p.tx - p.x) * smooth;
     const ny = p.y + (p.ty - p.y) * smooth;
 
@@ -1507,43 +1541,59 @@
     if (axiInterval) { clearInterval(axiInterval); axiInterval = null; }
   }
 
+  // Move buffer: accumulate small moves, send when distance threshold met
+  let axiMoveBuffer = { dx: 0, dy: 0, ticks: 0 };
+
   async function tickAxi() {
     const a = state.axidraw;
     if (!a || a.sending) return;
-    if (state.session !== STATES.ACTIVE) return;
+    if (state.session !== STATES.ACTIVE) {
+      axiMoveBuffer.dx = 0; axiMoveBuffer.dy = 0; axiMoveBuffer.ticks = 0;
+      return;
+    }
 
-    // pen state sync (when not mid-transition in virtual)
+    // pen state sync
     if (state.plot.penDown !== a.penIsDown && state.plot.penTransition === 0) {
       a.sending = true;
-      // SP,0 = down, SP,1 = up  (EBB default — may need flip in SC,4/5 config)
       await axiSend(state.plot.penDown ? 'SP,0' : 'SP,1');
       a.penIsDown = state.plot.penDown;
       a.sending = false;
       return;
     }
 
-    // position sync — only move if accumulated distance is meaningful
-    const dx = state.plot.x - a.lastX;
-    const dy = state.plot.y - a.lastY;
-    const dist = Math.hypot(dx, dy);
-    if (dist < 0.3) return;  // ignore micro-jitter below 0.3mm
+    // Accumulate movement into buffer
+    axiMoveBuffer.dx += state.plot.x - a.lastX - axiMoveBuffer.dx + axiMoveBuffer.dx;
+    axiMoveBuffer.dy += state.plot.y - a.lastY - axiMoveBuffer.dy + axiMoveBuffer.dy;
+    const bufDx = state.plot.x - a.lastX;
+    const bufDy = state.plot.y - a.lastY;
+    axiMoveBuffer.ticks++;
 
-    // safety clamp — no big jumps per tick
-    const MAX_MM = 6;
-    const cdx = Math.max(-MAX_MM, Math.min(MAX_MM, dx));
-    const cdy = Math.max(-MAX_MM, Math.min(MAX_MM, dy));
+    const dist = Math.hypot(bufDx, bufDy);
+
+    // Send move when: enough distance accumulated (0.4mm) OR buffer has 3+ ticks of data
+    const minDist = state.plot.penDown ? 0.4 : 0.3;
+    if (dist < minDist && axiMoveBuffer.ticks < 3) return;
+    if (dist < 0.1) { axiMoveBuffer.ticks = 0; return; } // truly no movement
+
+    // safety clamp
+    const MAX_MM = 8;
+    const cdx = Math.max(-MAX_MM, Math.min(MAX_MM, bufDx));
+    const cdy = Math.max(-MAX_MM, Math.min(MAX_MM, bufDy));
     const stepsX = Math.round(cdx * AXI_STEPS_PER_MM);
     const stepsY = Math.round(cdy * AXI_STEPS_PER_MM);
-    if (stepsX === 0 && stepsY === 0) return;
+    if (stepsX === 0 && stepsY === 0) { axiMoveBuffer.ticks = 0; return; }
 
-    // Duration scales with distance — longer moves get more time for smoother motion
+    // Duration from current plotter speed (trapezoid profile aware)
+    // speed is in mm/s, convert to duration for this segment
     const moveDist = Math.hypot(cdx, cdy);
-    const duration = Math.max(AXI_TICK_MS, Math.round(moveDist * 20));
+    const currentSpeed = Math.max(2, state.plot.speed); // mm/s, min 2mm/s
+    const duration = Math.max(AXI_TICK_MS, Math.round((moveDist / currentSpeed) * 1000));
 
     a.sending = true;
     await axiSend(`XM,${duration},${stepsX},${stepsY}`);
     a.lastX += stepsX / AXI_STEPS_PER_MM;
     a.lastY += stepsY / AXI_STEPS_PER_MM;
+    axiMoveBuffer.ticks = 0;
     a.sending = false;
   }
 
