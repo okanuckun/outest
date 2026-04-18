@@ -560,7 +560,7 @@
         <span class="arrow">→</span>
         <span class="logo">axidraw</span>
         <span class="divider"></span>
-        <span class="dim">v0.4</span>
+        <span class="dim">v0.5</span>
       </div>
       <div class="controls">
         <button class="conn-btn" id="conn-muse" title="Connect Muse headset (Bluetooth)">
@@ -603,7 +603,7 @@
         <span class="c-bl"></span><span class="c-br"></span>
         <div class="panel-header">
           <span class="panel-title">axidraw.viewport</span>
-          <span class="panel-meta"><span id="plot-source">simulated</span> · A3 · 420×297mm</span>
+          <span class="panel-meta"><span id="plot-source">simulated</span> · <span id="paper-label">A3 · 420×297mm</span></span>
         </div>
         <div class="panel-body">
           <canvas id="plot-canvas"></canvas>
@@ -690,13 +690,13 @@
         <div class="panel-body control-body">
           <div class="ctrl-row">
             <span class="ctrl-label">DRAW</span>
-            <div class="ctrl-slider" data-ctrl="drawSpeed" data-min="1" data-max="100" data-value="25"></div>
-            <span class="ctrl-val" data-ctrl-val="drawSpeed">25%</span>
+            <div class="ctrl-slider" data-ctrl="drawSpeed" data-min="1" data-max="100" data-value="50"></div>
+            <span class="ctrl-val" data-ctrl-val="drawSpeed">50%</span>
           </div>
           <div class="ctrl-row">
             <span class="ctrl-label">TRAVEL</span>
-            <div class="ctrl-slider" data-ctrl="travelSpeed" data-min="1" data-max="100" data-value="75"></div>
-            <span class="ctrl-val" data-ctrl-val="travelSpeed">75%</span>
+            <div class="ctrl-slider" data-ctrl="travelSpeed" data-min="1" data-max="100" data-value="90"></div>
+            <span class="ctrl-val" data-ctrl-val="travelSpeed">90%</span>
           </div>
           <div class="ctrl-row">
             <span class="ctrl-label">PEN ↑</span>
@@ -707,6 +707,10 @@
             <span class="ctrl-label">PEN ↓</span>
             <div class="ctrl-slider" data-ctrl="penLower" data-min="1" data-max="100" data-value="40"></div>
             <span class="ctrl-val" data-ctrl-val="penLower">40%</span>
+          </div>
+          <div class="ctrl-row" style="margin-top:6px;border-top:1px solid var(--border);padding-top:6px;">
+            <span class="ctrl-label">PAPER</span>
+            <div style="display:flex;gap:4px;flex:1;" id="paper-btns"></div>
           </div>
         </div>
       </section>
@@ -734,8 +738,16 @@
   const CONFIDENCE_MIN    = 0.45;
   const CONFIDENCE_MAX    = 0.75;
   const PEN_DOWN_MIN      = 0.60;
-  const AXI_STEPS_PER_MM  = 80;     // AxiDraw V3/SE/A3 default
+  const AXI_STEPS_PER_MM  = 80;     // AxiDraw V3/SE/A3/A1 default
   const AXI_TICK_MS       = 60;     // how often to push commands to AxiDraw
+  const PAPER_SIZES = {
+    'A4':     { w: 297,  h: 210,  label: 'A4 — 297×210 mm' },
+    'A3':     { w: 420,  h: 297,  label: 'A3 — 420×297 mm' },
+    'A2':     { w: 594,  h: 420,  label: 'A2 — 594×420 mm' },
+    'A1':     { w: 841,  h: 594,  label: 'A1 — 841×594 mm' },
+    'SE/A1':  { w: 864,  h: 594,  label: 'SE/A1 — 864×594 mm' },
+  };
+  const MARGIN = 10; // mm safety margin from edges
 
   const STATES = { IDLE:'idle', CHECKING:'checking', ACTIVE:'active', PAUSED:'paused' };
 
@@ -777,7 +789,9 @@
     bandsTarget: { delta:0.30, theta:0.45, alpha:0.60, beta:0.45, gamma:0.20 },
     bandsBaseline: { delta:0.30, theta:0.45, alpha:0.60, beta:0.45, gamma:0.20 },
     phase: 0,
-    plot: { x:210, y:148.5, homeX:210, homeY:148.5, penDown:false, penWant:false, confidence:0, links:0, distance:0, trail:[], penTransition:0, penTarget:false },
+    paperSize: 'A3',
+    paper: { w: 420, h: 297 },
+    plot: { x:MARGIN, y:MARGIN, penDown:false, penWant:false, confidence:0, links:0, distance:0, trail:[], penTransition:0, penTarget:false },
     settings: { drawSpeed:50, travelSpeed:90, penLift:60, penLower:40 },
     quality: { score:0, variance:0, lineRatio:0, status:'—' },
     simContact: true,
@@ -864,6 +878,27 @@
     render();
   }
   document.querySelectorAll('.ctrl-slider').forEach(setupSlider);
+
+  // Paper size buttons
+  const paperBtns = $('paper-btns');
+  for (const key in PAPER_SIZES) {
+    const btn = document.createElement('button');
+    btn.textContent = key;
+    btn.dataset.paper = key;
+    btn.style.cssText = 'font:10px "Share Tech Mono",monospace;padding:2px 6px;background:none;color:var(--muted);border:1px solid var(--border);cursor:pointer;';
+    btn.addEventListener('click', () => setPaperSize(key));
+    paperBtns.appendChild(btn);
+  }
+  function updatePaperUI() {
+    const label = $('paper-label');
+    if (label) label.textContent = `${state.paperSize} · ${state.paper.w}×${state.paper.h}mm`;
+    paperBtns.querySelectorAll('button').forEach(b => {
+      const active = b.dataset.paper === state.paperSize;
+      b.style.color = active ? 'var(--fg)' : 'var(--muted)';
+      b.style.borderColor = active ? 'var(--border-strong)' : 'var(--border)';
+    });
+  }
+  updatePaperUI();
 
   function setupCanvas(id) {
     const canvas = $(id);
@@ -1189,8 +1224,8 @@
       vy = (state.bands.beta  - 0.5) * 1.5 * speedFactor;
     }
     const step = dtMs * 0.18;
-    const nx = clamp(p.x + vx * step, 10, 410);
-    const ny = clamp(p.y + vy * step, 10, 287);
+    const nx = clamp(p.x + vx * step, MARGIN, state.paper.w - MARGIN);
+    const ny = clamp(p.y + vy * step, MARGIN, state.paper.h - MARGIN);
 
     if (p.penDown) p.distance += Math.hypot(nx - p.x, ny - p.y);
     p.x = nx; p.y = ny;
@@ -1381,38 +1416,40 @@
     pushLog('axidraw · disconnected');
   }
 
-  const HOME_X = 210;
-  const HOME_Y = 148.5;
-
   async function returnHome() {
     const a = state.axidraw;
     if (!a) return;
+    const homeX = MARGIN;
+    const homeY = MARGIN;
 
-    // Pen up first
+    // Pen up first — MUST be up before any travel
     await axiSend('SP,1');
     a.penIsDown = false;
+    state.plot.penDown = false;
+    // Wait for pen to fully lift before moving
+    await new Promise(r => setTimeout(r, 300));
 
     // Calculate distance to home
-    const dx = HOME_X - a.lastX;
-    const dy = HOME_Y - a.lastY;
+    const dx = homeX - a.lastX;
+    const dy = homeY - a.lastY;
     const dist = Math.hypot(dx, dy);
     if (dist < 0.5) {
-      a.lastX = HOME_X;
-      a.lastY = HOME_Y;
-      state.plot.x = HOME_X;
-      state.plot.y = HOME_Y;
+      a.lastX = homeX;
+      a.lastY = homeY;
+      state.plot.x = homeX;
+      state.plot.y = homeY;
       pushLog('home · already at origin');
       return;
     }
 
-    pushLog('home · returning to origin...');
+    pushLog('home · pen up, returning to origin...');
 
-    // Move in segments (max 6mm per step for safety)
+    // Move in segments (max 6mm per step for safety), pen stays UP
     const MAX_STEP = 6;
     let cx = a.lastX, cy = a.lastY;
     while (true) {
-      const rdx = HOME_X - cx;
-      const rdy = HOME_Y - cy;
+      const rdx = homeX - cx;
+      const rdy = homeY - cy;
       const rd = Math.hypot(rdx, rdy);
       if (rd < 0.1) break;
 
@@ -1427,15 +1464,31 @@
       cx += stepsX / AXI_STEPS_PER_MM;
       cy += stepsY / AXI_STEPS_PER_MM;
 
-      // Brief pause between segments
       await new Promise(r => setTimeout(r, AXI_TICK_MS + 5));
     }
 
-    a.lastX = HOME_X;
-    a.lastY = HOME_Y;
-    state.plot.x = HOME_X;
-    state.plot.y = HOME_Y;
+    a.lastX = homeX;
+    a.lastY = homeY;
+    state.plot.x = homeX;
+    state.plot.y = homeY;
     pushLog('home · origin reached ●');
+  }
+
+  function setPaperSize(key) {
+    const size = PAPER_SIZES[key];
+    if (!size) return;
+    state.paperSize = key;
+    state.paper.w = size.w;
+    state.paper.h = size.h;
+    // Reset plotter position to home corner
+    state.plot.x = MARGIN;
+    state.plot.y = MARGIN;
+    if (state.axidraw) {
+      state.axidraw.lastX = MARGIN;
+      state.axidraw.lastY = MARGIN;
+    }
+    pushLog(`paper · ${size.label}`);
+    updatePaperUI();
   }
 
   let axiInterval = null;
@@ -1549,9 +1602,11 @@
     const pad = 24;
     const aw = w - 2 * pad;
     const ah = h - 2 * pad;
-    const ratio = Math.min(aw / 420, ah / 297);
-    const pw = 420 * ratio;
-    const ph = 297 * ratio;
+    const paperW = state.paper.w;
+    const paperH = state.paper.h;
+    const ratio = Math.min(aw / paperW, ah / paperH);
+    const pw = paperW * ratio;
+    const ph = paperH * ratio;
     const px = (w - pw) / 2;
     const py = (h - ph) / 2;
 
