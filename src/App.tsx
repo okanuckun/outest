@@ -31,6 +31,7 @@ const FineLineTattoos = lazy(() => import("./pages/FineLineTattoos"));
 const LineWorkTattoos = lazy(() => import("./pages/LineWorkTattoos"));
 const MinimalistTattoos = lazy(() => import("./pages/MinimalistTattoos"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const EEGRedirect = lazy(() => import("./pages/EEGRedirect"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -98,6 +99,7 @@ const AnimatedRoutes = () => {
             <Route path="/line-work-tattoos" element={<LineWorkTattoos />} />
             <Route path="/minimalist-tattoos" element={<MinimalistTattoos />} />
             <Route path="/line-work-tattos" element={<Navigate to="/line-work-tattoos" replace />} />
+            <Route path="/eeg" element={<EEGRedirect />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
