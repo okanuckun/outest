@@ -2,6 +2,20 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<script>
+  (function () {
+    var KEY = 'eeg_auth_ok';
+    var PASS = '24133286aA!';
+    if (sessionStorage.getItem(KEY) === '1') return;
+    var input = window.prompt('Password required');
+    if (input !== PASS) {
+      document.documentElement.innerHTML = '<body style="background:#050505;color:#707070;font-family:monospace;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;">ACCESS DENIED</body>';
+      throw new Error('unauthorized');
+    }
+    sessionStorage.setItem(KEY, '1');
+  })();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MONOLITH.EEG // AXIDRAW</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
