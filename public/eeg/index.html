@@ -137,7 +137,7 @@
     position: absolute; inset: 0; display: flex; flex-direction: column;
     align-items: center; justify-content: center; gap: 8px;
     border: 2px dashed var(--border); margin: 8px;
-    cursor: pointer; z-index: 5;
+    cursor: pointer; z-index: 20;
   }
   .svg-drop.dragover { border-color: var(--fg); background: rgba(237,237,237,0.03); }
   .svg-drop .label { font: 12px 'Share Tech Mono', monospace; color: var(--muted); text-transform: uppercase; }
@@ -593,7 +593,7 @@
         <span class="arrow">→</span>
         <span class="logo">axidraw</span>
         <span class="divider"></span>
-        <span class="dim">v1.0</span>
+        <span class="dim">v1.0.1</span>
       </div>
       <div class="controls">
         <div class="mode-switch" id="mode-switch">
@@ -2332,7 +2332,9 @@
     $('pause-icon').textContent = m.pauseIco;
     $('pause-text').textContent = m.pauseTxt;
     const overlay = $('plot-overlay');
-    overlay.classList.toggle('show', m.overlay);
+    // Never show overlay in SVG mode — it blocks the file input
+    const showOverlay = m.overlay && state.mode !== 'svg';
+    overlay.classList.toggle('show', showOverlay);
     overlay.dataset.variant = m.variant;
     $('overlay-title').textContent = m.title;
     $('overlay-sub').textContent = m.sub;
@@ -2422,6 +2424,12 @@
     eegPanels.forEach(p => p.style.display = mode === 'svg' ? 'none' : '');
     $('svg-drop').style.display = mode === 'svg' ? 'flex' : 'none';
     $('conn-muse').style.display = mode === 'svg' ? 'none' : '';
+    // Hide STANDBY overlay in SVG mode so file input is clickable
+    if (mode === 'svg') {
+      $('plot-overlay').classList.remove('show');
+    } else if (state.session === STATES.IDLE) {
+      $('plot-overlay').classList.add('show');
+    }
     // Show/hide SVG-only controls
     document.querySelectorAll('.svg-only').forEach(el => {
       el.style.display = mode === 'svg' ? '' : 'none';
