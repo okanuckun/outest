@@ -331,6 +331,14 @@
 
   .panel-plot { grid-row: 1 / 3; }
 
+  /* SVG mode: viewport spans full left column, right panels stack */
+  body.svg-mode .grid {
+    grid-template-rows: 1fr 1fr;
+  }
+  body.svg-mode .panel-plot {
+    grid-row: 1 / -1;
+  }
+
   .panel-header {
     display: flex;
     justify-content: space-between;
@@ -356,11 +364,13 @@
     flex: 1;
     min-height: 0;
     padding: 12px 14px;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     position: relative;
   }
 
-  .panel-eeg .panel-body { padding: 0; }
+  .panel-eeg .panel-body { padding: 0; overflow: hidden; }
+  .panel-plot .panel-body { overflow: hidden; }
 
   canvas { display: block; width: 100%; height: 100%; }
 
@@ -593,7 +603,7 @@
         <span class="arrow">→</span>
         <span class="logo">axidraw</span>
         <span class="divider"></span>
-        <span class="dim">v1.0.1</span>
+        <span class="dim">v1.0.2</span>
       </div>
       <div class="controls">
         <div class="mode-switch" id="mode-switch">
@@ -952,7 +962,8 @@
       const pct = (value - min) / (max - min);
       const active = Math.round(pct * N);
       segs.forEach((s, i) => s.classList.toggle('on', i < active));
-      if (valEl) valEl.textContent = `${value}%`;
+      // Copies shows count, not percentage
+      if (valEl) valEl.textContent = name === 'copies' ? `${value}` : `${value}%`;
       state.settings[name] = value;
     }
     function setFromEvent(e) {
@@ -2417,6 +2428,7 @@
   // ── Mode switch ──
   function setMode(mode) {
     state.mode = mode;
+    document.body.classList.toggle('svg-mode', mode === 'svg');
     $('mode-switch').querySelectorAll('button').forEach(b => {
       b.classList.toggle('active', b.dataset.mode === mode);
     });
@@ -2424,13 +2436,11 @@
     eegPanels.forEach(p => p.style.display = mode === 'svg' ? 'none' : '');
     $('svg-drop').style.display = mode === 'svg' ? 'flex' : 'none';
     $('conn-muse').style.display = mode === 'svg' ? 'none' : '';
-    // Hide STANDBY overlay in SVG mode so file input is clickable
     if (mode === 'svg') {
       $('plot-overlay').classList.remove('show');
     } else if (state.session === STATES.IDLE) {
       $('plot-overlay').classList.add('show');
     }
-    // Show/hide SVG-only controls
     document.querySelectorAll('.svg-only').forEach(el => {
       el.style.display = mode === 'svg' ? '' : 'none';
     });
