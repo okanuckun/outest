@@ -143,6 +143,13 @@
   .svg-drop .label { font: 12px 'Share Tech Mono', monospace; color: var(--muted); text-transform: uppercase; }
   .svg-drop .sub { font: 10px 'Share Tech Mono', monospace; color: var(--muted); opacity: 0.6; }
   .svg-progress { font: 10px 'Share Tech Mono', monospace; color: var(--muted); margin-top: 4px; }
+  .ubtn {
+    font: 9px 'Share Tech Mono', monospace; padding: 3px 7px;
+    background: none; color: var(--muted); border: 1px solid var(--border);
+    cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .ubtn:hover { color: var(--fg); border-color: var(--border-strong); }
+  .ubtn.active { color: var(--fg); border-color: var(--border-strong); }
 
   /* connection buttons */
   .conn-btn {
@@ -586,7 +593,7 @@
         <span class="arrow">→</span>
         <span class="logo">axidraw</span>
         <span class="divider"></span>
-        <span class="dim">v0.9.2</span>
+        <span class="dim">v1.0</span>
       </div>
       <div class="controls">
         <div class="mode-switch" id="mode-switch">
@@ -750,9 +757,50 @@
             <div class="ctrl-slider" data-ctrl="penLower" data-min="1" data-max="100" data-value="40"></div>
             <span class="ctrl-val" data-ctrl-val="penLower">40%</span>
           </div>
+          <div class="ctrl-row">
+            <span class="ctrl-label">ACCEL</span>
+            <div class="ctrl-slider" data-ctrl="accel" data-min="1" data-max="100" data-value="50"></div>
+            <span class="ctrl-val" data-ctrl-val="accel">50%</span>
+          </div>
+          <div class="ctrl-row svg-only" style="display:none;">
+            <span class="ctrl-label">SCALE</span>
+            <div class="ctrl-slider" data-ctrl="svgScale" data-min="10" data-max="200" data-value="100"></div>
+            <span class="ctrl-val" data-ctrl-val="svgScale">100%</span>
+          </div>
+          <div class="ctrl-row svg-only" style="display:none;">
+            <span class="ctrl-label">COPIES</span>
+            <div class="ctrl-slider" data-ctrl="copies" data-min="1" data-max="20" data-value="1"></div>
+            <span class="ctrl-val" data-ctrl-val="copies">1</span>
+          </div>
           <div class="ctrl-row" style="margin-top:6px;border-top:1px solid var(--border);padding-top:6px;">
             <span class="ctrl-label">PAPER</span>
             <div style="display:flex;gap:4px;flex:1;" id="paper-btns"></div>
+          </div>
+          <div class="ctrl-row" style="margin-top:4px;">
+            <span class="ctrl-label">MODEL</span>
+            <div style="display:flex;gap:4px;flex:1;" id="model-btns"></div>
+          </div>
+          <div class="ctrl-row" style="margin-top:6px;border-top:1px solid var(--border);padding-top:6px;">
+            <span class="ctrl-label">UTILS</span>
+            <div style="display:flex;gap:4px;flex:1;flex-wrap:wrap;" id="util-btns">
+              <button class="ubtn" id="btn-pen-test" title="Pen cycle: down, wait, up">PEN TEST</button>
+              <button class="ubtn" id="btn-motors" title="Toggle motors on/off">MOTORS</button>
+              <button class="ubtn" id="btn-home" title="Return to home position">HOME</button>
+              <button class="ubtn svg-only" id="btn-resume" style="display:none;" title="Resume from last stopped position">RESUME</button>
+            </div>
+          </div>
+          <div class="ctrl-row" style="margin-top:4px;">
+            <span class="ctrl-label">WALK</span>
+            <div style="display:flex;gap:4px;flex:1;">
+              <button class="ubtn" id="walk-xl" title="Walk left 1mm">← X</button>
+              <button class="ubtn" id="walk-xr" title="Walk right 1mm">X →</button>
+              <button class="ubtn" id="walk-yu" title="Walk up 1mm">↑ Y</button>
+              <button class="ubtn" id="walk-yd" title="Walk down 1mm">Y ↓</button>
+            </div>
+          </div>
+          <div class="ctrl-row svg-only" style="display:none;margin-top:4px;">
+            <span class="ctrl-label">LAYERS</span>
+            <div style="display:flex;gap:4px;flex:1;flex-wrap:wrap;max-height:60px;overflow-y:auto;" id="layer-btns"></div>
           </div>
         </div>
       </section>
@@ -780,8 +828,15 @@
   const CONFIDENCE_MIN    = 0.45;
   const CONFIDENCE_MAX    = 0.75;
   const PEN_DOWN_MIN      = 0.60;
-  const AXI_STEPS_PER_MM  = 80;     // AxiDraw V3/SE/A3/A1 default
-  const AXI_TICK_MS       = 80;     // how often to push commands to AxiDraw
+  const AXI_TICK_MS       = 80;
+  const MODELS = {
+    'V3':      { stepsPerMM: 80,  label: 'AxiDraw V3',       maxW: 300, maxH: 218 },
+    'SE/A3':   { stepsPerMM: 80,  label: 'AxiDraw SE/A3',    maxW: 430, maxH: 297 },
+    'SE/A1':   { stepsPerMM: 80,  label: 'AxiDraw SE/A1',    maxW: 864, maxH: 594 },
+    'SE/A2':   { stepsPerMM: 80,  label: 'AxiDraw SE/A2',    maxW: 594, maxH: 432 },
+    'V3/A3':   { stepsPerMM: 80,  label: 'AxiDraw V3/A3',    maxW: 430, maxH: 297 },
+    'Mini':    { stepsPerMM: 80,  label: 'AxiDraw MiniKit',   maxW: 160, maxH: 101 },
+  };
   const PAPER_SIZES = {
     'A4':     { w: 297,  h: 210,  label: 'A4 — 297×210 mm' },
     'A3':     { w: 420,  h: 297,  label: 'A3 — 420×297 mm' },
@@ -834,11 +889,13 @@
     paperSize: 'A3',
     paper: { w: 420, h: 297 },
     plot: { x:MARGIN, y:MARGIN, tx:MARGIN, ty:MARGIN, vx:0, vy:0, prevDx:0, prevDy:0, speed:0, penDown:false, penWant:false, confidence:0, links:0, distance:0, trail:[], penTransition:0, penTarget:false },
-    settings: { drawSpeed:50, travelSpeed:90, penLift:60, penLower:40 },
+    settings: { drawSpeed:50, travelSpeed:90, penLift:60, penLower:40, accel:50, svgScale:100, copies:1, constantSpeed:false },
+    model: 'SE/A1',
+    stepsPerMM: 80,
     quality: { score:0, variance:0, lineRatio:0, status:'—' },
     simContact: true,
     mode: 'eeg',  // 'eeg' or 'svg'
-    svg: { paths: [], currentPath: 0, currentPoint: 0, plotting: false, totalPoints: 0, plotted: 0 },
+    svg: { paths: [], layers: [], activeLayers: new Set(), currentPath: 0, currentPoint: 0, plotting: false, totalPoints: 0, plotted: 0, resumePath: 0, resumePoint: 0, canResume: false },
     sources: { eeg:'sim', plotter:'sim' },
     muse: null,
     axidraw: null,
@@ -943,6 +1000,115 @@
     });
   }
   updatePaperUI();
+
+  // Model buttons
+  const modelBtns = $('model-btns');
+  for (const key in MODELS) {
+    const btn = document.createElement('button');
+    btn.textContent = key;
+    btn.dataset.model = key;
+    btn.style.cssText = 'font:9px "Share Tech Mono",monospace;padding:2px 5px;background:none;color:var(--muted);border:1px solid var(--border);cursor:pointer;';
+    btn.addEventListener('click', () => {
+      state.model = key;
+      state.stepsPerMM = MODELS[key].stepsPerMM;
+      pushLog(`model · ${MODELS[key].label}`);
+      updateModelUI();
+    });
+    modelBtns.appendChild(btn);
+  }
+  function updateModelUI() {
+    modelBtns.querySelectorAll('button').forEach(b => {
+      const active = b.dataset.model === state.model;
+      b.style.color = active ? 'var(--fg)' : 'var(--muted)';
+      b.style.borderColor = active ? 'var(--border-strong)' : 'var(--border)';
+    });
+  }
+  updateModelUI();
+
+  // Utility buttons
+  $('btn-pen-test').addEventListener('click', async () => {
+    if (!state.axidraw) { pushLog('⚠ connect AxiDraw first'); return; }
+    pushLog('pen test · down...');
+    await axiSend('SP,0');
+    await new Promise(r => setTimeout(r, 500));
+    pushLog('pen test · up');
+    await axiSend('SP,1');
+  });
+
+  let motorsOn = true;
+  $('btn-motors').addEventListener('click', async () => {
+    if (!state.axidraw) { pushLog('⚠ connect AxiDraw first'); return; }
+    motorsOn = !motorsOn;
+    await axiSend(motorsOn ? 'EM,1,1' : 'EM,0,0');
+    $('btn-motors').textContent = motorsOn ? 'MOTORS' : 'MOTORS OFF';
+    $('btn-motors').classList.toggle('active', !motorsOn);
+    pushLog(`motors · ${motorsOn ? 'ON' : 'OFF'}`);
+  });
+
+  $('btn-home').addEventListener('click', async () => {
+    if (!state.axidraw) { pushLog('⚠ connect AxiDraw first'); return; }
+    await returnHome();
+  });
+
+  $('btn-resume').addEventListener('click', () => {
+    if (state.svg.canResume) {
+      state.plot.trail.length = 0;
+      plotSVG(true);
+    }
+  });
+
+  // Walk buttons (1mm per click)
+  async function walkAxis(dx, dy) {
+    if (!state.axidraw) { pushLog('⚠ connect AxiDraw first'); return; }
+    const stepsX = Math.round(dx * state.stepsPerMM);
+    const stepsY = Math.round(dy * state.stepsPerMM);
+    await axiSend(`XM,200,${stepsX},${stepsY}`);
+    state.axidraw.lastX += dx;
+    state.axidraw.lastY += dy;
+    state.plot.x += dx;
+    state.plot.y += dy;
+    pushLog(`walk · ${dx ? 'X' : 'Y'} ${dx || dy > 0 ? '+' : ''}${dx || dy}mm`);
+  }
+  $('walk-xl').addEventListener('click', () => walkAxis(-1, 0));
+  $('walk-xr').addEventListener('click', () => walkAxis(1, 0));
+  $('walk-yu').addEventListener('click', () => walkAxis(0, -1));
+  $('walk-yd').addEventListener('click', () => walkAxis(0, 1));
+
+  function updateLayerUI() {
+    const container = $('layer-btns');
+    container.innerHTML = '';
+    for (const layer of state.svg.layers) {
+      const btn = document.createElement('button');
+      btn.textContent = layer;
+      btn.className = 'ubtn';
+      const active = state.svg.activeLayers.has(layer);
+      if (active) btn.classList.add('active');
+      btn.addEventListener('click', () => {
+        if (state.svg.activeLayers.has(layer)) state.svg.activeLayers.delete(layer);
+        else state.svg.activeLayers.add(layer);
+        updateLayerUI();
+        reloadSVGPreview();
+      });
+      container.appendChild(btn);
+    }
+  }
+
+  function reloadSVGPreview() {
+    if (!svgRawText) return;
+    const { paths, layers } = parseSVG(svgRawText);
+    state.svg.paths = paths;
+    state.svg.layers = layers;
+    // Rebuild trail preview with active layers only
+    state.plot.trail.length = 0;
+    for (const p of paths) {
+      if (!state.svg.activeLayers.has(p.layer)) continue;
+      for (let i = 0; i < p.points.length; i++) {
+        state.plot.trail.push({ x: p.points[i].x, y: p.points[i].y, penDown: i > 0 });
+      }
+      const last = p.points[p.points.length - 1];
+      state.plot.trail.push({ x: last.x, y: last.y, penDown: false });
+    }
+  }
 
   function setupCanvas(id) {
     const canvas = $(id);
@@ -1603,13 +1769,14 @@
   // ═══════════════════════════════════════════════════════════════
   //   SVG PARSER & PLOTTER
   // ═══════════════════════════════════════════════════════════════
-  function parseSVG(svgText) {
+  let svgRawText = ''; // keep raw SVG for re-parsing on scale change
+
+  function parseSVG(svgText, userScale) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(svgText, 'image/svg+xml');
     const svg = doc.querySelector('svg');
-    if (!svg) { pushLog('⚠ invalid SVG'); return []; }
+    if (!svg) { pushLog('⚠ invalid SVG'); return { paths: [], layers: [] }; }
 
-    // Get SVG dimensions for scaling
     let svgW, svgH;
     const vb = svg.getAttribute('viewBox');
     if (vb) {
@@ -1620,154 +1787,221 @@
       svgH = parseFloat(svg.getAttribute('height')) || 100;
     }
 
-    // Scale to fit paper with margin
+    const scalePct = (userScale || state.settings.svgScale) / 100;
     const paperW = state.paper.w - 2 * MARGIN;
     const paperH = state.paper.h - 2 * MARGIN;
-    const scale = Math.min(paperW / svgW, paperH / svgH);
-    const offsetX = MARGIN + (paperW - svgW * scale) / 2;
-    const offsetY = MARGIN + (paperH - svgH * scale) / 2;
+    const fitScale = Math.min(paperW / svgW, paperH / svgH) * scalePct;
+    const scaledW = svgW * fitScale;
+    const scaledH = svgH * fitScale;
+    const offsetX = MARGIN + (paperW - scaledW) / 2;
+    const offsetY = MARGIN + (paperH - scaledH) / 2;
 
-    // Extract all paths — flatten groups/transforms
-    const paths = [];
-    const elements = svg.querySelectorAll('path, line, polyline, polygon, rect, circle, ellipse');
-
-    // Render SVG into a hidden container to get computed paths
+    // Render into hidden container for getPointAtLength
     const container = document.createElement('div');
     container.style.cssText = 'position:absolute;left:-9999px;top:-9999px;';
     container.innerHTML = svgText;
     document.body.appendChild(container);
     const renderedSvg = container.querySelector('svg');
+    if (!renderedSvg) { document.body.removeChild(container); return { paths: [], layers: [] }; }
 
-    const allEls = renderedSvg ? renderedSvg.querySelectorAll('path, line, polyline, polygon, rect, circle, ellipse') : [];
+    // Detect layers (Inkscape: g[inkscape:label], generic: g[id])
+    const layerSet = new Set();
+    const paths = [];
 
-    for (const el of allEls) {
-      let points = [];
-
-      if (el.tagName === 'line') {
-        const x1 = parseFloat(el.getAttribute('x1')) || 0;
-        const y1 = parseFloat(el.getAttribute('y1')) || 0;
-        const x2 = parseFloat(el.getAttribute('x2')) || 0;
-        const y2 = parseFloat(el.getAttribute('y2')) || 0;
-        points = [
-          { x: x1 * scale + offsetX, y: y1 * scale + offsetY },
-          { x: x2 * scale + offsetX, y: y2 * scale + offsetY },
-        ];
-      } else if (el.tagName === 'polyline' || el.tagName === 'polygon') {
-        const raw = el.getAttribute('points') || '';
-        const pairs = raw.trim().split(/\s+/);
-        for (const pair of pairs) {
-          const [x, y] = pair.split(',').map(Number);
-          if (!isNaN(x) && !isNaN(y)) {
-            points.push({ x: x * scale + offsetX, y: y * scale + offsetY });
-          }
+    function extractElements(parent, layerName) {
+      for (const child of parent.children) {
+        const tag = child.tagName;
+        // Check if this is a layer group
+        const label = child.getAttribute('inkscape:label') || child.getAttribute('aria-label');
+        if (tag === 'g' && (label || child.id)) {
+          const name = label || child.id;
+          layerSet.add(name);
+          extractElements(child, name);
+          continue;
         }
-        if (el.tagName === 'polygon' && points.length > 0) {
-          points.push({ ...points[0] }); // close
-        }
-      } else if (el.getTotalLength) {
-        // path, rect, circle, ellipse — sample with getPointAtLength
-        try {
-          const len = el.getTotalLength();
-          const step = Math.max(0.5, len / Math.min(2000, Math.max(20, len * 2)));
-          for (let d = 0; d <= len; d += step) {
-            const pt = el.getPointAtLength(d);
-            points.push({ x: pt.x * scale + offsetX, y: pt.y * scale + offsetY });
+        if (tag === 'g') { extractElements(child, layerName); continue; }
+
+        const drawTags = ['path','line','polyline','polygon','rect','circle','ellipse'];
+        if (!drawTags.includes(tag)) continue;
+
+        let points = [];
+        if (tag === 'line') {
+          const x1 = parseFloat(child.getAttribute('x1')) || 0;
+          const y1 = parseFloat(child.getAttribute('y1')) || 0;
+          const x2 = parseFloat(child.getAttribute('x2')) || 0;
+          const y2 = parseFloat(child.getAttribute('y2')) || 0;
+          points = [
+            { x: x1 * fitScale + offsetX, y: y1 * fitScale + offsetY },
+            { x: x2 * fitScale + offsetX, y: y2 * fitScale + offsetY },
+          ];
+        } else if (tag === 'polyline' || tag === 'polygon') {
+          const raw = child.getAttribute('points') || '';
+          const pairs = raw.trim().split(/\s+/);
+          for (const pair of pairs) {
+            const [x, y] = pair.split(',').map(Number);
+            if (!isNaN(x) && !isNaN(y)) {
+              points.push({ x: x * fitScale + offsetX, y: y * fitScale + offsetY });
+            }
           }
-          // Ensure endpoint
-          const last = el.getPointAtLength(len);
-          points.push({ x: last.x * scale + offsetX, y: last.y * scale + offsetY });
-        } catch { continue; }
+          if (tag === 'polygon' && points.length > 0) points.push({ ...points[0] });
+        } else if (child.getTotalLength) {
+          try {
+            const len = child.getTotalLength();
+            const step = Math.max(0.5, len / Math.min(2000, Math.max(20, len * 2)));
+            for (let d = 0; d <= len; d += step) {
+              const pt = child.getPointAtLength(d);
+              points.push({ x: pt.x * fitScale + offsetX, y: pt.y * fitScale + offsetY });
+            }
+            const last = child.getPointAtLength(len);
+            points.push({ x: last.x * fitScale + offsetX, y: last.y * fitScale + offsetY });
+          } catch { continue; }
+        }
+        if (points.length >= 2) paths.push({ points, layer: layerName });
       }
-
-      if (points.length >= 2) paths.push(points);
     }
 
+    extractElements(renderedSvg, 'default');
     document.body.removeChild(container);
-    pushLog(`svg · ${paths.length} paths, ${paths.reduce((a, p) => a + p.length, 0)} points`);
-    return paths;
+
+    const layers = [...layerSet];
+    if (layers.length === 0) layers.push('default');
+
+    pushLog(`svg · ${paths.length} paths, ${layers.length} layers, scale ${Math.round(scalePct * 100)}%`);
+    return { paths, layers };
   }
 
-  async function plotSVG() {
+  // Nearest-neighbor path optimization — reduces travel distance
+  function optimizePaths(pathObjs) {
+    if (pathObjs.length <= 1) return pathObjs;
+    const used = new Array(pathObjs.length).fill(false);
+    const result = [];
+    let cx = MARGIN, cy = MARGIN;
+
+    for (let i = 0; i < pathObjs.length; i++) {
+      let bestIdx = -1, bestDist = Infinity;
+      for (let j = 0; j < pathObjs.length; j++) {
+        if (used[j]) continue;
+        const p = pathObjs[j].points[0];
+        const d = Math.hypot(p.x - cx, p.y - cy);
+        // Also check reversed path start (can draw in reverse)
+        const pEnd = pathObjs[j].points[pathObjs[j].points.length - 1];
+        const dRev = Math.hypot(pEnd.x - cx, pEnd.y - cy);
+        const best = Math.min(d, dRev);
+        if (best < bestDist) { bestDist = best; bestIdx = j; }
+      }
+      if (bestIdx < 0) break;
+      used[bestIdx] = true;
+      const chosen = pathObjs[bestIdx];
+      // Reverse path if end is closer to current position
+      const pEnd = chosen.points[chosen.points.length - 1];
+      const dFwd = Math.hypot(chosen.points[0].x - cx, chosen.points[0].y - cy);
+      const dRev = Math.hypot(pEnd.x - cx, pEnd.y - cy);
+      if (dRev < dFwd) chosen.points.reverse();
+      result.push(chosen);
+      const last = chosen.points[chosen.points.length - 1];
+      cx = last.x; cy = last.y;
+    }
+    return result;
+  }
+
+  async function plotSVG(resumeMode) {
     const s = state.svg;
     if (!s.paths.length) { pushLog('⚠ no SVG loaded'); return; }
     if (!state.axidraw) { pushLog('⚠ connect AxiDraw first'); return; }
     if (s.plotting) return;
 
+    // Filter by active layers
+    let activePaths = s.paths.filter(p => s.activeLayers.has(p.layer));
+    // Optimize path order (nearest neighbor)
+    activePaths = optimizePaths(activePaths);
+
     s.plotting = true;
-    s.currentPath = 0;
+    const startPath = resumeMode ? s.resumePath : 0;
+    s.currentPath = startPath;
     s.currentPoint = 0;
     s.plotted = 0;
-    s.totalPoints = s.paths.reduce((a, p) => a + p.length, 0);
+    s.totalPoints = activePaths.reduce((a, p) => a + p.points.length, 0);
     state.session = STATES.ACTIVE;
     updateSessionUI();
-    pushLog('▶ SVG plotting started');
+    pushLog(resumeMode ? `▶ resuming from path ${startPath + 1}` : '▶ SVG plotting started');
 
     const a = state.axidraw;
-    const drawSpeedMM = (state.settings.drawSpeed / 100) * 40;  // mm/s
-    const travelSpeedMM = (state.settings.travelSpeed / 100) * 80;
+    const copies = state.settings.copies;
+    const penDownDelay = Math.max(50, (110 - state.settings.penLower) * 5);
+    const penUpDelay = Math.max(50, (110 - state.settings.penLift) * 5);
 
     try {
-      for (let pi = 0; pi < s.paths.length; pi++) {
+      for (let copy = 0; copy < copies; copy++) {
         if (!s.plotting) break;
-        s.currentPath = pi;
-        const path = s.paths[pi];
+        if (copies > 1) pushLog(`copy ${copy + 1}/${copies}`);
 
-        // Travel to start of path — pen UP
-        const start = path[0];
-        await axiSend('SP,1');
-        a.penIsDown = false;
-        state.plot.penDown = false;
-        await new Promise(r => setTimeout(r, 150));
-
-        // Move to path start
-        await axiMoveToSmooth(start.x, start.y, travelSpeedMM);
-
-        // Wait for pause
-        while (state.session === STATES.PAUSED && s.plotting) {
-          await new Promise(r => setTimeout(r, 200));
-        }
-        if (!s.plotting) break;
-
-        // Pen DOWN
-        await axiSend('SP,0');
-        a.penIsDown = true;
-        state.plot.penDown = true;
-        await new Promise(r => setTimeout(r, 200));
-
-        // Draw path
-        for (let i = 1; i < path.length; i++) {
+        for (let pi = startPath; pi < activePaths.length; pi++) {
           if (!s.plotting) break;
+          s.currentPath = pi;
+          const path = activePaths[pi].points;
+          const drawSpeedMM = (state.settings.drawSpeed / 100) * 40;
+          const travelSpeedMM = (state.settings.travelSpeed / 100) * 80;
 
-          // Wait for pause
+          // Travel to start — pen UP
+          await axiSend('SP,1');
+          a.penIsDown = false;
+          state.plot.penDown = false;
+          await new Promise(r => setTimeout(r, penUpDelay));
+
+          await axiMoveToSmooth(path[0].x, path[0].y, travelSpeedMM);
+
+          // Pause check
           while (state.session === STATES.PAUSED && s.plotting) {
             await new Promise(r => setTimeout(r, 200));
           }
           if (!s.plotting) break;
 
-          s.currentPoint = i;
-          s.plotted++;
-          const pt = path[i];
+          // Pen DOWN
+          await axiSend('SP,0');
+          a.penIsDown = true;
+          state.plot.penDown = true;
+          await new Promise(r => setTimeout(r, penDownDelay));
 
-          await axiMoveToSmooth(pt.x, pt.y, drawSpeedMM);
+          // Draw path
+          for (let i = 1; i < path.length; i++) {
+            if (!s.plotting) break;
+            while (state.session === STATES.PAUSED && s.plotting) {
+              await new Promise(r => setTimeout(r, 200));
+            }
+            if (!s.plotting) break;
 
-          // Update trail for viewport
-          state.plot.trail.push({ x: pt.x, y: pt.y, penDown: true });
-          if (state.plot.trail.length > 5000) state.plot.trail.shift();
+            s.currentPoint = i;
+            s.plotted++;
+            await axiMoveToSmooth(path[i].x, path[i].y, drawSpeedMM);
+
+            state.plot.trail.push({ x: path[i].x, y: path[i].y, penDown: true });
+            if (state.plot.trail.length > 8000) state.plot.trail.shift();
+          }
+
+          // Pen UP
+          await axiSend('SP,1');
+          a.penIsDown = false;
+          state.plot.penDown = false;
+          await new Promise(r => setTimeout(r, penUpDelay));
+
+          $('svg-progress').textContent = `${pi + 1}/${activePaths.length} paths · ${Math.round(s.plotted / s.totalPoints * 100)}%`;
         }
-
-        // Pen UP after each path
-        await axiSend('SP,1');
-        a.penIsDown = false;
-        state.plot.penDown = false;
-        await new Promise(r => setTimeout(r, 100));
-
-        $('svg-progress').textContent = `${pi + 1}/${s.paths.length} paths · ${Math.round(s.plotted / s.totalPoints * 100)}%`;
       }
     } catch (e) {
       pushLog('⚠ plot error: ' + (e.message || e));
     }
 
-    // Done — pen up and home
+    // Save resume point
+    if (!s.plotting && s.currentPath < activePaths.length - 1) {
+      s.resumePath = s.currentPath;
+      s.canResume = true;
+      $('btn-resume').style.display = '';
+      pushLog(`resume point saved at path ${s.currentPath + 1}`);
+    } else {
+      s.canResume = false;
+      $('btn-resume').style.display = 'none';
+    }
+
     s.plotting = false;
     state.plot.penDown = false;
     pushLog('■ SVG plotting complete');
@@ -1785,10 +2019,11 @@
     const dist = Math.hypot(dx, dy);
     if (dist < 0.05) return;
 
-    // Break into segments for safety
-    const MAX_SEG = 8; // mm per segment
+    const accelFactor = state.settings.accel / 50; // 1.0 = default
+    const MAX_SEG = 8;
     const segments = Math.max(1, Math.ceil(dist / MAX_SEG));
 
+    // Trapezoid: accelerate over first 20%, cruise, decelerate over last 20%
     for (let i = 0; i < segments; i++) {
       const frac = (i + 1) / segments;
       const sx = a.lastX + dx * frac;
@@ -1797,18 +2032,25 @@
       const segDy = sy - a.lastY;
       const segDist = Math.hypot(segDx, segDy);
 
-      const stepsX = Math.round(segDx * AXI_STEPS_PER_MM);
-      const stepsY = Math.round(segDy * AXI_STEPS_PER_MM);
+      const stepsX = Math.round(segDx * state.stepsPerMM);
+      const stepsY = Math.round(segDy * state.stepsPerMM);
       if (stepsX === 0 && stepsY === 0) continue;
 
-      const duration = Math.max(20, Math.round((segDist / Math.max(1, speedMM)) * 1000));
+      // Speed ramp: slower at start/end of move
+      const t = (i + 0.5) / segments;
+      const rampIn = Math.min(1, t / 0.2);          // 0→1 over first 20%
+      const rampOut = Math.min(1, (1 - t) / 0.2);    // 1→0 over last 20%
+      const ramp = state.settings.constantSpeed ? 1 : Math.min(rampIn, rampOut);
+      const segSpeed = Math.max(2, speedMM * (0.3 + 0.7 * ramp) * accelFactor);
+
+      const duration = Math.max(15, Math.round((segDist / segSpeed) * 1000));
       await axiSend(`XM,${duration},${stepsX},${stepsY}`);
-      a.lastX += stepsX / AXI_STEPS_PER_MM;
-      a.lastY += stepsY / AXI_STEPS_PER_MM;
+      a.lastX += stepsX / state.stepsPerMM;
+      a.lastY += stepsY / state.stepsPerMM;
       state.plot.x = a.lastX;
       state.plot.y = a.lastY;
 
-      await new Promise(r => setTimeout(r, Math.max(10, duration - 10)));
+      await new Promise(r => setTimeout(r, Math.max(5, duration - 5)));
     }
   }
 
@@ -2176,11 +2418,14 @@
     $('mode-switch').querySelectorAll('button').forEach(b => {
       b.classList.toggle('active', b.dataset.mode === mode);
     });
-    // Show/hide EEG panels, show SVG drop zone
     const eegPanels = document.querySelectorAll('.panel-eeg, .panel-bands, .panel-signal');
     eegPanels.forEach(p => p.style.display = mode === 'svg' ? 'none' : '');
     $('svg-drop').style.display = mode === 'svg' ? 'flex' : 'none';
     $('conn-muse').style.display = mode === 'svg' ? 'none' : '';
+    // Show/hide SVG-only controls
+    document.querySelectorAll('.svg-only').forEach(el => {
+      el.style.display = mode === 'svg' ? '' : 'none';
+    });
     pushLog(`mode · ${mode.toUpperCase()}`);
   }
   $('mode-switch').addEventListener('click', (e) => {
@@ -2200,22 +2445,33 @@
   function loadSVGFile(file) {
     const reader = new FileReader();
     reader.onload = (e) => {
-      const text = e.target.result;
-      state.svg.paths = parseSVG(text);
-      state.plot.trail.length = 0; // clear EEG trail
-      // Add SVG paths to trail for preview
-      for (const path of state.svg.paths) {
-        for (let i = 0; i < path.length; i++) {
-          state.plot.trail.push({ x: path[i].x, y: path[i].y, penDown: i > 0 });
-        }
-        // gap between paths
-        if (state.plot.trail.length > 0) {
-          state.plot.trail.push({ x: path[path.length-1].x, y: path[path.length-1].y, penDown: false });
-        }
-      }
-      $('svg-progress').textContent = `loaded · ${state.svg.paths.length} paths`;
+      svgRawText = e.target.result;
+      const { paths, layers } = parseSVG(svgRawText);
+      state.svg.paths = paths;
+      state.svg.layers = layers;
+      state.svg.activeLayers = new Set(layers); // all on by default
+      state.svg.canResume = false;
+      $('btn-resume').style.display = 'none';
+
+      reloadSVGPreview();
+      updateLayerUI();
+      $('svg-progress').textContent = `loaded · ${paths.length} paths · ${layers.length} layers`;
     };
     reader.readAsText(file);
+  }
+
+  // Re-parse SVG when scale slider changes
+  const origSetFromEvent = null; // handled by slider onChange via state.settings
+  // Watch for scale changes (check in updateDOM)
+  let lastSvgScale = 100;
+  function checkScaleChange() {
+    if (state.settings.svgScale !== lastSvgScale && svgRawText) {
+      lastSvgScale = state.settings.svgScale;
+      const { paths, layers } = parseSVG(svgRawText);
+      state.svg.paths = paths;
+      state.svg.layers = layers;
+      reloadSVGPreview();
+    }
   }
 
   function toggleTheme() {
@@ -2293,6 +2549,7 @@
     drawPlot();
     updateDOM(now);
     updateOverlayProgress();
+    if (state.mode === 'svg') checkScaleChange();
 
     requestAnimationFrame(loop);
   }
