@@ -820,6 +820,7 @@ const Booking: React.FC = () => {
                     <option value="">Select an option</option>
                     <option value="instagram">Instagram</option>
                     <option value="tiktok">TikTok</option>
+                    <option value="threads">Threads</option>
                     <option value="pinterest">Pinterest</option>
                     <option value="google">Google Search</option>
                     <option value="ai">ChatGPT / AI</option>
