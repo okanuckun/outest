@@ -29,6 +29,7 @@ const STATIC_ROUTES = [
   { path: '/', priority: '1.0', changefreq: 'weekly' },
   { path: '/about', priority: '0.8', changefreq: 'monthly' },
   { path: '/work', priority: '0.9', changefreq: 'weekly' },
+  { path: '/project', priority: '0.8', changefreq: 'weekly' },
   { path: '/blog', priority: '0.8', changefreq: 'weekly' },
   { path: '/aftercare', priority: '0.7', changefreq: 'monthly' },
   { path: '/booking', priority: '0.8', changefreq: 'weekly' },
@@ -38,6 +39,12 @@ const STATIC_ROUTES = [
   { path: '/minimalist-tattoos', priority: '0.9', changefreq: 'monthly' },
   { path: '/shop', priority: '0.7', changefreq: 'weekly' },
 ];
+
+// Routes that exist in App.tsx but should NOT appear in the sitemap:
+//   /appointment      → <Navigate> redirect to /booking (canonical is /booking)
+//   /article          → renders the Blog component as an alias (canonical is /blog)
+//   /line-work-tattos → <Navigate> redirect (typo alias for /line-work-tattoos)
+//   /auth /admin /eeg → blocked in robots.txt + SEOHead noindex
 
 async function loadEnv() {
   // Allow either process.env (CI / shell) or the .env file (local dev).
