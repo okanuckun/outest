@@ -1,43 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.okanuckun.com/</loc>
+    <loc>https://okanuckun.com/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://www.okanuckun.com/fine-line-tattoos</loc>
-    <priority>0.9</priority>
+    <loc>https://okanuckun.com/about</loc>
+    <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://www.okanuckun.com/geometric-tattoos</loc>
+    <loc>https://okanuckun.com/work</loc>
     <priority>0.9</priority>
-    <changefreq>monthly</changefreq>
+    <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://www.okanuckun.com/line-work-tattoos</loc>
-    <priority>0.9</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.okanuckun.com/minimalist-tattoos</loc>
-    <priority>0.9</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.okanuckun.com/appointment</loc>
+    <loc>https://okanuckun.com/blog</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://www.okanuckun.com/tattoos</loc>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.okanuckun.com/store</loc>
+    <loc>https://okanuckun.com/article</loc>
     <priority>0.6</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://okanuckun.com/aftercare</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://okanuckun.com/booking</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://okanuckun.com/fine-line-tattoos</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://okanuckun.com/geometric-tattoos</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://okanuckun.com/line-work-tattoos</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://okanuckun.com/minimalist-tattoos</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://okanuckun.com/blog/Minimalismsilinceandthetattoo</loc>
+    <lastmod>2026-01-13</lastmod>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://okanuckun.com/project/brainwave-tattoo</loc>
+    <lastmod>2026-01-17</lastmod>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://okanuckun.com/project/digital-abstractions</loc>
+    <lastmod>2026-01-17</lastmod>
+    <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
 </urlset>
