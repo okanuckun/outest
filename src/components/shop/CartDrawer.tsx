@@ -44,7 +44,7 @@ export const CartDrawer = () => {
           {items.length === 0 ? (
             <div className="flex-1 flex items-center justify-center">
               <div className="text-center">
-                <ShoppingCart className="h-12 w-12 text-white/40 mx-auto mb-4" />
+                <ShoppingCart className="h-12 w-12 text-white/70 mx-auto mb-4" />
                 <p className="text-white/60">Your cart is empty</p>
               </div>
             </div>
