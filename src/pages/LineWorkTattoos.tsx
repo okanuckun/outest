@@ -80,6 +80,22 @@ const jsonLd = {
             "@type": "Answer",
             "text": "Okan Uckun is recognized as one of the original pioneers of the contemporary linework tattoo approach, developing the style in the 2010s. His architectural background and commitment to mathematical precision helped establish linework as a distinct discipline within modern tattooing."
           }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between linework and blackwork tattoos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Linework uses lines exclusively with no solid black fill or large shaded areas. Blackwork uses large areas of solid black ink — filled silhouettes, blackout panels and dense geometric patterns. The two are often discussed together because both are predominantly black-ink styles, but they produce fundamentally different visual results: linework is restrained and drawn, blackwork is bold and declarative."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is linework flash tattoo and is it custom?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Linework flash tattoos are pre-designed linework pieces from a sheet that can be tattooed without a custom design process. They're a traditional way to get started with tattooing but produce designs shared with everyone else who picks the same piece. Custom linework — like the work Okan Uckun produces — is designed for one specific collector and exists nowhere else."
+          }
         }
       ]
     }
@@ -112,7 +128,7 @@ const LineWorkTattoos: React.FC = () => {
               Linework Tattoos in NYC
             </h1>
             <p className="text-[17px] md:text-[19px] text-[#1a1a1a] leading-relaxed mb-12">
-              Okan Uckun is recognized as one of the original pioneers of the contemporary linework tattoo style, developing the approach in New York City in the 2010s — with nearly 300,000 Instagram followers and international recognition across BuzzFeed, Bored Panda and My Modern Met. A line is the most fundamental unit of visual communication. Before shading, before color, before texture — there is the line. Linework tattooing takes this foundation seriously. Every design is built from lines alone: their weight, their spacing, their tension and their relationship to the negative space around them. In the hands of Okan Uckun, this constraint becomes a creative force.
+              Okan Uckun is recognized as one of the original pioneers of the contemporary linework tattoo style, developing the approach in New York City in the 2010s — with nearly 300,000 Instagram followers and international recognition across BuzzFeed, Bored Panda and My Modern Met. A line is the most fundamental unit of visual communication. This is the definitive guide to linework tattoos in NYC: what they are, the difference between linework and blackwork, single line and continuous line designs, popular subjects (botanicals, moths, peonies, magnolias, abstract architecture), how line work tattoos age over time, and how to commission custom linework from a Brooklyn studio serving collectors across all of New York City. Every linework design is built from lines alone — their weight, spacing, tension and relationship to the negative space around them.
             </p>
           </ScrollReveal>
 
@@ -213,6 +229,132 @@ const LineWorkTattoos: React.FC = () => {
               <p>
                 Abstract linework invites the viewer into an interpretive relationship with the design. A composition of converging and diverging lines can suggest tension, momentum, balance or expansion depending on its arrangement and the eye that reads it. This openness to interpretation is part of the appeal.
               </p>
+
+              <h3 className="text-[16px] md:text-[18px] font-semibold text-[#1a1a1a] uppercase tracking-[-0.01em] pt-4">
+                Line Drawing Tattoos
+              </h3>
+              <p>
+                A line drawing tattoo treats the skin like a sheet of paper and the needle like a pen. The effect is closer to a pen-and-ink sketch than to traditional tattooing — confident contour lines, intentional variation in line weight, suggested form rather than literal depiction. Line drawing tattoos sit alongside single line and continuous line work as the natural endpoint of the linework approach: drawings that happen to be on skin.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="w-full h-px bg-[#1a1a1a]/10 my-12" />
+
+          {/* Section: Popular Linework Subjects */}
+          <ScrollReveal>
+            <div className="space-y-6 text-[15px] text-[#1a1a1a] leading-relaxed mb-16">
+              <h2 className="text-[20px] md:text-[24px] font-bold text-[#1a1a1a] uppercase tracking-[-0.01em] mb-4">Popular Linework Tattoo Subjects</h2>
+              <p>
+                Linework technique favors subjects with strong outlines, distinct silhouettes and intricate internal structure — botanical specimens, insects, architectural elements, mythological figures. Below are the most-requested linework subjects and what makes each work in the medium.
+              </p>
+
+              <h3 className="text-[16px] md:text-[18px] font-semibold text-[#1a1a1a] uppercase tracking-[-0.01em] pt-4">Linework Floral & Botanical Tattoos</h3>
+              <div className="space-y-4 pl-0">
+                <div>
+                  <p className="font-bold mb-1">Linework Peony Tattoo</p>
+                  <p>The peony's layered petals and dense structure provide rich material for linework rendering. A linework peony tattoo design captures the flower's romantic complexity entirely through line — no shading needed. Excellent for sternum, ribcage, shoulder and upper arm placements.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Linework Magnolia Tattoo</p>
+                  <p>Magnolias in linework lean into the bloom's distinctive cupped form, the broad leaves and the architectural stem. A linework magnolia tattoo reads as botanical illustration on skin — at home next to vintage scientific plates rather than traditional tattoo flash.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Linework Sunflower Tattoo Outline</p>
+                  <p>The sunflower's natural radial geometry makes it an ideal linework subject. Rendered as outline alone — petals as a ring of pointed forms, seed disk as concentric arcs or a hatched grid — the design becomes nearly geometric. A natural bridge into{' '}
+                  <Link to="/geometric-tattoos" className="underline underline-offset-4 hover:text-[#555] transition-colors">geometric tattoo</Link>{' '}
+                  territory.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Simple Linework Lavender Tattoo</p>
+                  <p>Lavender stems are linework distilled — long vertical lines for the stems, small repeating elements for the florets. Often executed as a small piece on the forearm, ribcage or spine.</p>
+                </div>
+              </div>
+
+              <h3 className="text-[16px] md:text-[18px] font-semibold text-[#1a1a1a] uppercase tracking-[-0.01em] pt-4">Linework Insect & Animal Tattoos</h3>
+              <div className="space-y-4 pl-0">
+                <div>
+                  <p className="font-bold mb-1">Linework Moth Tattoo</p>
+                  <p>One of the most requested linework subjects. The moth's symmetrical wings — patterned with eyespots, veins and complex linework already present in nature — are an almost perfect fit for the technique. Often paired with a moon or sacred geometry behind the body, creating a composition that bridges linework and{' '}
+                  <Link to="/geometric-tattoos" className="underline underline-offset-4 hover:text-[#555] transition-colors">geometric work</Link>.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Linework Architectural Subjects</p>
+                  <p>Buildings, doorways, columns, bridges — architectural subjects translate directly into linework because they were drawn in linework first (architectural plans, elevations, sections). A linework architectural tattoo can reference a specific meaningful building or compose imagined structures from architectural vocabulary.</p>
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
+
+          <div className="w-full h-px bg-[#1a1a1a]/10 my-12" />
+
+          {/* Section: Flash vs Custom */}
+          <ScrollReveal>
+            <div className="space-y-6 text-[15px] text-[#1a1a1a] leading-relaxed mb-16">
+              <h2 className="text-[20px] md:text-[24px] font-bold text-[#1a1a1a] uppercase tracking-[-0.01em] mb-4">Linework Flash vs Custom Linework</h2>
+              <p>
+                Search "linework flash tattoo" and you'll find thousands of pre-designed sheets — small linework pieces ready to be tattooed without going through a custom design process. Flash tattoos have a place in tattooing tradition. They are how many artists practice and how many collectors get their first tattoo. They also produce tattoos that are, by definition, shared with everyone else who has chosen the same piece from the same sheet.
+              </p>
+              <p>
+                Custom linework — the work Okan Uckun produces — operates on a different premise. Each piece is designed for one specific collector, with their body, intention and meaning shaping the design. The lines are placed where they serve <em>that</em> person's composition, not where they happened to fit on a sheet. This is the difference between commissioning a portrait and buying a print.
+              </p>
+              <p>
+                If you're new to linework and exploring flash sheets — including the simple linework flash tattoo, cute linework flash tattoo and linework flash tattoo sheet categories that fill the internet — that's a legitimate entry point. When you're ready to commission work that exists nowhere else, the consultation process is how that begins.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="w-full h-px bg-[#1a1a1a]/10 my-12" />
+
+          {/* Section: Linework vs Blackwork */}
+          <ScrollReveal>
+            <div className="space-y-6 text-[15px] text-[#1a1a1a] leading-relaxed mb-16">
+              <h2 className="text-[20px] md:text-[24px] font-bold text-[#1a1a1a] uppercase tracking-[-0.01em] mb-4">Linework vs Blackwork: What's the Difference?</h2>
+              <p>
+                Linework and blackwork are often discussed together — both are predominantly black-ink styles, both have grown out of the contemporary tattoo renaissance, and both reject the saturated-color tradition of older Western tattooing. But they are not the same thing.
+              </p>
+              <p>
+                <strong>Linework</strong> uses lines exclusively. No solid black fill, no large shaded areas. The visual impact comes from the precise arrangement of lines and the negative space between them. Linework designs read as drawings on skin — graphic, architectural, often elegant.
+              </p>
+              <p>
+                <strong>Blackwork</strong> uses large areas of solid black ink. Filled silhouettes, blackout panels, dense black geometric patterns, heavy shading — these are blackwork's vocabulary. Blackwork tattoos read as bold graphic compositions; they declare themselves visually from across a room.
+              </p>
+              <p>
+                The two approaches can combine — a blackwork composition with linework details inside the negative space, or a linework piece anchored by a single small blackwork element — but in their pure forms they produce fundamentally different visual results. Linework is restrained, drawn, considered. Blackwork is bold, filled, declarative.
+              </p>
+              <p>
+                Okan Uckun's primary discipline is linework. For collectors specifically seeking blackwork — large filled panels, blackout work, traditional Nordic or Polynesian blackwork — a specialist in that style will be a better fit. For collectors drawn to the linework approach but considering combining it with selected blackwork elements, Okan's consultation can clarify which direction serves your design intention.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="w-full h-px bg-[#1a1a1a]/10 my-12" />
+
+          {/* Section: Linework Placement Notes */}
+          <ScrollReveal>
+            <div className="space-y-6 text-[15px] text-[#1a1a1a] leading-relaxed mb-16">
+              <h2 className="text-[20px] md:text-[24px] font-bold text-[#1a1a1a] uppercase tracking-[-0.01em] mb-4">Linework Placement: Where Lines Work Best</h2>
+              <p>
+                Linework's reliance on precision makes certain placements more rewarding than others. Bodies with consistent skin tension and lower long-term movement hold linework cleanest:
+              </p>
+              <div className="space-y-4 pl-0">
+                <div>
+                  <p className="font-bold mb-1">Inner & Outer Forearm</p>
+                  <p>The most reliable placements for linework. Consistent skin, manageable surface area, easy to protect from sun. Most of Okan's forearm linework holds its precision indefinitely with basic aftercare.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Sternum</p>
+                  <p>A linework sternum tattoo is one of the most architectural placements available — the central vertical axis of the body supports symmetrical linework compositions, sacred geometry, and elongated botanical pieces. Healing takes a bit longer due to chest movement; the visual payoff is substantial.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Upper Back & Shoulder Blade</p>
+                  <p>Large-scale linework compositions live here. Architectural subjects, expansive sacred geometry, complex botanical scenes — the flat broad surface of the upper back is unmatched for ambitious linework.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Thigh & Calf</p>
+                  <p>Underrated for linework. Long vertical or wrapping compositions, full geometric panels, line-drawn portraits. The leg's natural muscle structure provides good skin tension for line precision.</p>
+                </div>
+              </div>
             </div>
           </ScrollReveal>
 
