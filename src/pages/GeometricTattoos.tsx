@@ -57,15 +57,23 @@ const jsonLd = {
           "name": "What is a geometric tattoo?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "A geometric tattoo uses precise shapes — circles, triangles, hexagons, lines and sacred geometry patterns — to create designs that balance mathematical perfection with personal meaning. Unlike traditional tattoos, geometric designs rely on symmetry, precision and the interplay of positive and negative space."
+            "text": "A geometric tattoo is a design built from mathematical shapes — circles, triangles, hexagons, lines and sacred geometry patterns — instead of traditional illustration or shading. The visual power comes from precision: exact angles, perfectly parallel lines, deliberately calculated spacing. Geometric tattoos can be pure pattern work or combine geometric construction with subjects like animals, plants and architectural forms."
           }
         },
         {
           "@type": "Question",
-          "name": "What is the meaning of a geometric tattoo?",
+          "name": "What does a geometric tattoo mean?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Geometric tattoos carry rich symbolism. Circles represent infinity and wholeness. Triangles symbolize balance between opposing forces. Sacred geometry patterns reflect the mathematical structures underlying the universe. The meaning is deeply personal — the geometry becomes a visual language for the wearer's philosophy, values or spiritual beliefs."
+            "text": "Geometric tattoo meaning depends on the specific shapes. Circles represent completeness and infinity. Triangles represent direction, balance and the relationship between opposing forces. Hexagons represent efficiency and natural structure. Sacred geometry patterns like the Flower of Life or Metatron's Cube carry esoteric meaning rooted in thousands of years of philosophical tradition. The meaning of any geometric tattoo is ultimately personal — the shapes provide a vocabulary; the wearer provides the sentence."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is a geometric tattoo design made?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Custom geometric tattoo design starts with a conversation about meaning, placement and aesthetic direction. From there, the artist sketches concepts — first by hand to test composition, then digitally to refine proportions and verify mathematical precision. Sacred geometry patterns are constructed from their underlying rules rather than copied. Once approved, a stencil is created and the tattoo is executed."
           }
         },
         {
@@ -123,8 +131,8 @@ const GeometricTattoos: React.FC = () => {
               Geometric Tattoos in NYC
             </h1>
             <p className="text-[17px] md:text-[19px] text-[#1a1a1a] leading-relaxed mb-12">
-              Okan Uckun is widely recognized as one of New York City's leading geometric tattoo artists, with nearly 300,000 Instagram followers and international features in BuzzFeed, Bored Panda and My Modern Met. Geometric tattoo art lives at the intersection of mathematics and personal expression — and nowhere is it executed with more intention than in the work of this New York City-based tattoo artist. From sacred geometry compositions to minimalist{' '}
-              <Link to="/line-work-tattoos" className="underline underline-offset-4 hover:text-[#555] transition-colors">linework</Link>, each geometric design is built from scratch for the individual, using the body's natural contours as the canvas.
+              Okan Uckun is widely recognized as one of New York City's leading geometric tattoo artists, with nearly 300,000 Instagram followers and international features in BuzzFeed, Bored Panda and My Modern Met. Geometric tattoo art lives at the intersection of mathematics and personal expression — circles, triangles, hexagons, sacred geometry patterns, mandalas and architectural linework — and nowhere is it executed with more intention than in the work of this Brooklyn-based artist serving collectors across all of NYC. From sacred geometry compositions to minimalist{' '}
+              <Link to="/line-work-tattoos" className="underline underline-offset-4 hover:text-[#555] transition-colors">linework</Link>, each geometric tattoo design is built from scratch for the individual, using the body's natural contours as the canvas. This is the definitive guide to geometric tattoos in NYC — the styles, meanings, placements, popular designs and how to commission a custom piece.
             </p>
           </ScrollReveal>
 
@@ -230,11 +238,149 @@ const GeometricTattoos: React.FC = () => {
                 Geometric Sleeve Tattoos
               </h3>
               <p>
-                A full or half sleeve built around geometric principles is one of the most ambitious and rewarding tattooing projects a collector can undertake. A geometric sleeve requires thinking about the arm as a three-dimensional surface — a design that looks stunning from the front must also resolve correctly on the side and back of the arm.
+                A full or half geometric sleeve tattoo is one of the most ambitious and rewarding tattooing projects a collector can undertake. A geometric sleeve requires thinking about the arm as a three-dimensional surface — a design that looks stunning from the front must also resolve correctly on the side and back of the arm. Sleeve geometric tattoo work typically combines several elements: mandalas, sacred geometry, linework filler patterns and negative space that gives the composition room to breathe.
               </p>
               <p>
-                The planning phase for a geometric sleeve is as important as the tattooing itself. Proportions, flow, the relationship between filled and empty space, how the design moves when the arm moves — all of these must be considered before a single needle touches skin.
+                The planning phase for a geometric sleeve is as important as the tattooing itself. Proportions, flow, the relationship between filled and empty space, how the design moves when the arm moves — all of these must be considered before a single needle touches skin. Most geometric sleeve projects unfold over multiple sessions, with the composition revealed and refined session by session.
               </p>
+
+              {/* Blackout */}
+              <h3 className="text-[16px] md:text-[18px] font-semibold text-[#1a1a1a] uppercase tracking-[-0.01em] pt-4">
+                Geometric Blackout Tattoos
+              </h3>
+              <p>
+                Geometric blackout tattooing uses solid black ink to fill large negative spaces around precise geometric forms — creating a striking visual contrast between filled and unfilled skin. The technique evolved as a way to cover or balance older tattoos, but has matured into a discipline of its own. A geometric blackout sleeve or panel reads as graphic art on skin: bold, architectural and impossible to ignore.
+              </p>
+              <p>
+                Blackout work demands an artist who understands how skin tone, scarring and ink saturation interact over time. Done correctly, a blackout piece holds its visual integrity for decades and ages with intentional patina.
+              </p>
+
+              {/* Watercolor */}
+              <h3 className="text-[16px] md:text-[18px] font-semibold text-[#1a1a1a] uppercase tracking-[-0.01em] pt-4">
+                Watercolor Geometric Tattoos
+              </h3>
+              <p>
+                Watercolor geometric tattoos blend the precision of geometric line work with soft, painterly color washes that mimic watercolor paintings. While Okan Uckun's signature work is executed in pure black ink — chosen for its longevity and visual weight — collectors who want a softer, more illustrative geometric piece can explore watercolor approaches with artists who specialize in that technique.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="w-full h-px bg-[#1a1a1a]/10 my-12" />
+
+          {/* Section: Sacred Geometry Deep Dive */}
+          <ScrollReveal>
+            <div className="space-y-6 text-[15px] text-[#1a1a1a] leading-relaxed mb-16">
+              <h2 className="text-[20px] md:text-[24px] font-bold text-[#1a1a1a] uppercase tracking-[-0.01em] mb-4">
+                Sacred Geometry Tattoos: A Closer Look
+              </h2>
+              <p>
+                Sacred geometry tattoo work is its own discipline within the geometric tradition. While any tattoo using mathematical shapes can be called geometric, "sacred geometry" specifically refers to the visual systems that ancient and contemporary spiritual traditions have used to represent the underlying structure of reality. These are not arbitrary patterns — every line, every angle, every relationship between forms carries meaning encoded over thousands of years.
+              </p>
+              <p>
+                The most commonly requested sacred geometry tattoo designs include:
+              </p>
+              <div className="space-y-4 pl-0">
+                <div>
+                  <p className="font-bold mb-1">The Flower of Life</p>
+                  <p>Nineteen interlocking circles arranged in a hexagonal pattern. The Flower of Life is considered the foundational pattern from which all sacred geometry derives. As a tattoo, it works exceptionally well on the sternum, between the shoulder blades, or as the central element of a larger composition.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Metatron's Cube</p>
+                  <p>Derived from the Flower of Life, Metatron's Cube contains all five Platonic solids — the tetrahedron, cube, octahedron, dodecahedron and icosahedron — which Plato believed were the building blocks of the physical universe. Tattooed on the chest, back or forearm, Metatron's Cube reads as a compressed map of creation.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">The Sri Yantra</p>
+                  <p>One of the most visually complex sacred geometry patterns. Nine interlocking triangles — four pointing upward, five pointing downward — radiate from a central point (the bindu). The Sri Yantra represents the union of masculine and feminine, the cosmos and the individual consciousness. Demands an experienced geometric tattoo artist; the precision required is unforgiving.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">The Seed of Life</p>
+                  <p>Seven circles arranged within the Flower of Life pattern — the seven days of creation in many traditions. Often chosen as a more subtle alternative to the full Flower of Life, particularly for wrist or inner-forearm placement.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">The Fibonacci Spiral & Golden Ratio</p>
+                  <p>The mathematical pattern that appears throughout nature — in nautilus shells, sunflowers, hurricanes, galaxies. A Fibonacci spiral tattoo represents the harmony between mathematics and life, the pattern beneath apparent randomness.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Mandalas</p>
+                  <p>Circular diagrams representing the universe in Hindu and Buddhist cosmology. A geometric mandala tattoo can range from a simple six-petal form to a hyper-detailed multi-ring composition. Mandala geometric tattoo work is among the most popular requests at any geometric tattoo studio.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Platonic Solids</p>
+                  <p>The five three-dimensional shapes Plato associated with the classical elements: tetrahedron (fire), cube (earth), octahedron (air), icosahedron (water) and dodecahedron (the universe). Each can stand alone as a minimalist geometric tattoo or combine into a Metatron's Cube composition.</p>
+                </div>
+              </div>
+              <p>
+                A sacred geometry tattoo carries weight regardless of the wearer's spiritual orientation. The patterns are mathematical first — they exist whether one believes in their esoteric meaning or not. That mathematical reality is what gives sacred geometry tattoos their staying power across cultures and decades.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="w-full h-px bg-[#1a1a1a]/10 my-12" />
+
+          {/* Section: Popular Geometric Tattoo Subjects */}
+          <ScrollReveal>
+            <div className="space-y-6 text-[15px] text-[#1a1a1a] leading-relaxed mb-16">
+              <h2 className="text-[20px] md:text-[24px] font-bold text-[#1a1a1a] uppercase tracking-[-0.01em] mb-4">
+                Popular Geometric Tattoo Subjects & Ideas
+              </h2>
+              <p>
+                Geometric tattooing isn't limited to pure pattern work. Many of the most striking pieces in any portfolio combine geometric construction with recognizable subjects — animals, natural forms, architectural elements. The geometric treatment transforms a familiar subject into something more structural, more deliberate, more enduring.
+              </p>
+
+              <h3 className="text-[16px] md:text-[18px] font-semibold text-[#1a1a1a] uppercase tracking-[-0.01em] pt-4">
+                Geometric Animal Tattoos
+              </h3>
+              <p>
+                Animals rendered in geometric form sit somewhere between portrait and abstraction. The structural treatment honors the subject without literal depiction.
+              </p>
+              <div className="space-y-4 pl-0">
+                <div>
+                  <p className="font-bold mb-1">Geometric Wolf Tattoo</p>
+                  <p>One of the most requested geometric animal designs. The wolf's angular features — the snout, ears, eyes — translate naturally into geometric construction. A geometric wolf tattoo typically works best on the forearm, upper arm or thigh.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Geometric Lion Tattoo</p>
+                  <p>Lions in geometric form emphasize the symmetry of the face and the radial structure of the mane. Often combined with sacred geometry elements behind or around the lion's head, creating a regal mandala-like composition.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Geometric Owl Tattoo</p>
+                  <p>The owl's circular face and large symmetrical eyes make it a natural fit for geometric treatment. Geometric owl tattoos often incorporate sacred geometry behind the head or beneath the body — emphasizing the owl's traditional association with wisdom and the unseen.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Geometric Bear Tattoo</p>
+                  <p>Bears in geometric form lean into volume and weight — emphasizing mass through bold linework and structured shading. Often paired with mountain or natural-element imagery.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Geometric Butterfly & Moth Tattoos</p>
+                  <p>The bilateral symmetry of wings is a gift to geometric design. A geometric butterfly or geometric death moth tattoo amplifies the natural symmetry into pure pattern, with wings becoming canvases for sacred geometry or precise linework.</p>
+                </div>
+              </div>
+
+              <h3 className="text-[16px] md:text-[18px] font-semibold text-[#1a1a1a] uppercase tracking-[-0.01em] pt-4">
+                Geometric Nature & Element Tattoos
+              </h3>
+              <div className="space-y-4 pl-0">
+                <div>
+                  <p className="font-bold mb-1">Geometric Mountain Tattoo</p>
+                  <p>Mountains in geometric form become pure shape — triangles stacked and overlapping, often with a sun, moon or sacred geometry above. A geometric mountain tattoo works beautifully on the forearm, calf or chest as a meditation on stability, ambition or a connection to a specific landscape.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Geometric Flower Tattoo</p>
+                  <p>Geometric flowers (often executed as flower-mandala hybrids) bring radial symmetry into floral form. Roses, lotuses and sunflowers all translate well into geometric construction, with petals becoming geometric building blocks.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Geometric Space & Constellation Tattoos</p>
+                  <p>Geometric space tattoos render planets, orbits, stars and constellations as precise diagrams rather than illustrations. A geometric scorpio constellation or geometric solar system piece captures the structural reality of the cosmos. Sacred geometry naturally bridges into space imagery — both are about the patterns underlying the universe.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Geometric Triangle Tattoo</p>
+                  <p>The triangle is the simplest geometric form with directional meaning. Single triangles, stacked triangles, interlocking triangles, triangles inside circles — every combination carries its own symbolism. A geometric triangle tattoo can be both the smallest and most loaded piece in a collection.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Japanese Geometric Patterns</p>
+                  <p>Traditional Japanese pattern systems (asanoha, seigaiha, kikkō) translate into striking geometric tattoo work. Often used as filler patterns within larger compositions or as standalone graphic pieces.</p>
+                </div>
+              </div>
             </div>
           </ScrollReveal>
 
@@ -333,9 +479,82 @@ const GeometricTattoos: React.FC = () => {
                 </div>
                 <div>
                   <p className="font-bold mb-1">Upper Arm / Shoulder</p>
-                  <p>The natural transition between shoulder and upper arm offers opportunities for compositions that wrap the joint, creating the impression of three-dimensional structure.</p>
+                  <p>The natural transition between shoulder and upper arm offers opportunities for compositions that wrap the joint, creating the impression of three-dimensional structure. Geometric shoulder tattoos often serve as the anchor point for half-sleeves or back-piece extensions.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Neck</p>
+                  <p>A geometric neck tattoo demands restraint and precision. The placement is unforgiving — visible to others, sensitive to ink migration, limited in real estate. When done correctly, a small sacred geometry symbol behind the ear, or a single linework piece on the side of the neck, becomes one of the most personal and commanding pieces in a collection.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Chest</p>
+                  <p>The chest offers two distinct surfaces: the flat plane of the sternum and the curved expanse of the pectoral. A geometric chest tattoo can mirror across the sternum for bilateral symmetry, or anchor on a single side as part of a larger half-sleeve composition. Sacred geometry centered on the heart space is particularly meaningful.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Back</p>
+                  <p>The back is the largest single canvas the body offers. A geometric back tattoo can range from a small piece between the shoulder blades to a full-back composition that takes multiple sessions to complete. The flat surface accommodates large-scale sacred geometry, mandalas and architectural linework with room for negative space.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Leg & Thigh</p>
+                  <p>The thigh is one of the most underrated geometric tattoo placements. The flat outer surface, the curved inner surface, the long vertical canvas — all combine to make the thigh ideal for ambitious geometric compositions. A geometric leg sleeve (calf + thigh) can read as a single cohesive piece or as connected chapters.</p>
                 </div>
               </div>
+            </div>
+          </ScrollReveal>
+
+          <div className="w-full h-px bg-[#1a1a1a]/10 my-12" />
+
+          {/* Section: Small / Simple Geometric Tattoos */}
+          <ScrollReveal>
+            <div className="space-y-6 text-[15px] text-[#1a1a1a] leading-relaxed mb-16">
+              <h2 className="text-[20px] md:text-[24px] font-bold text-[#1a1a1a] uppercase tracking-[-0.01em] mb-4">
+                Small & Simple Geometric Tattoo Designs
+              </h2>
+              <p>
+                Not every geometric tattoo needs to be a large-scale undertaking. Some of the most powerful geometric tattoo ideas are also the smallest. A single triangle behind the ear, a small Flower of Life on the inner wrist, three dots forming a perfect equilateral triangle on the back of the hand — these simple geometric tattoo designs carry as much weight as any sleeve, because the precision required to execute them perfectly at small scale is greater, not less.
+              </p>
+              <p>
+                If you're considering your first geometric tattoo, starting small is rarely a mistake. Many of Okan Uckun's collectors begin with a small geometric piece and return for larger compositions once they understand how their skin holds fine lines and how they relate to wearing the piece over time. A small geometric tattoo done correctly is an entry point to a much larger conversation.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="w-full h-px bg-[#1a1a1a]/10 my-12" />
+
+          {/* Section: Ideas — Where to Start */}
+          <ScrollReveal>
+            <div className="space-y-6 text-[15px] text-[#1a1a1a] leading-relaxed mb-16">
+              <h2 className="text-[20px] md:text-[24px] font-bold text-[#1a1a1a] uppercase tracking-[-0.01em] mb-4">
+                Geometric Tattoo Ideas: Where to Start
+              </h2>
+              <p>
+                If you're searching for geometric tattoo ideas, the first decision isn't <em>what shape</em> — it's <em>why</em>. The strongest geometric tattoo designs are anchored in something specific: a personal philosophy, an event, a relationship, a study, a meditation, a question. The geometry then becomes the visual language for that anchor — not the anchor itself.
+              </p>
+              <p>
+                Some directions to consider:
+              </p>
+              <div className="space-y-4 pl-0">
+                <div>
+                  <p className="font-bold mb-1">Pattern-Based</p>
+                  <p>Choose a sacred geometry pattern that represents an idea you want to carry — the Flower of Life for interconnectedness, Metatron's Cube for the underlying structure of matter, the Sri Yantra for the union of opposites. The pattern provides the meaning; the artist provides the execution.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Subject-Based</p>
+                  <p>Start with a subject — an animal, a place, a natural form — and ask how geometric treatment can amplify its meaning rather than illustrate it. A geometric wolf isn't a picture of a wolf; it's a structural meditation on the idea of a wolf.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Body-First</p>
+                  <p>Choose the placement before the design. A piece designed for the sternum is structurally different from a piece designed for the forearm — the body's geometry should shape the tattoo's geometry. This approach often produces the most natural-feeling results.</p>
+                </div>
+                <div>
+                  <p className="font-bold mb-1">Filler & Composition</p>
+                  <p>Geometric tattooing excels as connective tissue between existing pieces. Geometric filler patterns can transform a collection of disconnected tattoos into a cohesive composition. Sacred geometry, linework grids and architectural patterns are particularly effective as connectors.</p>
+                </div>
+              </div>
+              <p>
+                The best way to develop your geometric tattoo idea is to spend time in{' '}
+                <Link to="/work" className="underline underline-offset-4 hover:text-[#555] transition-colors">the portfolio</Link>
+                . Notice which compositions you return to. Notice the placements that catch your eye. Notice whether you're drawn to pure pattern work, to subjects, or to a combination. Bring those observations to your consultation.
+              </p>
             </div>
           </ScrollReveal>
 
@@ -369,6 +588,20 @@ const GeometricTattoos: React.FC = () => {
               </h2>
 
               <div className="space-y-8">
+                <div>
+                  <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">
+                    What is a geometric tattoo?
+                  </h3>
+                  <p>A geometric tattoo is a design built from mathematical shapes — circles, triangles, hexagons, lines and sacred geometry patterns — instead of traditional illustration or shading. The visual power of a geometric tattoo comes from precision: exact angles, perfectly parallel lines, deliberately calculated spacing. Geometric tattoos can be pure pattern work, or combine geometric construction with subjects like animals, plants and architectural forms.</p>
+                </div>
+
+                <div>
+                  <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">
+                    What does a geometric tattoo mean?
+                  </h3>
+                  <p>Geometric tattoo meaning depends on the specific shapes used. Circles represent completeness and infinity. Triangles represent direction, balance and the relationship between opposing forces. Hexagons represent efficiency and natural structure. Sacred geometry patterns like the Flower of Life or Metatron's Cube carry esoteric meaning rooted in thousands of years of philosophical tradition. The meaning of any geometric tattoo is ultimately personal — the shapes provide a vocabulary; the wearer provides the sentence.</p>
+                </div>
+
                 <div>
                   <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">
                     What is the difference between a geometric tattoo and a sacred geometry tattoo?
@@ -408,6 +641,13 @@ const GeometricTattoos: React.FC = () => {
                   <p>Come with references from Okan's{' '}
                   <Link to="/work" className="underline underline-offset-4 hover:text-[#555] transition-colors">portfolio</Link>{' '}
                   as well as images from other artists, architects, designers or any visual sources that speak to what you're drawn to. Photographs of your placement from multiple angles are helpful. The more clearly you can communicate your aesthetic direction, the stronger the resulting design will be.</p>
+                </div>
+
+                <div>
+                  <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">
+                    How is a geometric tattoo design made?
+                  </h3>
+                  <p>Custom geometric tattoo design starts with a conversation about meaning, placement and aesthetic direction. From there, the artist sketches concepts — first by hand to test composition, then digitally to refine proportions and verify mathematical precision. Sacred geometry patterns are constructed from their underlying rules (a Flower of Life from interlocking circles, a Sri Yantra from precisely angled triangles) rather than copied. Once the design is approved, a stencil is created, placed on the body, and the tattoo is executed. Most geometric tattoos at Okan Uckun's studio go through 2–3 design revisions before stencil.</p>
                 </div>
 
                 <div>
