@@ -25,7 +25,12 @@ const jsonLd = {
 const About: React.FC = () => {
   return (
     <>
-      <SEOHead jsonLd={jsonLd} />
+      <SEOHead
+        title="About Okan Uckun | Tattoo Artist NYC"
+        description="Learn about Okan Uckun, a Brooklyn-based tattoo artist known for minimalist, geometric and fine line work, with 300,000+ followers and global press features."
+        canonical="/about"
+        jsonLd={jsonLd}
+      />
       <motion.div initial={{
         opacity: 0
       }} animate={{
