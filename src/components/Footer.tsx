@@ -29,6 +29,19 @@ const Footer: React.FC = () => {
     { label: 'MINIMALIST TATTOO', link: '/minimalist-tattoos' },
   ];
 
+  // Site-wide "Explore" links. Lives in the footer so every page links
+  // to every major route — kills orphan-page issues and distributes
+  // page authority across the whole site (Ahrefs flagged 4 orphans
+  // before this section was added).
+  const exploreLinks = [
+    { label: 'WORK', link: '/work' },
+    { label: 'PROJECTS', link: '/project' },
+    { label: 'BLOG', link: '/blog' },
+    { label: 'ABOUT', link: '/about' },
+    { label: 'SHOP', link: '/shop' },
+    { label: 'BOOK APPOINTMENT', link: '/booking' },
+  ];
+
   return (
     <footer className="relative bg-[#f5f5f5] text-[#1a1a1a] w-full overflow-hidden">
       {/* Styles Section */}
@@ -37,7 +50,7 @@ const Footer: React.FC = () => {
           <span className="text-[11px] text-[#888] uppercase tracking-wider block mb-4">
             STYLES
           </span>
-          <div className="flex justify-between items-center w-full">
+          <div className="flex flex-wrap gap-x-6 gap-y-2 md:justify-between items-center w-full">
             {styles.map((style) => (
               style.link ? (
                 <Link key={style.label} to={style.link} className="text-[11px] text-[#1a1a1a] uppercase tracking-wider hover:text-[#555] transition-colors">
@@ -50,6 +63,32 @@ const Footer: React.FC = () => {
               )
             ))}
           </div>
+        </div>
+      </ScrollReveal>
+
+      {/* Horizontal Line */}
+      <div className="w-full px-6 md:px-12">
+        <div className="w-full h-px bg-[#1a1a1a]/20" />
+      </div>
+
+      {/* Explore Section — site-wide footer navigation. Ensures every
+          page has direct outgoing links to every major route. */}
+      <ScrollReveal>
+        <div className="px-6 md:px-12 pt-8 pb-8">
+          <span className="text-[11px] text-[#888] uppercase tracking-wider block mb-4">
+            EXPLORE
+          </span>
+          <nav aria-label="Footer navigation" className="flex flex-wrap gap-x-6 gap-y-2 md:justify-between items-center w-full">
+            {exploreLinks.map((item) => (
+              <Link
+                key={item.label}
+                to={item.link}
+                className="text-[11px] text-[#1a1a1a] uppercase tracking-wider hover:text-[#555] transition-colors"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
         </div>
       </ScrollReveal>
 
