@@ -7,6 +7,11 @@ const CRAWLER_PATTERNS = [
   'googlebot', 'bingbot', 'duckduckbot', 'slurp',
   'gptbot', 'claudebot', 'perplexitybot', 'anthropic-ai',
   'ccbot', 'meta-externalagent', 'applebot',
+  // Social preview crawlers
+  'facebookexternalhit', 'facebot', 'twitterbot', 'linkedinbot',
+  'slackbot', 'slack-imgproxy', 'discordbot', 'whatsapp',
+  'telegrambot', 'pinterestbot', 'redditbot', 'embedly',
+  'skypeuripreview', 'iframely', 'vkshare',
 ];
 
 function isCrawler(userAgent: string): boolean {
@@ -159,6 +164,34 @@ const PAGES: Record<string, PageData> = {
     description: 'Book your fine line or geometric tattoo appointment with Okan Uckun in New York City.',
     h1: 'Book a Tattoo Appointment',
     body: 'Book a custom tattoo appointment with Okan Uckun in Manhattan, New York City. Specializing in fine line, geometric, linework and minimalist tattoo styles. Limited availability.',
+    ogImage: 'https://www.okanuckun.com/og-image.jpg',
+  },
+  '/about': {
+    title: 'About Okan Uckun | Tattoo Artist NYC',
+    description: 'Learn about Okan Uckun, a Brooklyn-based tattoo artist known for minimalist, geometric and fine line work, with 300,000+ followers and global press features.',
+    h1: 'About Okan Uckun',
+    body: 'Okan Uckun is a Brooklyn-based tattoo artist specializing in minimalist, geometric and fine line tattoos. With nearly 300,000 Instagram followers and features in BuzzFeed, Bored Panda and My Modern Met, Okan works out of his Manhattan studio with collectors from around the world.',
+    ogImage: 'https://www.okanuckun.com/og-image.jpg',
+  },
+  '/work': {
+    title: 'Tattoo Portfolio | Okan Uckun NYC',
+    description: 'Browse the tattoo portfolio of Okan Uckun: minimalist, geometric and fine line work created in Brooklyn NYC and on guest spots around the world.',
+    h1: 'Tattoo Portfolio',
+    body: 'Selected tattoo work by Okan Uckun — minimalist, geometric, linework and fine line tattoos created in Manhattan, New York City and on guest spots worldwide.',
+    ogImage: 'https://www.okanuckun.com/og-image.jpg',
+  },
+  '/aftercare': {
+    title: 'Tattoo Aftercare Guide | Okan Uckun',
+    description: "Step-by-step tattoo aftercare instructions from Okan Uckun: cleaning, healing, do's and don'ts to keep your new tattoo looking sharp.",
+    h1: 'Tattoo Aftercare Guide',
+    body: 'A clear, step-by-step aftercare guide for new tattoos: how to clean, when to moisturize, what to avoid, and how to keep fine line and minimalist tattoos looking sharp as they heal.',
+    ogImage: 'https://www.okanuckun.com/og-image.jpg',
+  },
+  '/shop': {
+    title: 'Shop | Okan Uckun',
+    description: 'Shop prints and pieces from Okan Uckun — minimalist art and merchandise from the Brooklyn studio.',
+    h1: 'Shop',
+    body: 'Prints and curated pieces from Okan Uckun. Minimalist artwork and studio merchandise shipped from Brooklyn, NYC.',
     ogImage: 'https://www.okanuckun.com/og-image.jpg',
   },
 };
