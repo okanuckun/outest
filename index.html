@@ -44,6 +44,19 @@
     <script src="https://analytics.ahrefs.com/analytics.js" data-key="KJErfPgNAQgseC1Gm/jzzA" async></script>
     
   
+  <!--
+    Page-specific meta tags (title, description, og:title, og:url,
+    canonical) are injected per-route by SEOHead.tsx via react-helmet-async,
+    then captured by Lovable's prerender. Keeping them hardcoded here in
+    addition caused "Multiple meta description tags" (Ahrefs flagged 6
+    pages) and "Open Graph URL not matching canonical" (3 pages) — the
+    static og:url stayed at the homepage on every page, while Helmet's
+    canonical updated to the actual path.
+
+    What stays here: the image + global og defaults that are the SAME
+    across every page (site_name, og:type=website, og:image,
+    twitter:card). Helmet may still override these per-route as needed.
+  -->
   <meta property="og:image" content="https://okanuckun.com/og-images/okan-default.jpg">
   <meta property="og:image:width" content="1024">
   <meta property="og:image:height" content="768">
@@ -51,13 +64,7 @@
   <meta name="twitter:image" content="https://okanuckun.com/og-images/okan-default.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://okanuckun.com/">
   <meta property="og:site_name" content="Okan Uckun">
-  <meta property="og:title" content="Okan Uckun · Geometric & Minimalist Tattoos NYC">
-  <meta name="twitter:title" content="Okan Uckun · Geometric & Minimalist Tattoos NYC">
-  <meta name="description" content="Geometric, minimalist and fine line tattoos by Okan Uckun. Sacred geometry, architectural precision, custom designs by appointment. Brooklyn studio, all of NYC.">
-  <meta property="og:description" content="Geometric, minimalist and fine line tattoos by Okan Uckun. Sacred geometry, architectural precision, custom designs by appointment. Brooklyn studio, all of NYC.">
-  <meta name="twitter:description" content="Geometric, minimalist and fine line tattoos by Okan Uckun. Sacred geometry, architectural precision, custom designs by appointment. Brooklyn studio, all of NYC.">
 </head>
 
   <body>
