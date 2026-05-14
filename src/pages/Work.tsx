@@ -326,7 +326,7 @@ const Work: React.FC = () => {
           <div className="fixed top-0 left-0 right-0 z-50">
             <Navigation />
           </div>
-          <p className="text-white/50 text-lg">No works available yet</p>
+          <p className="text-white/75 text-lg">No works available yet</p>
         </div>
       </>
     );
@@ -410,10 +410,10 @@ const Work: React.FC = () => {
         <span className="text-white text-[14px] font-medium tracking-[-0.02em]">
           {currentPair + 1} / {totalPairs}
         </span>
-        <span className="text-white/50 text-[11px] font-normal tracking-[0.3px] uppercase max-md:hidden">
+        <span className="text-white/75 text-[11px] font-normal tracking-[0.3px] uppercase max-md:hidden">
           Scroll to navigate
         </span>
-        <span className="text-white/50 text-[11px] font-normal tracking-[0.3px] uppercase md:hidden">
+        <span className="text-white/75 text-[11px] font-normal tracking-[0.3px] uppercase md:hidden">
           Swipe to navigate
         </span>
       </div>
@@ -463,7 +463,7 @@ const Work: React.FC = () => {
             </motion.button>
 
             {/* ESC hint */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/50 text-[12px] font-normal uppercase tracking-wide">
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/75 text-[12px] font-normal uppercase tracking-wide">
               Press ESC to close • Use arrows to navigate
             </div>
 

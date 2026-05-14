@@ -114,7 +114,7 @@ const SubscriptionPopup: React.FC = () => {
               {/* Close button */}
               <button
                 onClick={handleClose}
-                className="absolute top-3 right-3 text-white/50 hover:text-white transition-colors"
+                className="absolute top-3 right-3 text-white/75 hover:text-white transition-colors"
                 aria-label="Close"
               >
                 <X size={16} />
@@ -137,7 +137,7 @@ const SubscriptionPopup: React.FC = () => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Enter your email"
-                      className="w-full bg-white/5 border border-white/10 rounded-md px-3 py-2.5 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-white/30 transition-colors"
+                      className="w-full bg-white/5 border border-white/10 rounded-md px-3 py-2.5 text-sm text-white placeholder:text-white/70 focus:outline-none focus:border-white/30 transition-colors"
                       disabled={isSubmitting}
                       required
                     />
@@ -150,7 +150,7 @@ const SubscriptionPopup: React.FC = () => {
                     </button>
                   </form>
 
-                  <p className="text-white/30 text-[10px] text-center mt-3">
+                  <p className="text-white/65 text-[10px] text-center mt-3">
                     No spam, unsubscribe anytime.
                   </p>
                 </>

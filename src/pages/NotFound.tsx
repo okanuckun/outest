@@ -84,7 +84,7 @@ const NotFound = () => {
             <p className="text-white/60 text-lg md:text-xl uppercase tracking-[0.2em] mb-2">
               Page not found
             </p>
-            <p className="text-white/40 text-sm tracking-wide">
+            <p className="text-white/70 text-sm tracking-wide">
               The page you're looking for has vanished into the void
             </p>
           </motion.div>
@@ -96,7 +96,7 @@ const NotFound = () => {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="space-y-6"
           >
-            <p className="text-white/30 text-sm">
+            <p className="text-white/65 text-sm">
               Redirecting in <span className="text-white font-medium">{countdown}</span> seconds
             </p>
             
