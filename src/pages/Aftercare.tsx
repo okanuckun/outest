@@ -7,7 +7,11 @@ import ScrollReveal from '@/components/animations/ScrollReveal';
 const Aftercare: React.FC = () => {
   return (
     <>
-      <SEOHead />
+      <SEOHead
+        title="Tattoo Aftercare Guide | Okan Uckun"
+        description="Step-by-step tattoo aftercare instructions from Okan Uckun: cleaning, healing, do's and don'ts to keep your new tattoo looking sharp."
+        canonical="/aftercare"
+      />
       <div className="min-h-screen bg-[#f5f5f5]">
         <Navigation variant="dark" />
 

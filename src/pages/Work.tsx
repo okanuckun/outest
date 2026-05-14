@@ -280,7 +280,12 @@ const Work: React.FC = () => {
   if (loading) {
     return (
       <>
-        <SEOHead jsonLd={jsonLd} />
+        <SEOHead
+          title="Tattoo Portfolio | Okan Uckun NYC"
+          description="Browse the tattoo portfolio of Okan Uckun: minimalist, geometric and fine line work created in Brooklyn NYC and on guest spots around the world."
+          canonical="/work"
+          jsonLd={jsonLd}
+        />
         <div className="h-screen w-screen overflow-hidden bg-black">
           <div className="fixed top-0 left-0 right-0 z-50">
             <Navigation />
@@ -311,7 +316,12 @@ const Work: React.FC = () => {
   if (works.length === 0) {
     return (
       <>
-        <SEOHead jsonLd={jsonLd} />
+        <SEOHead
+          title="Tattoo Portfolio | Okan Uckun NYC"
+          description="Browse the tattoo portfolio of Okan Uckun: minimalist, geometric and fine line work created in Brooklyn NYC and on guest spots around the world."
+          canonical="/work"
+          jsonLd={jsonLd}
+        />
         <div className="h-screen w-screen overflow-hidden bg-black flex items-center justify-center">
           <div className="fixed top-0 left-0 right-0 z-50">
             <Navigation />
@@ -324,7 +334,12 @@ const Work: React.FC = () => {
 
   return (
     <>
-      <SEOHead jsonLd={jsonLd} />
+      <SEOHead
+        title="Tattoo Portfolio | Okan Uckun NYC"
+        description="Browse the tattoo portfolio of Okan Uckun: minimalist, geometric and fine line work created in Brooklyn NYC and on guest spots around the world."
+        canonical="/work"
+        jsonLd={jsonLd}
+      />
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
