@@ -13,8 +13,8 @@ const jsonLd = {
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.okanuckun.com/"},
-        {"@type": "ListItem", "position": 2, "name": "Linework Tattoos", "item": "https://www.okanuckun.com/line-work-tattoos"}
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://okanuckun.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Linework Tattoos", "item": "https://okanuckun.com/line-work-tattoos"}
       ]
     },
     {
@@ -25,14 +25,14 @@ const jsonLd = {
         "@type": "Person",
         "name": "Okan Uckun",
         "jobTitle": "Tattoo Artist",
-        "url": "https://www.okanuckun.com",
+        "url": "https://okanuckun.com",
         "sameAs": [
           "https://www.instagram.com/okanuckun",
           "https://www.behance.net/okanuckun"
         ]
       },
       "areaServed": {"@type": "City", "name": "New York City"},
-      "url": "https://www.okanuckun.com/line-work-tattoos",
+      "url": "https://okanuckun.com/line-work-tattoos",
       "serviceType": "Tattoo Art",
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
@@ -92,10 +92,10 @@ const LineWorkTattoos: React.FC = () => {
       <SEOHead
         title="Linework Tattoos NYC | Okan Uckun — Line Work Tattoo Artist"
         description="Linework tattoo artist in NYC. Precise single line, continuous line and line work tattoo designs by Okan Uckun — a pioneer of the linework style. Brooklyn studio, serving all of New York City."
-        canonical="https://www.okanuckun.com/line-work-tattoos"
+        canonical="https://okanuckun.com/line-work-tattoos"
         ogTitle="Linework Tattoos NYC | Okan Uckun"
         ogDescription="Precision linework tattoos by Okan Uckun in New York City. Single line, continuous line and architectural line work by one of the style's original pioneers."
-        ogImage="https://www.okanuckun.com/og-linework.jpg"
+        ogImage="https://okanuckun.com/og-linework.jpg"
         ogType="website"
         jsonLd={jsonLd}
       />

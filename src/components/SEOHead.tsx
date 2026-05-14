@@ -29,7 +29,7 @@ const SEOHead = ({
   jsonLd: propJsonLd,
 }: SEOHeadProps) => {
   const location = useLocation();
-  const siteUrl = 'https://www.okanuckun.com';
+  const siteUrl = 'https://okanuckun.com';
   const currentPath = location.pathname;
   
   // Fetch SEO data from database

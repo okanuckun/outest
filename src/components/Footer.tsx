@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
   const styles = [
     { label: 'GEOMETRIC TATTOO', link: '/geometric-tattoos' },
     { label: 'FINE LINE TATTOO', link: '/fine-line-tattoos' },
-    { label: 'ABSTRACT TATTOO', link: null },
+    { label: 'LINEWORK TATTOO', link: '/line-work-tattoos' },
     { label: 'MINIMALIST TATTOO', link: '/minimalist-tattoos' },
   ];
 

@@ -23,7 +23,7 @@ const localBusinessJsonLd = {
   name: 'Okan Uckun Tattoo',
   description:
     'Okan Uckun is a New York City tattoo artist specializing in geometric, minimalist and fine line tattoos. Custom designs combining sacred geometry with architectural precision.',
-  image: 'https://www.okanuckun.com/og-images/okan-default.jpg',
+  image: 'https://okanuckun.com/og-images/okan-default.jpg',
   address: {
     '@type': 'PostalAddress',
     streetAddress: '77 Washington Avenue',
@@ -40,7 +40,7 @@ const localBusinessJsonLd = {
     { '@type': 'City', name: 'Brooklyn' },
     { '@type': 'City', name: 'Manhattan' },
   ],
-  url: 'https://www.okanuckun.com',
+  url: 'https://okanuckun.com',
   priceRange: '$$$',
   sameAs: [
     'https://www.instagram.com/okanuckun',
@@ -90,7 +90,7 @@ const faqJsonLd = {
       name: "Where is Okan Uckun's tattoo studio?",
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Brooklyn, New York City — serving clients from across all of NYC including Manhattan, Brooklyn and Queens. Book a consultation at https://www.okanuckun.com/appointment.',
+        text: 'Brooklyn, New York City — serving clients from across all of NYC including Manhattan, Brooklyn and Queens. Book a consultation at https://okanuckun.com/appointment.',
       },
     },
   ],
@@ -118,7 +118,7 @@ const Index: React.FC = () => {
         <div className="absolute inset-0 z-0">
           <img
             src={heroBg}
-            alt="Okan Uckun tattoo artist background"
+            alt="Okan Uckun — geometric and minimalist tattoo artist in NYC, working in his Brooklyn studio"
             className="w-full h-full object-cover"
             loading="eager"
             fetchPriority="high"

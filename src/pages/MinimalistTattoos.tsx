@@ -13,8 +13,8 @@ const jsonLd = {
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.okanuckun.com/"},
-        {"@type": "ListItem", "position": 2, "name": "Minimalist Tattoos", "item": "https://www.okanuckun.com/minimalist-tattoos"}
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://okanuckun.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Minimalist Tattoos", "item": "https://okanuckun.com/minimalist-tattoos"}
       ]
     },
     {
@@ -25,11 +25,11 @@ const jsonLd = {
         "@type": "Person",
         "name": "Okan Uckun",
         "jobTitle": "Tattoo Artist",
-        "url": "https://www.okanuckun.com",
+        "url": "https://okanuckun.com",
         "sameAs": ["https://www.instagram.com/okanuckun", "https://www.behance.net/okanuckun"]
       },
       "areaServed": {"@type": "City", "name": "New York City"},
-      "url": "https://www.okanuckun.com/minimalist-tattoos",
+      "url": "https://okanuckun.com/minimalist-tattoos",
       "serviceType": "Tattoo Art",
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
@@ -62,10 +62,10 @@ const MinimalistTattoos: React.FC = () => {
       <SEOHead
         title="Minimalist Tattoos NYC | Okan Uckun — Minimalist Tattoo Artist"
         description="Minimalist tattoo artist in NYC. Custom small minimalist tattoos, minimalist tattoo ideas and designs by Okan Uckun. Brooklyn studio, serving all of New York City."
-        canonical="https://www.okanuckun.com/minimalist-tattoos"
+        canonical="https://okanuckun.com/minimalist-tattoos"
         ogTitle="Minimalist Tattoos NYC | Okan Uckun"
         ogDescription="Custom minimalist tattoos by world-renowned NYC tattoo artist Okan Uckun. Minimal designs, intentional simplicity and precision — Brooklyn studio."
-        ogImage="https://www.okanuckun.com/og-minimalist.jpg"
+        ogImage="https://okanuckun.com/og-minimalist.jpg"
         ogType="website"
         jsonLd={jsonLd}
       />

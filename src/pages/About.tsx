@@ -15,8 +15,8 @@ const jsonLd = {
   jobTitle: 'Tattoo Artist',
   description:
     'Okan Uckun is a New York City tattoo artist specializing in geometric, minimalist and fine line tattoos. Pioneer of the contemporary linework tattoo style (2010s). Brooklyn studio, serving all of NYC.',
-  image: 'https://www.okanuckun.com/og-images/okan-default.jpg',
-  url: 'https://www.okanuckun.com/about',
+  image: 'https://okanuckun.com/og-images/okan-default.jpg',
+  url: 'https://okanuckun.com/about',
   sameAs: [
     'https://www.instagram.com/okanuckun',
     'https://www.tiktok.com/@okanuckun',
@@ -73,7 +73,7 @@ const About: React.FC = () => {
         {/* Left Side - Dark with Image (35%) */}
         <div className="relative w-full lg:w-[35%] min-h-[60vh] lg:min-h-screen bg-[#1a1a1a] overflow-hidden">
           {/* Background Image */}
-          <motion.img src={aboutPortrait} alt="Okan Uckun - Tattoo Artist" className="absolute inset-0 w-full h-full object-cover opacity-80 grayscale" loading="eager" fetchPriority="high" initial={{
+          <motion.img src={aboutPortrait} alt="Portrait of Okan Uckun — geometric and minimalist tattoo artist based in Brooklyn, NYC" className="absolute inset-0 w-full h-full object-cover opacity-80 grayscale" loading="eager" fetchPriority="high" initial={{
           scale: 1.1
         }} animate={{
           scale: 1
@@ -226,7 +226,7 @@ const About: React.FC = () => {
       {/* Full Width Image */}
       <ScrollReveal className="w-full">
         <div className="w-full h-[70vh] lg:h-[90vh] overflow-hidden">
-          <motion.img src={aboutHero} alt="Okan Uckun portrait" className="w-full h-full object-cover" loading="lazy" whileHover={{
+          <motion.img src={aboutHero} alt="Okan Uckun tattoo artist — fine line, geometric and minimalist work" className="w-full h-full object-cover" loading="lazy" whileHover={{
           scale: 1.02
         }} transition={{
           duration: 0.8

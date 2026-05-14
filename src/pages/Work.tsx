@@ -18,8 +18,8 @@ const jsonLd = {
     {
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.okanuckun.com/' },
-        { '@type': 'ListItem', position: 2, name: 'Work', item: 'https://www.okanuckun.com/work' },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://okanuckun.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Work', item: 'https://okanuckun.com/work' },
       ],
     },
     {
@@ -27,7 +27,7 @@ const jsonLd = {
       name: 'Okan Uckun Tattoo Portfolio',
       description:
         'Geometric, minimalist and fine line tattoo portfolio by Okan Uckun. Sacred geometry, architectural linework and post-minimalist designs from his NYC studio.',
-      url: 'https://www.okanuckun.com/work',
+      url: 'https://okanuckun.com/work',
     },
   ],
 };

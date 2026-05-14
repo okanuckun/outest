@@ -191,9 +191,9 @@ const BlogPost = () => {
       {
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.okanuckun.com/' },
-          { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.okanuckun.com/blog' },
-          { '@type': 'ListItem', position: 3, name: post.title, item: `https://www.okanuckun.com/blog/${post.slug}` },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://okanuckun.com/' },
+          { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://okanuckun.com/blog' },
+          { '@type': 'ListItem', position: 3, name: post.title, item: `https://okanuckun.com/blog/${post.slug}` },
         ],
       },
       {
@@ -211,15 +211,15 @@ const BlogPost = () => {
     publisher: {
       '@type': 'Organization',
       name: 'Okan Uckun Tattoo',
-      url: 'https://www.okanuckun.com',
+      url: 'https://okanuckun.com',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://www.okanuckun.com/og-images/okan-default.jpg'
+        url: 'https://okanuckun.com/og-images/okan-default.jpg'
       }
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://www.okanuckun.com/blog/${post.slug}`
+      '@id': `https://okanuckun.com/blog/${post.slug}`
     },
     articleSection: post.category,
     keywords: tags.join(', '),

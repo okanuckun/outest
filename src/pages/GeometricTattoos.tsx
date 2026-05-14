@@ -13,8 +13,8 @@ const jsonLd = {
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.okanuckun.com/"},
-        {"@type": "ListItem", "position": 2, "name": "Geometric Tattoos", "item": "https://www.okanuckun.com/geometric-tattoos"}
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://okanuckun.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Geometric Tattoos", "item": "https://okanuckun.com/geometric-tattoos"}
       ]
     },
     {
@@ -25,7 +25,7 @@ const jsonLd = {
         "@type": "Person",
         "name": "Okan Uckun",
         "jobTitle": "Tattoo Artist",
-        "url": "https://www.okanuckun.com",
+        "url": "https://okanuckun.com",
         "sameAs": [
           "https://www.instagram.com/okanuckun",
           "https://www.behance.net/okanuckun"
@@ -35,7 +35,7 @@ const jsonLd = {
         "@type": "City",
         "name": "New York City"
       },
-      "url": "https://www.okanuckun.com/geometric-tattoos",
+      "url": "https://okanuckun.com/geometric-tattoos",
       "serviceType": "Tattoo Art",
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
@@ -103,10 +103,10 @@ const GeometricTattoos: React.FC = () => {
       <SEOHead
         title="Geometric Tattoos NYC | Okan Uckun — Sacred Geometry & Minimalist Tattoo Artist"
         description="Geometric tattoo artist in NYC. Sacred geometry, minimalist geometric designs and precise linework by Okan Uckun. Brooklyn studio, serving all of New York City."
-        canonical="https://www.okanuckun.com/geometric-tattoos"
+        canonical="https://okanuckun.com/geometric-tattoos"
         ogTitle="Geometric Tattoos NYC | Okan Uckun"
         ogDescription="Sacred geometry and minimalist geometric tattoos by world-renowned NYC tattoo artist Okan Uckun. Precision linework, custom designs — Brooklyn studio, all of NYC served."
-        ogImage="https://www.okanuckun.com/og-geometric.jpg"
+        ogImage="https://okanuckun.com/og-geometric.jpg"
         ogType="website"
         jsonLd={jsonLd}
       />

@@ -1,6 +1,9 @@
 User-agent: *
 Allow: /
 Disallow: /nogooglebot/
+Disallow: /eeg/
+Disallow: /admin/
+Disallow: /auth
 Sitemap: https://okanuckun.com/sitemap.xml
 
 User-agent: Googlebot

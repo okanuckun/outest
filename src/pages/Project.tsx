@@ -225,12 +225,12 @@ const ProjectPage: React.FC = () => {
     '@type': 'CollectionPage',
     name: 'Projects by Okan Uckun',
     description: 'Explore the artistic projects and creative works by Okan Uckun, including live art performances, digital art, editorial work, and photography.',
-    url: 'https://www.okanuckun.com/project',
+    url: 'https://okanuckun.com/project',
     author: {
       '@type': 'Person',
       name: 'Okan Uckun',
       jobTitle: 'Tattoo Artist',
-      url: 'https://www.okanuckun.com'
+      url: 'https://okanuckun.com'
     }
   };
 

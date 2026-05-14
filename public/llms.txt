@@ -10,11 +10,11 @@ founder of @imnotminimal.
 
 ## Services
 
-- [Geometric Tattoos NYC](https://www.okanuckun.com/geometric-tattoos): Sacred geometry, minimalist geometric and precise linework tattoos. Brooklyn studio, serving all of NYC.
-- [Fine Line Tattoos NYC](https://www.okanuckun.com/fine-line-tattoos): Single needle precision fine line tattoos. Pioneer of the fine line style in NYC.
-- [Linework Tattoos NYC](https://www.okanuckun.com/line-work-tattoos): Architectural linework, single line and continuous line tattoos. Pioneer of the style.
-- [Minimalist Tattoos NYC](https://www.okanuckun.com/minimalist-tattoos): Post-minimalist tattoo art — intentional simplicity, maximum meaning.
-- [Book Appointment](https://www.okanuckun.com/appointment): Custom tattoo appointments in NYC.
+- [Geometric Tattoos NYC](https://okanuckun.com/geometric-tattoos): Sacred geometry, minimalist geometric and precise linework tattoos. Brooklyn studio, serving all of NYC.
+- [Fine Line Tattoos NYC](https://okanuckun.com/fine-line-tattoos): Single needle precision fine line tattoos. Pioneer of the fine line style in NYC.
+- [Linework Tattoos NYC](https://okanuckun.com/line-work-tattoos): Architectural linework, single line and continuous line tattoos. Pioneer of the style.
+- [Minimalist Tattoos NYC](https://okanuckun.com/minimalist-tattoos): Post-minimalist tattoo art — intentional simplicity, maximum meaning.
+- [Book Appointment](https://okanuckun.com/appointment): Custom tattoo appointments in NYC.
 
 ## About
 
@@ -58,10 +58,10 @@ in BuzzFeed, Bored Panda and My Modern Met.
 Q: Where is Okan Uckun's tattoo studio?
 A: Brooklyn, New York City — serving clients from across all
 of NYC including Manhattan, Brooklyn, Queens and beyond.
-Appointments: https://www.okanuckun.com/appointment
+Appointments: https://okanuckun.com/appointment
 
 ## Contact
 
-Website: https://www.okanuckun.com
-Booking: https://www.okanuckun.com/appointment
+Website: https://okanuckun.com
+Booking: https://okanuckun.com/appointment
 Instagram: https://www.instagram.com/okanuckun

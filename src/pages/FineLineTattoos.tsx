@@ -13,8 +13,8 @@ const jsonLd = {
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.okanuckun.com/"},
-        {"@type": "ListItem", "position": 2, "name": "Fine Line Tattoos", "item": "https://www.okanuckun.com/fine-line-tattoos"}
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://okanuckun.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Fine Line Tattoos", "item": "https://okanuckun.com/fine-line-tattoos"}
       ]
     },
     {
@@ -25,14 +25,14 @@ const jsonLd = {
         "@type": "Person",
         "name": "Okan Uckun",
         "jobTitle": "Tattoo Artist",
-        "url": "https://www.okanuckun.com",
+        "url": "https://okanuckun.com",
         "sameAs": [
           "https://www.instagram.com/okanuckun",
           "https://www.behance.net/okanuckun"
         ]
       },
       "areaServed": { "@type": "City", "name": "New York City" },
-      "url": "https://www.okanuckun.com/fine-line-tattoos",
+      "url": "https://okanuckun.com/fine-line-tattoos",
       "serviceType": "Tattoo Art",
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
@@ -100,10 +100,10 @@ const FineLineTattoos: React.FC = () => {
       <SEOHead
         title="Fine Line Tattoos NYC | Okan Uckun — Fine Line Tattoo Artist"
         description="Fine line tattoo artist in NYC. Delicate single needle precision, custom fine line tattoo designs by Okan Uckun. Brooklyn studio, serving all of New York City."
-        canonical="https://www.okanuckun.com/fine-line-tattoos"
+        canonical="https://okanuckun.com/fine-line-tattoos"
         ogTitle="Fine Line Tattoos NYC | Okan Uckun"
         ogDescription="Custom fine line tattoos by world-renowned NYC tattoo artist Okan Uckun. Single needle precision, minimalist designs — Brooklyn studio, all of NYC served."
-        ogImage="https://www.okanuckun.com/og-fineline.jpg"
+        ogImage="https://okanuckun.com/og-fineline.jpg"
         ogType="website"
         jsonLd={jsonLd}
       />

@@ -18,7 +18,7 @@ const VideoSection: React.FC = () => {
               <>
                 <img
                   src={`https://img.youtube.com/vi/${youtubeVideoId}/maxresdefault.jpg`}
-                  alt="Video thumbnail"
+                  alt="Okan Uckun tattoo process — watch the geometric and minimalist linework approach in action"
                   className="absolute inset-0 w-full h-full object-cover"
                   loading="lazy"
                   decoding="async"

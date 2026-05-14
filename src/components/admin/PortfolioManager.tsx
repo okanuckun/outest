@@ -149,7 +149,15 @@ const SortableImage: React.FC<SortableImageProps> = ({
 
       <img
         src={image.url}
-        alt={image.storage_path}
+        // Admin-only thumbnail. Use the human description (caption/title) if
+        // available; fall back to a generic descriptive alt rather than the
+        // storage filename. Public portfolio surfaces use richer alts via
+        // FeaturedWork / Work pages.
+        alt={
+          (image as { caption?: string; title?: string }).caption ||
+          (image as { caption?: string; title?: string }).title ||
+          'Okan Uckun portfolio tattoo image'
+        }
         className="w-full h-full object-cover cursor-pointer"
         loading="lazy"
         onClick={onSelect}
