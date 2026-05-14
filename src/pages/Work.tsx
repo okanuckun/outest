@@ -14,10 +14,22 @@ interface PortfolioImage {
 
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'ImageGallery',
-  name: 'Okan Uckun Tattoo Portfolio',
-  description: 'Explore the tattoo portfolio of Okan Uckun featuring black and grey realism, portraits, and fine line work.',
-  url: 'https://www.okanuckun.com/work'
+  '@graph': [
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.okanuckun.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Work', item: 'https://www.okanuckun.com/work' },
+      ],
+    },
+    {
+      '@type': 'ImageGallery',
+      name: 'Okan Uckun Tattoo Portfolio',
+      description:
+        'Geometric, minimalist and fine line tattoo portfolio by Okan Uckun. Sacred geometry, architectural linework and post-minimalist designs from his NYC studio.',
+      url: 'https://www.okanuckun.com/work',
+    },
+  ],
 };
 
 const Work: React.FC = () => {

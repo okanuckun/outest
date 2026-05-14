@@ -13,21 +13,46 @@ const jsonLd = {
   '@type': 'Person',
   name: 'Okan Uckun',
   jobTitle: 'Tattoo Artist',
-  description: 'Pioneer of minimalist and geometric tattoos, co-founder of Monolith Studio in New York City.',
+  description:
+    'Okan Uckun is a New York City tattoo artist specializing in geometric, minimalist and fine line tattoos. Pioneer of the contemporary linework tattoo style (2010s). Brooklyn studio, serving all of NYC.',
+  image: 'https://www.okanuckun.com/og-images/okan-default.jpg',
   url: 'https://www.okanuckun.com/about',
-  sameAs: ['https://www.instagram.com/okanuckun', 'https://www.tiktok.com/@okanuckun', 'https://www.youtube.com/@okanuckun'],
+  sameAs: [
+    'https://www.instagram.com/okanuckun',
+    'https://www.tiktok.com/@okanuckun',
+    'https://www.youtube.com/@okanuckun',
+  ],
+  knowsAbout: [
+    'Geometric tattoos',
+    'Minimalist tattoos',
+    'Fine line tattoos',
+    'Linework tattoos',
+    'Sacred geometry',
+  ],
   worksFor: {
     '@type': 'Organization',
-    name: 'Monolith Studio'
-  }
+    name: 'Monolith Studio',
+    url: 'https://www.instagram.com/monolithstudio',
+  },
+  workLocation: {
+    '@type': 'Place',
+    name: 'Brooklyn, NYC',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '77 Washington Avenue',
+      addressLocality: 'Brooklyn',
+      addressRegion: 'NY',
+      addressCountry: 'US',
+    },
+  },
 };
 
 const About: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="About Okan Uckun | Tattoo Artist NYC"
-        description="Learn about Okan Uckun, a Brooklyn-based tattoo artist known for minimalist, geometric and fine line work, with 300,000+ followers and global press features."
+        title="About Okan Uckun · Geometric & Minimalist Tattoo Artist NYC"
+        description="Okan Uckun — Brooklyn-based tattoo artist specializing in geometric, minimalist and fine line work. Pioneer of contemporary linework, 300k+ Instagram followers, featured in BuzzFeed, Bored Panda and My Modern Met."
         canonical="/about"
         jsonLd={jsonLd}
       />

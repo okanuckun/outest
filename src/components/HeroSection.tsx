@@ -13,22 +13,28 @@ const HeroSection: React.FC = () => {
         {/* Border Line */}
         <div className="w-full h-px bg-white/45 mb-3" />
         
-        {/* Headline */}
+        {/* Headline — primary H1 of the homepage.
+            Combines a small SEO-friendly positioning line ("Geometric &
+            Minimalist Tattoo Artist — NYC") with the visual brand
+            statement underneath. Google reads both as one H1. */}
         <div className="flex items-end justify-between">
-          <div className="overflow-hidden">
-            <motion.p
-              initial={{ y: 100, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{
-                delay: 0.3,
-                duration: 0.5,
-                ease: [0.25, 0.1, 0.25, 1]
-              }}
-              className="block text-[#F6F6F6] text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase"
-            >
+          <motion.h1
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{
+              delay: 0.3,
+              duration: 0.5,
+              ease: [0.25, 0.1, 0.25, 1],
+            }}
+            className="overflow-hidden m-0"
+          >
+            <span className="block text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-[#F6F6F6]/70 mb-2 leading-none font-medium">
+              Geometric &amp; Minimalist Tattoo Artist — NYC
+            </span>
+            <span className="block text-[#F6F6F6] text-[clamp(36px,7vw,90px)] font-medium leading-[1] tracking-[-0.037em] uppercase">
               Saying more with less.
-            </motion.p>
-          </div>
+            </span>
+          </motion.h1>
           
           {/* Animated Arrow Icon */}
           <motion.div

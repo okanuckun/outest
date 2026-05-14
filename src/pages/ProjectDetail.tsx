@@ -88,23 +88,42 @@ const ProjectDetail: React.FC = () => {
 
   const projectJsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'CreativeWork',
-    name: project.title,
-    description: `${project.title} - ${project.category || 'Art Project'} by Okan Uckun${project.location ? `, ${project.location}` : ''}${project.year ? ` (${project.year})` : ''}`,
-    url: `https://www.okanuckun.com/project/${project.slug || project.id}`,
-    image: project.cover_image || project.images?.[0] || undefined,
-    dateCreated: project.year || undefined,
-    locationCreated: project.location ? {
-      '@type': 'Place',
-      name: project.location
-    } : undefined,
-    author: {
-      '@type': 'Person',
-      name: 'Okan Uckun',
-      jobTitle: 'Tattoo Artist',
-      url: 'https://www.okanuckun.com'
-    },
-    genre: project.category || undefined
+    '@graph': [
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.okanuckun.com/' },
+          { '@type': 'ListItem', position: 2, name: 'Work', item: 'https://www.okanuckun.com/work' },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: project.title,
+            item: `https://www.okanuckun.com/project/${project.slug || project.id}`,
+          },
+        ],
+      },
+      {
+        '@type': 'CreativeWork',
+        name: project.title,
+        description: `${project.title} - ${project.category || 'Art Project'} by Okan Uckun${project.location ? `, ${project.location}` : ''}${project.year ? ` (${project.year})` : ''}`,
+        url: `https://www.okanuckun.com/project/${project.slug || project.id}`,
+        image: project.cover_image || project.images?.[0] || undefined,
+        dateCreated: project.year || undefined,
+        locationCreated: project.location
+          ? {
+              '@type': 'Place',
+              name: project.location,
+            }
+          : undefined,
+        author: {
+          '@type': 'Person',
+          name: 'Okan Uckun',
+          jobTitle: 'Tattoo Artist',
+          url: 'https://www.okanuckun.com',
+        },
+        genre: project.category || undefined,
+      },
+    ],
   };
 
   const metaDescription = `${project.title} - ${project.category || 'Creative Work'} by Okan Uckun.${project.location ? ` Created in ${project.location}` : ''}${project.year ? ` (${project.year})` : ''} Explore this unique artistic project.`;

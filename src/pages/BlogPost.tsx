@@ -184,9 +184,19 @@ const BlogPost = () => {
   const authorName = post.author_name || 'Okan Uckun';
   const tags = post.tags || [];
 
-  // JSON-LD Structured Data for SEO
+  // JSON-LD Structured Data for SEO — BlogPosting + BreadcrumbList in @graph.
   const jsonLd = {
     '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.okanuckun.com/' },
+          { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.okanuckun.com/blog' },
+          { '@type': 'ListItem', position: 3, name: post.title, item: `https://www.okanuckun.com/blog/${post.slug}` },
+        ],
+      },
+      {
     '@type': 'BlogPosting',
     headline: post.title,
     description: post.description,
@@ -204,7 +214,7 @@ const BlogPost = () => {
       url: 'https://www.okanuckun.com',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://www.okanuckun.com/og-image.jpg'
+        url: 'https://www.okanuckun.com/og-images/okan-default.jpg'
       }
     },
     mainEntityOfPage: {
@@ -219,6 +229,8 @@ const BlogPost = () => {
       }
       return acc;
     }, 0)
+      },
+    ],
   };
 
   const handleShare = async () => {

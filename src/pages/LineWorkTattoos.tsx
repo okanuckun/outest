@@ -11,6 +11,13 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.okanuckun.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Linework Tattoos", "item": "https://www.okanuckun.com/line-work-tattoos"}
+      ]
+    },
+    {
       "@type": "Service",
       "name": "Linework Tattoo NYC",
       "description": "Precision linework and single line tattoos by Okan Uckun in New York City. Specializing in architectural line work, continuous line and geometric linework tattoos.",
@@ -83,8 +90,8 @@ const LineWorkTattoos: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="Linework Tattoos NYC | Okan Uckun — Line Work Tattoo Artist Manhattan"
-        description="Linework tattoo artist in NYC. Precise single line, continuous line and line work tattoo designs by Okan Uckun — a pioneer of the linework style. Manhattan, New York."
+        title="Linework Tattoos NYC | Okan Uckun — Line Work Tattoo Artist"
+        description="Linework tattoo artist in NYC. Precise single line, continuous line and line work tattoo designs by Okan Uckun — a pioneer of the linework style. Brooklyn studio, serving all of New York City."
         canonical="https://www.okanuckun.com/line-work-tattoos"
         ogTitle="Linework Tattoos NYC | Okan Uckun"
         ogDescription="Precision linework tattoos by Okan Uckun in New York City. Single line, continuous line and architectural line work by one of the style's original pioneers."

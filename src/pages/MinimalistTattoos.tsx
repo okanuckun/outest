@@ -11,9 +11,16 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.okanuckun.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Minimalist Tattoos", "item": "https://www.okanuckun.com/minimalist-tattoos"}
+      ]
+    },
+    {
       "@type": "Service",
       "name": "Minimalist Tattoo NYC",
-      "description": "Custom minimalist tattoo designs by Okan Uckun in New York City. Small minimalist tattoos, minimalism-inspired body art and intentional minimal designs in Manhattan.",
+      "description": "Custom minimalist tattoo designs by Okan Uckun in New York City. Small minimalist tattoos, minimalism-inspired body art and intentional minimal designs. Brooklyn studio, serving all of NYC.",
       "provider": {
         "@type": "Person",
         "name": "Okan Uckun",
@@ -43,7 +50,7 @@ const jsonLd = {
         {"@type": "Question", "name": "What are popular minimalist tattoo ideas?", "acceptedAnswer": {"@type": "Answer", "text": "Popular minimalist tattoo ideas include single line geometric forms, small symbols with personal meaning, minimal botanical elements, architectural details, abstract forms that suggest rather than depict, and minimalist portraits or figure studies. The most compelling minimalist tattoos are those where simplicity serves a specific intention rather than just being small."}},
         {"@type": "Question", "name": "How small can a minimalist tattoo be?", "acceptedAnswer": {"@type": "Answer", "text": "Minimalist tattoos can be very small, but the minimum viable size depends on the design's detail level. Very fine details cannot be executed below a certain scale — the lines would merge as the tattoo heals and ages. An experienced minimalist tattoo artist knows the minimum scale at which each design can be executed and still hold its integrity over time."}},
         {"@type": "Question", "name": "Do minimalist tattoos age well?", "acceptedAnswer": {"@type": "Answer", "text": "Minimalist tattoos age well when executed correctly. Simple, clean designs with well-placed lines hold their visual clarity better than complex shaded work over time. The key factors are correct ink depth, adequate scale for the design's detail level, and consistent aftercare including daily SPF on healed tattoos."}},
-        {"@type": "Question", "name": "Who is the best minimalist tattoo artist in NYC?", "acceptedAnswer": {"@type": "Answer", "text": "Okan Uckun is widely recognized as one of New York City's leading minimalist tattoo artists. His work in minimalist and post-minimalist tattooing — developed over more than a decade in Manhattan — has been featured in international publications and earned him nearly 300,000 Instagram followers."}}
+        {"@type": "Question", "name": "Who is the best minimalist tattoo artist in NYC?", "acceptedAnswer": {"@type": "Answer", "text": "Okan Uckun is widely recognized as one of New York City's leading minimalist tattoo artists. His work in minimalist and post-minimalist tattooing — developed over more than a decade in NYC — has been featured in international publications and earned him nearly 300,000 Instagram followers. Studio in Brooklyn, serving clients across all of NYC."}}
       ]
     }
   ]
@@ -53,11 +60,11 @@ const MinimalistTattoos: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="Minimalist Tattoos NYC | Okan Uckun — Minimalist Tattoo Artist Manhattan"
-        description="Minimalist tattoo artist in NYC. Custom small minimalist tattoos, minimalist tattoo ideas and designs by Okan Uckun in Manhattan, New York City."
+        title="Minimalist Tattoos NYC | Okan Uckun — Minimalist Tattoo Artist"
+        description="Minimalist tattoo artist in NYC. Custom small minimalist tattoos, minimalist tattoo ideas and designs by Okan Uckun. Brooklyn studio, serving all of New York City."
         canonical="https://www.okanuckun.com/minimalist-tattoos"
         ogTitle="Minimalist Tattoos NYC | Okan Uckun"
-        ogDescription="Custom minimalist tattoos by world-renowned NYC tattoo artist Okan Uckun. Minimal designs, intentional simplicity and precision in Manhattan."
+        ogDescription="Custom minimalist tattoos by world-renowned NYC tattoo artist Okan Uckun. Minimal designs, intentional simplicity and precision — Brooklyn studio."
         ogImage="https://www.okanuckun.com/og-minimalist.jpg"
         ogType="website"
         jsonLd={jsonLd}
@@ -73,7 +80,7 @@ const MinimalistTattoos: React.FC = () => {
               Minimalist Tattoos in NYC
             </h1>
             <p className="text-[17px] md:text-[19px] text-[#1a1a1a] leading-relaxed mb-12">
-              Okan Uckun is one of New York City's most recognized minimalist tattoo artists, with nearly 300,000 Instagram followers and features in BuzzFeed, Bored Panda and My Modern Met — bringing over a decade of post-minimalist practice to his Manhattan studio. Minimalism is not about being small. It is about being essential. A minimalist tattoo is one in which every element present is present for a reason — and nothing has been included that does not need to be there. This demands more from both artist and collector than conventional tattooing. It requires the ability to identify what is truly essential about an idea, and the skill to render that essence with complete precision. Okan Uckun has spent his entire career exploring this territory, developing a body of work that defines what minimalist tattooing can be when approached with genuine artistic seriousness.
+              Okan Uckun is one of New York City's most recognized minimalist tattoo artists, with nearly 300,000 Instagram followers and features in BuzzFeed, Bored Panda and My Modern Met — bringing over a decade of post-minimalist practice to his Brooklyn studio, serving clients across all of NYC. Minimalism is not about being small. It is about being essential. A minimalist tattoo is one in which every element present is present for a reason — and nothing has been included that does not need to be there. This demands more from both artist and collector than conventional tattooing. It requires the ability to identify what is truly essential about an idea, and the skill to render that essence with complete precision. Okan Uckun has spent his entire career exploring this territory, developing a body of work that defines what minimalist tattooing can be when approached with genuine artistic seriousness.
             </p>
           </ScrollReveal>
 
@@ -193,7 +200,7 @@ const MinimalistTattoos: React.FC = () => {
           <ScrollReveal>
             <div className="bg-[#1a1a1a] text-[#f5f5f5] p-8 md:p-12 mb-16">
               <h2 className="text-[20px] md:text-[24px] font-bold uppercase tracking-[-0.01em] mb-4">Book Your Minimalist Tattoo in NYC</h2>
-              <p className="text-[15px] leading-relaxed text-[#ccc] mb-8">Custom minimalist tattoos by appointment only in Manhattan. Whether you have a clear vision or want to develop one through the design process — book your consultation today.</p>
+              <p className="text-[15px] leading-relaxed text-[#ccc] mb-8">Custom minimalist tattoos by appointment only — Brooklyn studio, serving all of NYC. Whether you have a clear vision or want to develop one through the design process — book your consultation today.</p>
               <Link to="/appointment">
                 <Button size="lg" variant="outline" className="group text-[13px] uppercase tracking-wider border-[#f5f5f5] text-[#f5f5f5] hover:bg-[#f5f5f5] hover:text-[#1a1a1a]">
                   Book an Appointment

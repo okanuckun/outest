@@ -11,6 +11,13 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.okanuckun.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Fine Line Tattoos", "item": "https://www.okanuckun.com/fine-line-tattoos"}
+      ]
+    },
+    {
       "@type": "Service",
       "name": "Fine Line Tattoo NYC",
       "description": "Custom fine line tattoo designs using single needle precision technique by Okan Uckun in New York City. Specializing in delicate, detailed linework and minimalist fine line tattoos.",
@@ -79,7 +86,7 @@ const jsonLd = {
           "name": "Where is the best place to get a fine line tattoo in NYC?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Okan Uckun is recognized as one of NYC's leading fine line tattoo artists, working in Manhattan. With nearly 300,000 Instagram followers and features in global publications, his single needle precision work has defined the fine line style internationally."
+            "text": "Okan Uckun is recognized as one of NYC's leading fine line tattoo artists. With nearly 300,000 Instagram followers and features in global publications, his single needle precision work has defined the fine line style internationally. Studio in Brooklyn, serving clients across all of New York City."
           }
         }
       ]
@@ -91,11 +98,11 @@ const FineLineTattoos: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="Fine Line Tattoos NYC | Okan Uckun — Fine Line Tattoo Artist Manhattan"
-        description="Fine line tattoo artist in NYC. Delicate single needle precision, custom fine line tattoo designs by Okan Uckun in Manhattan. Book your appointment."
+        title="Fine Line Tattoos NYC | Okan Uckun — Fine Line Tattoo Artist"
+        description="Fine line tattoo artist in NYC. Delicate single needle precision, custom fine line tattoo designs by Okan Uckun. Brooklyn studio, serving all of New York City."
         canonical="https://www.okanuckun.com/fine-line-tattoos"
         ogTitle="Fine Line Tattoos NYC | Okan Uckun"
-        ogDescription="Custom fine line tattoos by world-renowned NYC tattoo artist Okan Uckun. Single needle precision, minimalist designs crafted in Manhattan."
+        ogDescription="Custom fine line tattoos by world-renowned NYC tattoo artist Okan Uckun. Single needle precision, minimalist designs — Brooklyn studio, all of NYC served."
         ogImage="https://www.okanuckun.com/og-fineline.jpg"
         ogType="website"
         jsonLd={jsonLd}
@@ -329,7 +336,7 @@ const FineLineTattoos: React.FC = () => {
                 Book Your Fine Line Tattoo Appointment in NYC
               </h2>
               <p className="text-[15px] leading-relaxed text-[#ccc] mb-8">
-                Custom fine line tattoos by appointment only in Manhattan, New York City. Limited availability — book early to secure your session.
+                Custom fine line tattoos by appointment only — Brooklyn studio, serving all of New York City. Limited availability — book early to secure your session.
               </p>
               <Link to="/appointment">
                 <Button size="lg" variant="outline" className="group text-[13px] uppercase tracking-wider border-[#f5f5f5] text-[#f5f5f5] hover:bg-[#f5f5f5] hover:text-[#1a1a1a]">

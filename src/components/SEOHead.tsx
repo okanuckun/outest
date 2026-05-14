@@ -35,10 +35,10 @@ const SEOHead = ({
   // Fetch SEO data from database
   const { pageData, globalData, loading } = useSEOData(currentPath);
 
-  // Fallback defaults
-  const defaultTitle = 'Okan Uckun | Tattoo Artist NYC';
-  const defaultDescription = 'Okan Uckun is a renowned tattoo artist based in New York City, specializing in black and grey realism, portraits, and fine line work.';
-  const defaultKeywords = 'tattoo artist NYC, black and grey tattoo, realism tattoo, portrait tattoo, fine line tattoo, New York tattoo';
+  // Fallback defaults — locked positioning (matches index.html + llms.txt)
+  const defaultTitle = 'Okan Uckun · Geometric & Minimalist Tattoos NYC';
+  const defaultDescription = 'Geometric, minimalist and fine line tattoos by Okan Uckun. Sacred geometry, architectural precision, custom designs by appointment. Brooklyn studio, all of NYC.';
+  const defaultKeywords = 'geometric tattoo NYC, minimalist tattoo NYC, fine line tattoo NYC, sacred geometry tattoo, linework tattoo, Okan Uckun, tattoo artist Brooklyn, tattoo artist Manhattan';
 
   // Priority: Props > Database > Defaults
   const rawTitle = propTitle || pageData?.meta_title || defaultTitle;
