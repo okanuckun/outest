@@ -78,13 +78,52 @@ const SEOHead = ({
   // Schema/JSON-LD: Props > Database
   const schemaData = propJsonLd || pageData?.schema_data;
 
-  // Don't render until we have data (prevents flash of default values)
-  // But still render something for SSR/crawler visibility
+  // Loading fallback — emits the page-specific meta + canonical even
+  // before Supabase finishes its useSEOData fetch. This matters for
+  // Lovable's prerender, which snapshots the React tree as soon as it
+  // resolves: if `loading` is still true at that moment, the fallback
+  // is what ends up in the static HTML the crawler sees. The previous
+  // fallback only had <title> + <meta description>, which meant
+  // EVERY prerendered page shipped without <link rel="canonical">,
+  // <og:url>, <og:title> etc — Ahrefs flagged the resulting pages as
+  // "Duplicate without canonical" (8 URLs).
+  //
+  // We use props-or-defaults here (no pageData), so the fallback is
+  // honest about what we know at this point and still emits the
+  // primitives crawlers need.
   if (loading) {
+    const fbTitle = propTitle || defaultTitle;
+    const fbDescription = propDescription || defaultDescription;
+    const fbCanonical = propCanonical
+      ? (propCanonical.startsWith('http') ? propCanonical : `${siteUrl}${propCanonical}`)
+      : `${siteUrl}${currentPath}`;
+    const fbOgTitle = propOgTitle || fbTitle;
+    const fbOgDescription = propOgDescription || fbDescription;
+    const fbOgImage = propOgImage
+      ? (propOgImage.startsWith('http') ? propOgImage : `${siteUrl}${propOgImage}`)
+      : `${siteUrl}/og-images/okan-default.jpg`;
+    const fbOgType = propOgType || 'website';
+    const fbRobots = propNoindex ? 'noindex, nofollow' : 'index, follow';
     return (
       <Helmet>
-        <title>{defaultTitle}</title>
-        <meta name="description" content={defaultDescription} />
+        <title>{fbTitle}</title>
+        <meta name="description" content={fbDescription} />
+        <meta name="robots" content={fbRobots} />
+        <link rel="canonical" href={fbCanonical} />
+        <meta property="og:type" content={fbOgType} />
+        <meta property="og:title" content={fbOgTitle} />
+        <meta property="og:description" content={fbOgDescription} />
+        <meta property="og:image" content={fbOgImage} />
+        <meta property="og:url" content={fbCanonical} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={fbOgTitle} />
+        <meta name="twitter:description" content={fbOgDescription} />
+        <meta name="twitter:image" content={fbOgImage} />
+        {propJsonLd && (
+          <script type="application/ld+json">
+            {JSON.stringify(propJsonLd)}
+          </script>
+        )}
       </Helmet>
     );
   }
