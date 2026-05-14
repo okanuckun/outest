@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /nogooglebot/
-Sitemap: https://www.okanuckun.com/sitemap.xml
+Sitemap: https://okanuckun.com/sitemap.xml
 
 User-agent: Googlebot
 Allow: /
