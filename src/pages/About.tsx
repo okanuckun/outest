@@ -178,7 +178,7 @@ const About: React.FC = () => {
             
             <ScrollReveal delay={0.2} className="lg:w-2/3">
               <p className="text-[18px] md:text-[22px] lg:text-[26px] font-normal leading-[1.3] tracking-[-0.01em] text-[#323232] uppercase">
-                Moved from Istanbul to NYC in 2017. After six years at Bang Bang Tattoo, the focus shifted to independent projects. In 2024, co-founded Monolith Studio with Oscar Akermo — building a team and continuing the tattoo journey in New York City.
+                Moved from Istanbul to NYC in 2017. After six years at Bang Bang Tattoo, the focus shifted to independent projects. In 2024, co-founded Monolith Studio — building a team and continuing the tattoo journey in New York City.
               </p>
             </ScrollReveal>
           </div>
