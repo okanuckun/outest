@@ -62,8 +62,8 @@ const MinimalistTattoos: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="Minimalist Tattoos NYC | Okan Uckun — Minimalist Tattoo Artist"
-        description="Minimalist tattoo artist in NYC. Custom small minimalist tattoos, minimalist tattoo ideas and designs by Okan Uckun. Brooklyn studio, serving all of New York City."
+        title="Minimalist Tattoos NYC | Okan Uckun — Tattoo Artist"
+        description="Minimalist tattoo artist NYC. Custom small minimalist tattoos, ideas and designs by Okan Uckun. Brooklyn studio, serving all of NYC."
         canonical="https://okanuckun.com/minimalist-tattoos"
         ogTitle="Minimalist Tattoos NYC | Okan Uckun"
         ogDescription="Custom minimalist tattoos by world-renowned NYC tattoo artist Okan Uckun. Minimal designs, intentional simplicity and precision — Brooklyn studio."

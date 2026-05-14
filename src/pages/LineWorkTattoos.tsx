@@ -107,7 +107,7 @@ const LineWorkTattoos: React.FC = () => {
     <>
       <SEOHead
         title="Linework Tattoos NYC | Okan Uckun — Line Work Tattoo Artist"
-        description="Linework tattoo artist in NYC. Precise single line, continuous line and line work tattoo designs by Okan Uckun — a pioneer of the linework style. Brooklyn studio, serving all of New York City."
+        description="Linework tattoo artist NYC. Single line, continuous line and architectural line work by Okan Uckun — pioneer of the style. Brooklyn studio."
         canonical="https://okanuckun.com/line-work-tattoos"
         ogTitle="Linework Tattoos NYC | Okan Uckun"
         ogDescription="Precision linework tattoos by Okan Uckun in New York City. Single line, continuous line and architectural line work by one of the style's original pioneers."

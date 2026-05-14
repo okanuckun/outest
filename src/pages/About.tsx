@@ -52,7 +52,7 @@ const About: React.FC = () => {
     <>
       <SEOHead
         title="About Okan Uckun · Geometric & Minimalist Tattoo Artist NYC"
-        description="Okan Uckun — Brooklyn-based tattoo artist specializing in geometric, minimalist and fine line work. Pioneer of contemporary linework, 300k+ Instagram followers, featured in BuzzFeed, Bored Panda and My Modern Met."
+        description="Okan Uckun — Brooklyn tattoo artist specializing in geometric, minimalist and fine line work. Pioneer of contemporary linework. 300k+ Instagram."
         canonical="/about"
         jsonLd={jsonLd}
       />

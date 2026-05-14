@@ -109,11 +109,11 @@ const GeometricTattoos: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="Geometric Tattoos NYC | Okan Uckun — Sacred Geometry & Minimalist Tattoo Artist"
+        title="Geometric Tattoos NYC | Okan Uckun — Sacred Geometry Artist"
         description="Geometric tattoo artist in NYC. Sacred geometry, minimalist geometric designs and precise linework by Okan Uckun. Brooklyn studio, serving all of New York City."
         canonical="https://okanuckun.com/geometric-tattoos"
         ogTitle="Geometric Tattoos NYC | Okan Uckun"
-        ogDescription="Sacred geometry and minimalist geometric tattoos by world-renowned NYC tattoo artist Okan Uckun. Precision linework, custom designs — Brooklyn studio, all of NYC served."
+        ogDescription="Sacred geometry and minimalist geometric tattoos by NYC tattoo artist Okan Uckun. Precision linework, custom designs — Brooklyn studio."
         ogImage="https://okanuckun.com/og-geometric.jpg"
         ogType="website"
         jsonLd={jsonLd}
