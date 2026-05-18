@@ -39,14 +39,14 @@ const GuestSpots: React.FC = () => {
   }
   if (isLoading) {
     return (
-      <div className="absolute top-32 right-[22.5px] max-sm:right-4 md:top-36 z-20 bg-blue-500/50">
+      <div className="absolute top-32 right-[22.5px] max-sm:right-4 md:top-36 z-[100] bg-blue-500/50">
         <div className="w-[220px] h-[100px]" />
       </div>
     );
   }
 
   return (
-    <div className="absolute top-32 right-[22.5px] max-sm:right-4 md:top-36 z-20 bg-red-500/50">
+    <div className="absolute top-32 right-[22.5px] max-sm:right-4 md:top-36 z-[100] bg-red-500/50">
       <div className="backdrop-blur-sm bg-black/40 border border-white/10 rounded-sm p-3 md:p-4 w-[220px]">
         <p className="text-white/60 text-[10px] uppercase tracking-[0.2em] mb-2">
           Upcoming Guest Spots
