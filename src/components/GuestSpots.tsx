@@ -29,6 +29,7 @@ const GuestSpots: React.FC = () => {
         .order('start_date', { ascending: true });
       
       if (error) throw error;
+      console.log('[GuestSpots] fetched:', data?.length, data);
       return data as GuestSpot[];
     },
   });
