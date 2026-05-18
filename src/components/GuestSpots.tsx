@@ -27,7 +27,7 @@ const GuestSpots: React.FC = () => {
         .gte('end_date', today)
         .eq('is_active', true)
         .order('start_date', { ascending: true });
-      
+
       if (error) throw error;
       return data as GuestSpot[];
     },
