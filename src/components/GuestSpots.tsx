@@ -34,8 +34,15 @@ const GuestSpots: React.FC = () => {
     },
   });
 
-  if (isLoading || !guestSpots || guestSpots.length === 0) {
+  if (!guestSpots || guestSpots.length === 0) {
     return null;
+  }
+  if (isLoading) {
+    return (
+      <div className="absolute top-32 right-[22.5px] max-sm:right-4 md:top-36 z-20 bg-blue-500/50">
+        <div className="w-[220px] h-[100px]" />
+      </div>
+    );
   }
 
   return (
