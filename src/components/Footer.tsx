@@ -132,35 +132,20 @@ const Footer: React.FC = () => {
             </motion.a>
           </div>
 
-          {/* Middle - Business Inquiries (styled) + Style Links */}
-          <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-2">
-              <span className="text-[11px] text-[#888] uppercase tracking-wider">
-                BUSINESS INQUIRIES
-              </span>
-              <motion.a
-                href="mailto:hello@monolithstudio.com"
-                className="text-[15px] font-medium text-[#1a1a1a] hover:opacity-60 transition-opacity"
-                whileHover={{ x: 4 }}
-                transition={{ duration: 0.2 }}
+          {/* Middle - Style Links */}
+          <div className="flex flex-col gap-2">
+            <span className="text-[11px] text-[#888] uppercase tracking-wider">
+              STYLES
+            </span>
+            {styleLinks.map((style) => (
+              <Link
+                key={style.label}
+                to={style.link}
+                className="text-[11px] text-[#1a1a1a] tracking-wider hover:text-[#555] transition-colors"
               >
-                hello@monolithstudio.com
-              </motion.a>
-            </div>
-            <div className="flex flex-col gap-2">
-              <span className="text-[11px] text-[#888] uppercase tracking-wider">
-                STYLES
-              </span>
-              {styleLinks.map((style) => (
-                <Link
-                  key={style.label}
-                  to={style.link}
-                  className="text-[13px] text-[#1a1a1a] uppercase tracking-wider hover:text-[#555] transition-colors"
-                >
-                  {style.label}
-                </Link>
-              ))}
-            </div>
+                {style.label}
+              </Link>
+            ))}
           </div>
 
           {/* Right - General, Call Us, Aftercare */}
