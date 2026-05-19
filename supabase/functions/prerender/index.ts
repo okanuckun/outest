@@ -1,3 +1,5 @@
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -292,6 +294,60 @@ Deno.serve(async (req) => {
 
     const page = PAGES[route];
     if (!page) {
+      // Dynamic: /blog/:slug — fetch post from Supabase
+      const blogMatch = route.match(/^\/blog\/([^/]+)$/);
+      if (blogMatch) {
+        const slug = blogMatch[1];
+        const supabase = createClient(
+          Deno.env.get('SUPABASE_URL')!,
+          Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
+        );
+        const { data: post } = await supabase
+          .from('blog_posts')
+          .select('title, description, content, image_url, author_name, tags, created_at, updated_at')
+          .eq('slug', slug)
+          .eq('published', true)
+          .maybeSingle();
+
+        if (post) {
+          const description =
+            post.description ||
+            (post.content ? post.content.replace(/<[^>]+>/g, '').slice(0, 160) : '');
+          const dynamicPage: PageData = {
+            title: `${post.title} | Okan Uckun`,
+            description,
+            h1: post.title,
+            body: post.content
+              ? post.content.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+              : description,
+            ogImage: post.image_url || 'https://www.okanuckun.com/og-image.jpg',
+            jsonLd: {
+              "@context": "https://schema.org",
+              "@type": "Article",
+              "headline": post.title,
+              "description": description,
+              "image": post.image_url || undefined,
+              "datePublished": post.created_at,
+              "dateModified": post.updated_at,
+              "author": { "@type": "Person", "name": post.author_name || "Okan Uckun" },
+              "publisher": { "@type": "Organization", "name": "Okan Uckun", "logo": { "@type": "ImageObject", "url": "https://www.okanuckun.com/og-image.jpg" } },
+              "mainEntityOfPage": `https://www.okanuckun.com${route}`,
+              "keywords": Array.isArray(post.tags) ? post.tags.join(', ') : undefined,
+            },
+          };
+          const html = buildFullHtml(route, dynamicPage);
+          return new Response(html, {
+            status: 200,
+            headers: {
+              ...corsHeaders,
+              'Content-Type': 'text/html; charset=utf-8',
+              'Cache-Control': 'public, max-age=600, s-maxage=3600',
+              'X-Prerendered': 'true',
+            },
+          });
+        }
+      }
+
       // Return a basic 404 for unknown routes
       return new Response(`<!DOCTYPE html><html><head><title>Not Found | Okan Uckun</title></head><body><h1>Page Not Found</h1><p><a href="https://www.okanuckun.com">Return to homepage</a></p></body></html>`, {
         status: 404,
