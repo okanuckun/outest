@@ -128,23 +128,35 @@ const Footer: React.FC = () => {
             ))}
           </div>
 
-          {/* Right - General, Call Us, Aftercare */}
+          {/* Right - Explore (vertical), Call Us, Aftercare */}
           <div className="flex flex-col md:flex-row gap-8 md:gap-16">
-            {contactInfo.map((info) => (
-              <div key={info.label} className="flex flex-col gap-2">
-                <span className="text-[11px] text-[#888] uppercase tracking-wider">
-                  {info.label}
-                </span>
-                <motion.a
-                  href={info.href}
-                  className="text-[13px] text-[#1a1a1a] hover:opacity-60 transition-opacity"
-                  whileHover={{ x: 4 }}
-                  transition={{ duration: 0.2 }}
+            <div className="flex flex-col gap-2">
+              <span className="text-[11px] text-[#888] uppercase tracking-wider">
+                EXPLORE
+              </span>
+              {exploreLinks.map((item) => (
+                <Link
+                  key={item.label}
+                  to={item.link}
+                  className="text-[13px] text-[#1a1a1a] tracking-wider hover:text-[#555] transition-colors"
                 >
-                  {info.value}
-                </motion.a>
-              </div>
-            ))}
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+            <div className="flex flex-col gap-2">
+              <span className="text-[11px] text-[#888] uppercase tracking-wider">
+                CALL US
+              </span>
+              <motion.a
+                href="tel:+16167777073"
+                className="text-[13px] text-[#1a1a1a] hover:opacity-60 transition-opacity"
+                whileHover={{ x: 4 }}
+                transition={{ duration: 0.2 }}
+              >
+                +1 (616) 777-7073
+              </motion.a>
+            </div>
             {/* Aftercare */}
             <div className="flex flex-col gap-2">
               <span className="text-[11px] text-[#888] uppercase tracking-wider">
