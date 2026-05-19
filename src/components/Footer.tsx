@@ -22,17 +22,19 @@ const Footer: React.FC = () => {
     },
   ];
 
-  const styles = [
-    { label: 'GEOMETRIC TATTOO', link: '/geometric-tattoos' },
-    { label: 'FINE LINE TATTOO', link: '/fine-line-tattoos' },
-    { label: 'LINEWORK TATTOO', link: '/line-work-tattoos' },
-    { label: 'MINIMALIST TATTOO', link: '/minimalist-tattoos' },
+  const contactInfo = [
+    {
+      label: 'GENERAL',
+      value: 'okanuckun@gmail.com',
+      href: 'mailto:okanuckun@gmail.com',
+    },
+    {
+      label: 'CALL US',
+      value: '+1 (616) 777-7073',
+      href: 'tel:+16167777073',
+    },
   ];
 
-  // Site-wide "Explore" links. Lives in the footer so every page links
-  // to every major route — kills orphan-page issues and distributes
-  // page authority across the whole site (Ahrefs flagged 4 orphans
-  // before this section was added).
   const exploreLinks = [
     { label: 'WORK', link: '/work' },
     { label: 'PROJECTS', link: '/project' },
