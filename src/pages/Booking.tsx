@@ -421,7 +421,11 @@ const Booking: React.FC = () => {
 
   return (
     <>
-      <SEOHead />
+      <SEOHead
+        title="Book a Tattoo Appointment | Okan Uckun NYC"
+        description="Book a tattoo appointment with Okan Uckun in Brooklyn, NYC. Specializing in geometric, minimalist, and fine line tattoos. Custom designs by consultation."
+        canonical="/booking"
+      />
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

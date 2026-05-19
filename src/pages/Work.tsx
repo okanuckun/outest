@@ -363,6 +363,7 @@ const Work: React.FC = () => {
       <div className="fixed top-0 left-0 right-0 z-50">
         <Navigation />
       </div>
+      <h1 className="sr-only">Tattoo Portfolio by Okan Uckun — Geometric, Minimalist & Fine Line Work</h1>
 
       {/* Two Image Gallery */}
       <div className="h-full w-full flex">

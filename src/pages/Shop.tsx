@@ -34,6 +34,7 @@ const Shop = () => {
       <SEOHead
         title="Shop | Okan Uckun"
         description="Browse and purchase exclusive art prints, original artwork, and limited edition pieces by Okan Uckun."
+        canonical="/shop"
       />
       <motion.div
         initial={{ opacity: 0 }}
