@@ -18,10 +18,10 @@ const Footer: React.FC = () => {
   ];
 
   const styleLinks = [
-    { label: 'GEOMETRIC TATTOO', link: '/geometric-tattoos' },
-    { label: 'FINE LINE TATTOO', link: '/fine-line-tattoos' },
-    { label: 'LINEWORK TATTOO', link: '/line-work-tattoos' },
-    { label: 'MINIMALIST TATTOO', link: '/minimalist-tattoos' },
+    { label: 'Geometric Tattoo', link: '/geometric-tattoos' },
+    { label: 'Fine Line Tattoo', link: '/fine-line-tattoos' },
+    { label: 'Linework Tattoo', link: '/line-work-tattoos' },
+    { label: 'Minimalist Tattoo', link: '/minimalist-tattoos' },
   ];
 
   const exploreLinks = [
