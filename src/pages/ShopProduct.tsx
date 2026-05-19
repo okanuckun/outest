@@ -91,6 +91,7 @@ const ShopProduct = () => {
       <SEOHead
         title={`${product.title} | Shop | Okan Uckun`}
         description={product.description?.slice(0, 160) || `Purchase ${product.title} from Okan Uckun's art collection.`}
+        canonical={`/shop/${handle}`}
       />
       <motion.div
         initial={{ opacity: 0 }}

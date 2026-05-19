@@ -21,6 +21,12 @@ interface BlogPost {
   created_at: string;
 }
 
+const blogSeoProps = {
+  title: 'Blog | Okan Uckun — Tattoo Insights & Inspiration',
+  description: 'Articles about tattoo art, styles, symbolism, and inspiration from NYC tattoo artist Okan Uckun. Geometric, minimalist and fine line tattoo insights.',
+  canonical: '/blog',
+};
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Blog',
@@ -96,45 +102,48 @@ const Blog = () => {
 
   if (loading) {
     return (
-      <>
-        <SEOHead jsonLd={jsonLd} />
-        <div className="min-h-screen bg-background text-foreground">
-          <div className="fixed top-0 left-0 right-0 z-50">
-            <Navigation />
-          </div>
-          <div className="h-screen flex items-center justify-center">
-            <Skeleton className="w-full h-full" />
-          </div>
+    <>
+      <SEOHead {...blogSeoProps} jsonLd={jsonLd} />
+      <div className="min-h-screen bg-background text-foreground">
+        <div className="fixed top-0 left-0 right-0 z-50">
+          <Navigation />
         </div>
-      </>
+        <h1 className="sr-only">Blog — Tattoo Insights & Inspiration by Okan Uckun</h1>
+        <div className="h-screen flex items-center justify-center">
+          <Skeleton className="w-full h-full" />
+        </div>
+      </div>
+    </>
     );
   }
 
   if (blogPosts.length === 0) {
     return (
-      <>
-        <SEOHead jsonLd={jsonLd} />
-        <div className="min-h-screen bg-background text-foreground">
-          <div className="fixed top-0 left-0 right-0 z-50">
-            <Navigation />
-          </div>
-          <div className="h-screen flex items-center justify-center">
-            <p className="text-muted-foreground">No blog posts available yet.</p>
-          </div>
-          <Footer />
+    <>
+      <SEOHead {...blogSeoProps} jsonLd={jsonLd} />
+      <div className="min-h-screen bg-background text-foreground">
+        <div className="fixed top-0 left-0 right-0 z-50">
+          <Navigation />
         </div>
-      </>
+        <h1 className="sr-only">Blog — Tattoo Insights & Inspiration by Okan Uckun</h1>
+        <div className="h-screen flex items-center justify-center">
+          <p className="text-muted-foreground">No blog posts available yet.</p>
+        </div>
+        <Footer />
+      </div>
+    </>
     );
   }
 
   return (
     <>
-      <SEOHead jsonLd={jsonLd} />
+      <SEOHead {...blogSeoProps} jsonLd={jsonLd} />
       <div className="min-h-screen bg-background text-foreground">
       {/* Navigation */}
       <div className="fixed top-0 left-0 right-0 z-50">
         <Navigation />
       </div>
+      <h1 className="sr-only">Blog — Tattoo Insights & Inspiration by Okan Uckun</h1>
 
       {/* Hero Slider */}
       <section className="relative h-screen overflow-hidden">
