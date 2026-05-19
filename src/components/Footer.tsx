@@ -4,18 +4,6 @@ import { Link } from 'react-router-dom';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 
 const Footer: React.FC = () => {
-  const contactInfo = [
-    {
-      label: 'GENERAL',
-      value: 'okanuckun@gmail.com',
-      href: 'mailto:okanuckun@gmail.com',
-    },
-    {
-      label: 'CALL US',
-      value: '+1 (616) 777-7073',
-      href: 'tel:+16167777073',
-    },
-  ];
 
   const styleLinks = [
     { label: 'Geometric Tattoo', link: '/geometric-tattoos' },
@@ -59,26 +47,6 @@ const Footer: React.FC = () => {
       <div className="w-full px-6 md:px-12">
         <div className="w-full h-px bg-[#1a1a1a]/20" />
       </div>
-
-      {/* Explore Section */}
-      <ScrollReveal>
-        <div className="px-6 md:px-12 pt-8 pb-8">
-          <span className="text-[11px] text-[#888] uppercase tracking-wider block mb-4">
-            EXPLORE
-          </span>
-          <nav aria-label="Footer navigation" className="flex flex-col md:flex-row md:justify-between gap-2">
-            {exploreLinks.map((item) => (
-              <Link
-                key={item.label}
-                to={item.link}
-                className="text-[13px] text-[#1a1a1a] tracking-wider hover:text-[#555] transition-colors"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
-      </ScrollReveal>
 
       {/* Horizontal Line */}
       <div className="w-full px-6 md:px-12">
@@ -148,23 +116,35 @@ const Footer: React.FC = () => {
             ))}
           </div>
 
-          {/* Right - General, Call Us, Aftercare */}
+          {/* Right - Explore (vertical), Call Us, Aftercare */}
           <div className="flex flex-col md:flex-row gap-8 md:gap-16">
-            {contactInfo.map((info) => (
-              <div key={info.label} className="flex flex-col gap-2">
-                <span className="text-[11px] text-[#888] uppercase tracking-wider">
-                  {info.label}
-                </span>
-                <motion.a
-                  href={info.href}
-                  className="text-[13px] text-[#1a1a1a] hover:opacity-60 transition-opacity"
-                  whileHover={{ x: 4 }}
-                  transition={{ duration: 0.2 }}
+            <div className="flex flex-col gap-2">
+              <span className="text-[11px] text-[#888] uppercase tracking-wider">
+                EXPLORE
+              </span>
+              {exploreLinks.map((item) => (
+                <Link
+                  key={item.label}
+                  to={item.link}
+                  className="text-[13px] text-[#1a1a1a] tracking-wider hover:text-[#555] transition-colors"
                 >
-                  {info.value}
-                </motion.a>
-              </div>
-            ))}
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+            <div className="flex flex-col gap-2">
+              <span className="text-[11px] text-[#888] uppercase tracking-wider">
+                CALL US
+              </span>
+              <motion.a
+                href="tel:+16167777073"
+                className="text-[13px] text-[#1a1a1a] hover:opacity-60 transition-opacity"
+                whileHover={{ x: 4 }}
+                transition={{ duration: 0.2 }}
+              >
+                +1 (616) 777-7073
+              </motion.a>
+            </div>
             {/* Aftercare */}
             <div className="flex flex-col gap-2">
               <span className="text-[11px] text-[#888] uppercase tracking-wider">
