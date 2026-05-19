@@ -13,14 +13,10 @@ const ArtistSection: React.FC = () => {
               <div className="mb-10">
                 <h2 className="text-[#323232] text-[28px] font-medium leading-[34px] tracking-[-0.4px] uppercase max-md:text-[22px] max-md:leading-7 max-sm:text-lg max-sm:leading-5">
                   RECOGNIZED AS ONE OF THE PIONEERS OF{' '}
-                  <Link to="/minimalist-tattoos" className="underline underline-offset-4 decoration-1 hover:text-[#555] transition-colors">MINIMALIST</Link>
+                  <Link to="/minimalist-tattoos" className="hover:text-[#555] transition-colors">MINIMALIST</Link>
                   {' '}AND{' '}
-                  <Link to="/geometric-tattoos" className="underline underline-offset-4 decoration-1 hover:text-[#555] transition-colors">GEOMETRIC</Link>
-                  {' '}TATTOOING, OKAN UCKUN—TRAINED AS AN ARCHITECT—CO-FOUNDED MONOLITH STUDIO IN 2024 AND CONTINUES TO PUSH HIS ARTISTIC VISION THROUGH HIS ONGOING PROJECT, IMNOTMINIMAL. EXPLORE HIS{' '}
-                  <Link to="/fine-line-tattoos" className="underline underline-offset-4 decoration-1 hover:text-[#555] transition-colors">FINE LINE</Link>
-                  {' '}AND{' '}
-                  <Link to="/line-work-tattoos" className="underline underline-offset-4 decoration-1 hover:text-[#555] transition-colors">LINEWORK</Link>
-                  {' '}WORK.
+                  <Link to="/geometric-tattoos" className="hover:text-[#555] transition-colors">GEOMETRIC</Link>
+                  {' '}TATTOOING, OKAN UCKUN—TRAINED AS AN ARCHITECT—CO-FOUNDED MONOLITH STUDIO IN 2024 AND CONTINUES TO PUSH HIS ARTISTIC VISION THROUGH HIS ONGOING PROJECT, IMNOTMINIMAL.
                 </h2>
               </div>
             </ScrollReveal>
