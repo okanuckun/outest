@@ -23,33 +23,8 @@ const Footer: React.FC = () => {
 
   return (
     <footer className="relative bg-[#f5f5f5] text-[#1a1a1a] w-full overflow-hidden">
-      {/* Styles Section */}
-      <ScrollReveal>
-        <div className="px-6 md:px-12 pt-32 pb-8">
-          <span className="text-[11px] text-[#888] uppercase tracking-wider block mb-4">
-            STYLES
-          </span>
-          <div className="flex flex-col items-start gap-2">
-            {styleLinks.map((style) => (
-              <Link
-                key={style.label}
-                to={style.link}
-                className="text-[13px] text-[#1a1a1a] tracking-wider hover:text-[#555] transition-colors"
-              >
-                {style.label}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </ScrollReveal>
-
       {/* Horizontal Line */}
-      <div className="w-full px-6 md:px-12">
-        <div className="w-full h-px bg-[#1a1a1a]/20" />
-      </div>
-
-      {/* Horizontal Line */}
-      <div className="w-full px-6 md:px-12">
+      <div className="w-full px-6 md:px-12 pt-32">
         <div className="w-full h-px bg-[#1a1a1a]/20" />
       </div>
 
