@@ -6,11 +6,6 @@ import ScrollReveal from '@/components/animations/ScrollReveal';
 const Footer: React.FC = () => {
   const contactInfo = [
     {
-      label: 'BUSINESS INQUIRIES',
-      value: 'hello@monolithstudio.com',
-      href: 'mailto:hello@monolithstudio.com',
-    },
-    {
       label: 'GENERAL',
       value: 'okanuckun@gmail.com',
       href: 'mailto:okanuckun@gmail.com',
@@ -22,17 +17,11 @@ const Footer: React.FC = () => {
     },
   ];
 
-  const contactInfo = [
-    {
-      label: 'GENERAL',
-      value: 'okanuckun@gmail.com',
-      href: 'mailto:okanuckun@gmail.com',
-    },
-    {
-      label: 'CALL US',
-      value: '+1 (616) 777-7073',
-      href: 'tel:+16167777073',
-    },
+  const styleLinks = [
+    { label: 'GEOMETRIC TATTOO', link: '/geometric-tattoos' },
+    { label: 'FINE LINE TATTOO', link: '/fine-line-tattoos' },
+    { label: 'LINEWORK TATTOO', link: '/line-work-tattoos' },
+    { label: 'MINIMALIST TATTOO', link: '/minimalist-tattoos' },
   ];
 
   const exploreLinks = [
@@ -52,17 +41,15 @@ const Footer: React.FC = () => {
           <span className="text-[11px] text-[#888] uppercase tracking-wider block mb-4">
             STYLES
           </span>
-          <div className="flex flex-wrap gap-x-6 gap-y-2 md:justify-between items-center w-full">
-            {styles.map((style) => (
-              style.link ? (
-                <Link key={style.label} to={style.link} className="text-[11px] text-[#1a1a1a] uppercase tracking-wider hover:text-[#555] transition-colors">
-                  {style.label}
-                </Link>
-              ) : (
-                <span key={style.label} className="text-[11px] text-[#1a1a1a] uppercase tracking-wider">
-                  {style.label}
-                </span>
-              )
+          <div className="flex flex-col items-start gap-2">
+            {styleLinks.map((style) => (
+              <Link
+                key={style.label}
+                to={style.link}
+                className="text-[11px] text-[#1a1a1a] uppercase tracking-wider hover:text-[#555] transition-colors"
+              >
+                {style.label}
+              </Link>
             ))}
           </div>
         </div>
@@ -73,8 +60,7 @@ const Footer: React.FC = () => {
         <div className="w-full h-px bg-[#1a1a1a]/20" />
       </div>
 
-      {/* Explore Section — site-wide footer navigation. Ensures every
-          page has direct outgoing links to every major route. */}
+      {/* Explore Section */}
       <ScrollReveal>
         <div className="px-6 md:px-12 pt-8 pb-8">
           <span className="text-[11px] text-[#888] uppercase tracking-wider block mb-4">
@@ -101,30 +87,30 @@ const Footer: React.FC = () => {
 
       {/* Contact Info Row */}
       <ScrollReveal>
-        <div className="flex flex-col md:flex-row justify-between items-start px-6 md:px-12 pt-8 pb-12">
+        <div className="flex flex-col md:flex-row justify-between items-start px-6 md:px-12 pt-8 pb-12 gap-8 md:gap-0">
           {/* Left - Instagram & Address */}
           <div className="mb-8 md:mb-0">
             {/* Social Links */}
             <div className="flex gap-4 mb-3">
-              <a 
-                href="https://www.instagram.com/okanuckun" 
-                target="_blank" 
+              <a
+                href="https://www.instagram.com/okanuckun"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider"
               >
                 Instagram
               </a>
-              <a 
-                href="https://www.tiktok.com/@okanuckun" 
-                target="_blank" 
+              <a
+                href="https://www.tiktok.com/@okanuckun"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider"
               >
                 TikTok
               </a>
-              <a 
-                href="https://www.youtube.com/@monolithstudionyc" 
-                target="_blank" 
+              <a
+                href="https://www.youtube.com/@monolithstudionyc"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider"
               >
@@ -146,7 +132,38 @@ const Footer: React.FC = () => {
             </motion.a>
           </div>
 
-          {/* Right - Contact Info */}
+          {/* Middle - Business Inquiries (styled) + Style Links */}
+          <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-2">
+              <span className="text-[11px] text-[#888] uppercase tracking-wider">
+                BUSINESS INQUIRIES
+              </span>
+              <motion.a
+                href="mailto:hello@monolithstudio.com"
+                className="text-[15px] font-medium text-[#1a1a1a] hover:opacity-60 transition-opacity"
+                whileHover={{ x: 4 }}
+                transition={{ duration: 0.2 }}
+              >
+                hello@monolithstudio.com
+              </motion.a>
+            </div>
+            <div className="flex flex-col gap-2">
+              <span className="text-[11px] text-[#888] uppercase tracking-wider">
+                STYLES
+              </span>
+              {styleLinks.map((style) => (
+                <Link
+                  key={style.label}
+                  to={style.link}
+                  className="text-[13px] text-[#1a1a1a] uppercase tracking-wider hover:text-[#555] transition-colors"
+                >
+                  {style.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Right - General, Call Us, Aftercare */}
           <div className="flex flex-col md:flex-row gap-8 md:gap-16">
             {contactInfo.map((info) => (
               <div key={info.label} className="flex flex-col gap-2">
@@ -212,7 +229,7 @@ const Footer: React.FC = () => {
           </motion.div>
         </Link>
       </div>
-      
+
       {/* Copyright */}
       <div className="px-6 md:px-12 py-6 text-center">
         <span className="text-[11px] text-[#888] uppercase tracking-wider">
