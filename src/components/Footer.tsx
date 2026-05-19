@@ -4,18 +4,6 @@ import { Link } from 'react-router-dom';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 
 const Footer: React.FC = () => {
-  const contactInfo = [
-    {
-      label: 'GENERAL',
-      value: 'okanuckun@gmail.com',
-      href: 'mailto:okanuckun@gmail.com',
-    },
-    {
-      label: 'CALL US',
-      value: '+1 (616) 777-7073',
-      href: 'tel:+16167777073',
-    },
-  ];
 
   const styleLinks = [
     { label: 'Geometric Tattoo', link: '/geometric-tattoos' },
