@@ -60,26 +60,6 @@ const Footer: React.FC = () => {
         <div className="w-full h-px bg-[#1a1a1a]/20" />
       </div>
 
-      {/* Explore Section */}
-      <ScrollReveal>
-        <div className="px-6 md:px-12 pt-8 pb-8">
-          <span className="text-[11px] text-[#888] uppercase tracking-wider block mb-4">
-            EXPLORE
-          </span>
-          <nav aria-label="Footer navigation" className="flex flex-col md:flex-row md:justify-between gap-2">
-            {exploreLinks.map((item) => (
-              <Link
-                key={item.label}
-                to={item.link}
-                className="text-[13px] text-[#1a1a1a] tracking-wider hover:text-[#555] transition-colors"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
-      </ScrollReveal>
-
       {/* Horizontal Line */}
       <div className="w-full px-6 md:px-12">
         <div className="w-full h-px bg-[#1a1a1a]/20" />
