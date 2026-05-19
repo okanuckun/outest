@@ -25,12 +25,12 @@ const Footer: React.FC = () => {
   ];
 
   const exploreLinks = [
-    { label: 'WORK', link: '/work' },
-    { label: 'PROJECTS', link: '/project' },
-    { label: 'BLOG', link: '/blog' },
-    { label: 'ABOUT', link: '/about' },
-    { label: 'SHOP', link: '/shop' },
-    { label: 'BOOK APPOINTMENT', link: '/booking' },
+    { label: 'Work', link: '/work' },
+    { label: 'Projects', link: '/project' },
+    { label: 'Blog', link: '/blog' },
+    { label: 'About', link: '/about' },
+    { label: 'Shop', link: '/shop' },
+    { label: 'Book Appointment', link: '/booking' },
   ];
 
   return (
@@ -46,7 +46,7 @@ const Footer: React.FC = () => {
               <Link
                 key={style.label}
                 to={style.link}
-                className="text-[11px] text-[#1a1a1a] tracking-wider hover:text-[#555] transition-colors"
+                className="text-[13px] text-[#1a1a1a] tracking-wider hover:text-[#555] transition-colors"
               >
                 {style.label}
               </Link>
@@ -66,12 +66,12 @@ const Footer: React.FC = () => {
           <span className="text-[11px] text-[#888] uppercase tracking-wider block mb-4">
             EXPLORE
           </span>
-          <nav aria-label="Footer navigation" className="flex flex-wrap gap-x-6 gap-y-2 md:justify-between items-center w-full">
+          <nav aria-label="Footer navigation" className="flex flex-col md:flex-row md:justify-between gap-2">
             {exploreLinks.map((item) => (
               <Link
                 key={item.label}
                 to={item.link}
-                className="text-[11px] text-[#1a1a1a] uppercase tracking-wider hover:text-[#555] transition-colors"
+                className="text-[13px] text-[#1a1a1a] tracking-wider hover:text-[#555] transition-colors"
               >
                 {item.label}
               </Link>
@@ -122,7 +122,7 @@ const Footer: React.FC = () => {
               href="https://www.google.com/maps/search/77+Washington+Avenue+Brooklyn+NYC"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-[#1a1a1a] leading-relaxed hover:opacity-60 transition-opacity block"
+              className="text-[13px] text-[#1a1a1a] leading-relaxed hover:opacity-60 transition-opacity block"
               whileHover={{ x: 4 }}
               transition={{ duration: 0.2 }}
             >
@@ -141,7 +141,7 @@ const Footer: React.FC = () => {
               <Link
                 key={style.label}
                 to={style.link}
-                className="text-[11px] text-[#1a1a1a] tracking-wider hover:text-[#555] transition-colors"
+                className="text-[13px] text-[#1a1a1a] tracking-wider hover:text-[#555] transition-colors"
               >
                 {style.label}
               </Link>
@@ -157,7 +157,7 @@ const Footer: React.FC = () => {
                 </span>
                 <motion.a
                   href={info.href}
-                  className="text-sm text-[#1a1a1a] hover:opacity-60 transition-opacity"
+                  className="text-[13px] text-[#1a1a1a] hover:opacity-60 transition-opacity"
                   whileHover={{ x: 4 }}
                   transition={{ duration: 0.2 }}
                 >
@@ -176,7 +176,7 @@ const Footer: React.FC = () => {
               >
                 <Link
                   to="/aftercare"
-                  className="text-sm text-[#1a1a1a] hover:opacity-60 transition-opacity"
+                  className="text-[13px] text-[#1a1a1a] hover:opacity-60 transition-opacity"
                 >
                   Read Guide
                 </Link>
