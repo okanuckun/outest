@@ -51,7 +51,7 @@ const Shop = () => {
 
         {/* Cart Button - Fixed Position below nav */}
         <div className="fixed top-[72px] right-4 z-50">
-          <CartDrawer />
+          <CartDrawer variant="light" />
         </div>
 
         {/* Main Content */}
