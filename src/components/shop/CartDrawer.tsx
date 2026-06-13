@@ -5,7 +5,16 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
 import { ShoppingCart, Minus, Plus, Trash2, ExternalLink, Loader2 } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 
-export const CartDrawer = () => {
+interface CartDrawerProps {
+  variant?: 'light' | 'dark';
+}
+
+export const CartDrawer = ({ variant = 'dark' }: CartDrawerProps) => {
+  const isLight = variant === 'light';
+  const textColor = isLight ? 'text-black' : 'text-white';
+  const hoverBg = isLight ? 'hover:bg-black/10' : 'hover:bg-white/10';
+  const badgeBg = isLight ? 'bg-black' : 'bg-white';
+  const badgeText = isLight ? 'text-white' : 'text-black';
   const [isOpen, setIsOpen] = useState(false);
   const { items, isLoading, isSyncing, updateQuantity, removeItem, getCheckoutUrl, syncCart } = useCartStore();
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
