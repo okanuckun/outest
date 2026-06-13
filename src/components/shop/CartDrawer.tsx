@@ -33,10 +33,10 @@ export const CartDrawer = ({ variant = 'dark' }: CartDrawerProps) => {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative text-white hover:bg-white/10">
+        <Button variant="ghost" size="icon" className={`relative ${textColor} ${hoverBg}`}>
           <ShoppingCart className="h-5 w-5" />
           {totalItems > 0 && (
-            <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-white text-black">
+            <Badge className={`absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs ${badgeBg} ${badgeText}`}>
               {totalItems}
             </Badge>
           )}
