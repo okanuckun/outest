@@ -49,8 +49,8 @@ const Shop = () => {
           </div>
         </div>
 
-        {/* Cart Button - Fixed Position */}
-        <div className="fixed top-4 right-4 z-50">
+        {/* Cart Button - Fixed Position below nav */}
+        <div className="fixed top-[72px] right-4 z-50">
           <CartDrawer />
         </div>
 
