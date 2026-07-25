@@ -21,6 +21,7 @@ interface Booking {
   location_type: string | null;
   guest_spot_name: string | null;
   collector_type: string | null;
+  referral_source: string | null;
   tattoo_placement: string | null;
   tattoo_size: string | null;
   portfolio_favorites: string | null;
@@ -254,6 +255,10 @@ const BookingsManager: React.FC = () => {
                 <div>
                   <h4 className="font-medium text-sm text-muted-foreground mb-1">Collector Type</h4>
                   <p>{selectedBooking.collector_type === 'new' ? 'New Collector' : 'Returning Collector'}</p>
+                </div>
+                <div>
+                  <h4 className="font-medium text-sm text-muted-foreground mb-1">How They Found Us</h4>
+                  <p className="capitalize">{selectedBooking.referral_source?.replace(/_/g, ' ') || 'Not specified'}</p>
                 </div>
               </div>
 
