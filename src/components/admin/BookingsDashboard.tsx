@@ -19,6 +19,22 @@ interface BookingsDashboardProps {
 
 const COLORS = ['#f59e0b', '#3b82f6', '#22c55e', '#ef4444'];
 
+// Normalizes any guest spot label to just the city, so that
+// "Guest Spot - San Francisco, USA" and "SF Guest Spot - San Francisco, USA"
+// are grouped together. Works for future naming variations too.
+const normalizeCity = (raw: string): string => {
+  let value = raw.trim();
+  const parts = value.split(/\s+[-–—]\s+/);
+  if (parts.length > 1) value = parts[parts.length - 1];
+  value = value.split(',')[0].trim();
+  value = value.replace(/\bguest spot\b/gi, '').trim();
+  if (!value) value = raw.trim();
+  return value
+    .split(/\s+/)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+    .join(' ');
+};
+
 const BookingsDashboard: React.FC<BookingsDashboardProps> = ({ bookings }) => {
   const stats = useMemo(() => {
     const now = new Date();
@@ -112,11 +128,7 @@ const BookingsDashboard: React.FC<BookingsDashboardProps> = ({ bookings }) => {
       if (booking.location_type === 'nyc') {
         locationLabel = 'NYC Studio';
       } else if (booking.location_type === 'guest_spot' && booking.guest_spot_name) {
-        // "Guest Spot - San Francisco, USA" -> "San Francisco"
-        locationLabel = booking.guest_spot_name
-          .replace(/^guest spot\s*[-–]\s*/i, '')
-          .split(',')[0]
-          .trim() || booking.guest_spot_name;
+        locationLabel = normalizeCity(booking.guest_spot_name);
       } else if (booking.location_type === 'traveler') {
         locationLabel = 'Traveler';
       } else {
