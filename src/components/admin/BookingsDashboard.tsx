@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
-import { TrendingUp, TrendingDown, Mail, Clock, CheckCircle, XCircle, Users, Calendar, MapPin } from 'lucide-react';
+import { TrendingUp, TrendingDown, Mail, Clock, CheckCircle, XCircle, Users, Calendar, MapPin, Megaphone } from 'lucide-react';
 import { format, subMonths, startOfMonth, endOfMonth, isWithinInterval, parseISO } from 'date-fns';
 
 interface Booking {
@@ -10,6 +10,7 @@ interface Booking {
   created_at: string;
   location_type: string | null;
   guest_spot_name: string | null;
+  referral_source?: string | null;
 }
 
 interface BookingsDashboardProps {
@@ -111,7 +112,11 @@ const BookingsDashboard: React.FC<BookingsDashboardProps> = ({ bookings }) => {
       if (booking.location_type === 'nyc') {
         locationLabel = 'NYC Studio';
       } else if (booking.location_type === 'guest_spot' && booking.guest_spot_name) {
-        locationLabel = booking.guest_spot_name;
+        // "Guest Spot - San Francisco, USA" -> "San Francisco"
+        locationLabel = booking.guest_spot_name
+          .replace(/^guest spot\s*[-–]\s*/i, '')
+          .split(',')[0]
+          .trim() || booking.guest_spot_name;
       } else if (booking.location_type === 'traveler') {
         locationLabel = 'Traveler';
       } else {
@@ -123,6 +128,34 @@ const BookingsDashboard: React.FC<BookingsDashboardProps> = ({ bookings }) => {
     
     return Object.entries(locationCounts)
       .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count);
+  }, [bookings]);
+
+  // How people found us (referral source)
+  const REFERRAL_LABELS: Record<string, string> = {
+    instagram: 'Instagram',
+    google: 'Google',
+    tiktok: 'TikTok',
+    pinterest: 'Pinterest',
+    threads: 'Threads',
+    word_of_mouth: 'Word of Mouth',
+    friend: 'Friend',
+    ai: 'AI / ChatGPT',
+    other: 'Other',
+  };
+
+  const referralData = useMemo(() => {
+    const counts: Record<string, number> = {};
+    bookings.forEach((b) => {
+      const raw = (b.referral_source || '').trim();
+      const label = raw
+        ? REFERRAL_LABELS[raw.toLowerCase()] || raw.charAt(0).toUpperCase() + raw.slice(1)
+        : 'Not specified';
+      counts[label] = (counts[label] || 0) + 1;
+    });
+    const total = bookings.length || 1;
+    return Object.entries(counts)
+      .map(([name, count]) => ({ name, count, percent: Math.round((count / total) * 100) }))
       .sort((a, b) => b.count - a.count);
   }, [bookings]);
 
