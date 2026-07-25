@@ -325,12 +325,13 @@ const BookingsDashboard: React.FC<BookingsDashboardProps> = ({ bookings }) => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-[250px]">
+            <div style={{ height: Math.max(220, detailedLocationData.length * 40) }}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart 
                   data={detailedLocationData} 
                   layout="vertical"
-                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                  margin={{ top: 5, right: 40, left: 0, bottom: 5 }}
+                  barCategoryGap="25%"
                 >
                   <XAxis type="number" axisLine={false} tickLine={false} fontSize={12} allowDecimals={false} />
                   <YAxis 
@@ -339,7 +340,8 @@ const BookingsDashboard: React.FC<BookingsDashboardProps> = ({ bookings }) => {
                     axisLine={false} 
                     tickLine={false} 
                     fontSize={12} 
-                    width={120}
+                    width={140}
+                    interval={0}
                     tick={{ fill: '#666' }}
                   />
                   <Tooltip 
@@ -354,6 +356,7 @@ const BookingsDashboard: React.FC<BookingsDashboardProps> = ({ bookings }) => {
                   <Bar 
                     dataKey="count" 
                     radius={[0, 4, 4, 0]}
+                    maxBarSize={22}
                   >
                     {detailedLocationData.map((entry, index) => (
                       <Cell 
