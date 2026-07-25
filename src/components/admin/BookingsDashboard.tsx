@@ -386,6 +386,39 @@ const BookingsDashboard: React.FC<BookingsDashboardProps> = ({ bookings }) => {
           </CardContent>
         </Card>
       )}
+
+      {/* How they found us */}
+      {referralData.length > 0 && (
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base font-medium flex items-center gap-2">
+              <Megaphone className="w-4 h-4" />
+              How They Found Us
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {referralData.map((item, index) => (
+                <div key={item.name} className="flex items-center gap-3">
+                  <span className="w-32 shrink-0 text-sm text-muted-foreground truncate">{item.name}</span>
+                  <div className="flex-1 h-2.5 bg-muted rounded-full overflow-hidden">
+                    <div
+                      className="h-full rounded-full"
+                      style={{
+                        width: `${item.percent}%`,
+                        backgroundColor: LOCATION_COLORS[index % LOCATION_COLORS.length],
+                      }}
+                    />
+                  </div>
+                  <span className="w-20 shrink-0 text-right text-sm tabular-nums">
+                    {item.count} <span className="text-muted-foreground">({item.percent}%)</span>
+                  </span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };
