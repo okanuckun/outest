@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
-import { TrendingUp, TrendingDown, Mail, Clock, CheckCircle, XCircle, Users, Calendar, MapPin } from 'lucide-react';
+import { TrendingUp, TrendingDown, Mail, Clock, CheckCircle, XCircle, Users, Calendar, MapPin, Megaphone } from 'lucide-react';
 import { format, subMonths, startOfMonth, endOfMonth, isWithinInterval, parseISO } from 'date-fns';
 
 interface Booking {
@@ -10,6 +10,7 @@ interface Booking {
   created_at: string;
   location_type: string | null;
   guest_spot_name: string | null;
+  referral_source?: string | null;
 }
 
 interface BookingsDashboardProps {
@@ -111,7 +112,11 @@ const BookingsDashboard: React.FC<BookingsDashboardProps> = ({ bookings }) => {
       if (booking.location_type === 'nyc') {
         locationLabel = 'NYC Studio';
       } else if (booking.location_type === 'guest_spot' && booking.guest_spot_name) {
-        locationLabel = booking.guest_spot_name;
+        // "Guest Spot - San Francisco, USA" -> "San Francisco"
+        locationLabel = booking.guest_spot_name
+          .replace(/^guest spot\s*[-–]\s*/i, '')
+          .split(',')[0]
+          .trim() || booking.guest_spot_name;
       } else if (booking.location_type === 'traveler') {
         locationLabel = 'Traveler';
       } else {
@@ -123,6 +128,34 @@ const BookingsDashboard: React.FC<BookingsDashboardProps> = ({ bookings }) => {
     
     return Object.entries(locationCounts)
       .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count);
+  }, [bookings]);
+
+  // How people found us (referral source)
+  const REFERRAL_LABELS: Record<string, string> = {
+    instagram: 'Instagram',
+    google: 'Google',
+    tiktok: 'TikTok',
+    pinterest: 'Pinterest',
+    threads: 'Threads',
+    word_of_mouth: 'Word of Mouth',
+    friend: 'Friend',
+    ai: 'AI / ChatGPT',
+    other: 'Other',
+  };
+
+  const referralData = useMemo(() => {
+    const counts: Record<string, number> = {};
+    bookings.forEach((b) => {
+      const raw = (b.referral_source || '').trim();
+      const label = raw
+        ? REFERRAL_LABELS[raw.toLowerCase()] || raw.charAt(0).toUpperCase() + raw.slice(1)
+        : 'Not specified';
+      counts[label] = (counts[label] || 0) + 1;
+    });
+    const total = bookings.length || 1;
+    return Object.entries(counts)
+      .map(([name, count]) => ({ name, count, percent: Math.round((count / total) * 100) }))
       .sort((a, b) => b.count - a.count);
   }, [bookings]);
 
@@ -292,12 +325,13 @@ const BookingsDashboard: React.FC<BookingsDashboardProps> = ({ bookings }) => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-[250px]">
+            <div style={{ height: Math.max(220, detailedLocationData.length * 40) }}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart 
                   data={detailedLocationData} 
                   layout="vertical"
-                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                  margin={{ top: 5, right: 40, left: 0, bottom: 5 }}
+                  barCategoryGap="25%"
                 >
                   <XAxis type="number" axisLine={false} tickLine={false} fontSize={12} allowDecimals={false} />
                   <YAxis 
@@ -306,7 +340,8 @@ const BookingsDashboard: React.FC<BookingsDashboardProps> = ({ bookings }) => {
                     axisLine={false} 
                     tickLine={false} 
                     fontSize={12} 
-                    width={120}
+                    width={140}
+                    interval={0}
                     tick={{ fill: '#666' }}
                   />
                   <Tooltip 
@@ -321,6 +356,7 @@ const BookingsDashboard: React.FC<BookingsDashboardProps> = ({ bookings }) => {
                   <Bar 
                     dataKey="count" 
                     radius={[0, 4, 4, 0]}
+                    maxBarSize={22}
                   >
                     {detailedLocationData.map((entry, index) => (
                       <Cell 
@@ -346,6 +382,39 @@ const BookingsDashboard: React.FC<BookingsDashboardProps> = ({ bookings }) => {
                 <p className="text-xl font-bold">{stats.traveler}</p>
                 <p className="text-xs text-muted-foreground">Travelers</p>
               </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* How they found us */}
+      {referralData.length > 0 && (
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base font-medium flex items-center gap-2">
+              <Megaphone className="w-4 h-4" />
+              How They Found Us
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {referralData.map((item, index) => (
+                <div key={item.name} className="flex items-center gap-3">
+                  <span className="w-32 shrink-0 text-sm text-muted-foreground truncate">{item.name}</span>
+                  <div className="flex-1 h-2.5 bg-muted rounded-full overflow-hidden">
+                    <div
+                      className="h-full rounded-full"
+                      style={{
+                        width: `${item.percent}%`,
+                        backgroundColor: LOCATION_COLORS[index % LOCATION_COLORS.length],
+                      }}
+                    />
+                  </div>
+                  <span className="w-20 shrink-0 text-right text-sm tabular-nums">
+                    {item.count} <span className="text-muted-foreground">({item.percent}%)</span>
+                  </span>
+                </div>
+              ))}
             </div>
           </CardContent>
         </Card>
