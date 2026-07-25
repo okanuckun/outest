@@ -59,7 +59,7 @@ const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {
               className="box-border inline-flex items-center relative m-0 p-0 max-md:hidden"
             >
               <span className={`box-border text-[15px] font-normal leading-5 tracking-[-0.15px] uppercase m-0 p-0 ${textColor}`}>
-                brooklyn, ny
+                BROOKLYN, NYC
               </span>
             </motion.div>
             
