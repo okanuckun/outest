@@ -1,0 +1,1 @@
+UPDATE public.projects SET description = REPLACE(description, 'Founder, Monolith Studio', 'Co-founder, Monolith Studio') WHERE slug = 'nasa-artemis-2-tattoo';
