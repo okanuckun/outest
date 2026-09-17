@@ -36,8 +36,8 @@ const NYCAppointments: React.FC = () => {
   }
 
   return (
-    <div className="absolute top-32 left-[22.5px] max-sm:left-4 md:top-36 z-20">
-      <div className="backdrop-blur-sm bg-black/40 border border-white/10 rounded-sm p-3 md:p-4 w-[220px]">
+    <div className="absolute top-28 left-4 right-4 z-20 sm:top-32 sm:left-[22.5px] sm:right-auto md:top-36">
+      <div className="w-full backdrop-blur-sm bg-black/40 border border-white/10 rounded-sm p-3 sm:w-[220px] md:p-4">
         <p className="text-white/60 text-[10px] uppercase tracking-[0.2em] mb-2">
           Available Appointments
         </p>

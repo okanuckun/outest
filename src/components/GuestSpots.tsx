@@ -38,8 +38,8 @@ const GuestSpots: React.FC = () => {
   }
 
   return (
-    <div className="absolute top-32 right-[22.5px] max-sm:right-4 md:top-36 z-20">
-      <div className="backdrop-blur-sm bg-black/40 border border-white/10 rounded-sm p-3 md:p-4 w-[220px]">
+    <div className="absolute top-[218px] left-4 right-4 z-20 sm:top-32 sm:left-auto sm:right-[22.5px] md:top-36">
+      <div className="w-full backdrop-blur-sm bg-black/40 border border-white/10 rounded-sm p-3 sm:w-[220px] md:p-4">
         <p className="text-white/60 text-[10px] uppercase tracking-[0.2em] mb-2">
           Upcoming Guest Spots
         </p>
