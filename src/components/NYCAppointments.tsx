@@ -57,7 +57,7 @@ const NYCAppointments: React.FC = () => {
                     {format(parseISO(appt.start_date), 'MMMM')} - {format(parseISO(appt.end_date), 'MMMM')}
                   </p>
                 </div>
-                <span className="text-white/70 text-xs group-hover:text-white transition-colors">
+                <span className="whitespace-nowrap text-white/70 text-xs group-hover:text-white transition-colors">
                   Book →
                 </span>
               </div>

@@ -59,7 +59,7 @@ const GuestSpots: React.FC = () => {
                     {format(parseISO(spot.start_date), 'MMM d')} – {format(parseISO(spot.end_date), 'd')}
                   </p>
                 </div>
-                <span className="text-white/70 text-xs group-hover:text-white transition-colors">
+                <span className="whitespace-nowrap text-white/70 text-xs group-hover:text-white transition-colors">
                   Book →
                 </span>
               </div>
