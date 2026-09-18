@@ -36,7 +36,7 @@ const NYCAppointments: React.FC = () => {
   }
 
   return (
-    <div className="absolute top-28 left-4 right-4 z-20 sm:top-32 sm:left-[22.5px] sm:right-auto md:top-36">
+    <div className="absolute top-28 left-4 z-20 w-[calc(50%-12px)] sm:top-32 sm:left-[22.5px] sm:w-[220px] sm:right-auto md:top-36">
       <div className="w-full backdrop-blur-sm bg-black/40 border border-white/10 rounded-sm p-3 sm:w-[220px] md:p-4">
         <p className="text-white/60 text-[10px] uppercase tracking-[0.2em] mb-2">
           Available Appointments
@@ -57,7 +57,7 @@ const NYCAppointments: React.FC = () => {
                     {format(parseISO(appt.start_date), 'MMMM')} - {format(parseISO(appt.end_date), 'MMMM')}
                   </p>
                 </div>
-                <span className="text-white/70 text-xs group-hover:text-white transition-colors">
+                <span className="whitespace-nowrap text-white/70 text-xs group-hover:text-white transition-colors">
                   Book →
                 </span>
               </div>
