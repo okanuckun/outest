@@ -51,7 +51,37 @@ function replaceTemplateVariables(template: string, data: Record<string, string>
   return result;
 }
 
+// Fire-and-forget forward of a saved booking to the external booking app.
+// Never throws, never blocks: missing config is skipped silently.
+async function forwardBookingToWebhook(payload: Record<string, unknown>): Promise<void> {
+  if (!BOOKING_WEBHOOK_URL || !BOOKING_WEBHOOK_API_KEY) return;
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 5000);
+
+  try {
+    const response = await fetch(BOOKING_WEBHOOK_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": BOOKING_WEBHOOK_API_KEY,
+      },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+
+    if (!response.ok) {
+      console.log("Booking webhook failed with HTTP status:", response.status);
+    }
+  } catch (error: any) {
+    console.log("Booking webhook request failed:", error?.name || "unknown error");
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 const handler = async (req: Request): Promise<Response> => {
+
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
