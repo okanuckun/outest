@@ -60,7 +60,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Save booking to database using service role key (bypasses RLS)
     const supabaseAdmin = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!);
     
-    const { error: dbError } = await supabaseAdmin
+    const { data: insertedBooking, error: dbError } = await supabaseAdmin
       .from('bookings')
       .insert({
         first_name: data.firstName,
@@ -82,13 +82,52 @@ const handler = async (req: Request): Promise<Response> => {
         placement_images: data.placementImages || [],
         referral_source: data.referralSource || null,
         status: 'pending',
-      });
+      })
+      .select('id');
 
     if (dbError) {
       console.error("Failed to save booking to database:", dbError);
     } else {
       console.log("Booking saved to database successfully");
+
+      // Forward this booking to the external booking app (fire-and-forget).
+      const referenceImages = Array.isArray(data.referenceImages) ? data.referenceImages : [];
+      const placementImages = Array.isArray(data.placementImages) ? data.placementImages : [];
+
+      const webhookPayload = {
+        first_name: data.firstName ?? null,
+        last_name: data.lastName ?? null,
+        email: data.email ?? null,
+        phone: data.phone ?? null,
+        message: data.story ?? null,
+        reference_images: [...referenceImages, ...placementImages],
+        location: data.location ?? null,
+        location_type: data.locationType ?? null,
+        guest_spot: data.guestSpotName ?? null,
+        collector_type: data.collectorType ?? null,
+        referral_source: data.referralSource ?? null,
+        tattoo_placement: data.tattooPlacement ?? null,
+        tattoo_size: data.tattooSize ?? null,
+        portfolio_favorites: data.portfolioFavorites ?? null,
+        artist_inspiration: data.artistInspiration ?? null,
+        preferred_dates_text: data.preferredDate ?? null,
+        additional_notes: data.additionalNotes ?? null,
+        source_site: 'okanuckun.com',
+        site_booking_id: insertedBooking?.[0]?.id ?? null,
+      };
+
+      const forwarding = forwardBookingToWebhook(webhookPayload);
+      const edgeRuntime = (globalThis as any).EdgeRuntime as
+        | { waitUntil?: (p: Promise<unknown>) => void }
+        | undefined;
+
+      if (edgeRuntime && typeof edgeRuntime.waitUntil === 'function') {
+        edgeRuntime.waitUntil(forwarding);
+      } else {
+        void forwarding;
+      }
     }
+
 
     // Requested studio text (NYC or Guest Spot)
     const requestedStudio = data.locationType === 'nyc' 
