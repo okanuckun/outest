@@ -6,6 +6,10 @@ const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY");
 
+const BOOKING_WEBHOOK_URL = Deno.env.get("BOOKING_WEBHOOK_URL");
+const BOOKING_WEBHOOK_API_KEY = Deno.env.get("BOOKING_WEBHOOK_API_KEY");
+
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
