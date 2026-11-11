@@ -506,8 +506,9 @@ const BlogPost = () => {
           </div>
         </section>
 
-        <div className="h-[64px]" />
         <Footer />
+        {/* room for the fixed bottom bar so the footer's last row stays visible */}
+        <div className="h-[56px] md:h-[64px] bg-[#111]" aria-hidden />
         <BottomBar label={`Okan Uckun — ${post.category || 'Journal'}`} />
       </article>
     </>

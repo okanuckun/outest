@@ -1,183 +1,133 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { ArrowUpRight } from 'lucide-react';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 
-const Footer: React.FC = () => {
+/**
+ * Site footer: tagline + booking on the left, link columns on the right,
+ * the MONOLITH wordmark, then a hairline row with copyright and socials.
+ */
 
-  const styleLinks = [
-    { label: 'Geometric Tattoo', link: '/geometric-tattoos' },
-    { label: 'Fine Line Tattoo', link: '/fine-line-tattoos' },
-    { label: 'Linework Tattoo', link: '/line-work-tattoos' },
-    { label: 'Minimalist Tattoo', link: '/minimalist-tattoos' },
-  ];
+const styleLinks = [
+  { label: 'Geometric', to: '/geometric-tattoos' },
+  { label: 'Fine line', to: '/fine-line-tattoos' },
+  { label: 'Linework', to: '/line-work-tattoos' },
+  { label: 'Minimalist', to: '/minimalist-tattoos' },
+];
 
-  const exploreLinks = [
-    { label: 'Work', link: '/work' },
-    { label: 'Projects', link: '/project' },
-    { label: 'Blog', link: '/blog' },
-    { label: 'About', link: '/about' },
-    { label: 'Shop', link: '/shop' },
-    { label: 'Book Appointment', link: '/booking' },
-  ];
+const exploreLinks = [
+  { label: 'Work', to: '/work' },
+  { label: 'Projects', to: '/project' },
+  { label: 'Blog', to: '/blog' },
+  { label: 'About', to: '/about' },
+  { label: 'Shop', to: '/shop' },
+  { label: 'Aftercare', to: '/aftercare' },
+];
 
-  return (
-    <footer className="relative bg-[#f5f5f5] text-[#1a1a1a] w-full overflow-hidden">
-      {/* Horizontal Line */}
-      <div className="w-full px-6 md:px-12 pt-32">
-        <div className="w-full h-px bg-[#1a1a1a]/20" />
-      </div>
+const socialLinks = [
+  { label: 'Instagram', href: 'https://www.instagram.com/okanuckun' },
+  { label: 'TikTok', href: 'https://www.tiktok.com/@okanuckun' },
+  { label: 'YouTube', href: 'https://www.youtube.com/@monolithstudionyc' },
+];
 
-      {/* Contact Info Row */}
-      <ScrollReveal>
-        <div className="flex flex-col md:flex-row justify-between items-start px-6 md:px-12 pt-8 pb-12 gap-8 md:gap-0">
-          {/* Left - Instagram & Address */}
-          <div className="mb-8 md:mb-0">
-            {/* Social Links */}
-            <div className="flex gap-4 mb-3">
-              <a
-                href="https://www.instagram.com/okanuckun"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider"
-              >
-                Instagram
-              </a>
-              <a
-                href="https://www.tiktok.com/@okanuckun"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider"
-              >
-                TikTok
-              </a>
-              <a
-                href="https://www.youtube.com/@monolithstudionyc"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[11px] text-[#888] hover:text-[#1a1a1a] transition-colors uppercase tracking-wider"
-              >
-                YouTube
-              </a>
-            </div>
-            {/* Address */}
-            <motion.a
-              href="https://www.google.com/maps/search/77+Washington+Avenue+Brooklyn+NYC"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[13px] text-[#1a1a1a] leading-relaxed hover:opacity-60 transition-opacity block"
-              whileHover={{ x: 4 }}
-              transition={{ duration: 0.2 }}
+const Label: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <p className="text-[11px] text-[#f5f5f5]/45 uppercase tracking-wider mb-4">{children}</p>
+);
+
+const linkClass = 'hover:opacity-60 transition-opacity';
+
+const Footer: React.FC = () => (
+  <footer className="relative bg-[#111] text-[#f5f5f5] w-full overflow-hidden">
+    <ScrollReveal>
+      <div className="px-6 md:px-12 pt-20 md:pt-28">
+        <div className="pt-10 md:pt-14 grid md:grid-cols-12 gap-x-8 gap-y-12">
+          {/* Tagline + booking */}
+          <div className="md:col-span-5">
+            <p className="text-[32px] md:text-[48px] font-medium leading-[1] tracking-[-0.04em] mb-8">
+              Saying more
+              <br />
+              with less.
+            </p>
+            <Link
+              to="/booking"
+              className="inline-flex items-center gap-3 border border-[#f5f5f5] px-5 py-3 text-[12px] uppercase tracking-wider hover:bg-[#f5f5f5] hover:text-[#111] transition-colors"
             >
-              77 Washington Avenue<br />
-              Brooklyn<br />
-              NYC
-            </motion.a>
+              Book an appointment <ArrowUpRight size={16} strokeWidth={1.5} />
+            </Link>
           </div>
 
-          {/* Middle - Style Links */}
-          <div className="flex flex-col gap-2">
-            <span className="text-[11px] text-[#888] uppercase tracking-wider">
-              STYLES
-            </span>
-            {styleLinks.map((style) => (
-              <Link
-                key={style.label}
-                to={style.link}
-                className="text-[13px] text-[#1a1a1a] tracking-wider hover:text-[#555] transition-colors"
+          {/* Link columns */}
+          <div className="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-10 text-[14px]">
+            <nav aria-label="Styles">
+              <Label>Styles</Label>
+              <ul className="space-y-2">
+                {styleLinks.map((l) => (
+                  <li key={l.to}><Link to={l.to} className={linkClass}>{l.label}</Link></li>
+                ))}
+              </ul>
+            </nav>
+            <nav aria-label="Explore">
+              <Label>Explore</Label>
+              <ul className="space-y-2">
+                {exploreLinks.map((l) => (
+                  <li key={l.to}><Link to={l.to} className={linkClass}>{l.label}</Link></li>
+                ))}
+              </ul>
+            </nav>
+            <div>
+              <Label>Studio</Label>
+              <a
+                href="https://www.google.com/maps/search/77+Washington+Avenue+Brooklyn+NYC"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`block leading-relaxed ${linkClass}`}
               >
-                {style.label}
-              </Link>
-            ))}
-          </div>
-
-          {/* Right - Explore (vertical), Call Us, Aftercare */}
-          <div className="flex flex-col md:flex-row gap-8 md:gap-16">
-            <div className="flex flex-col gap-2">
-              <span className="text-[11px] text-[#888] uppercase tracking-wider">
-                EXPLORE
-              </span>
-              {exploreLinks.map((item) => (
-                <Link
-                  key={item.label}
-                  to={item.link}
-                  className="text-[13px] text-[#1a1a1a] tracking-wider hover:text-[#555] transition-colors"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
-            <div className="flex flex-col gap-2">
-              <span className="text-[11px] text-[#888] uppercase tracking-wider">
-                CALL US
-              </span>
-              <motion.a
-                href="tel:+16167777073"
-                className="text-[13px] text-[#1a1a1a] hover:opacity-60 transition-opacity"
-                whileHover={{ x: 4 }}
-                transition={{ duration: 0.2 }}
-              >
+                77 Washington Avenue
+                <br />
+                Brooklyn, NY
+              </a>
+              <a href="tel:+16167777073" className={`block mt-4 ${linkClass}`}>
                 +1 (616) 777-7073
-              </motion.a>
-            </div>
-            {/* Aftercare */}
-            <div className="flex flex-col gap-2">
-              <span className="text-[11px] text-[#888] uppercase tracking-wider">
-                AFTERCARE
-              </span>
-              <motion.div
-                whileHover={{ x: 4 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Link
-                  to="/aftercare"
-                  className="text-[13px] text-[#1a1a1a] hover:opacity-60 transition-opacity"
-                >
-                  Read Guide
-                </Link>
-              </motion.div>
+              </a>
             </div>
           </div>
         </div>
-      </ScrollReveal>
-
-      {/* Giant Brand Text - Links to Homepage */}
-      <div className="relative w-full">
-        <Link to="/" aria-label="Go to homepage">
-          <motion.div
-            className="w-full font-black leading-[0.85] tracking-[-0.02em] text-[#1a1a1a] text-center whitespace-nowrap hover:opacity-80 transition-opacity cursor-pointer"
-            style={{
-              fontSize: 'min(18vw, 280px)',
-            }}
-            initial={{
-              opacity: 0,
-              y: 40,
-            }}
-            whileInView={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: 0.8,
-              ease: 'easeOut',
-            }}
-            viewport={{
-              once: true,
-            }}
-          >
-            MONOLITH
-          </motion.div>
-        </Link>
       </div>
+    </ScrollReveal>
 
-      {/* Copyright */}
-      <div className="px-6 md:px-12 py-6 text-center">
-        <span className="text-[11px] text-[#888] uppercase tracking-wider">
-          © {new Date().getFullYear()} Okan Uckun. Tattooing at Monolith Studio, Brooklyn.
-        </span>
-      </div>
-    </footer>
-  );
-};
+    {/* MONOLITH wordmark — links to the homepage */}
+    <Link to="/" aria-label="Go to homepage" className="block mt-20 md:mt-28">
+      <motion.span
+        className="block w-full font-black leading-[0.85] tracking-[-0.02em] text-center whitespace-nowrap hover:opacity-80 transition-opacity"
+        style={{ fontSize: 'min(18vw, 280px)' }}
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
+        viewport={{ once: true }}
+      >
+        MONOLITH
+      </motion.span>
+    </Link>
+
+    {/* Copyright + socials */}
+    <div className="px-6 md:px-12 py-6 border-t border-[#f5f5f5]/20 flex flex-col md:flex-row justify-between gap-3 text-[11px] uppercase tracking-wider text-[#f5f5f5]/45">
+      <span>
+        © {new Date().getFullYear()} Okan Uckun · Tattooing at{' '}
+        <a href="https://monolithstudio.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#f5f5f5] transition-colors">
+          Monolith Studio
+        </a>
+        , Brooklyn
+      </span>
+      <span className="flex gap-5">
+        {socialLinks.map((s) => (
+          <a key={s.href} href={s.href} target="_blank" rel="noopener noreferrer" className="hover:text-[#f5f5f5] transition-colors">
+            {s.label}
+          </a>
+        ))}
+      </span>
+    </div>
+  </footer>
+);
 
 export default Footer;
