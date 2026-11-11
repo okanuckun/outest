@@ -173,7 +173,7 @@ const Footer: React.FC = () => {
       {/* Copyright */}
       <div className="px-6 md:px-12 py-6 text-center">
         <span className="text-[11px] text-[#888] uppercase tracking-wider">
-          © {new Date().getFullYear()} Monolith Studio. All rights reserved.
+          © {new Date().getFullYear()} Okan Uckun. Tattooing at Monolith Studio, Brooklyn.
         </span>
       </div>
     </footer>
