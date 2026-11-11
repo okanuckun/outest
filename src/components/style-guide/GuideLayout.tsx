@@ -83,7 +83,7 @@ export const GuideSection: React.FC<{
 /** Opening statement across the full width. */
 export const GuideLead: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <ScrollReveal>
-    <div className={`${gutter} max-w-[1180px] text-[26px] md:text-[44px] font-medium leading-[1.1] tracking-[-0.035em] text-[#1a1a1a]`}>
+    <div className={`${gutter} max-w-[1180px] text-[21px] md:text-[44px] font-medium leading-[1.1] tracking-[-0.035em] text-[#1a1a1a]`}>
       {children}
     </div>
   </ScrollReveal>
@@ -165,7 +165,7 @@ export const GuideFAQ: React.FC<{ title: string; items: FAQItem[] }> = ({ title,
 );
 
 /** Fixed bottom bar with reading progress, like the Monolith blog. */
-const BottomBar: React.FC<{ label: string }> = ({ label }) => {
+export const BottomBar: React.FC<{ label: string }> = ({ label }) => {
   const [progress, setProgress] = useState(0);
   useEffect(() => {
     const onScroll = () => {

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -11,6 +12,11 @@ import { format } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
 import { addMissingAlts } from '@/lib/addMissingAlts';
 import DOMPurify from 'dompurify';
+import { GuideSection, GuideLead, GuideTOC, BottomBar, inlineLink } from '@/components/style-guide/GuideLayout';
+import GuideFigure from '@/components/style-guide/GuideFigure';
+import { personNode, studioNode, imageObject, PERSON_ID } from '@/components/style-guide/guideSchema';
+import { splitArticle, wordCount, BLOG_COVERS, articlePhotoRows, ARTICLE_STYLE_LINK } from '@/components/style-guide/blogArticle';
+import { photos, photoUrl } from '@/data/portfolio';
 
 interface BlogPost {
   id: string;
@@ -37,6 +43,14 @@ const BlogPost = () => {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [pastHero, setPastHero] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setPastHero(window.scrollY > window.innerHeight * 0.6);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
   
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -185,51 +199,61 @@ const BlogPost = () => {
   const authorName = post.author_name || 'Okan Uckun';
   const tags = post.tags || [];
 
-  // JSON-LD Structured Data for SEO — BlogPosting + BreadcrumbList in @graph.
+  // Optimized local cover when available (originals are 0.7–1.1 MB)
+  const cover = BLOG_COVERS[post.slug];
+  const coverSrc = cover?.src || post.image_url || undefined;
+  const coverAbs = coverSrc ? (coverSrc.startsWith('http') ? coverSrc : `https://okanuckun.com${coverSrc}`) : undefined;
+
+  // Split HTML content into sections for the heading-left / text-right layout
+  const cleanHtml = isHtmlContent(post.content) ? addMissingAlts(sanitizeHtml(post.content), post.title) : '';
+  const { intro, sections } = splitArticle(cleanHtml);
+  const photoRows = articlePhotoRows(post.slug, post.category);
+  const inlinePhotos = photoRows.flat();
+  const styleLink = ARTICLE_STYLE_LINK[post.slug] || { to: '/work', label: 'Portfolio' };
+  const words = wordCount(cleanHtml);
+  // Place up to one photo row per gap between sections, spread evenly.
+  const rowAfter = new Map<number, number>();
+  {
+    const gaps = sections.length - 1;
+    const k = Math.min(photoRows.length, gaps);
+    for (let j = 0; j < k; j++) rowAfter.set(Math.round(((j + 1) * sections.length) / (k + 1)) - 1, j);
+  }
+  const postUrl = `https://okanuckun.com/blog/${post.slug}`;
+
+  // JSON-LD: BlogPosting tied to the same Person / studio entities used
+  // across the site, plus breadcrumb and the photos shown in the article.
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
+      personNode,
+      studioNode,
       {
         '@type': 'BreadcrumbList',
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://okanuckun.com/' },
           { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://okanuckun.com/blog' },
-          { '@type': 'ListItem', position: 3, name: post.title, item: `https://okanuckun.com/blog/${post.slug}` },
+          { '@type': 'ListItem', position: 3, name: post.title, item: postUrl },
         ],
       },
       {
-    '@type': 'BlogPosting',
-    headline: post.title,
-    description: post.description,
-    image: post.image_url,
-    datePublished: post.created_at,
-    dateModified: post.updated_at,
-    author: {
-      '@type': 'Person',
-      name: authorName,
-      jobTitle: 'Tattoo Artist'
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Okan Uckun Tattoo',
-      url: 'https://okanuckun.com',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://okanuckun.com/og-images/okan-default.jpg'
-      }
-    },
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': `https://okanuckun.com/blog/${post.slug}`
-    },
-    articleSection: post.category,
-    keywords: tags.join(', '),
-    wordCount: contentBlocks.reduce((acc, block) => {
-      if (block.type === 'paragraph' || block.type === 'quote') {
-        return acc + (block.text?.split(' ').length || 0);
-      }
-      return acc;
-    }, 0)
+        '@type': 'BlogPosting',
+        '@id': `${postUrl}#article`,
+        headline: post.title,
+        description: post.description,
+        url: postUrl,
+        mainEntityOfPage: postUrl,
+        datePublished: post.created_at,
+        dateModified: post.updated_at,
+        inLanguage: 'en',
+        author: { '@id': PERSON_ID },
+        publisher: { '@id': PERSON_ID },
+        articleSection: post.category,
+        keywords: tags.join(', '),
+        wordCount: words,
+        image: [
+          ...(coverAbs ? [{ '@type': 'ImageObject', contentUrl: coverAbs, caption: post.title, ...(cover ? { width: cover.w, height: cover.h } : {}) }] : []),
+          ...inlinePhotos.map(imageObject),
+        ],
       },
     ],
   };
@@ -253,25 +277,25 @@ const BlogPost = () => {
   return (
     <>
       <SEOHead
-        title={`${post.title} | Okan Uckun`}
+        title={post.title.length > 48 ? post.title : `${post.title} | Okan Uckun`}
         description={post.description || ''}
         keywords={tags.join(', ')}
         ogTitle={post.title}
         ogDescription={post.description || ''}
-        ogImage={post.image_url || undefined}
+        ogImage={coverAbs}
         ogType="article"
         canonical={`/blog/${post.slug}`}
         jsonLd={jsonLd}
       />
 
-      <article className="min-h-screen bg-background text-foreground" itemScope itemType="https://schema.org/BlogPosting">
+      <article className="min-h-screen bg-[#f5f5f5] text-[#1a1a1a]" itemScope itemType="https://schema.org/BlogPosting">
         {/* Hidden structured data */}
         <meta itemProp="headline" content={post.title} />
         <meta itemProp="datePublished" content={dateISO} />
         <meta itemProp="author" content={authorName} />
         
-        {/* Navigation */}
-        <div className="fixed top-0 left-0 right-0 z-50">
+        {/* Navigation — gets a solid background once past the hero */}
+        <div className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${pastHero ? 'bg-[#f5f5f5]' : ''}`}>
           <Navigation variant="dark" />
         </div>
 
@@ -283,10 +307,11 @@ const BlogPost = () => {
             transition={{ duration: 1.5, ease: [0.25, 0.1, 0.25, 1] }}
             className="absolute inset-0"
           >
-            {post.image_url ? (
+            {coverSrc ? (
               <img
-                src={post.image_url}
+                src={coverSrc}
                 alt={post.title}
+                {...(cover ? { width: cover.w, height: cover.h } : {})}
                 className="w-full h-full object-cover"
                 itemProp="image"
               />
@@ -343,171 +368,147 @@ const BlogPost = () => {
           </div>
         </header>
 
-        {/* Article Content */}
-        <div className="px-[22.5px] max-sm:px-4 py-16 md:py-24">
-          <div className="max-w-3xl mx-auto">
-            {/* Author & Share */}
-            <ScrollReveal>
-              <div className="flex items-center justify-between pb-8 mb-8 border-b border-border">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
-                    <span className="text-lg font-medium">{authorName.charAt(0)}</span>
-                  </div>
-                  <div>
-                    <p className="font-medium text-[14px]" itemProp="author">{authorName}</p>
-                    <p className="text-muted-foreground text-[12px]">Tattoo Artist</p>
-                  </div>
-                </div>
-                <button 
-                  onClick={handleShare}
-                  className="flex items-center gap-2 text-[12px] text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label="Share article"
-                >
-                  <Share2 size={16} />
-                  Share
-                </button>
+        {/* Author strip */}
+        <ScrollReveal>
+          <div className="px-5 md:px-7 pt-8 pb-6 flex items-center justify-between gap-6 border-b border-[#1a1a1a]/15">
+            <Link to="/about" className="flex items-center gap-4 group">
+              <div className="w-11 h-11 rounded-full bg-[#1a1a1a] text-[#f5f5f5] flex items-center justify-center text-[15px] font-medium">
+                {authorName.charAt(0)}
               </div>
-            </ScrollReveal>
-
-            {/* Content - HTML or Blocks */}
-            <div className="prose prose-lg max-w-none" itemProp="articleBody">
-              {isHtmlContent(post.content) ? (
-                <ScrollReveal>
-                  <div 
-                    className="blog-content text-[16px] md:text-[17px] leading-relaxed text-foreground/90"
-                    dangerouslySetInnerHTML={{ __html: addMissingAlts(sanitizeHtml(post.content), post.title) }}
-                  />
-                </ScrollReveal>
-              ) : (
-                contentBlocks.map((block, index) => {
-                  if (block.type === 'paragraph') {
-                    return (
-                      <ScrollReveal key={index} delay={index * 0.05}>
-                        <p className="text-[16px] md:text-[17px] leading-relaxed text-foreground/90 mb-6">
-                          {block.text}
-                        </p>
-                      </ScrollReveal>
-                    );
-                  }
-                  if (block.type === 'heading') {
-                    return (
-                      <ScrollReveal key={index} delay={index * 0.05}>
-                        <h2 className="text-2xl md:text-3xl font-medium mt-12 mb-6 tracking-tight">
-                          {block.text}
-                        </h2>
-                      </ScrollReveal>
-                    );
-                  }
-                  if (block.type === 'quote') {
-                    return (
-                      <ScrollReveal key={index} delay={index * 0.05}>
-                        <blockquote className="border-l-2 border-foreground pl-6 my-10">
-                          <p className="text-xl md:text-2xl font-light italic leading-relaxed mb-3">
-                            "{block.text}"
-                          </p>
-                          {block.author && (
-                            <cite className="text-[13px] text-muted-foreground not-italic">
-                              — {block.author}
-                            </cite>
-                          )}
-                        </blockquote>
-                      </ScrollReveal>
-                    );
-                  }
-                  return null;
-                })
-              )}
-            </div>
-
-            {/* Tags */}
-            {tags.length > 0 && (
-              <ScrollReveal>
-                <div className="mt-12 pt-8 border-t border-border">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <Tag size={16} className="text-muted-foreground" />
-                    {tags.map(tag => (
-                      <span 
-                        key={tag}
-                        className="px-3 py-1 bg-muted text-[12px] font-medium tracking-wide"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </ScrollReveal>
-            )}
+              <div>
+                <p className="text-[14px] font-medium group-hover:opacity-60 transition-opacity" itemProp="author">{authorName}</p>
+                <p className="text-[11px] text-[#777] uppercase tracking-wider">Tattoo artist · Brooklyn, NYC</p>
+              </div>
+            </Link>
+            <button
+              onClick={handleShare}
+              className="flex items-center gap-2 text-[11px] uppercase tracking-wider text-[#777] hover:text-[#1a1a1a] transition-colors"
+              aria-label="Share article"
+            >
+              <Share2 size={15} strokeWidth={1.5} />
+              Share
+            </button>
           </div>
+        </ScrollReveal>
+
+        <div className="pt-16 md:pt-24" itemProp="articleBody">
+          {post.description && (
+            <GuideLead>
+              <p>{post.description}</p>
+            </GuideLead>
+          )}
+
+          {sections.length > 1 && <GuideTOC items={sections.map((s) => ({ id: s.id, label: s.title }))} />}
+
+          {cleanHtml ? (
+            <>
+              {intro && (
+                <GuideSection>
+                  <div className="blog-html" dangerouslySetInnerHTML={{ __html: intro }} />
+                </GuideSection>
+              )}
+              {sections.map((sec, i) => (
+                <React.Fragment key={sec.id}>
+                  <GuideSection id={sec.id} title={sec.title}>
+                    <div className="blog-html" dangerouslySetInnerHTML={{ __html: sec.html }} />
+                  </GuideSection>
+                  {/* photo rows spread evenly through the article */}
+                  {rowAfter.has(i) && photoRows[rowAfter.get(i)!]?.length ? (
+                    <GuideFigure items={photoRows[rowAfter.get(i)!]} />
+                  ) : null}
+                </React.Fragment>
+              ))}
+            </>
+          ) : (
+            <GuideSection>
+              {contentBlocks.map((block, index) =>
+                block.type === 'heading' ? (
+                  <h2 key={index} className="pt-8 text-[26px] font-medium tracking-[-0.03em]">{block.text}</h2>
+                ) : block.type === 'quote' ? (
+                  <blockquote key={index} className="border-l-2 border-[#1a1a1a] pl-5 my-6 text-[20px] leading-snug">
+                    “{block.text}”{block.author && <cite className="block mt-2 text-[12px] not-italic text-[#777]">— {block.author}</cite>}
+                  </blockquote>
+                ) : (
+                  <p key={index}>{block.text}</p>
+                )
+              )}
+            </GuideSection>
+          )}
+
+          {/* Tags */}
+          {tags.length > 0 && (
+            <GuideSection>
+              <ul className="flex flex-wrap gap-2 !mt-0" aria-label="Tags">
+                {tags.map((tag) => (
+                  <li key={tag} className="border border-[#1a1a1a]/25 px-3 py-1 text-[11px] uppercase tracking-wider">
+                    {tag}
+                  </li>
+                ))}
+              </ul>
+            </GuideSection>
+          )}
+
+          {/* About the author — experience signals for search engines and AI assistants */}
+          <GuideSection id="about-the-author" title="About the author">
+            <p>
+              <strong>Okan Uckun</strong> is a geometric, minimalist and fine line tattoo artist based in Brooklyn, New York City. He studied architecture and modern art, has tattooed since 2009 and co-founded Monolith Studio in 2024.
+            </p>
+            <p>
+              See more in <Link to={styleLink.to} className={inlineLink}>{styleLink.label}</Link>, the full <Link to="/work" className={inlineLink}>portfolio</Link>, or <Link to="/booking" className={inlineLink}>request an appointment</Link>.
+            </p>
+          </GuideSection>
         </div>
 
-        {/* Related Articles */}
+        {/* Related articles — edge to edge, like the style pages */}
         {relatedPosts.length > 0 && (
-          <section className="px-[22.5px] max-sm:px-4 py-16 bg-muted/30" aria-label="Related articles">
-            <div className="max-w-6xl mx-auto">
-              <ScrollReveal>
-                <h2 className="text-3xl md:text-4xl font-medium mb-12 tracking-tight">
-                  Related Articles
-                </h2>
-              </ScrollReveal>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {relatedPosts.map((relatedPost, index) => (
-                  <ScrollReveal key={relatedPost.id} delay={index * 0.1}>
-                    <Link 
-                      to={`/blog/${relatedPost.slug}`}
-                      className="group block"
-                    >
-                      <motion.article
-                        whileHover={{ y: -5 }}
-                        transition={{ duration: 0.3 }}
-                        className="flex gap-6"
-                      >
-                        <div className="w-32 h-32 md:w-40 md:h-40 overflow-hidden flex-shrink-0">
-                          {relatedPost.image_url ? (
-                            <motion.img
-                              src={relatedPost.image_url}
-                              alt={relatedPost.title}
-                              className="w-full h-full object-cover"
-                              whileHover={{ scale: 1.05 }}
-                              transition={{ duration: 0.6 }}
-                            />
-                          ) : (
-                            <div className="w-full h-full bg-muted" />
-                          )}
-                        </div>
-                        <div className="flex flex-col justify-center">
-                          <span className="text-[11px] text-muted-foreground uppercase tracking-wide mb-2">
-                            {relatedPost.category || 'Article'} • {calculateReadTime(relatedPost.content)} min
-                          </span>
-                          <h3 className="text-lg md:text-xl font-medium leading-snug group-hover:opacity-70 transition-opacity">
-                            {relatedPost.title}
-                          </h3>
-                        </div>
-                      </motion.article>
-                    </Link>
-                  </ScrollReveal>
-                ))}
-              </div>
+          <section className="mt-28" aria-label="Related articles">
+            <p className="px-5 md:px-7 mb-4 text-[11px] text-[#777] uppercase tracking-wider">Related articles</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2">
+              {relatedPosts.map((rp) => {
+                const rc = BLOG_COVERS[rp.slug]?.src || rp.image_url;
+                return (
+                  <Link key={rp.id} to={`/blog/${rp.slug}`} className="group relative block overflow-hidden bg-[#0d0d0d]">
+                    {rc ? (
+                      <img src={rc} alt={rp.title} loading="lazy" decoding="async" className="w-full aspect-[4/3] object-cover opacity-80 transition-transform duration-700 group-hover:scale-[1.03]" />
+                    ) : (
+                      <div className="w-full aspect-[4/3]" />
+                    )}
+                    <div className="absolute inset-x-5 bottom-5 text-[#f1f1f1]">
+                      <p className="text-[11px] uppercase tracking-wider mb-2 opacity-80">
+                        {rp.category || 'Article'} • {calculateReadTime(rp.content)} min read
+                      </p>
+                      <h3 className="text-[22px] md:text-[28px] font-medium leading-[1.05] tracking-[-0.03em] max-w-[560px]">{rp.title}</h3>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </section>
         )}
 
-        {/* Back to Blog CTA */}
-        <section className="px-[22.5px] max-sm:px-4 py-16">
-          <div className="max-w-6xl mx-auto text-center">
-            <ScrollReveal>
-              <Link 
-                to="/blog"
-                className="inline-flex items-center gap-3 text-[14px] font-medium tracking-wide hover:gap-4 transition-all group"
-              >
-                <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-                Back to All Articles
-              </Link>
-            </ScrollReveal>
+        {/* Explore styles */}
+        <section className="mt-2" aria-label="Styles">
+          <div className="grid grid-cols-2 md:grid-cols-4">
+            {[
+              { to: '/geometric-tattoos', label: 'Geometric', n: 42 },
+              { to: '/fine-line-tattoos', label: 'Fine line', n: 55 },
+              { to: '/line-work-tattoos', label: 'Linework', n: 27 },
+              { to: '/minimalist-tattoos', label: 'Minimalist', n: 105 },
+            ].map((st) => {
+              const ph = photos(st.n)[0];
+              return (
+                <Link key={st.to} to={st.to} className="group relative block overflow-hidden bg-[#0d0d0d]">
+                  <img src={photoUrl(ph)} alt={ph.alt} width={ph.w} height={ph.h} loading="lazy" decoding="async" className="w-full aspect-square object-cover opacity-85 transition-transform duration-700 group-hover:scale-[1.03]" />
+                  <span className="absolute left-4 bottom-4 text-[#f1f1f1] text-[18px] md:text-[22px] font-medium tracking-[-0.03em]">{st.label} tattoos</span>
+                </Link>
+              );
+            })}
           </div>
         </section>
 
+        <div className="h-[64px]" />
         <Footer />
+        <BottomBar label={`Okan Uckun — ${post.category || 'Journal'}`} />
       </article>
     </>
   );
