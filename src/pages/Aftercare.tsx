@@ -207,7 +207,7 @@ const Aftercare: React.FC = () => (
       <GuideSection id={steps[3].id} title={<StepTitle s={steps[3]} n={4} />}>
         <ul className="space-y-3 list-none pl-0">
           <li>
-            <strong>Moisturize 4 times a day for 2 weeks</strong> with pure, 100% natural coconut oil, the same kind used for hair or cooking. If Okan gave you a specific cream, use that instead. No other brand or product is needed.
+            <strong>Moisturize 4 times a day for 2 weeks</strong> with 100% coconut oil (yes, the same coconut oil people use to moisturize their skin and hair, and even in their cooking). If Okan gave you a specific cream, use that instead. No other brand or product is needed.
           </li>
           <li>
             <strong>Wash once a day in the first week</strong> with antibacterial soap. It removes germs that may be in the water and helps the tattoo heal smoothly.
