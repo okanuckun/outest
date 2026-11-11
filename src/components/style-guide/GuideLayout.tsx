@@ -36,6 +36,10 @@ interface GuideLayoutProps {
   readMinutes: number;
   hero: PortfolioPhoto;
   related: RelatedItem[];
+  /** middle breadcrumb step; defaults to Work, null to hide */
+  parent?: { to: string; label: string } | null;
+  /** label above the related row */
+  relatedLabel?: string;
   children: React.ReactNode;
 }
 
@@ -202,6 +206,8 @@ const GuideLayout: React.FC<GuideLayoutProps> = ({
   readMinutes,
   hero,
   related,
+  parent = { to: '/work', label: 'Work' },
+  relatedLabel = 'Other styles',
   children,
 }) => {
   const h = heroOf(hero);
@@ -238,8 +244,12 @@ const GuideLayout: React.FC<GuideLayoutProps> = ({
                 <nav aria-label="Breadcrumb" className="mb-6 md:mb-8">
                   <ol className="flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-wider">
                     <li><Link to="/" className="hover:opacity-70 transition-opacity">Home</Link></li>
-                    <li aria-hidden>/</li>
-                    <li><Link to="/work" className="hover:opacity-70 transition-opacity">Work</Link></li>
+                    {parent && (
+                      <>
+                        <li aria-hidden>/</li>
+                        <li><Link to={parent.to} className="hover:opacity-70 transition-opacity">{parent.label}</Link></li>
+                      </>
+                    )}
                     <li aria-hidden>/</li>
                     <li aria-current="page" className="text-[#f1f1f1]/70">{category}</li>
                   </ol>
@@ -263,8 +273,8 @@ const GuideLayout: React.FC<GuideLayoutProps> = ({
         </article>
 
         {/* Related — edge to edge thirds, label on the photo */}
-        <section className="mt-28" aria-label="Other styles">
-          <p className="px-5 md:px-7 mb-4 text-[11px] text-[#777] uppercase tracking-wider">Other styles</p>
+        <section className="mt-28" aria-label={relatedLabel}>
+          <p className="px-5 md:px-7 mb-4 text-[11px] text-[#777] uppercase tracking-wider">{relatedLabel}</p>
           <div className="grid grid-cols-1 sm:grid-cols-3">
             {related.map((r) => (
               <Link key={r.to} to={r.to} className="group relative block overflow-hidden bg-[#0d0d0d]">
