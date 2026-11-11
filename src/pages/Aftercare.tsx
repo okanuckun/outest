@@ -46,7 +46,7 @@ const faqs: FAQItem[] = [
   },
   {
     q: 'Why do my lines look crooked under the film?',
-    a: 'The film bends the light. Lines and circles can look uneven while it is on; once it is removed, the tattoo looks as it should.',
+    a: 'The plastic film pulls the skin in different directions, so lines and circles can look uneven while it is on. This is normal and nothing to worry about; once the film is removed, the tattoo looks as it should.',
   },
   {
     q: 'My tattoo looks faded after removing the film. Is that normal?',
@@ -184,7 +184,7 @@ const Aftercare: React.FC = () => (
           Within a few hours the inside of the film fills with a dark liquid. This is a mix of blood and ink and it is completely normal. Do not try to push it out. If there is a lot and it bothers you, make a small hole in the film to let it drain.
         </p>
         <p>
-          Lines and circles may look crooked under the film. They are not; the film bends the light.
+          Under the film, lines and circles may not look straight. The plastic pulls the skin in different directions, which makes the tattoo look uneven. This is completely normal, so don’t worry: once the film comes off, the lines are where they should be.
         </p>
       </GuideSection>
 
