@@ -793,7 +793,12 @@ export const PORTFOLIO: PortfolioPhoto[] = [
     "placement": "chest/shoulder",
     "alt": "Fine line waves flowing over the chest and shoulder by Okan Uckun",
     "w": 1105,
-    "h": 1400
+    "h": 1400,
+    "hero": {
+      "file": "fine-line-chest-tattoo-okan-uckun-065-hero.webp",
+      "w": 1579,
+      "h": 2000
+    }
   },
   {
     "n": 66,
@@ -863,7 +868,12 @@ export const PORTFOLIO: PortfolioPhoto[] = [
     "placement": "arms and back",
     "alt": "One continuous line across both arms and the upper back by Okan Uckun",
     "w": 1135,
-    "h": 1400
+    "h": 1400,
+    "hero": {
+      "file": "linework-arms-and-back-tattoo-okan-uckun-071-hero.webp",
+      "w": 1600,
+      "h": 1973
+    }
   },
   {
     "n": 72,
@@ -1063,7 +1073,12 @@ export const PORTFOLIO: PortfolioPhoto[] = [
     "placement": "upper back",
     "alt": "Minimalist circles and dots on the upper back by Okan Uckun",
     "w": 1105,
-    "h": 1400
+    "h": 1400,
+    "hero": {
+      "file": "minimalist-upper-back-tattoo-okan-uckun-089-hero.webp",
+      "w": 1579,
+      "h": 2000
+    }
   },
   {
     "n": 90,

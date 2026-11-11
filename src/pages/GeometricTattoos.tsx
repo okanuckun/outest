@@ -71,7 +71,7 @@ const jsonLd = buildGuideJsonLd({
 const GeometricTattoos: React.FC = () => (
   <>
     <SEOHead
-      title="Geometric Tattoos NYC | Okan Uckun, Geometric Tattoo Artist Brooklyn"
+      title="Geometric Tattoos NYC | Okan Uckun, Brooklyn Tattoo Artist"
       description="Geometric tattoos by Okan Uckun, a Brooklyn tattoo artist trained as an architect. See the work, the styles, what the shapes mean and how to book in NYC."
       canonical={PAGE_URL}
       ogTitle="Geometric Tattoos in NYC | Okan Uckun"
