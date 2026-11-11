@@ -45,8 +45,12 @@ const SEOHead = ({
   const description = propDescription || pageData?.meta_description || defaultDescription;
   const keywords = propKeywords || pageData?.meta_keywords || defaultKeywords;
   
-  // Apply title template from global settings
-  const title = globalData.title_template && !propTitle && pageData?.meta_title
+  // Apply title template from global settings — but skip it when the
+  // stored title already contains the site name, otherwise titles end up
+  // as "Okan Uckun | … | Okan Uckun".
+  const titleHasSiteName = !!pageData?.meta_title && !!globalData.site_name &&
+    pageData.meta_title.toLowerCase().includes(globalData.site_name.toLowerCase());
+  const title = globalData.title_template && !propTitle && pageData?.meta_title && !titleHasSiteName
     ? globalData.title_template
         .replace('{title}', pageData.meta_title)
         .replace('{site_name}', globalData.site_name)

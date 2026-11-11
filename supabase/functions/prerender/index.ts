@@ -33,36 +33,36 @@ interface PageData {
 const PAGES: Record<string, PageData> = {
   '/': {
     title: 'Okan Uckun | Fine Line & Geometric Tattoo Artist NYC',
-    description: 'World-renowned fine line, geometric and minimalist tattoo artist in New York City. Specializing in linework, single needle and geometric tattoos in Manhattan.',
+    description: 'World-renowned fine line, geometric and minimalist tattoo artist in New York City. Specializing in linework, single needle and geometric tattoos in Brooklyn, NYC.',
     h1: 'Okan Uckun — Tattoo Artist NYC',
-    body: 'Okan Uckun is one of New York City\'s most recognized tattoo artists, specializing in fine line, geometric, linework and minimalist tattooing. With nearly 300,000 Instagram followers and features in BuzzFeed, Bored Panda and My Modern Met, his Manhattan studio offers custom tattoo appointments for collectors worldwide.',
-    ogImage: 'https://www.okanuckun.com/og-image.jpg',
+    body: 'Okan Uckun is one of New York City\'s most recognized tattoo artists, specializing in fine line, geometric, linework and minimalist tattooing. With nearly 300,000 Instagram followers and features in BuzzFeed, Bored Panda and My Modern Met, his Brooklyn studio offers custom tattoo appointments for collectors worldwide.',
+    ogImage: 'https://okanuckun.com/og-image.jpg',
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       "name": "Okan Uckun Tattoo",
-      "description": "Professional tattoo artist specializing in black and grey realism, portraits, and fine line work in New York City.",
-      "image": "https://www.okanuckun.com/og-image.jpg",
+      "description": "Tattoo artist specializing in geometric, minimalist and fine line tattoos. Brooklyn studio, serving all of NYC.",
+      "image": "https://okanuckun.com/og-image.jpg",
       "address": { "@type": "PostalAddress", "streetAddress": "77 Washington Avenue", "addressLocality": "Brooklyn", "addressRegion": "NY", "addressCountry": "US" },
-      "url": "https://www.okanuckun.com",
+      "url": "https://okanuckun.com",
       "priceRange": "$$$"
     },
   },
   '/geometric-tattoos': {
     title: 'Geometric Tattoos NYC | Okan Uckun — Sacred Geometry & Minimalist Tattoo Artist',
-    description: 'Geometric tattoo artist in NYC. Sacred geometry, minimalist geometric designs and precise linework by Okan Uckun in Manhattan.',
+    description: 'Geometric tattoo artist in NYC. Sacred geometry, minimalist geometric designs and precise linework by Okan Uckun in Brooklyn, NYC.',
     h1: 'Geometric Tattoos in NYC',
-    body: 'Okan Uckun is one of New York City\'s leading geometric tattoo artists. Specializing in sacred geometry, minimalist geometric designs, geometric mandala tattoos and precision linework. Studio in Manhattan. Nearly 300,000 Instagram followers. Featured in BuzzFeed and Bored Panda. Precision. Symmetry. Meaning. Geometric tattoo art lives at the intersection of mathematics and personal expression. From sacred geometry compositions to minimalist linework, each geometric design is built from scratch for the individual, using the body\'s natural contours as the canvas. A geometric tattoo uses shapes — circles, triangles, hexagons, sacred patterns, grids and lines — as the primary visual language. Unlike traditional tattoos that rely on illustration or shading, geometric tattoos draw their power from mathematical precision. Sacred geometry refers to the philosophical and spiritual patterns believed to underlie the structure of the universe. The Flower of Life, Metatron\'s Cube, the Fibonacci spiral, the Platonic solids — these archetypal forms have carried meaning across cultures for thousands of years. Minimalism and geometry share the same philosophy: remove everything unnecessary, and what remains becomes more powerful. Geometric mandala tattoos approach the mandala through mathematical structure: concentric circles, radial symmetry, precise petal counts. Fine line geometric tattoos combine precision of geometric forms with delicacy of single-needle linework. A full or half sleeve built around geometric principles is one of the most ambitious and rewarding tattooing projects. Circles represent completeness and infinity. Triangles symbolize balance between opposing forces. Hexagons represent efficiency and interconnectedness. The Fibonacci spiral represents growth and the underlying order of nature. Sacred geometry symbols like the Flower of Life, Metatron\'s Cube and the Sri Yantra encode deep cosmological meaning. Every geometric tattoo begins with an analysis of the individual: body structure, proportions, the natural lines and curves of the placement area. Custom geometric tattoos by appointment only in Manhattan, New York City.',
-    ogImage: 'https://www.okanuckun.com/og-geometric.jpg',
+    body: 'Okan Uckun is one of New York City\'s leading geometric tattoo artists. Specializing in sacred geometry, minimalist geometric designs, geometric mandala tattoos and precision linework. Studio in Brooklyn, NYC. Nearly 300,000 Instagram followers. Featured in BuzzFeed and Bored Panda. Precision. Symmetry. Meaning. Geometric tattoo art lives at the intersection of mathematics and personal expression. From sacred geometry compositions to minimalist linework, each geometric design is built from scratch for the individual, using the body\'s natural contours as the canvas. A geometric tattoo uses shapes — circles, triangles, hexagons, sacred patterns, grids and lines — as the primary visual language. Unlike traditional tattoos that rely on illustration or shading, geometric tattoos draw their power from mathematical precision. Sacred geometry refers to the philosophical and spiritual patterns believed to underlie the structure of the universe. The Flower of Life, Metatron\'s Cube, the Fibonacci spiral, the Platonic solids — these archetypal forms have carried meaning across cultures for thousands of years. Minimalism and geometry share the same philosophy: remove everything unnecessary, and what remains becomes more powerful. Geometric mandala tattoos approach the mandala through mathematical structure: concentric circles, radial symmetry, precise petal counts. Fine line geometric tattoos combine precision of geometric forms with delicacy of single-needle linework. A full or half sleeve built around geometric principles is one of the most ambitious and rewarding tattooing projects. Circles represent completeness and infinity. Triangles symbolize balance between opposing forces. Hexagons represent efficiency and interconnectedness. The Fibonacci spiral represents growth and the underlying order of nature. Sacred geometry symbols like the Flower of Life, Metatron\'s Cube and the Sri Yantra encode deep cosmological meaning. Every geometric tattoo begins with an analysis of the individual: body structure, proportions, the natural lines and curves of the placement area. Custom geometric tattoos by appointment only in Brooklyn, New York City.',
+    ogImage: 'https://okanuckun.com/og-geometric.jpg',
     jsonLd: {
       "@context": "https://schema.org",
       "@graph": [
         {
           "@type": "Service", "name": "Geometric Tattoo NYC",
           "description": "Custom geometric tattoo designs including sacred geometry, minimalist patterns, mandala-inspired work and precise linework by Okan Uckun in New York City.",
-          "provider": { "@type": "Person", "name": "Okan Uckun", "jobTitle": "Tattoo Artist", "url": "https://www.okanuckun.com" },
+          "provider": { "@type": "Person", "name": "Okan Uckun", "jobTitle": "Tattoo Artist", "url": "https://okanuckun.com" },
           "areaServed": { "@type": "City", "name": "New York City" },
-          "url": "https://www.okanuckun.com/geometric-tattoos", "serviceType": "Tattoo Art"
+          "url": "https://okanuckun.com/geometric-tattoos", "serviceType": "Tattoo Art"
         },
         {
           "@type": "FAQPage",
@@ -76,20 +76,20 @@ const PAGES: Record<string, PageData> = {
     },
   },
   '/fine-line-tattoos': {
-    title: 'Fine Line Tattoos NYC | Okan Uckun — Fine Line Tattoo Artist Manhattan',
-    description: 'Fine line tattoo artist in NYC. Single needle precision, custom fine line designs by Okan Uckun in Manhattan.',
+    title: 'Fine Line Tattoos NYC | Okan Uckun — Fine Line Tattoo Artist NYC',
+    description: 'Fine line tattoo artist in NYC. Single needle precision, custom fine line designs by Okan Uckun in Brooklyn, NYC.',
     h1: 'Fine Line Tattoos in NYC',
-    body: 'Okan Uckun is one of New York City\'s most recognized fine line tattoo artists, pioneering the single needle linework approach in the 2010s. Studio in Manhattan. Nearly 300,000 Instagram followers. Featured in BuzzFeed, Bored Panda and My Modern Met. A fine line tattoo is not simply a smaller tattoo. It is a completely different relationship between needle, ink and skin — one that demands a higher degree of precision, a deeper understanding of how skin behaves, and an artistic sensibility that can communicate complexity through restraint. Fine line tattooing uses one of the smallest needle configurations available — typically a single round liner (1RL) or triple round liner (3RL). Single needle tattoos require an artist who understands exactly how deep to place the ink. Fine line portrait work is built on architectural precision. Botanical elements translate exceptionally well into fine line. Geometric fine line tattoos combine razor-thin consistency with architectural quality. Minimalist fine line tattoos communicate through what is not there as much as through what is. Fine line tattoos done by an experienced artist can maintain their clarity for 10+ years with proper care. Custom fine line tattoos by appointment only in Manhattan, New York City.',
-    ogImage: 'https://www.okanuckun.com/og-fineline.jpg',
+    body: 'Okan Uckun is one of New York City\'s most recognized fine line tattoo artists, pioneering the single needle linework approach in the 2010s. Studio in Brooklyn, NYC. Nearly 300,000 Instagram followers. Featured in BuzzFeed, Bored Panda and My Modern Met. A fine line tattoo is not simply a smaller tattoo. It is a completely different relationship between needle, ink and skin — one that demands a higher degree of precision, a deeper understanding of how skin behaves, and an artistic sensibility that can communicate complexity through restraint. Fine line tattooing uses one of the smallest needle configurations available — typically a single round liner (1RL) or triple round liner (3RL). Single needle tattoos require an artist who understands exactly how deep to place the ink. Fine line portrait work is built on architectural precision. Botanical elements translate exceptionally well into fine line. Geometric fine line tattoos combine razor-thin consistency with architectural quality. Minimalist fine line tattoos communicate through what is not there as much as through what is. Fine line tattoos done by an experienced artist can maintain their clarity for 10+ years with proper care. Custom fine line tattoos by appointment only in Brooklyn, New York City.',
+    ogImage: 'https://okanuckun.com/og-fineline.jpg',
     jsonLd: {
       "@context": "https://schema.org",
       "@graph": [
         {
           "@type": "Service", "name": "Fine Line Tattoo NYC",
           "description": "Custom fine line tattoo designs using single needle precision technique by Okan Uckun in New York City.",
-          "provider": { "@type": "Person", "name": "Okan Uckun", "jobTitle": "Tattoo Artist", "url": "https://www.okanuckun.com" },
+          "provider": { "@type": "Person", "name": "Okan Uckun", "jobTitle": "Tattoo Artist", "url": "https://okanuckun.com" },
           "areaServed": { "@type": "City", "name": "New York City" },
-          "url": "https://www.okanuckun.com/fine-line-tattoos", "serviceType": "Tattoo Art"
+          "url": "https://okanuckun.com/fine-line-tattoos", "serviceType": "Tattoo Art"
         },
         {
           "@type": "FAQPage",
@@ -103,20 +103,20 @@ const PAGES: Record<string, PageData> = {
     },
   },
   '/line-work-tattoos': {
-    title: 'Linework Tattoos NYC | Okan Uckun — Line Work Tattoo Artist Manhattan',
-    description: 'Linework tattoo artist in NYC. Precise single line and continuous line work tattoo designs by Okan Uckun in Manhattan.',
+    title: 'Linework Tattoos NYC | Okan Uckun — Line Work Tattoo Artist NYC',
+    description: 'Linework tattoo artist in NYC. Precise single line and continuous line work tattoo designs by Okan Uckun in Brooklyn, NYC.',
     h1: 'Linework Tattoos in NYC',
-    body: 'Okan Uckun is recognized as one of the original pioneers of the contemporary linework tattoo style, developing the approach in New York City in the 2010s. Studio in Manhattan. Nearly 300,000 Instagram followers. A line is the most fundamental unit of visual communication. Linework tattooing takes this foundation seriously. Every design is built from lines alone: their weight, their spacing, their tension and their relationship to the negative space around them. A linework tattoo is a design constructed entirely from lines, without shading or fill. Single line tattoos take the linework principle to its most concentrated form. Continuous line tattoos allow the composition to double back, cross over and layer. Geometric linework achieves visual clarity that other techniques struggle to match. Architectural linework translates the precise use of line weight from architectural drawing into tattooing. Abstract linework builds compositions from pure geometric relationships. Linework tattoos are among the most durable tattoo styles when executed correctly. Custom linework tattoos by appointment only in Manhattan.',
-    ogImage: 'https://www.okanuckun.com/og-linework.jpg',
+    body: 'Okan Uckun is recognized as one of the original pioneers of the contemporary linework tattoo style, developing the approach in New York City in the 2010s. Studio in Brooklyn, NYC. Nearly 300,000 Instagram followers. A line is the most fundamental unit of visual communication. Linework tattooing takes this foundation seriously. Every design is built from lines alone: their weight, their spacing, their tension and their relationship to the negative space around them. A linework tattoo is a design constructed entirely from lines, without shading or fill. Single line tattoos take the linework principle to its most concentrated form. Continuous line tattoos allow the composition to double back, cross over and layer. Geometric linework achieves visual clarity that other techniques struggle to match. Architectural linework translates the precise use of line weight from architectural drawing into tattooing. Abstract linework builds compositions from pure geometric relationships. Linework tattoos are among the most durable tattoo styles when executed correctly. Custom linework tattoos by appointment only in Brooklyn, NYC.',
+    ogImage: 'https://okanuckun.com/og-linework.jpg',
     jsonLd: {
       "@context": "https://schema.org",
       "@graph": [
         {
           "@type": "Service", "name": "Linework Tattoo NYC",
           "description": "Precision linework and single line tattoos by Okan Uckun in New York City.",
-          "provider": { "@type": "Person", "name": "Okan Uckun", "jobTitle": "Tattoo Artist", "url": "https://www.okanuckun.com" },
+          "provider": { "@type": "Person", "name": "Okan Uckun", "jobTitle": "Tattoo Artist", "url": "https://okanuckun.com" },
           "areaServed": { "@type": "City", "name": "New York City" },
-          "url": "https://www.okanuckun.com/line-work-tattoos", "serviceType": "Tattoo Art"
+          "url": "https://okanuckun.com/line-work-tattoos", "serviceType": "Tattoo Art"
         },
         {
           "@type": "FAQPage",
@@ -129,20 +129,20 @@ const PAGES: Record<string, PageData> = {
     },
   },
   '/minimalist-tattoos': {
-    title: 'Minimalist Tattoos NYC | Okan Uckun — Minimalist Tattoo Artist Manhattan',
-    description: 'Minimalist tattoo artist in NYC. Custom small minimalist tattoos and designs by Okan Uckun in Manhattan.',
+    title: 'Minimalist Tattoos NYC | Okan Uckun — Minimalist Tattoo Artist NYC',
+    description: 'Minimalist tattoo artist in NYC. Custom small minimalist tattoos and designs by Okan Uckun in Brooklyn, NYC.',
     h1: 'Minimalist Tattoos in NYC',
-    body: 'Okan Uckun is one of New York City\'s most recognized minimalist tattoo artists. Post-minimalist approach combining architectural precision with personal expression. Manhattan studio. Nearly 300,000 Instagram followers. Featured in BuzzFeed, Bored Panda and My Modern Met. Minimalism is not about being small. It is about being essential. A minimalist tattoo is one in which every element present is present for a reason. The minimalist tattoo draws its philosophy from minimalism as an art movement. Small minimalist tattoos are the most requested category. Minimalist symbol tattoos render symbols with the precision of fine art. Geometry is naturally minimalist. Minimalist fine line tattoos achieve a quality no other approach can match. Minimalist portrait work asks: what is the irreducible minimum of lines that still captures a recognizable face? Post-minimalism retains economy and precision while allowing for warmth and personal meaning. Custom minimalist tattoos by appointment only in Manhattan.',
-    ogImage: 'https://www.okanuckun.com/og-minimalist.jpg',
+    body: 'Okan Uckun is one of New York City\'s most recognized minimalist tattoo artists. Post-minimalist approach combining architectural precision with personal expression. Brooklyn studio. Nearly 300,000 Instagram followers. Featured in BuzzFeed, Bored Panda and My Modern Met. Minimalism is not about being small. It is about being essential. A minimalist tattoo is one in which every element present is present for a reason. The minimalist tattoo draws its philosophy from minimalism as an art movement. Small minimalist tattoos are the most requested category. Minimalist symbol tattoos render symbols with the precision of fine art. Geometry is naturally minimalist. Minimalist fine line tattoos achieve a quality no other approach can match. Minimalist portrait work asks: what is the irreducible minimum of lines that still captures a recognizable face? Post-minimalism retains economy and precision while allowing for warmth and personal meaning. Custom minimalist tattoos by appointment only in Brooklyn, NYC.',
+    ogImage: 'https://okanuckun.com/og-minimalist.jpg',
     jsonLd: {
       "@context": "https://schema.org",
       "@graph": [
         {
           "@type": "Service", "name": "Minimalist Tattoo NYC",
           "description": "Custom minimalist tattoo designs by Okan Uckun in New York City.",
-          "provider": { "@type": "Person", "name": "Okan Uckun", "jobTitle": "Tattoo Artist", "url": "https://www.okanuckun.com" },
+          "provider": { "@type": "Person", "name": "Okan Uckun", "jobTitle": "Tattoo Artist", "url": "https://okanuckun.com" },
           "areaServed": { "@type": "City", "name": "New York City" },
-          "url": "https://www.okanuckun.com/minimalist-tattoos", "serviceType": "Tattoo Art"
+          "url": "https://okanuckun.com/minimalist-tattoos", "serviceType": "Tattoo Art"
         },
         {
           "@type": "FAQPage",
@@ -158,43 +158,43 @@ const PAGES: Record<string, PageData> = {
     title: 'Book a Tattoo Appointment | Okan Uckun NYC',
     description: 'Book your fine line or geometric tattoo appointment with Okan Uckun in New York City.',
     h1: 'Book a Tattoo Appointment',
-    body: 'Book a custom tattoo appointment with Okan Uckun in Manhattan, New York City. Specializing in fine line, geometric, linework and minimalist tattoo styles. Limited availability. Contact us to schedule your session.',
-    ogImage: 'https://www.okanuckun.com/og-image.jpg',
+    body: 'Book a custom tattoo appointment with Okan Uckun in Brooklyn, New York City. Specializing in fine line, geometric, linework and minimalist tattoo styles. Limited availability. Contact us to schedule your session.',
+    ogImage: 'https://okanuckun.com/og-image.jpg',
   },
   '/booking': {
     title: 'Book a Tattoo Appointment | Okan Uckun NYC',
     description: 'Book your fine line or geometric tattoo appointment with Okan Uckun in New York City.',
     h1: 'Book a Tattoo Appointment',
-    body: 'Book a custom tattoo appointment with Okan Uckun in Manhattan, New York City. Specializing in fine line, geometric, linework and minimalist tattoo styles. Limited availability.',
-    ogImage: 'https://www.okanuckun.com/og-image.jpg',
+    body: 'Book a custom tattoo appointment with Okan Uckun in Brooklyn, New York City. Specializing in fine line, geometric, linework and minimalist tattoo styles. Limited availability.',
+    ogImage: 'https://okanuckun.com/og-image.jpg',
   },
   '/about': {
     title: 'About Okan Uckun | Tattoo Artist NYC',
     description: 'Learn about Okan Uckun, a Brooklyn-based tattoo artist known for minimalist, geometric and fine line work, with 300,000+ followers and global press features.',
     h1: 'About Okan Uckun',
-    body: 'Okan Uckun is a Brooklyn-based tattoo artist specializing in minimalist, geometric and fine line tattoos. With nearly 300,000 Instagram followers and features in BuzzFeed, Bored Panda and My Modern Met, Okan works out of his Manhattan studio with collectors from around the world.',
-    ogImage: 'https://www.okanuckun.com/og-image.jpg',
+    body: 'Okan Uckun is a Brooklyn-based tattoo artist specializing in minimalist, geometric and fine line tattoos. With nearly 300,000 Instagram followers and features in BuzzFeed, Bored Panda and My Modern Met, Okan works out of his Brooklyn studio with collectors from around the world.',
+    ogImage: 'https://okanuckun.com/og-image.jpg',
   },
   '/work': {
     title: 'Tattoo Portfolio | Okan Uckun NYC',
     description: 'Browse the tattoo portfolio of Okan Uckun: minimalist, geometric and fine line work created in Brooklyn NYC and on guest spots around the world.',
     h1: 'Tattoo Portfolio',
-    body: 'Selected tattoo work by Okan Uckun — minimalist, geometric, linework and fine line tattoos created in Manhattan, New York City and on guest spots worldwide.',
-    ogImage: 'https://www.okanuckun.com/og-image.jpg',
+    body: 'Selected tattoo work by Okan Uckun — minimalist, geometric, linework and fine line tattoos created in Brooklyn, New York City and on guest spots worldwide.',
+    ogImage: 'https://okanuckun.com/og-image.jpg',
   },
   '/aftercare': {
     title: 'Tattoo Aftercare Guide | Okan Uckun',
     description: "Step-by-step tattoo aftercare instructions from Okan Uckun: cleaning, healing, do's and don'ts to keep your new tattoo looking sharp.",
     h1: 'Tattoo Aftercare Guide',
     body: 'A clear, step-by-step aftercare guide for new tattoos: how to clean, when to moisturize, what to avoid, and how to keep fine line and minimalist tattoos looking sharp as they heal.',
-    ogImage: 'https://www.okanuckun.com/og-image.jpg',
+    ogImage: 'https://okanuckun.com/og-image.jpg',
   },
   '/shop': {
     title: 'Shop | Okan Uckun',
     description: 'Shop prints and pieces from Okan Uckun — minimalist art and merchandise from the Brooklyn studio.',
     h1: 'Shop',
     body: 'Prints and curated pieces from Okan Uckun. Minimalist artwork and studio merchandise shipped from Brooklyn, NYC.',
-    ogImage: 'https://www.okanuckun.com/og-image.jpg',
+    ogImage: 'https://okanuckun.com/og-image.jpg',
   },
 };
 
@@ -208,7 +208,7 @@ function escapeHtml(text: string): string {
 }
 
 function buildFullHtml(route: string, page: PageData): string {
-  const siteUrl = 'https://www.okanuckun.com';
+  const siteUrl = 'https://okanuckun.com';
   const canonical = `${siteUrl}${route === '/' ? '' : route}`;
   const ogImage = page.ogImage || `${siteUrl}/og-image.jpg`;
   
@@ -264,7 +264,7 @@ function buildFullHtml(route: string, page: PageData): string {
     <a href="${siteUrl}/booking">Book a Tattoo Appointment</a>
   </main>
   <footer>
-    <p>&copy; Okan Uckun. Tattoo Artist NYC. <a href="${siteUrl}">www.okanuckun.com</a></p>
+    <p>&copy; Okan Uckun. Tattoo Artist NYC. <a href="${siteUrl}">okanuckun.com</a></p>
     ${navLinks}
   </footer>
 </body>
@@ -320,7 +320,7 @@ Deno.serve(async (req) => {
             body: post.content
               ? post.content.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
               : description,
-            ogImage: post.image_url || 'https://www.okanuckun.com/og-image.jpg',
+            ogImage: post.image_url || 'https://okanuckun.com/og-image.jpg',
             jsonLd: {
               "@context": "https://schema.org",
               "@type": "Article",
@@ -330,8 +330,8 @@ Deno.serve(async (req) => {
               "datePublished": post.created_at,
               "dateModified": post.updated_at,
               "author": { "@type": "Person", "name": post.author_name || "Okan Uckun" },
-              "publisher": { "@type": "Organization", "name": "Okan Uckun", "logo": { "@type": "ImageObject", "url": "https://www.okanuckun.com/og-image.jpg" } },
-              "mainEntityOfPage": `https://www.okanuckun.com${route}`,
+              "publisher": { "@type": "Organization", "name": "Okan Uckun", "logo": { "@type": "ImageObject", "url": "https://okanuckun.com/og-image.jpg" } },
+              "mainEntityOfPage": `https://okanuckun.com${route}`,
               "keywords": Array.isArray(post.tags) ? post.tags.join(', ') : undefined,
             },
           };
@@ -349,7 +349,7 @@ Deno.serve(async (req) => {
       }
 
       // Return a basic 404 for unknown routes
-      return new Response(`<!DOCTYPE html><html><head><title>Not Found | Okan Uckun</title></head><body><h1>Page Not Found</h1><p><a href="https://www.okanuckun.com">Return to homepage</a></p></body></html>`, {
+      return new Response(`<!DOCTYPE html><html><head><title>Not Found | Okan Uckun</title></head><body><h1>Page Not Found</h1><p><a href="https://okanuckun.com">Return to homepage</a></p></body></html>`, {
         status: 404,
         headers: { ...corsHeaders, 'Content-Type': 'text/html; charset=utf-8' },
       });

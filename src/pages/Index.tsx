@@ -90,7 +90,7 @@ const faqJsonLd = {
       name: "Where is Okan Uckun's tattoo studio?",
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Brooklyn, New York City — serving clients from across all of NYC including Manhattan, Brooklyn and Queens. Book a consultation at https://okanuckun.com/appointment.',
+        text: 'Brooklyn, New York City — serving clients from across all of NYC including Manhattan, Brooklyn and Queens. Book a consultation at https://okanuckun.com/booking.',
       },
     },
   ],

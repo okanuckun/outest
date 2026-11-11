@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import DOMPurify from 'dompurify';
+import { addMissingAlts } from '@/lib/addMissingAlts';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import PageTransition from '@/components/animations/PageTransition';
@@ -252,7 +253,7 @@ const ProjectDetail: React.FC = () => {
                     [&_strong]:font-semibold
                     [&_em]:italic
                     [&_blockquote]:border-l-2 [&_blockquote]:border-foreground/20 [&_blockquote]:pl-4 [&_blockquote]:italic"
-                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(project.description) }}
+                  dangerouslySetInnerHTML={{ __html: addMissingAlts(DOMPurify.sanitize(project.description), project.title) }}
                 />
               )}
             </motion.div>

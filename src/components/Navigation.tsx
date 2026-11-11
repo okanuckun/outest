@@ -19,7 +19,7 @@ const navItems = [
 const socialLinks = [
   { label: 'Instagram', url: 'https://instagram.com/okanuckun' },
   { label: 'YouTube', url: 'https://youtube.com/monolithstudionyc' },
-  { label: 'TikTok', url: 'https://tiktok.com/okanuckun' }
+  { label: 'TikTok', url: 'https://www.tiktok.com/@okanuckun' }
 ];
 
 const Navigation: React.FC<NavigationProps> = ({ variant = 'light' }) => {

@@ -9,6 +9,7 @@ import SEOHead from '@/components/SEOHead';
 import { supabase } from '@/integrations/supabase/client';
 import { format } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
+import { addMissingAlts } from '@/lib/addMissingAlts';
 import DOMPurify from 'dompurify';
 
 interface BlogPost {
@@ -374,7 +375,7 @@ const BlogPost = () => {
                 <ScrollReveal>
                   <div 
                     className="blog-content text-[16px] md:text-[17px] leading-relaxed text-foreground/90"
-                    dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
+                    dangerouslySetInnerHTML={{ __html: addMissingAlts(sanitizeHtml(post.content), post.title) }}
                   />
                 </ScrollReveal>
               ) : (

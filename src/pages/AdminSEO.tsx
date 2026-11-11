@@ -7,7 +7,6 @@ import {
   FileText,
   Globe,
   Settings,
-  ArrowRightLeft,
   AlertTriangle,
   History,
   Search
@@ -16,7 +15,6 @@ import { useAuth } from '@/hooks/useAuth';
 import { 
   useSEOPages, 
   useSEOGlobalSettings, 
-  useSEORedirects, 
   useSEOChangeLog,
   useSEOAudit,
   SEOPage
@@ -26,7 +24,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SEOPagesList } from '@/components/seo/SEOPagesList';
 import { SEOPageEditor } from '@/components/seo/SEOPageEditor';
 import { SEOGlobalSettings } from '@/components/seo/SEOGlobalSettings';
-import { SEORedirects } from '@/components/seo/SEORedirects';
 import { SEOAudit } from '@/components/seo/SEOAudit';
 import { SEOChangeLog } from '@/components/seo/SEOChangeLog';
 import { AlertCircle } from 'lucide-react';
@@ -41,7 +38,6 @@ const AdminSEO: React.FC = () => {
   // Hooks
   const { pages, loading: pagesLoading, fetchPages, updatePage, createPage, deletePage } = useSEOPages();
   const { settings, loading: settingsLoading, updateSettings } = useSEOGlobalSettings();
-  const { redirects, loading: redirectsLoading, createRedirect, updateRedirect, deleteRedirect } = useSEORedirects();
   const { logs, loading: logsLoading, fetchLogs, revertChange } = useSEOChangeLog();
   const { issues, loading: auditLoading, runAudit, resolveIssue } = useSEOAudit();
 
@@ -168,7 +164,7 @@ const AdminSEO: React.FC = () => {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid grid-cols-6 w-full max-w-3xl">
+          <TabsList className="grid grid-cols-5 w-full max-w-3xl">
             <TabsTrigger value="pages" className="gap-2">
               <FileText size={16} />
               <span className="hidden sm:inline">Pages</span>
@@ -176,10 +172,6 @@ const AdminSEO: React.FC = () => {
             <TabsTrigger value="global" className="gap-2">
               <Globe size={16} />
               <span className="hidden sm:inline">Global</span>
-            </TabsTrigger>
-            <TabsTrigger value="redirects" className="gap-2">
-              <ArrowRightLeft size={16} />
-              <span className="hidden sm:inline">Redirects</span>
             </TabsTrigger>
             <TabsTrigger value="audit" className="gap-2">
               <AlertTriangle size={16} />
@@ -213,17 +205,6 @@ const AdminSEO: React.FC = () => {
               settings={settings}
               loading={settingsLoading}
               onSave={updateSettings}
-            />
-          </TabsContent>
-
-          {/* Redirects Tab */}
-          <TabsContent value="redirects" className="space-y-6">
-            <SEORedirects
-              redirects={redirects}
-              loading={redirectsLoading}
-              onCreate={createRedirect}
-              onUpdate={updateRedirect}
-              onDelete={deleteRedirect}
             />
           </TabsContent>
 
@@ -273,11 +254,7 @@ const AdminSEO: React.FC = () => {
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="border border-border rounded-lg p-4">
-                  <h3 className="font-medium mb-2">Active Redirects</h3>
-                  <p className="text-3xl font-bold">{redirects.filter(r => r.is_active).length}</p>
-                </div>
+              <div className="grid md:grid-cols-1 gap-4">
                 <div className="border border-border rounded-lg p-4">
                   <h3 className="font-medium mb-2">Open Issues</h3>
                   <p className="text-3xl font-bold text-yellow-600">{issues.length}</p>
